@@ -6,6 +6,7 @@
     "@material-ui/core": "latest",
     "clsx": "latest",
     "next": "latest",
+    "next-auth": "^3.1.0",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest"
@@ -15,5 +16,8 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
   }
 }
