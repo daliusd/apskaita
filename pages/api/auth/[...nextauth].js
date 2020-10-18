@@ -18,11 +18,12 @@ const options = {
         const user = {
           id: 1,
           name: credentials.username,
-          email: `${credentials.username}@haiku.lt`,
+          email: credentials.username,
         };
 
         if (
-          credentials.username === process.env.CRED_USERNAME &&
+          process.env.CRED_PASSWORD &&
+          credentials.username &&
           credentials.password === process.env.CRED_PASSWORD
         ) {
           return Promise.resolve(user);

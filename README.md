@@ -7,12 +7,18 @@ Individualios veiklos apskaita.
 Sukurkite `.local.env` failą su šiuo turiniu. Nurodykite tinkamus
 Google autentikacijos parametrus:
 
-```
+```sh
 NEXTAUTH_URL=http://localhost:3000
 GOOGLE_ID=
 GOOGLE_SECRET=
-CRED_USERNAME=test
+```
+
+Papildomai galima naudoti `CRED_PASSWORD`, jei norite prisijungti
+kaip bet koks vartotojas.
+
+```sh
 CRED_PASSWORD=testpass
 ```
 
-`CRED_` values are used for testing.
+Šis kintamasis naudojamas testavime, bet nustačius aukšto saugumo
+slaptažodį galima naudoti vartotojų impersonavimui.
