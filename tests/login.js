@@ -1,5 +1,5 @@
 const { getDocument, queries } = require('pptr-testing-library');
-const chance = require('chance').Chance();
+const chance = require('chance');
 
 const { getByLabelText, getByText } = queries;
 

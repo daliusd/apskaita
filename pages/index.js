@@ -25,7 +25,7 @@ export default function Index() {
           <>
             <br />
             <Button
-              onClick={(e) => {
+              onClick={() => {
                 signIn('google');
               }}
               variant="contained"
