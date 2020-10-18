@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Link from '../src/Link';
 import Copyright from '../src/Copyright';
 
-export default function About() {
+export default function Apie() {
   return (
     <Container maxWidth="sm">
       <Box my={4}>

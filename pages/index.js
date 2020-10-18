@@ -18,7 +18,7 @@ export default function Index() {
         <Typography variant="h4" component="h1" gutterBottom>
           Haiku.lt
         </Typography>
-        <Link href="/about" color="secondary">
+        <Link href="/apie" color="secondary">
           Eiti į Apie puslapį
         </Link>
         {!session && (
