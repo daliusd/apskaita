@@ -11,4 +11,8 @@ Google autentikacijos parametrus:
 NEXTAUTH_URL=http://localhost:3000
 GOOGLE_ID=
 GOOGLE_SECRET=
+CRED_USERNAME=test
+CRED_PASSWORD=testpass
 ```
+
+`CRED_` values are used for testing.
