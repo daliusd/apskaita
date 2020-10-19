@@ -39,10 +39,10 @@ const options = {
   },
 
   pages: {
-    signOut: '/signout',
+    signOut: '/atsijungti',
   },
 
-  debug: false,
+  debug: true,
 };
 
 export default (req, res) => NextAuth(req, res, options);
