@@ -1,3 +1,5 @@
+export {};
+
 describe('Simple test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000');

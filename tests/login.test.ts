@@ -1,8 +1,7 @@
-const { getDocument, queries } = require('pptr-testing-library');
+import { getDocument, queries } from 'pptr-testing-library';
+import { login } from './login';
 
 const { queryByText } = queries;
-
-const { login } = require('./login');
 
 describe('Login test', () => {
   beforeAll(async () => {

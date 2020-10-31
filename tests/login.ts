@@ -1,9 +1,12 @@
-const { getDocument, queries } = require('pptr-testing-library');
-const chance = require('chance').Chance();
+import { getDocument, queries } from 'pptr-testing-library';
+import { Chance } from 'chance';
+import { Page } from 'puppeteer';
+
+const chance = Chance();
 
 const { getByLabelText, getByText } = queries;
 
-async function login(page) {
+export async function login(page: Page) {
   await page.goto('http://localhost:4000/api/auth/signin');
 
   const doc = await getDocument(page);
@@ -19,5 +22,3 @@ async function login(page) {
 
   return email;
 }
-
-module.exports = { login };
