@@ -7,7 +7,6 @@
     "clsx": "latest",
     "next": "latest",
     "next-auth": "3.1.0",
-    "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
     "swr": "0.3.8"
