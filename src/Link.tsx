@@ -3,14 +3,21 @@ import React from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import MuiLink, { LinkProps as MuiLinkProps } from '@material-ui/core/Link';
 
+const NextComposedWithRef = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  (props, ref) => {
+    const { href, prefetch, as, ...other } = props;
+    return (
+      <NextLink href={href} prefetch={prefetch} as={as}>
+        <a {...other} ref={ref} />
+      </NextLink>
+    );
+  },
+);
+
 export default function Link(props: LinkProps & MuiLinkProps) {
-  const { as, href, className, color, children } = props;
+  const { className, ...other } = props;
 
   return (
-    <MuiLink className={className} color={color}>
-      <NextLink href={href} as={as}>
-        <a>{children}</a>
-      </NextLink>
-    </MuiLink>
+    <MuiLink component={NextComposedWithRef} className={className} {...other} />
   );
 }
