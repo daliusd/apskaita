@@ -1,5 +1,13 @@
 import { Database } from 'sqlite';
-import { openDb, setSetting, getSetting } from './db';
+import {
+  openDb,
+  setSetting,
+  getSetting,
+  createInvoice,
+  getInvoiceList,
+  getInvoiceWithGoods,
+  Invoice,
+} from './db';
 
 describe('database tests', () => {
   it('opens and migrates DB', async () => {
@@ -29,6 +37,68 @@ describe('database tests', () => {
       await setSetting(db, 'name', 'test2');
       const name = await getSetting(db, 'name');
       expect(name).toEqual('test2');
+    });
+  });
+
+  describe('handles invoices properly', () => {
+    let db: Database;
+
+    beforeEach(async () => {
+      db = await openDb(':memory:');
+    });
+
+    afterEach(async () => {
+      await db.close();
+    });
+
+    it('creates invoices', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+      const invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].id).toEqual(invoiceId);
+      expect(invoices[0].serieName).toEqual(invoice.serieName);
+      expect(invoices[0].serieId).toEqual(invoice.serieId);
+      expect(invoices[0].created).toEqual(invoice.created);
+      expect(invoices[0].price).toEqual(invoice.price);
+      expect(invoices[0].buyer).toEqual(invoice.buyer);
+    });
+
+    it('creates invoice with goods', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [
+          { name: 'test', amount: 1, price: 100 },
+          { name: 'test2', amount: 2, price: 200 },
+        ],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+      const retInvoice = await getInvoiceWithGoods(db, invoiceId);
+      expect(retInvoice.id).toEqual(invoiceId);
+      expect(retInvoice.serieName).toEqual(invoice.serieName);
+      expect(retInvoice.serieId).toEqual(invoice.serieId);
+      expect(retInvoice.created).toEqual(invoice.created);
+      expect(retInvoice.price).toEqual(invoice.price);
+      expect(retInvoice.buyer).toEqual(invoice.buyer);
+
+      expect(retInvoice.goods[0].name).toEqual('test');
+      expect(retInvoice.goods[0].amount).toEqual(1);
+      expect(retInvoice.goods[0].price).toEqual(100);
+
+      expect(retInvoice.goods[1].name).toEqual('test2');
+      expect(retInvoice.goods[1].amount).toEqual(2);
+      expect(retInvoice.goods[1].price).toEqual(200);
     });
   });
 });
