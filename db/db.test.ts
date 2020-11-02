@@ -8,6 +8,7 @@ import {
   getInvoiceWithGoods,
   getNextSerieId,
   validSerieNumber,
+  validCreatedDate,
   Invoice,
 } from './db';
 
@@ -158,6 +159,35 @@ describe('database tests', () => {
       await createInvoice(db, invoice);
 
       expect(await validSerieNumber(db, 'VSN', 123)).toBeFalsy();
+    });
+
+    it('Validates created data', async () => {
+      const invoice: Invoice = {
+        serieName: 'VCD',
+        serieId: 123,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+
+      await createInvoice(db, invoice);
+
+      expect(
+        await validCreatedDate(db, 'VCD', 124, new Date(2020, 0, 30).getTime()),
+      ).toBeFalsy();
+
+      expect(
+        await validCreatedDate(db, 'VCD', 124, new Date(2020, 1, 1).getTime()),
+      ).toBeTruthy();
+
+      expect(
+        await validCreatedDate(db, 'VCD', 122, new Date(2020, 1, 1).getTime()),
+      ).toBeFalsy();
+
+      expect(
+        await validCreatedDate(db, 'VCD', 122, new Date(2020, 0, 30).getTime()),
+      ).toBeTruthy();
     });
   });
 });

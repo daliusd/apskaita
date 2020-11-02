@@ -119,3 +119,36 @@ export async function validSerieNumber(
 
   return countSerie === 0;
 }
+
+export async function validCreatedDate(
+  db: Database,
+  serieName: string,
+  serieId: number,
+  created: number,
+) {
+  const maxCreated = (
+    await db.get(
+      'SELECT MAX(created) as maxCreated FROM Invoice WHERE serieName = ? AND serieId < ?',
+      serieName,
+      serieId,
+    )
+  ).maxCreated;
+
+  if (maxCreated !== null && maxCreated > created) {
+    return false;
+  }
+
+  const minCreated = (
+    await db.get(
+      'SELECT MIN(created) as minCreated FROM Invoice WHERE serieName = ? AND serieId > ?',
+      serieName,
+      serieId,
+    )
+  ).minCreated;
+
+  if (minCreated !== null && minCreated < created) {
+    return false;
+  }
+
+  return true;
+}
