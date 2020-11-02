@@ -1,6 +1,5 @@
 module.exports = {
-  preset: './preset.js',
-  testMatch: ['<rootDir>/tests/*.test.ts', '<rootDir>/db/*.test.ts'],
-  testTimeout: 30000,
+  preset: 'ts-jest',
+  testMatch: ['<rootDir>/db/*.test.ts'],
   verbose: true,
 };
