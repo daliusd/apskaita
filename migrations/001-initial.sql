@@ -2,13 +2,13 @@
 -- Up
 --------------------------------------------------------------------------------
 
-CREATE TABLE Settings (
+CREATE TABLE Setting (
   id          INTEGER PRIMARY KEY,
   name        TEXT NOT NULL,
-  value       TEXT NOT NULL,
-
-  UNIQUE(name)
+  value       TEXT NOT NULL
 );
+
+CREATE UNIQUE INDEX Setting_ix_name ON Setting (name);
 
 CREATE TABLE Invoice (
   id          INTEGER PRIMARY KEY,
@@ -16,12 +16,10 @@ CREATE TABLE Invoice (
   serieId     INTEGER NOT NULL,
   created     INTEGER NOT NULL,
   price       INTEGER NOT NULL,
-  buyer       TEXT    NOT NULL,
-
-  UNIQUE(serieName, serieId)
+  buyer       TEXT    NOT NULL
 );
 
-CREATE INDEX Invoice_ix_serie ON Invoice (serieName, serieId);
+CREATE UNIQUE INDEX Invoice_ix_serie ON Invoice (serieName, serieId);
 CREATE INDEX Invoice_ix_created ON Invoice (created);
 CREATE INDEX Invoice_ix_buyer ON Invoice (buyer);
 
@@ -50,3 +48,6 @@ DROP INDEX Invoice_ix_buyer;
 DROP INDEX Invoice_ix_created;
 DROP INDEX Invoice_ix_serie;
 DROP TABLE Invoice;
+
+DROP INDEX Setting_ix_name;
+DROP TABLE Setting;
