@@ -6,6 +6,8 @@ import {
   createInvoice,
   getInvoiceList,
   getInvoiceWithGoods,
+  getNextSerieId,
+  validSerieNumber,
   Invoice,
 } from './db';
 
@@ -99,6 +101,63 @@ describe('database tests', () => {
       expect(retInvoice.goods[1].name).toEqual('test2');
       expect(retInvoice.goods[1].amount).toEqual(2);
       expect(retInvoice.goods[1].price).toEqual(200);
+    });
+
+    it('Does not allow to create duplicate Invoice', async () => {
+      expect.assertions(1);
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 2,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      await createInvoice(db, invoice);
+      try {
+        await createInvoice(db, invoice);
+      } catch (e) {
+        expect(e.code).toEqual('SQLITE_CONSTRAINT');
+      }
+    });
+
+    it('Return next serieId = 1 for non existing serie', async () => {
+      const serieId = await getNextSerieId(db, 'AB');
+      expect(serieId).toEqual(1);
+    });
+
+    it('Return correct next serieId for existing serie', async () => {
+      const invoice: Invoice = {
+        serieName: 'ZZ',
+        serieId: 123,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+
+      await createInvoice(db, invoice);
+      const serieId = await getNextSerieId(db, 'ZZ');
+      expect(serieId).toEqual(124);
+    });
+
+    it('Validates serie number', async () => {
+      expect(await validSerieNumber(db, 'VSN', 1)).toBeTruthy();
+    });
+
+    it('Validates serie number for matching serieno', async () => {
+      const invoice: Invoice = {
+        serieName: 'VSN',
+        serieId: 123,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+
+      await createInvoice(db, invoice);
+
+      expect(await validSerieNumber(db, 'VSN', 123)).toBeFalsy();
     });
   });
 });

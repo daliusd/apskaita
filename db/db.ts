@@ -92,3 +92,30 @@ export async function getInvoiceWithGoods(db: Database, invoiceId: number) {
 
   return result;
 }
+
+export async function getNextSerieId(db: Database, serieName: string) {
+  const maxSerieId = (
+    await db.get<{ maxSerieId: number }>(
+      'SELECT MAX(serieId) as maxSerieId FROM Invoice WHERE serieName = ?',
+      serieName,
+    )
+  ).maxSerieId;
+
+  return maxSerieId + 1;
+}
+
+export async function validSerieNumber(
+  db: Database,
+  serieName: string,
+  serieId: number,
+) {
+  const countSerie = (
+    await db.get(
+      'SELECT COUNT(*) as countSerie FROM Invoice WHERE serieName = ? AND serieId = ?',
+      serieName,
+      serieId,
+    )
+  ).countSerie;
+
+  return countSerie === 0;
+}
