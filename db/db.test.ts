@@ -162,10 +162,11 @@ describe('database tests', () => {
     });
 
     it('Validates created data', async () => {
+      const created = new Date(2020, 0, 31).getTime();
       const invoice: Invoice = {
         serieName: 'VCD',
         serieId: 123,
-        created: new Date(2020, 0, 31).getTime(),
+        created,
         price: 500,
         buyer: 'Buyer',
         goods: [],
@@ -173,21 +174,45 @@ describe('database tests', () => {
 
       await createInvoice(db, invoice);
 
-      expect(
-        await validCreatedDate(db, 'VCD', 124, new Date(2020, 0, 30).getTime()),
-      ).toBeFalsy();
+      let resp = await validCreatedDate(
+        db,
+        'VCD',
+        124,
+        new Date(2020, 0, 30).getTime(),
+      );
+      expect(resp.success).toBeFalsy();
+      expect(resp.minValidDate).toEqual(created);
 
-      expect(
-        await validCreatedDate(db, 'VCD', 124, new Date(2020, 1, 1).getTime()),
-      ).toBeTruthy();
+      resp = await validCreatedDate(
+        db,
+        'VCD',
+        124,
+        new Date(2020, 1, 1).getTime(),
+      );
+      expect(resp.success).toBeTruthy();
 
-      expect(
-        await validCreatedDate(db, 'VCD', 122, new Date(2020, 1, 1).getTime()),
-      ).toBeFalsy();
+      resp = await validCreatedDate(db, 'VCD', 124, created);
+      expect(resp.success).toBeTruthy();
 
-      expect(
-        await validCreatedDate(db, 'VCD', 122, new Date(2020, 0, 30).getTime()),
-      ).toBeTruthy();
+      resp = await validCreatedDate(
+        db,
+        'VCD',
+        122,
+        new Date(2020, 1, 1).getTime(),
+      );
+      expect(resp.success).toBeFalsy();
+      expect(resp.maxValidDate).toEqual(created);
+
+      resp = await validCreatedDate(
+        db,
+        'VCD',
+        122,
+        new Date(2020, 0, 30).getTime(),
+      );
+      expect(resp.success).toBeTruthy();
+
+      resp = await validCreatedDate(db, 'VCD', 122, created);
+      expect(resp.success).toBeTruthy();
     });
   });
 });

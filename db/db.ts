@@ -135,7 +135,7 @@ export async function validCreatedDate(
   ).maxCreated;
 
   if (maxCreated !== null && maxCreated > created) {
-    return false;
+    return { success: false, minValidDate: maxCreated };
   }
 
   const minCreated = (
@@ -147,8 +147,8 @@ export async function validCreatedDate(
   ).minCreated;
 
   if (minCreated !== null && minCreated < created) {
-    return false;
+    return { success: false, maxValidDate: minCreated };
   }
 
-  return true;
+  return { success: true };
 }
