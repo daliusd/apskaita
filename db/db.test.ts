@@ -9,6 +9,7 @@ import {
   getNextSerieId,
   validSerieNumber,
   validCreatedDate,
+  updateInvoice,
   Invoice,
 } from './db';
 
@@ -213,6 +214,55 @@ describe('database tests', () => {
 
       resp = await validCreatedDate(db, 'VCD', 122, created);
       expect(resp.success).toBeTruthy();
+    });
+
+    it('updates invoice', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [
+          { name: 'test', amount: 1, price: 100 },
+          { name: 'test2', amount: 2, price: 200 },
+        ],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+
+      invoice.serieName = 'DE';
+      invoice.serieId = 2;
+      invoice.created = new Date(2020, 1, 31).getTime();
+      invoice.price = 200;
+      invoice.buyer = 'Buyer2';
+      invoice.goods = [
+        { name: 'test3', amount: 1, price: 20 },
+        { name: 'test4', amount: 3, price: 60 },
+      ];
+
+      const success = await updateInvoice(db, invoiceId, invoice);
+      expect(success).toBeTruthy();
+
+      const invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      const retInvoice = await getInvoiceWithGoods(db, invoiceId);
+
+      expect(retInvoice.id).toEqual(invoiceId);
+      expect(retInvoice.serieName).toEqual(invoice.serieName);
+      expect(retInvoice.serieId).toEqual(invoice.serieId);
+      expect(retInvoice.created).toEqual(invoice.created);
+      expect(retInvoice.price).toEqual(invoice.price);
+      expect(retInvoice.buyer).toEqual(invoice.buyer);
+
+      expect(retInvoice.goods.length).toEqual(2);
+
+      expect(retInvoice.goods[0].name).toEqual('test3');
+      expect(retInvoice.goods[0].amount).toEqual(1);
+      expect(retInvoice.goods[0].price).toEqual(20);
+
+      expect(retInvoice.goods[1].name).toEqual('test4');
+      expect(retInvoice.goods[1].amount).toEqual(3);
+      expect(retInvoice.goods[1].price).toEqual(60);
     });
   });
 });

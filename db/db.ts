@@ -152,3 +152,33 @@ export async function validCreatedDate(
 
   return { success: true };
 }
+
+export async function updateInvoice(
+  db: Database,
+  invoiceId: number,
+  invoice: Invoice,
+) {
+  await db.run(
+    'UPDATE Invoice SET serieName = ?, serieId = ?, created = ?, price = ?, buyer = ? WHERE id = ?',
+    invoice.serieName,
+    invoice.serieId,
+    invoice.created,
+    invoice.price,
+    invoice.buyer,
+    invoiceId,
+  );
+
+  await db.run('DELETE FROM Good WHERE invoiceId = ?', invoiceId);
+
+  for (const good of invoice.goods) {
+    await db.run(
+      'INSERT INTO Good(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
+      invoiceId,
+      good.name,
+      good.amount,
+      good.price,
+    );
+  }
+
+  return true;
+}
