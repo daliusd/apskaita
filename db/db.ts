@@ -108,12 +108,15 @@ export async function validSerieNumber(
   db: Database,
   serieName: string,
   serieId: number,
+  excludeInvoiceId?: number,
 ) {
   const countSerie = (
     await db.get(
-      'SELECT COUNT(*) as countSerie FROM Invoice WHERE serieName = ? AND serieId = ?',
+      'SELECT COUNT(*) as countSerie FROM Invoice WHERE serieName = ? AND serieId = ?' +
+        (excludeInvoiceId ? ' AND id != ?' : ''),
       serieName,
       serieId,
+      excludeInvoiceId,
     )
   ).countSerie;
 
@@ -125,12 +128,15 @@ export async function validCreatedDate(
   serieName: string,
   serieId: number,
   created: number,
+  excludeInvoiceId?: number,
 ) {
   const maxCreated = (
     await db.get(
-      'SELECT MAX(created) as maxCreated FROM Invoice WHERE serieName = ? AND serieId < ?',
+      'SELECT MAX(created) as maxCreated FROM Invoice WHERE serieName = ? AND serieId < ?' +
+        (excludeInvoiceId ? ' AND id != ?' : ''),
       serieName,
       serieId,
+      excludeInvoiceId,
     )
   ).maxCreated;
 
@@ -140,7 +146,8 @@ export async function validCreatedDate(
 
   const minCreated = (
     await db.get(
-      'SELECT MIN(created) as minCreated FROM Invoice WHERE serieName = ? AND serieId > ?',
+      'SELECT MIN(created) as minCreated FROM Invoice WHERE serieName = ? AND serieId > ?' +
+        (excludeInvoiceId ? ' AND id != ?' : ''),
       serieName,
       serieId,
     )

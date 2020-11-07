@@ -162,6 +162,21 @@ describe('database tests', () => {
       expect(await validSerieNumber(db, 'VSN', 123)).toBeFalsy();
     });
 
+    it('Validates serie number excluding specific invoice', async () => {
+      const invoice: Invoice = {
+        serieName: 'VSN',
+        serieId: 123,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+
+      const invoiceId = await createInvoice(db, invoice);
+
+      expect(await validSerieNumber(db, 'VSN', 123, invoiceId)).toBeTruthy();
+    });
+
     it('Validates created data', async () => {
       const created = new Date(2020, 0, 31).getTime();
       const invoice: Invoice = {
@@ -213,6 +228,38 @@ describe('database tests', () => {
       expect(resp.success).toBeTruthy();
 
       resp = await validCreatedDate(db, 'VCD', 122, created);
+      expect(resp.success).toBeTruthy();
+    });
+
+    it('Validates created data excluding specific invoice', async () => {
+      const created = new Date(2020, 0, 31).getTime();
+      const invoice: Invoice = {
+        serieName: 'VCD',
+        serieId: 123,
+        created,
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+
+      const invoiceId = await createInvoice(db, invoice);
+
+      let resp = await validCreatedDate(
+        db,
+        'VCD',
+        124,
+        new Date(2020, 0, 30).getTime(),
+        invoiceId,
+      );
+      expect(resp.success).toBeTruthy();
+
+      resp = await validCreatedDate(
+        db,
+        'VCD',
+        122,
+        new Date(2020, 1, 1).getTime(),
+        invoiceId,
+      );
       expect(resp.success).toBeTruthy();
     });
 
