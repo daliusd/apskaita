@@ -311,5 +311,88 @@ describe('database tests', () => {
       expect(retInvoice.goods[1].amount).toEqual(3);
       expect(retInvoice.goods[1].price).toEqual(60);
     });
+
+    it('does not update invoice if there is invoice with same serie number', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [
+          { name: 'test', amount: 1, price: 100 },
+          { name: 'test2', amount: 2, price: 200 },
+        ],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+
+      invoice.serieId = 2;
+      await createInvoice(db, invoice);
+
+      const success = await updateInvoice(db, invoiceId, invoice);
+      expect(success).toBeFalsy();
+    });
+
+    it('updates invoice when serie is not changed', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [
+          { name: 'test', amount: 1, price: 100 },
+          { name: 'test2', amount: 2, price: 200 },
+        ],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+
+      invoice.buyer = 'Buyer3';
+
+      const success = await updateInvoice(db, invoiceId, invoice);
+      expect(success).toBeTruthy();
+    });
+
+    it('does not update invoice if invoice date is wrong', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      const invoiceId = await createInvoice(db, invoice);
+
+      invoice.serieId = 2;
+      await createInvoice(db, invoice);
+
+      invoice.serieId = 1;
+      invoice.created = new Date(2020, 1, 1).getTime();
+
+      const success = await updateInvoice(db, invoiceId, invoice);
+      expect(success).toBeFalsy();
+    });
+
+    it('updates invoice when date is changed', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      await createInvoice(db, invoice);
+
+      invoice.serieId = 3;
+      const invoiceId = await createInvoice(db, invoice);
+
+      invoice.serieId = 2;
+      invoice.created = new Date(2020, 1, 1).getTime();
+
+      const success = await updateInvoice(db, invoiceId, invoice);
+      expect(success).toBeTruthy();
+    });
   });
 });

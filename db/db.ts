@@ -150,6 +150,7 @@ export async function validCreatedDate(
         (excludeInvoiceId ? ' AND id != ?' : ''),
       serieName,
       serieId,
+      excludeInvoiceId,
     )
   ).minCreated;
 
@@ -165,6 +166,23 @@ export async function updateInvoice(
   invoiceId: number,
   invoice: Invoice,
 ) {
+  if (
+    !(await validSerieNumber(db, invoice.serieName, invoice.serieId, invoiceId))
+  ) {
+    return false;
+  }
+
+  const dateValid = await validCreatedDate(
+    db,
+    invoice.serieName,
+    invoice.serieId,
+    invoice.created,
+    invoiceId,
+  );
+  if (!dateValid.success) {
+    return false;
+  }
+
   await db.run(
     'UPDATE Invoice SET serieName = ?, serieId = ?, created = ?, price = ?, buyer = ? WHERE id = ?',
     invoice.serieName,
