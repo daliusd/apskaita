@@ -42,6 +42,20 @@ export async function getSetting(db: Database, name: string) {
 }
 
 export async function createInvoice(db: Database, invoice: Invoice) {
+  if (!(await validSerieNumber(db, invoice.serieName, invoice.serieId))) {
+    return { success: false };
+  }
+
+  const dateValid = await validCreatedDate(
+    db,
+    invoice.serieName,
+    invoice.serieId,
+    invoice.created,
+  );
+  if (!dateValid.success) {
+    return { success: false };
+  }
+
   const result = await db.run(
     'INSERT INTO Invoice(serieName, serieId, created, price, buyer) VALUES(?, ?, ?, ?, ?)',
     invoice.serieName,
@@ -63,7 +77,7 @@ export async function createInvoice(db: Database, invoice: Invoice) {
     );
   }
 
-  return invoiceId;
+  return { success: true, invoiceId };
 }
 
 export async function getInvoiceList(

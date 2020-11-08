@@ -64,7 +64,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         goods: [],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
       const invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(1);
       expect(invoices[0].id).toEqual(invoiceId);
@@ -87,7 +87,7 @@ describe('database tests', () => {
           { name: 'test2', amount: 2, price: 200 },
         ],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
       const retInvoice = await getInvoiceWithGoods(db, invoiceId);
       expect(retInvoice.id).toEqual(invoiceId);
       expect(retInvoice.serieName).toEqual(invoice.serieName);
@@ -106,7 +106,6 @@ describe('database tests', () => {
     });
 
     it('Does not allow to create duplicate Invoice', async () => {
-      expect.assertions(1);
       const invoice: Invoice = {
         serieName: 'DD',
         serieId: 2,
@@ -115,12 +114,30 @@ describe('database tests', () => {
         buyer: 'Buyer',
         goods: [],
       };
-      await createInvoice(db, invoice);
-      try {
-        await createInvoice(db, invoice);
-      } catch (e) {
-        expect(e.code).toEqual('SQLITE_CONSTRAINT');
-      }
+      let resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeFalsy();
+    });
+
+    it('Does not allow to create Invoice with invalid created date', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 2,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      let resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      invoice.serieId = 3;
+      invoice.created = new Date(2020, 0, 30).getTime();
+
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeFalsy();
     });
 
     it('Return next serieId = 1 for non existing serie', async () => {
@@ -172,7 +189,7 @@ describe('database tests', () => {
         goods: [],
       };
 
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       expect(await validSerieNumber(db, 'VSN', 123, invoiceId)).toBeTruthy();
     });
@@ -242,7 +259,7 @@ describe('database tests', () => {
         goods: [],
       };
 
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       let resp = await validCreatedDate(
         db,
@@ -275,7 +292,7 @@ describe('database tests', () => {
           { name: 'test2', amount: 2, price: 200 },
         ],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       invoice.serieName = 'DE';
       invoice.serieId = 2;
@@ -324,7 +341,7 @@ describe('database tests', () => {
           { name: 'test2', amount: 2, price: 200 },
         ],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       invoice.serieId = 2;
       await createInvoice(db, invoice);
@@ -345,7 +362,7 @@ describe('database tests', () => {
           { name: 'test2', amount: 2, price: 200 },
         ],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       invoice.buyer = 'Buyer3';
 
@@ -362,7 +379,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         goods: [],
       };
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       invoice.serieId = 2;
       await createInvoice(db, invoice);
@@ -386,7 +403,7 @@ describe('database tests', () => {
       await createInvoice(db, invoice);
 
       invoice.serieId = 3;
-      const invoiceId = await createInvoice(db, invoice);
+      const { invoiceId } = await createInvoice(db, invoice);
 
       invoice.serieId = 2;
       invoice.created = new Date(2020, 1, 1).getTime();
