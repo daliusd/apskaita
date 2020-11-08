@@ -12,6 +12,9 @@ import {
   updateInvoice,
   Invoice,
   deleteInvoice,
+  getUniqueSeriesNames,
+  getUniqueBuyerNames,
+  getUniqueGoodNames,
 } from './db';
 
 describe('database tests', () => {
@@ -139,6 +142,10 @@ describe('database tests', () => {
 
       resp = await createInvoice(db, invoice);
       expect(resp.success).toBeFalsy();
+
+      invoice.created = new Date(2020, 0, 31).getTime();
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
     });
 
     it('Return next serieId = 1 for non existing serie', async () => {
@@ -426,6 +433,82 @@ describe('database tests', () => {
       await deleteInvoice(db, invoiceId);
       const invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(0);
+    });
+
+    it('gets unique serie names', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      await createInvoice(db, invoice);
+      invoice.serieName = 'DA';
+      await createInvoice(db, invoice);
+      invoice.serieName = 'EA';
+      await createInvoice(db, invoice);
+
+      let uniqueSerieNames = await getUniqueSeriesNames(db, '');
+      expect(uniqueSerieNames).toHaveLength(3);
+      expect(uniqueSerieNames).toEqual(['DA', 'DD', 'EA']);
+
+      uniqueSerieNames = await getUniqueSeriesNames(db, 'E');
+      expect(uniqueSerieNames).toHaveLength(1);
+      expect(uniqueSerieNames).toEqual(['EA']);
+    });
+
+    it('gets unique buyer names', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer1',
+        goods: [],
+      };
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      invoice.serieId = 2;
+      invoice.buyer = 'Buyer2';
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      invoice.serieId = 3;
+      invoice.buyer = 'ACME';
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      let uniqueBuyerNames = await getUniqueBuyerNames(db, '');
+      expect(uniqueBuyerNames).toHaveLength(3);
+      expect(uniqueBuyerNames).toEqual(['ACME', 'Buyer1', 'Buyer2']);
+
+      uniqueBuyerNames = await getUniqueBuyerNames(db, 'A');
+      expect(uniqueBuyerNames).toHaveLength(1);
+      expect(uniqueBuyerNames).toEqual(['ACME']);
+    });
+
+    it('gets unique good names', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer1',
+        goods: [
+          { name: 'G1', amount: 1, price: 100 },
+          { name: 'G2', amount: 1, price: 200 },
+          { name: 'A1', amount: 1, price: 200 },
+        ],
+      };
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      let uniqueBuyerNames = await getUniqueGoodNames(db, '');
+      expect(uniqueBuyerNames).toHaveLength(3);
+      expect(uniqueBuyerNames).toEqual(['A1', 'G1', 'G2']);
+
+      uniqueBuyerNames = await getUniqueGoodNames(db, 'A');
+      expect(uniqueBuyerNames).toHaveLength(1);
+      expect(uniqueBuyerNames).toEqual(['A1']);
     });
   });
 });

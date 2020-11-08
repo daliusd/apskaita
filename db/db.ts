@@ -8,7 +8,7 @@ export interface Good {
 }
 
 export interface Invoice {
-  id?: number;
+  readonly id?: number;
   serieName: string;
   serieId: number;
   created: number;
@@ -226,4 +226,28 @@ export async function deleteInvoice(db: Database, invoiceId: number) {
   await db.run('DELETE FROM Invoice WHERE id = ?', invoiceId);
 
   return true;
+}
+
+export async function getUniqueSeriesNames(db: Database, start: string) {
+  const result = await db.all(
+    'SELECT DISTINCT serieName FROM Invoice WHERE serieName LIKE ? ORDER BY serieName LIMIT 10',
+    start + '%',
+  );
+  return result.map((item) => item.serieName);
+}
+
+export async function getUniqueBuyerNames(db: Database, start: string) {
+  const result = await db.all(
+    'SELECT DISTINCT buyer FROM Invoice WHERE buyer LIKE ? ORDER BY buyer LIMIT 10',
+    start + '%',
+  );
+  return result.map((item) => item.buyer);
+}
+
+export async function getUniqueGoodNames(db: Database, start: string) {
+  const result = await db.all(
+    'SELECT DISTINCT name FROM Good WHERE name LIKE ? ORDER BY name LIMIT 10',
+    start + '%',
+  );
+  return result.map((item) => item.name);
 }

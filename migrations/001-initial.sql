@@ -36,6 +36,7 @@ CREATE TABLE Good (
 
 
 CREATE INDEX Good_ix_invoiceId ON Good (invoiceId);
+CREATE INDEX Good_ix_name ON Good (name);
 
 --------------------------------------------------------------------------------
 -- Down
