@@ -86,7 +86,7 @@ export async function getInvoiceList(
   offset: number,
 ) {
   const result = await db.all<Invoice[]>(
-    'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice ORDER BY created LIMIT ? OFFSET ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
     limit,
     offset,
   );

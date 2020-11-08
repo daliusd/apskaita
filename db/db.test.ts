@@ -79,6 +79,30 @@ describe('database tests', () => {
       expect(invoices[0].buyer).toEqual(invoice.buyer);
     });
 
+    it('returns invoices on the same date sorted by series number', async () => {
+      const invoice: Invoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      await createInvoice(db, invoice);
+
+      invoice.seriesId = 3;
+      await createInvoice(db, invoice);
+
+      invoice.seriesId = 2;
+      await createInvoice(db, invoice);
+
+      const invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(3);
+      expect(invoices[0].seriesId).toEqual(3);
+      expect(invoices[1].seriesId).toEqual(2);
+      expect(invoices[2].seriesId).toEqual(1);
+    });
+
     it('creates invoice with goods', async () => {
       const invoice: Invoice = {
         seriesName: 'DD',
