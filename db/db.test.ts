@@ -11,6 +11,7 @@ import {
   validCreatedDate,
   updateInvoice,
   Invoice,
+  deleteInvoice,
 } from './db';
 
 describe('database tests', () => {
@@ -410,6 +411,21 @@ describe('database tests', () => {
 
       const success = await updateInvoice(db, invoiceId, invoice);
       expect(success).toBeTruthy();
+    });
+
+    it('deletes invoice', async () => {
+      const invoice: Invoice = {
+        serieName: 'DD',
+        serieId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        goods: [],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+      await deleteInvoice(db, invoiceId);
+      const invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(0);
     });
   });
 });

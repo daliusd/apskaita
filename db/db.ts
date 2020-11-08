@@ -221,3 +221,9 @@ export async function updateInvoice(
 
   return true;
 }
+
+export async function deleteInvoice(db: Database, invoiceId: number) {
+  await db.run('DELETE FROM Invoice WHERE id = ?', invoiceId);
+
+  return true;
+}
