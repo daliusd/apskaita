@@ -9,8 +9,8 @@ export interface Good {
 
 export interface Invoice {
   readonly id?: number;
-  serieName: string;
-  serieId: number;
+  seriesName: string;
+  seriesId: number;
   created: number;
   price: number;
   buyer: string;
@@ -42,14 +42,14 @@ export async function getSetting(db: Database, name: string) {
 }
 
 export async function createInvoice(db: Database, invoice: Invoice) {
-  if (!(await validSerieNumber(db, invoice.serieName, invoice.serieId))) {
+  if (!(await validSerieNumber(db, invoice.seriesName, invoice.seriesId))) {
     return { success: false };
   }
 
   const dateValid = await validCreatedDate(
     db,
-    invoice.serieName,
-    invoice.serieId,
+    invoice.seriesName,
+    invoice.seriesId,
     invoice.created,
   );
   if (!dateValid.success) {
@@ -57,9 +57,9 @@ export async function createInvoice(db: Database, invoice: Invoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(serieName, serieId, created, price, buyer) VALUES(?, ?, ?, ?, ?)',
-    invoice.serieName,
-    invoice.serieId,
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer) VALUES(?, ?, ?, ?, ?)',
+    invoice.seriesName,
+    invoice.seriesId,
     invoice.created,
     invoice.price,
     invoice.buyer,
@@ -86,7 +86,7 @@ export async function getInvoiceList(
   offset: number,
 ) {
   const result = await db.all<Invoice[]>(
-    'SELECT id, serieName, serieId, created, price, buyer FROM Invoice ORDER BY created LIMIT ? OFFSET ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice ORDER BY created LIMIT ? OFFSET ?',
     limit,
     offset,
   );
@@ -95,7 +95,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithGoods(db: Database, invoiceId: number) {
   const result = await db.get<Invoice>(
-    'SELECT id, serieName, serieId, created, price, buyer FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -107,29 +107,29 @@ export async function getInvoiceWithGoods(db: Database, invoiceId: number) {
   return result;
 }
 
-export async function getNextSerieId(db: Database, serieName: string) {
-  const maxSerieId = (
-    await db.get<{ maxSerieId: number }>(
-      'SELECT MAX(serieId) as maxSerieId FROM Invoice WHERE serieName = ?',
-      serieName,
+export async function getNextSeriesId(db: Database, seriesName: string) {
+  const maxSeriesId = (
+    await db.get<{ maxSeriesId: number }>(
+      'SELECT MAX(seriesId) as maxSeriesId FROM Invoice WHERE seriesName = ?',
+      seriesName,
     )
-  ).maxSerieId;
+  ).maxSeriesId;
 
-  return maxSerieId + 1;
+  return maxSeriesId + 1;
 }
 
 export async function validSerieNumber(
   db: Database,
-  serieName: string,
-  serieId: number,
+  seriesName: string,
+  seriesId: number,
   excludeInvoiceId?: number,
 ) {
   const countSerie = (
     await db.get(
-      'SELECT COUNT(*) as countSerie FROM Invoice WHERE serieName = ? AND serieId = ?' +
+      'SELECT COUNT(*) as countSerie FROM Invoice WHERE seriesName = ? AND seriesId = ?' +
         (excludeInvoiceId ? ' AND id != ?' : ''),
-      serieName,
-      serieId,
+      seriesName,
+      seriesId,
       excludeInvoiceId,
     )
   ).countSerie;
@@ -139,17 +139,17 @@ export async function validSerieNumber(
 
 export async function validCreatedDate(
   db: Database,
-  serieName: string,
-  serieId: number,
+  seriesName: string,
+  seriesId: number,
   created: number,
   excludeInvoiceId?: number,
 ) {
   const maxCreated = (
     await db.get(
-      'SELECT MAX(created) as maxCreated FROM Invoice WHERE serieName = ? AND serieId < ?' +
+      'SELECT MAX(created) as maxCreated FROM Invoice WHERE seriesName = ? AND seriesId < ?' +
         (excludeInvoiceId ? ' AND id != ?' : ''),
-      serieName,
-      serieId,
+      seriesName,
+      seriesId,
       excludeInvoiceId,
     )
   ).maxCreated;
@@ -160,10 +160,10 @@ export async function validCreatedDate(
 
   const minCreated = (
     await db.get(
-      'SELECT MIN(created) as minCreated FROM Invoice WHERE serieName = ? AND serieId > ?' +
+      'SELECT MIN(created) as minCreated FROM Invoice WHERE seriesName = ? AND seriesId > ?' +
         (excludeInvoiceId ? ' AND id != ?' : ''),
-      serieName,
-      serieId,
+      seriesName,
+      seriesId,
       excludeInvoiceId,
     )
   ).minCreated;
@@ -181,15 +181,20 @@ export async function updateInvoice(
   invoice: Invoice,
 ) {
   if (
-    !(await validSerieNumber(db, invoice.serieName, invoice.serieId, invoiceId))
+    !(await validSerieNumber(
+      db,
+      invoice.seriesName,
+      invoice.seriesId,
+      invoiceId,
+    ))
   ) {
     return false;
   }
 
   const dateValid = await validCreatedDate(
     db,
-    invoice.serieName,
-    invoice.serieId,
+    invoice.seriesName,
+    invoice.seriesId,
     invoice.created,
     invoiceId,
   );
@@ -198,9 +203,9 @@ export async function updateInvoice(
   }
 
   await db.run(
-    'UPDATE Invoice SET serieName = ?, serieId = ?, created = ?, price = ?, buyer = ? WHERE id = ?',
-    invoice.serieName,
-    invoice.serieId,
+    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ? WHERE id = ?',
+    invoice.seriesName,
+    invoice.seriesId,
     invoice.created,
     invoice.price,
     invoice.buyer,
@@ -230,10 +235,10 @@ export async function deleteInvoice(db: Database, invoiceId: number) {
 
 export async function getUniqueSeriesNames(db: Database, start: string) {
   const result = await db.all(
-    'SELECT DISTINCT serieName FROM Invoice WHERE serieName LIKE ? ORDER BY serieName LIMIT 10',
+    'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? ORDER BY seriesName LIMIT 10',
     start + '%',
   );
-  return result.map((item) => item.serieName);
+  return result.map((item) => item.seriesName);
 }
 
 export async function getUniqueBuyerNames(db: Database, start: string) {

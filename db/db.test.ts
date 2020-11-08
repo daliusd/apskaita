@@ -6,7 +6,7 @@ import {
   createInvoice,
   getInvoiceList,
   getInvoiceWithGoods,
-  getNextSerieId,
+  getNextSeriesId,
   validSerieNumber,
   validCreatedDate,
   updateInvoice,
@@ -61,8 +61,8 @@ describe('database tests', () => {
 
     it('creates invoices', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
@@ -72,8 +72,8 @@ describe('database tests', () => {
       const invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(1);
       expect(invoices[0].id).toEqual(invoiceId);
-      expect(invoices[0].serieName).toEqual(invoice.serieName);
-      expect(invoices[0].serieId).toEqual(invoice.serieId);
+      expect(invoices[0].seriesName).toEqual(invoice.seriesName);
+      expect(invoices[0].seriesId).toEqual(invoice.seriesId);
       expect(invoices[0].created).toEqual(invoice.created);
       expect(invoices[0].price).toEqual(invoice.price);
       expect(invoices[0].buyer).toEqual(invoice.buyer);
@@ -81,8 +81,8 @@ describe('database tests', () => {
 
     it('creates invoice with goods', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -94,8 +94,8 @@ describe('database tests', () => {
       const { invoiceId } = await createInvoice(db, invoice);
       const retInvoice = await getInvoiceWithGoods(db, invoiceId);
       expect(retInvoice.id).toEqual(invoiceId);
-      expect(retInvoice.serieName).toEqual(invoice.serieName);
-      expect(retInvoice.serieId).toEqual(invoice.serieId);
+      expect(retInvoice.seriesName).toEqual(invoice.seriesName);
+      expect(retInvoice.seriesId).toEqual(invoice.seriesId);
       expect(retInvoice.created).toEqual(invoice.created);
       expect(retInvoice.price).toEqual(invoice.price);
       expect(retInvoice.buyer).toEqual(invoice.buyer);
@@ -111,8 +111,8 @@ describe('database tests', () => {
 
     it('Does not allow to create duplicate Invoice', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 2,
+        seriesName: 'DD',
+        seriesId: 2,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
@@ -127,8 +127,8 @@ describe('database tests', () => {
 
     it('Does not allow to create Invoice with invalid created date', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 2,
+        seriesName: 'DD',
+        seriesId: 2,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
@@ -137,7 +137,7 @@ describe('database tests', () => {
       let resp = await createInvoice(db, invoice);
       expect(resp.success).toBeTruthy();
 
-      invoice.serieId = 3;
+      invoice.seriesId = 3;
       invoice.created = new Date(2020, 0, 30).getTime();
 
       resp = await createInvoice(db, invoice);
@@ -148,15 +148,15 @@ describe('database tests', () => {
       expect(resp.success).toBeTruthy();
     });
 
-    it('Return next serieId = 1 for non existing serie', async () => {
-      const serieId = await getNextSerieId(db, 'AB');
-      expect(serieId).toEqual(1);
+    it('Return next seriesId = 1 for non existing serie', async () => {
+      const seriesId = await getNextSeriesId(db, 'AB');
+      expect(seriesId).toEqual(1);
     });
 
-    it('Return correct next serieId for existing serie', async () => {
+    it('Return correct next seriesId for existing serie', async () => {
       const invoice: Invoice = {
-        serieName: 'ZZ',
-        serieId: 123,
+        seriesName: 'ZZ',
+        seriesId: 123,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -164,8 +164,8 @@ describe('database tests', () => {
       };
 
       await createInvoice(db, invoice);
-      const serieId = await getNextSerieId(db, 'ZZ');
-      expect(serieId).toEqual(124);
+      const seriesId = await getNextSeriesId(db, 'ZZ');
+      expect(seriesId).toEqual(124);
     });
 
     it('Validates serie number', async () => {
@@ -174,8 +174,8 @@ describe('database tests', () => {
 
     it('Validates serie number for matching serieno', async () => {
       const invoice: Invoice = {
-        serieName: 'VSN',
-        serieId: 123,
+        seriesName: 'VSN',
+        seriesId: 123,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -189,8 +189,8 @@ describe('database tests', () => {
 
     it('Validates serie number excluding specific invoice', async () => {
       const invoice: Invoice = {
-        serieName: 'VSN',
-        serieId: 123,
+        seriesName: 'VSN',
+        seriesId: 123,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -205,8 +205,8 @@ describe('database tests', () => {
     it('Validates created data', async () => {
       const created = new Date(2020, 0, 31).getTime();
       const invoice: Invoice = {
-        serieName: 'VCD',
-        serieId: 123,
+        seriesName: 'VCD',
+        seriesId: 123,
         created,
         price: 500,
         buyer: 'Buyer',
@@ -259,8 +259,8 @@ describe('database tests', () => {
     it('Validates created data excluding specific invoice', async () => {
       const created = new Date(2020, 0, 31).getTime();
       const invoice: Invoice = {
-        serieName: 'VCD',
-        serieId: 123,
+        seriesName: 'VCD',
+        seriesId: 123,
         created,
         price: 500,
         buyer: 'Buyer',
@@ -290,8 +290,8 @@ describe('database tests', () => {
 
     it('updates invoice', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -302,8 +302,8 @@ describe('database tests', () => {
       };
       const { invoiceId } = await createInvoice(db, invoice);
 
-      invoice.serieName = 'DE';
-      invoice.serieId = 2;
+      invoice.seriesName = 'DE';
+      invoice.seriesId = 2;
       invoice.created = new Date(2020, 1, 31).getTime();
       invoice.price = 200;
       invoice.buyer = 'Buyer2';
@@ -320,8 +320,8 @@ describe('database tests', () => {
       const retInvoice = await getInvoiceWithGoods(db, invoiceId);
 
       expect(retInvoice.id).toEqual(invoiceId);
-      expect(retInvoice.serieName).toEqual(invoice.serieName);
-      expect(retInvoice.serieId).toEqual(invoice.serieId);
+      expect(retInvoice.seriesName).toEqual(invoice.seriesName);
+      expect(retInvoice.seriesId).toEqual(invoice.seriesId);
       expect(retInvoice.created).toEqual(invoice.created);
       expect(retInvoice.price).toEqual(invoice.price);
       expect(retInvoice.buyer).toEqual(invoice.buyer);
@@ -339,8 +339,8 @@ describe('database tests', () => {
 
     it('does not update invoice if there is invoice with same serie number', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -351,7 +351,7 @@ describe('database tests', () => {
       };
       const { invoiceId } = await createInvoice(db, invoice);
 
-      invoice.serieId = 2;
+      invoice.seriesId = 2;
       await createInvoice(db, invoice);
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -360,8 +360,8 @@ describe('database tests', () => {
 
     it('updates invoice when serie is not changed', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -380,8 +380,8 @@ describe('database tests', () => {
 
     it('does not update invoice if invoice date is wrong', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -389,10 +389,10 @@ describe('database tests', () => {
       };
       const { invoiceId } = await createInvoice(db, invoice);
 
-      invoice.serieId = 2;
+      invoice.seriesId = 2;
       await createInvoice(db, invoice);
 
-      invoice.serieId = 1;
+      invoice.seriesId = 1;
       invoice.created = new Date(2020, 1, 1).getTime();
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -401,8 +401,8 @@ describe('database tests', () => {
 
     it('updates invoice when date is changed', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
@@ -410,10 +410,10 @@ describe('database tests', () => {
       };
       await createInvoice(db, invoice);
 
-      invoice.serieId = 3;
+      invoice.seriesId = 3;
       const { invoiceId } = await createInvoice(db, invoice);
 
-      invoice.serieId = 2;
+      invoice.seriesId = 2;
       invoice.created = new Date(2020, 1, 1).getTime();
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -422,8 +422,8 @@ describe('database tests', () => {
 
     it('deletes invoice', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
@@ -437,17 +437,17 @@ describe('database tests', () => {
 
     it('gets unique serie names', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
         goods: [],
       };
       await createInvoice(db, invoice);
-      invoice.serieName = 'DA';
+      invoice.seriesName = 'DA';
       await createInvoice(db, invoice);
-      invoice.serieName = 'EA';
+      invoice.seriesName = 'EA';
       await createInvoice(db, invoice);
 
       let uniqueSerieNames = await getUniqueSeriesNames(db, '');
@@ -461,8 +461,8 @@ describe('database tests', () => {
 
     it('gets unique buyer names', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer1',
@@ -470,11 +470,11 @@ describe('database tests', () => {
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
-      invoice.serieId = 2;
+      invoice.seriesId = 2;
       invoice.buyer = 'Buyer2';
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
-      invoice.serieId = 3;
+      invoice.seriesId = 3;
       invoice.buyer = 'ACME';
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
@@ -489,8 +489,8 @@ describe('database tests', () => {
 
     it('gets unique good names', async () => {
       const invoice: Invoice = {
-        serieName: 'DD',
-        serieId: 1,
+        seriesName: 'DD',
+        seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer1',

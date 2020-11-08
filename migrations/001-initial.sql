@@ -12,14 +12,14 @@ CREATE UNIQUE INDEX Setting_ix_name ON Setting (name);
 
 CREATE TABLE Invoice (
   id          INTEGER PRIMARY KEY,
-  serieName   TEXT    NOT NULL,
-  serieId     INTEGER NOT NULL,
+  seriesName  TEXT    NOT NULL,
+  seriesId    INTEGER NOT NULL,
   created     INTEGER NOT NULL,
   price       INTEGER NOT NULL,
   buyer       TEXT    NOT NULL
 );
 
-CREATE UNIQUE INDEX Invoice_ix_serie ON Invoice (serieName, serieId);
+CREATE UNIQUE INDEX Invoice_ix_serie ON Invoice (seriesName, seriesId);
 CREATE INDEX Invoice_ix_created ON Invoice (created);
 CREATE INDEX Invoice_ix_buyer ON Invoice (buyer);
 
