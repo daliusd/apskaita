@@ -4,14 +4,17 @@ Individualios veiklos apskaita.
 
 ## Programavimas
 
-Sukurkite `.local.env` failą su šiuo turiniu. Nurodykite tinkamus
+Sukurkite `.env.local` failą su šiuo turiniu. Nurodykite tinkamus
 Google autentikacijos parametrus:
 
 ```sh
 NEXTAUTH_URL=http://localhost:3000
 GOOGLE_ID=
 GOOGLE_SECRET=
+USER_DATA_PATH=./data
 ```
+
+`USER_DATA_PATH` direktorija privalo egzistuoti.
 
 Papildomai galima naudoti `CRED_PASSWORD`, jei norite prisijungti
 kaip bet koks vartotojas.

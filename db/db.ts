@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
+import * as path from 'path';
 
 export interface Good {
   name: string;
@@ -19,7 +20,10 @@ export interface Invoice {
 
 export async function openDb(dbName: string) {
   const db = await open({
-    filename: dbName,
+    filename:
+      dbName === ':memory:'
+        ? dbName
+        : path.join(process.env.USER_DATA_PATH, dbName + '.db'),
     driver: sqlite3.cached.Database,
   });
   await db.migrate();
