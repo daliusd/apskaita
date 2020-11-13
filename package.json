@@ -9,7 +9,7 @@
     "next-auth": "3.1.0",
     "react": "latest",
     "react-dom": "latest",
-    "sqlite": "4.0.15",
+    "sqlite": "4.0.17",
     "sqlite3": "5.0.0",
     "swr": "0.3.8"
   },
