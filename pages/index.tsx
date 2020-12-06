@@ -1,56 +1,25 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../src/Link';
-import Copyright from '../src/Copyright';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import Grid from '@material-ui/core/Grid';
+import { useSession } from 'next-auth/client';
 
 export default function Index() {
-  const [session, loading] = useSession();
-  if (loading) return <LinearProgress />;
+  const [session] = useSession();
+
+  if (!session) {
+    return null;
+  }
 
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Haiku.lt
-        </Typography>
-        <Link href="/apie" color="secondary">
-          Eiti į Apie puslapį
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        Esi prisijungęs/prisijungusi kaip {session.user.email}.
+      </Grid>
+      <Grid item xs={12}>
+        <Link href="/saskaitos/nauja" color="secondary">
+          Nauja sąskaita faktūra
         </Link>
-        {!session && (
-          <>
-            <br />
-            <Button
-              onClick={() => {
-                signIn('google');
-              }}
-              variant="contained"
-              color="primary"
-            >
-              Prisijungti
-            </Button>
-          </>
-        )}
-        {session && (
-          <>
-            <br /> Prisijungęs kaip {session.user.email} <br />
-            <Button
-              onClick={() => {
-                signOut();
-              }}
-              variant="contained"
-              color="primary"
-            >
-              Atsijungti
-            </Button>
-          </>
-        )}
-        <Copyright />
-      </Box>
-    </Container>
+      </Grid>
+    </Grid>
   );
 }

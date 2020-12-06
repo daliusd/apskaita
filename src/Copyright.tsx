@@ -6,7 +6,7 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'© '}
-      <MuiLink color="inherit" href="https://material-ui.com/">
+      <MuiLink color="inherit" href="https://www.ffff.lt/">
         Dalius Dobravolskas
       </MuiLink>{' '}
       {new Date().getFullYear()}
