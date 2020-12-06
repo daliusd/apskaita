@@ -4,6 +4,9 @@ import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type { AppProps /*, AppContext */ } from 'next/app';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import ltLocale from 'date-fns/locale/lt';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
 
@@ -27,15 +30,17 @@ export default function MyApp(props: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Provider session={pageProps.session}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Provider>
-      </ThemeProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ltLocale}>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Provider session={pageProps.session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
+        </ThemeProvider>
+      </MuiPickersUtilsProvider>
     </>
   );
 }

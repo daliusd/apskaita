@@ -24,7 +24,7 @@ export async function openDb(dbName: string) {
       dbName === ':memory:'
         ? dbName
         : path.join(process.env.USER_DATA_PATH, dbName + '.db'),
-    driver: sqlite3.cached.Database,
+    driver: sqlite3.Database,
   });
   await db.migrate();
 
