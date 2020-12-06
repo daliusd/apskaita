@@ -10,7 +10,7 @@ import {
   getInvoiceList,
   getInvoiceWithGoods,
   getNextSeriesId,
-  validSerieNumber,
+  validSeriesNumber,
   validCreatedDate,
   updateInvoice,
   Invoice,
@@ -221,7 +221,7 @@ describe('database tests', () => {
     });
 
     it('Validates serie number', async () => {
-      expect(await validSerieNumber(db, 'VSN', 1)).toBeTruthy();
+      expect(await validSeriesNumber(db, 'VSN', 1)).toBeTruthy();
     });
 
     it('Validates serie number for matching serieno', async () => {
@@ -236,7 +236,7 @@ describe('database tests', () => {
 
       await createInvoice(db, invoice);
 
-      expect(await validSerieNumber(db, 'VSN', 123)).toBeFalsy();
+      expect(await validSeriesNumber(db, 'VSN', 123)).toBeFalsy();
     });
 
     it('Validates serie number excluding specific invoice', async () => {
@@ -251,7 +251,7 @@ describe('database tests', () => {
 
       const { invoiceId } = await createInvoice(db, invoice);
 
-      expect(await validSerieNumber(db, 'VSN', 123, invoiceId)).toBeTruthy();
+      expect(await validSeriesNumber(db, 'VSN', 123, invoiceId)).toBeTruthy();
     });
 
     it('Validates created data', async () => {

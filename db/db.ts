@@ -46,7 +46,7 @@ export async function getSetting(db: Database, name: string) {
 }
 
 export async function createInvoice(db: Database, invoice: Invoice) {
-  if (!(await validSerieNumber(db, invoice.seriesName, invoice.seriesId))) {
+  if (!(await validSeriesNumber(db, invoice.seriesName, invoice.seriesId))) {
     return { success: false };
   }
 
@@ -122,7 +122,7 @@ export async function getNextSeriesId(db: Database, seriesName: string) {
   return maxSeriesId + 1;
 }
 
-export async function validSerieNumber(
+export async function validSeriesNumber(
   db: Database,
   seriesName: string,
   seriesId: number,
@@ -185,7 +185,7 @@ export async function updateInvoice(
   invoice: Invoice,
 ) {
   if (
-    !(await validSerieNumber(
+    !(await validSeriesNumber(
       db,
       invoice.seriesName,
       invoice.seriesId,
