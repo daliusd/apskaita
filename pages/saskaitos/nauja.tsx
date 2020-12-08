@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import useSWR from 'swr';
 import { useSession } from 'next-auth/client';
 import { KeyboardDatePicker } from '@material-ui/pickers';
@@ -35,13 +36,18 @@ export default function InvoiceNew() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <TextField
-          label="Serijos pavadinimas"
-          value={seriesName}
-          onChange={(e) => {
-            setSeriesName(e.target.value);
-          }}
+        <Autocomplete
+          id="combo-box-demo"
+          options={data.seriesNames}
           fullWidth
+          value={seriesName}
+          onChange={(e, newValue) => {
+            setSeriesName(newValue);
+          }}
+          freeSolo
+          renderInput={(params) => (
+            <TextField {...params} label="Serijos pavadinimas" />
+          )}
         />
       </Grid>
 
