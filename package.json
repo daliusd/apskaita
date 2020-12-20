@@ -15,7 +15,7 @@
     "react-dom": "latest",
     "sqlite": "4.0.18",
     "sqlite3": "5.0.0",
-    "swr": "0.3.10"
+    "swr": "0.3.11"
   },
   "scripts": {
     "dev": "next",
