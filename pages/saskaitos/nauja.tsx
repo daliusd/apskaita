@@ -9,6 +9,9 @@ import { useSession } from 'next-auth/client';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useDebounce } from 'react-recipes';
 
+import { Good } from '../../db/db';
+import GoodComponent from '../../components/GoodComponent';
+
 export default function InvoiceNew() {
   const [session] = useSession();
 
@@ -35,6 +38,8 @@ export default function InvoiceNew() {
       setSeriesId(seriesResp.data.seriesId);
     }
   }, [seriesResp.data]);
+
+  const [goods] = useState<Good[]>([{ name: '', amount: 1, price: 0 }]);
 
   if (!session) {
     return null;
@@ -97,6 +102,11 @@ export default function InvoiceNew() {
           variant="outlined"
         />
       </Grid>
+
+      {goods.map((g) => {
+        return <GoodComponent key={g.name} good={g} />;
+      })}
+
       <Grid item xs={12}>
         <Button type="submit" variant="contained" color="primary">
           Sukurti
