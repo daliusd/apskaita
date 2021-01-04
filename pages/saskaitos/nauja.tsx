@@ -7,13 +7,12 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import useSWR from 'swr';
 import { useSession } from 'next-auth/client';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+import { useDebounce } from 'react-recipes';
 
 export default function InvoiceNew() {
   const [session] = useSession();
 
-  const { data, error } = useSWR('/api/initial', fetcher);
+  const { data, error } = useSWR('/api/initial');
   const [seriesName, setSeriesName] = useState('');
   const [seriesId, setSeriesId] = useState('');
   const [invoiceDate, setInvoiceDate] = useState(new Date());
@@ -25,6 +24,17 @@ export default function InvoiceNew() {
       setSeriesId(data.seriesId);
     }
   }, [data]);
+
+  const debouncedSeriesName = useDebounce(seriesName, 500);
+  const seriesResp = useSWR(
+    debouncedSeriesName ? ['/api/seriesid/', debouncedSeriesName] : null,
+  );
+
+  useEffect(() => {
+    if (seriesResp.data) {
+      setSeriesId(seriesResp.data.seriesId);
+    }
+  }, [seriesResp.data]);
 
   if (!session) {
     return null;
@@ -41,7 +51,7 @@ export default function InvoiceNew() {
           options={data.seriesNames}
           fullWidth
           value={seriesName}
-          onChange={(e, newValue) => {
+          onInputChange={(_e, newValue) => {
             setSeriesName(newValue);
           }}
           freeSolo

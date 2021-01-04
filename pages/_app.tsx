@@ -1,4 +1,5 @@
 import React from 'react';
+import { SWRConfig } from 'swr';
 import Head from 'next/head';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -22,7 +23,12 @@ export default function MyApp(props: AppProps) {
   }, []);
 
   return (
-    <>
+    <SWRConfig
+      value={{
+        fetcher: (...url: string[]) =>
+          fetch(url.join('')).then((res) => res.json()),
+      }}
+    >
       <Head>
         <title>Haiku.lt</title>
         <meta
@@ -41,6 +47,6 @@ export default function MyApp(props: AppProps) {
           </Provider>
         </ThemeProvider>
       </MuiPickersUtilsProvider>
-    </>
+    </SWRConfig>
   );
 }
