@@ -3,6 +3,7 @@ import { open, Database } from 'sqlite';
 import * as path from 'path';
 
 export interface Good {
+  readonly id?: number;
   name: string;
   amount: number;
   price: number;
@@ -104,7 +105,7 @@ export async function getInvoiceWithGoods(db: Database, invoiceId: number) {
   );
 
   result.goods = await db.all<Good[]>(
-    'SELECT name, amount, price FROM Good WHERE invoiceId = ? ORDER BY id',
+    'SELECT id, name, amount, price FROM Good WHERE invoiceId = ? ORDER BY id',
     invoiceId,
   );
 

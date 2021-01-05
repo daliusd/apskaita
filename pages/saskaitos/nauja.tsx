@@ -39,7 +39,9 @@ export default function InvoiceNew() {
     }
   }, [seriesResp.data]);
 
-  const [goods] = useState<Good[]>([{ name: '', amount: 1, price: 0 }]);
+  const [goods, setGoods] = useState<Good[]>([
+    { id: 1, name: '', amount: 1, price: 0 },
+  ]);
 
   if (!session) {
     return null;
@@ -104,8 +106,47 @@ export default function InvoiceNew() {
       </Grid>
 
       {goods.map((g) => {
-        return <GoodComponent key={g.name} good={g} />;
+        return (
+          <GoodComponent
+            key={g.id}
+            good={g}
+            deleteEnabled={goods.length > 1}
+            onDelete={() => {
+              setGoods(goods.filter((gt) => gt.id != g.id));
+            }}
+            onChange={(gn) => {
+              setGoods(
+                goods.map((g) => {
+                  if (gn.id != g.id) {
+                    return g;
+                  }
+                  return gn;
+                }),
+              );
+            }}
+          />
+        );
       })}
+
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setGoods([
+              ...goods,
+              {
+                id: Math.max(...goods.map((g) => g.id)) + 1,
+                name: '',
+                amount: 1,
+                price: 0,
+              },
+            ]);
+          }}
+        >
+          Pridėti paslaugą
+        </Button>
+      </Grid>
 
       <Grid item xs={12}>
         <Button type="submit" variant="contained" color="primary">
