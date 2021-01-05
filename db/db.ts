@@ -254,7 +254,7 @@ export async function getUniqueBuyerNames(db: Database, start: string) {
   return result.map((item) => item.buyer);
 }
 
-export async function getUniqueGoodNames(db: Database, start: string) {
+export async function getUniqueGoodsNames(db: Database, start: string) {
   const result = await db.all(
     'SELECT DISTINCT name FROM Good WHERE name LIKE ? ORDER BY name LIMIT 10',
     start + '%',

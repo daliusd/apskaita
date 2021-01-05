@@ -17,7 +17,7 @@ import {
   deleteInvoice,
   getUniqueSeriesNames,
   getUniqueBuyerNames,
-  getUniqueGoodNames,
+  getUniqueGoodsNames,
 } from './db';
 
 describe('database tests', () => {
@@ -554,11 +554,11 @@ describe('database tests', () => {
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
-      let uniqueBuyerNames = await getUniqueGoodNames(db, '');
+      let uniqueBuyerNames = await getUniqueGoodsNames(db, '');
       expect(uniqueBuyerNames).toHaveLength(3);
       expect(uniqueBuyerNames).toEqual(['A1', 'G1', 'G2']);
 
-      uniqueBuyerNames = await getUniqueGoodNames(db, 'A');
+      uniqueBuyerNames = await getUniqueGoodsNames(db, 'A');
       expect(uniqueBuyerNames).toHaveLength(1);
       expect(uniqueBuyerNames).toEqual(['A1']);
     });

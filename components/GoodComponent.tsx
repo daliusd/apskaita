@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import useSWR from 'swr';
+import { useDebounce } from 'react-recipes';
+
 import { Good } from '../db/db';
 
 interface Props {
@@ -20,16 +24,24 @@ export default function GoodComponent({
   const [amount, setAmount] = useState(good.amount.toString());
   const [price, setPrice] = useState(good.price.toString());
 
+  const debouncedGoodName = useDebounce(good.name, 500);
+  const { data } = useSWR(`/api/uniquegoodsnames/${debouncedGoodName}`);
+
   return (
     <>
       <Grid item xs={12}>
-        <TextField
-          label="Paslaugos pavadinimas"
-          value={good.name}
-          onChange={(e) => {
-            onChange({ ...good, name: e.target.value });
-          }}
+        <Autocomplete
+          id="combo-box-demo"
+          options={data ? data.goodsNames : []}
           fullWidth
+          value={good.name}
+          onInputChange={(_e, newValue) => {
+            onChange({ ...good, name: newValue });
+          }}
+          freeSolo
+          renderInput={(params) => (
+            <TextField {...params} label="Paslaugos pavadinimas" />
+          )}
         />
       </Grid>
 
