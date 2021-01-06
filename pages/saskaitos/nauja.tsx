@@ -47,6 +47,11 @@ export default function InvoiceNew() {
     }
   }, [seriesResp.data]);
 
+  const debouncedBuyer = useDebounce(buyer, 500);
+  const { data: dataBuyer } = useSWR(
+    `/api/uniquebuyersnames/${debouncedBuyer}`,
+  );
+
   const [goods, setGoods] = useState<Good[]>([
     { id: 1, name: '', amount: 1, price: 0 },
   ]);
@@ -104,16 +109,24 @@ export default function InvoiceNew() {
       </Grid>
 
       <Grid item xs={12}>
-        <TextField
-          label="Pirkėjas"
-          value={buyer}
-          onChange={(e) => {
-            setBuyer(e.target.value);
-          }}
+        <Autocomplete
+          id="combo-box-demo"
+          options={dataBuyer ? dataBuyer.buyersNames : []}
           fullWidth
-          multiline
-          rows={4}
-          variant="outlined"
+          value={buyer}
+          onInputChange={(_e, newValue) => {
+            setBuyer(newValue);
+          }}
+          freeSolo
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Pirkėjas"
+              multiline
+              rows={4}
+              variant="outlined"
+            />
+          )}
         />
       </Grid>
 

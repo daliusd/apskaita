@@ -249,7 +249,7 @@ export async function getUniqueSeriesNames(db: Database, start: string) {
 export async function getUniqueBuyerNames(db: Database, start: string) {
   const result = await db.all(
     'SELECT DISTINCT buyer FROM Invoice WHERE buyer LIKE ? ORDER BY buyer LIMIT 10',
-    start + '%',
+    '%' + start + '%',
   );
   return result.map((item) => item.buyer);
 }

@@ -537,6 +537,10 @@ describe('database tests', () => {
       uniqueBuyerNames = await getUniqueBuyerNames(db, 'A');
       expect(uniqueBuyerNames).toHaveLength(1);
       expect(uniqueBuyerNames).toEqual(['ACME']);
+
+      uniqueBuyerNames = await getUniqueBuyerNames(db, 'er1');
+      expect(uniqueBuyerNames).toHaveLength(1);
+      expect(uniqueBuyerNames).toEqual(['Buyer1']);
     });
 
     it('gets unique good names', async () => {
