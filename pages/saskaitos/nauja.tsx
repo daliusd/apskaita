@@ -57,6 +57,13 @@ export default function InvoiceNew() {
     `/api/uniquebuyersnames/${debouncedBuyer}`,
   );
 
+  const debouncedSeriesId = useDebounce(seriesId, 500);
+  const { data: validSeriesNumberData } = useSWR(
+    debouncedSeriesName
+      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}`
+      : null,
+  );
+
   const [goods, setGoods] = useState<Good[]>([
     { id: 1, name: '', amount: 1, price: 0 },
   ]);
@@ -99,6 +106,8 @@ export default function InvoiceNew() {
             setSeriesId(e.target.value);
           }}
           fullWidth
+          error={validSeriesNumberData ? !validSeriesNumberData.valid : false}
+          helperText="Šis serijos numeris jau naudojamas."
         />
       </Grid>
 
