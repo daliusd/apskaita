@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
-import { openDb, validSeriesNumber } from '../../../../db/db';
+import { openDb, validCreatedDate } from '../../../../../db/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -12,18 +12,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       db = await openDb(session.user.email);
 
       const {
-        query: { name, id },
+        query: { name, id, created },
       } = req;
 
-      const valid = await validSeriesNumber(
+      const result = await validCreatedDate(
         db,
         typeof name === 'string' ? name : name[0],
         parseInt(typeof id === 'string' ? id : id[0], 10),
+        parseInt(typeof created === 'string' ? created : created[0], 10),
       );
 
-      return res.json({ valid });
+      return res.json(result);
     } catch {
-      return res.json({ valid: true });
+      return res.json({ success: true });
     } finally {
       if (db) {
         await db.close();

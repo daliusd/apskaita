@@ -18,6 +18,20 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+function getDateNumber(date) {
+  return (
+    date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
+  );
+}
+
+function getDateString(dateNumber) {
+  return `${Math.floor(dateNumber / 10000)}-${(
+    Math.floor(dateNumber / 100) % 100
+  )
+    .toString()
+    .padStart(2, '0')}-${(dateNumber % 100).toString().padStart(2, '0')}`;
+}
+
 export default function InvoiceNew() {
   const [session] = useSession();
 
@@ -59,8 +73,17 @@ export default function InvoiceNew() {
 
   const debouncedSeriesId = useDebounce(seriesId, 500);
   const { data: validSeriesNumberData } = useSWR(
-    debouncedSeriesName
+    debouncedSeriesName && debouncedSeriesId
       ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}`
+      : null,
+  );
+
+  const debouncedInvoiceDate = useDebounce(invoiceDate, 500);
+  const { data: validInvoiceDate } = useSWR(
+    debouncedSeriesName && debouncedSeriesId && debouncedInvoiceDate
+      ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getDateNumber(
+          debouncedInvoiceDate,
+        )}`
       : null,
   );
 
@@ -107,7 +130,11 @@ export default function InvoiceNew() {
           }}
           fullWidth
           error={validSeriesNumberData ? !validSeriesNumberData.valid : false}
-          helperText="Šis serijos numeris jau naudojamas."
+          helperText={
+            validSeriesNumberData && !validSeriesNumberData.valid
+              ? 'Šis serijos numeris jau naudojamas.'
+              : ''
+          }
         />
       </Grid>
 
@@ -119,6 +146,20 @@ export default function InvoiceNew() {
           format="yyyy-MM-dd"
           fullWidth
           invalidDateMessage="Neteisingas datos formatas"
+          error={validInvoiceDate ? !validInvoiceDate.success : false}
+          helperText={
+            validInvoiceDate
+              ? validInvoiceDate.minValidDate
+                ? `Data turi būti ${getDateString(
+                    validInvoiceDate.minValidDate,
+                  )} arba vėlesnė`
+                : validInvoiceDate.maxValidDate
+                ? `Data turi būti ${getDateString(
+                    validInvoiceDate.maxValidDate,
+                  )} arba ankstesnė`
+                : ''
+              : ''
+          }
         />
       </Grid>
 
@@ -193,10 +234,11 @@ export default function InvoiceNew() {
           variant="contained"
           color="primary"
           onClick={async () => {
+            const created = getDateNumber(invoiceDate);
             const invoice: Invoice = {
               seriesName,
               seriesId: parseInt(seriesId, 10),
-              created: Math.round(invoiceDate.getTime() / 1000),
+              created,
               price: goods
                 .map((g) => g.price * g.amount)
                 .reduce((a, b) => a + b),
