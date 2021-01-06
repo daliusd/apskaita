@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
-import { getNextSeriesId, getUniqueSeriesNames, openDb } from '../../db/db';
+import { openDb, getUniqueSeriesNames } from '../../../db/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -14,11 +14,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (seriesNames.length === 0) {
         seriesNames = ['HAIKU'];
       }
-      const seriesId = await getNextSeriesId(db, seriesNames[0]);
 
-      return res.json({ seriesName: seriesNames[0], seriesId });
+      return res.json({ seriesNames });
     } catch {
-      return res.json({ seriesName: 'HAIKU', seriesId: 1 });
+      return res.json({ seriesNames: ['HAIKU'] });
     } finally {
       if (db) {
         await db.close();

@@ -31,21 +31,26 @@ export default function InvoiceNew() {
 
   useEffect(() => {
     if (data) {
-      setSeriesName(data.seriesNames[0]);
+      setSeriesName(data.seriesName);
       setSeriesId(data.seriesId);
     }
   }, [data]);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
-  const seriesResp = useSWR(
+
+  const { data: seriesNamesData } = useSWR(
+    `/api/uniqueseriesnames/${debouncedSeriesName}`,
+  );
+
+  const seriesIdResp = useSWR(
     debouncedSeriesName ? `/api/seriesid/${debouncedSeriesName}` : null,
   );
 
   useEffect(() => {
-    if (seriesResp.data) {
-      setSeriesId(seriesResp.data.seriesId);
+    if (seriesIdResp.data) {
+      setSeriesId(seriesIdResp.data.seriesId);
     }
-  }, [seriesResp.data]);
+  }, [seriesIdResp.data]);
 
   const debouncedBuyer = useDebounce(buyer, 500);
   const { data: dataBuyer } = useSWR(
@@ -72,7 +77,7 @@ export default function InvoiceNew() {
       <Grid item xs={6}>
         <Autocomplete
           id="combo-box-demo"
-          options={data.seriesNames}
+          options={seriesNamesData ? seriesNamesData.seriesNames : []}
           fullWidth
           value={seriesName}
           onInputChange={(_e, newValue) => {
