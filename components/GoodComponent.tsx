@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
@@ -22,7 +23,9 @@ export default function GoodComponent({
   deleteEnabled,
 }: Props) {
   const [amount, setAmount] = useState(good.amount.toString());
-  const [price, setPrice] = useState(good.price === 0 ? '' : good.price.toString());
+  const [price, setPrice] = useState(
+    good.price === 0 ? '' : good.price.toString(),
+  );
 
   const debouncedGoodName = useDebounce(good.name, 500);
   const { data } = useSWR(`/api/uniquegoodsnames/${debouncedGoodName}`);
@@ -68,6 +71,9 @@ export default function GoodComponent({
             onChange({ ...good, price: parseFloat(e.target.value) || 0 });
           }}
           fullWidth
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+          }}
         />
       </Grid>
 
