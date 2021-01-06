@@ -22,7 +22,7 @@ export default function GoodComponent({
   deleteEnabled,
 }: Props) {
   const [amount, setAmount] = useState(good.amount.toString());
-  const [price, setPrice] = useState(good.price.toString());
+  const [price, setPrice] = useState(good.price === 0 ? '' : good.price.toString());
 
   const debouncedGoodName = useDebounce(good.name, 500);
   const { data } = useSWR(`/api/uniquegoodsnames/${debouncedGoodName}`);
