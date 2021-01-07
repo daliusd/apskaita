@@ -1,12 +1,39 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
-import { openDb, createInvoice } from '../../../db/db';
+import { openDb, createInvoice, getInvoiceList } from '../../../db/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   if (session) {
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
+      let db;
+
+      try {
+        db = await openDb(session.user.email);
+
+        const {
+          query: { limit, offset },
+        } = req;
+
+        const invoices = await getInvoiceList(
+          db,
+          limit
+            ? parseInt(typeof limit === 'string' ? limit : limit[0], 10)
+            : 10,
+          offset
+            ? parseInt(typeof offset === 'string' ? offset : offset[0], 10)
+            : 0,
+        );
+        return res.json({ invoices });
+      } catch {
+        return res.json({ invoices: [] });
+      } finally {
+        if (db) {
+          await db.close();
+        }
+      }
+    } else if (req.method === 'POST') {
       let db;
 
       try {
