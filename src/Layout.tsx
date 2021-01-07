@@ -53,7 +53,6 @@ const Layout: React.FC = ({ children }) => {
                 onClick={() => {
                   signIn('google');
                 }}
-                variant="contained"
                 color="primary"
               >
                 Prisijungti
@@ -64,7 +63,6 @@ const Layout: React.FC = ({ children }) => {
                 onClick={() => {
                   signOut();
                 }}
-                variant="contained"
                 color="primary"
               >
                 Atsijungti
