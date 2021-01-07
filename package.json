@@ -16,7 +16,7 @@
     "react-recipes": "1.1.1",
     "sqlite": "4.0.19",
     "sqlite3": "5.0.0",
-    "swr": "0.3.11"
+    "swr": "0.4.0"
   },
   "scripts": {
     "dev": "next",
