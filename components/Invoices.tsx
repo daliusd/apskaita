@@ -11,8 +11,12 @@ import useSWR from 'swr';
 
 import { getDateString } from '../utils/date';
 
-export default function LastInvoices() {
-  const { data } = useSWR(`/api/invoices?limit=5`);
+interface Props {
+  limit?: number;
+}
+
+export default function Invoices({ limit }: Props) {
+  const { data } = useSWR('/api/invoices' + (limit ? `?limit=${limit}` : ''));
 
   if (!data) return <LinearProgress />;
 
@@ -28,13 +32,8 @@ export default function LastInvoices() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.invoices.map((i, index) => (
-            <TableRow
-              key={i.id}
-              style={
-                index % 2 ? { background: '#eeeeee' } : { background: 'white' }
-              }
-            >
+          {data.invoices.map((i) => (
+            <TableRow key={i.id} hover>
               <TableCell component="th" scope="row">
                 {i.seriesName}/{i.seriesId}
               </TableCell>

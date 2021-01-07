@@ -3,7 +3,7 @@ import Link from '../src/Link';
 import Grid from '@material-ui/core/Grid';
 import { useSession } from 'next-auth/client';
 
-import LastInvoices from '../components/LastInvoices';
+import Invoices from '../components/Invoices';
 
 export default function Index() {
   const [session] = useSession();
@@ -17,8 +17,14 @@ export default function Index() {
       <Grid item xs={12}>
         Esi prisijungęs/prisijungusi kaip {session.user.email}.
       </Grid>
-      <LastInvoices />
       <Grid item xs={12}>
+        <Invoices limit={5} />
+      </Grid>
+      <Grid item xs={12}>
+        <Link href="/saskaitos" color="secondary">
+          Visos sąskaitos faktūros
+        </Link>
+        &nbsp;&mdash;&nbsp;
         <Link href="/saskaitos/nauja" color="secondary">
           Nauja sąskaita faktūra
         </Link>
