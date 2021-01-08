@@ -42,6 +42,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   ]);
 
   const [errorText, setErrorText] = useState('');
+  const [messageText, setMessageText] = useState('');
 
   useEffect(() => {
     if (initialData) {
@@ -102,6 +103,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
   const handleErrorClose = () => {
     setErrorText('');
+  };
+
+  const handleMessageClose = () => {
+    setMessageText('');
   };
 
   return (
@@ -271,6 +276,8 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
             if (!invoiceId) {
               router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+            } else {
+              setMessageText('Sąskaita faktūra pakeista');
             }
           }}
         >
@@ -310,6 +317,16 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       >
         <Alert onClose={handleErrorClose} severity="error">
           {errorText}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={!!messageText}
+        autoHideDuration={6000}
+        onClose={handleMessageClose}
+      >
+        <Alert onClose={handleMessageClose} severity="success">
+          {messageText}
         </Alert>
       </Snackbar>
     </Grid>
