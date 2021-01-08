@@ -47,7 +47,7 @@ export default function Invoices({ limit }: Props) {
               </TableCell>
               <TableCell>{getDateString(i.created)}</TableCell>
               <TableCell>{i.buyer.split('\n')[0]}</TableCell>
-              <TableCell>{i.price}</TableCell>
+              <TableCell>{i.price / 100}</TableCell>
             </TableRow>
           ))}
         </TableBody>

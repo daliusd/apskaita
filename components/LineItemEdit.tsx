@@ -24,7 +24,7 @@ export default function LineItemEdit({
 }: Props) {
   const [amount, setAmount] = useState(lineItem.amount.toString());
   const [price, setPrice] = useState(
-    lineItem.price === 0 ? '' : lineItem.price.toString(),
+    lineItem.price === 0 ? '' : (lineItem.price / 100).toString(),
   );
 
   const debouncedLineItemName = useDebounce(lineItem.name, 500);
@@ -71,7 +71,10 @@ export default function LineItemEdit({
           value={price}
           onChange={(e) => {
             setPrice(e.target.value);
-            onChange({ ...lineItem, price: parseFloat(e.target.value) || 0 });
+            onChange({
+              ...lineItem,
+              price: Math.floor(parseFloat(e.target.value) * 100) || 0,
+            });
           }}
           fullWidth
           InputProps={{
