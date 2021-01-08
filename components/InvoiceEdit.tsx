@@ -4,6 +4,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
@@ -24,6 +25,8 @@ function Alert(props: AlertProps) {
 }
 
 export default function InvoiceEdit({ invoiceId }: IProps) {
+  const router = useRouter();
+
   const { data: initialData, error } = useSWR(
     '/api/initial' + (invoiceId ? '?id=' + invoiceId : ''),
   );
@@ -215,7 +218,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               setErrorOpen(true);
               return;
             }
-            // TODO: kažką daryti su invoiceId
+
+            if (!invoiceId) {
+              router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+            }
           }}
         >
           {invoiceId ? 'Keisti' : 'Sukurti'}

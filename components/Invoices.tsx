@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function Invoices({ limit }: Props) {
+  const router = useRouter();
   const { data } = useSWR('/api/invoices' + (limit ? `?limit=${limit}` : ''));
 
   if (!data) return <LinearProgress />;
@@ -33,7 +35,13 @@ export default function Invoices({ limit }: Props) {
         </TableHead>
         <TableBody>
           {data.invoices.map((i) => (
-            <TableRow key={i.id} hover>
+            <TableRow
+              key={i.id}
+              hover
+              onClick={() => {
+                router.push(`/saskaitos/id/${i.id}`);
+              }}
+            >
               <TableCell component="th" scope="row">
                 {i.seriesName}/{i.seriesId}
               </TableCell>
