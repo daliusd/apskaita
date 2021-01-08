@@ -16,7 +16,7 @@ import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
-import { getDateFromDateNumber, getDateNumber } from '../utils/date';
+import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 interface IProps {
   invoiceId?: string;
@@ -49,7 +49,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setBuyer(initialData.buyer);
       setLineItems(initialData.lineItems);
       if (initialData.created) {
-        setInvoiceDate(getDateFromDateNumber(initialData.created));
+        setInvoiceDate(getDateFromMsSinceEpoch(initialData.created));
       }
     }
   }, [initialData]);
@@ -87,7 +87,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const debouncedInvoiceDate = useDebounce(invoiceDate, 500);
   const { data: validInvoiceDate } = useSWR(
     debouncedSeriesName && debouncedSeriesId && debouncedInvoiceDate
-      ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getDateNumber(
+      ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getMsSinceEpoch(
           debouncedInvoiceDate,
         )}` + (invoiceId ? '?invoiceId=' + invoiceId : '')
       : null,
@@ -180,7 +180,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           color="primary"
           startIcon={<AddIcon />}
           onClick={async () => {
-            const created = getDateNumber(invoiceDate);
+            const created = getMsSinceEpoch(invoiceDate);
             const invoice: IInvoice = {
               seriesName,
               seriesId: parseInt(seriesId, 10),
