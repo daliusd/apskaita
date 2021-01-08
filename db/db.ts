@@ -104,6 +104,10 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
     invoiceId,
   );
 
+  if (!result) {
+    return undefined;
+  }
+
   result.lineItems = await db.all<ILineItem[]>(
     'SELECT id, name, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,

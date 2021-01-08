@@ -161,6 +161,11 @@ describe('database tests', () => {
       expect(retInvoice.lineItems[1].price).toEqual(200);
     });
 
+    it('returns undefined if there is no invoice', async () => {
+      const retInvoice = await getInvoiceWithLineItems(db, -1);
+      expect(retInvoice).toBeUndefined();
+    });
+
     it('Does not allow to create duplicate Invoice', async () => {
       const invoice: IInvoice = {
         seriesName: 'DD',

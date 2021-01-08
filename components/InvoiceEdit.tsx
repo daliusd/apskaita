@@ -45,13 +45,14 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [messageText, setMessageText] = useState('');
 
   useEffect(() => {
-    if (initialData) {
-      setSeriesName(initialData.seriesName);
-      setSeriesId(initialData.seriesId);
-      setBuyer(initialData.buyer);
-      setLineItems(initialData.lineItems);
-      if (initialData.created) {
-        setInvoiceDate(getDateFromMsSinceEpoch(initialData.created));
+    if (initialData && initialData.invoice) {
+      const { invoice } = initialData;
+      setSeriesName(invoice.seriesName);
+      setSeriesId(invoice.seriesId);
+      setBuyer(invoice.buyer);
+      setLineItems(invoice.lineItems);
+      if (invoice.created) {
+        setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       }
     }
   }, [initialData]);
@@ -70,9 +71,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
     if (
       invoiceId &&
       initialData &&
-      debouncedSeriesName === initialData.seriesName
+      initialData.invoice &&
+      debouncedSeriesName === initialData.invoice.seriesName
     ) {
-      setSeriesId(initialData.seriesId);
+      setSeriesId(initialData.invoice.seriesId);
     } else if (seriesIdResp.data) {
       setSeriesId(seriesIdResp.data.seriesId);
     }
@@ -100,6 +102,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
   if (error) return <div>failed to load</div>;
   if (!initialData) return <LinearProgress />;
+  if (!initialData.invoice) return 'Sąskaita faktūra neegzistuoja';
 
   const handleErrorClose = () => {
     setErrorText('');

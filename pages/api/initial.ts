@@ -28,10 +28,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const seriesId = await getNextSeriesId(db, seriesNames[0]);
 
         return res.json({
-          seriesName: seriesNames[0],
-          seriesId,
-          buyer: '',
-          lineItems: [{ id: 1, name: '', amount: 1, price: 0 }],
+          invoice: {
+            seriesName: seriesNames[0],
+            seriesId,
+            buyer: '',
+            lineItems: [{ id: 1, name: '', amount: 1, price: 0 }],
+          },
         });
       }
 
@@ -41,14 +43,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         parseInt(invoiceId, 10),
       );
 
-      return res.json(invoice);
+      return res.json({ invoice });
     } catch {
-      return res.json({
-        seriesName: 'HAIKU',
-        seriesId: 1,
-        buyer: '',
-        lineItems: [{ id: 1, name: '', amount: 1, price: 0 }],
-      });
+      return res.json({ invoice: undefined });
     } finally {
       if (db) {
         await db.close();
