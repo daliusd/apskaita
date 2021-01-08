@@ -4,6 +4,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
@@ -38,7 +40,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
     { id: 1, name: '', amount: 1, price: 0 },
   ]);
 
-  const [errorOpen, setErrorOpen] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   useEffect(() => {
     if (initialData) {
@@ -95,7 +97,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   if (!initialData) return <LinearProgress />;
 
   const handleErrorClose = () => {
-    setErrorOpen(false);
+    setErrorText('');
   };
 
   return (
@@ -153,8 +155,8 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
       <Grid item xs={12}>
         <Button
-          variant="contained"
           color="primary"
+          startIcon={<AddIcon />}
           onClick={() => {
             setLineItems([
               ...lineItems,
@@ -171,11 +173,12 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         </Button>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={6}>
         <Button
           type="submit"
           variant="contained"
           color="primary"
+          startIcon={<AddIcon />}
           onClick={async () => {
             const created = getDateNumber(invoiceDate);
             const invoice: IInvoice = {
@@ -208,14 +211,19 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               });
             }
 
+            const getEditError = () =>
+              invoiceId
+                ? 'Klaida kečiant sąskaitą faktūrą.'
+                : 'Klaida kuriant sąskaitą faktūrą.';
+
             if (!response.ok) {
-              setErrorOpen(true);
+              setErrorText(getEditError());
               return;
             }
 
             const responseJson = await response.json();
             if (!responseJson.success) {
-              setErrorOpen(true);
+              setErrorText(getEditError());
               return;
             }
 
@@ -228,8 +236,33 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         </Button>
       </Grid>
 
+      {invoiceId && (
+        <Grid container item xs={6} justify="flex-end">
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={async () => {
+              console.log('hi');
+              const response = await fetch('/api/invoices/' + invoiceId, {
+                method: 'DELETE',
+              });
+
+              if (!response.ok || !(await response.json()).success) {
+                setErrorText('Klaida trinant sąskaitą faktūrą.');
+                return;
+              }
+
+              router.replace(`/saskaitos`);
+            }}
+          >
+            Trinti
+          </Button>
+        </Grid>
+      )}
+
       <Snackbar
-        open={errorOpen}
+        open={errorText}
         autoHideDuration={6000}
         onClose={handleErrorClose}
       >
