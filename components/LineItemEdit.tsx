@@ -43,7 +43,7 @@ export default function LineItemEdit({
           }}
           freeSolo
           renderInput={(params) => (
-            <TextField {...params} label="Paslaugos pavadinimas" />
+            <TextField {...params} label="Paslaugos ar prekės pavadinimas" />
           )}
         />
       </Grid>

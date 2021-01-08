@@ -25,8 +25,8 @@ export default function InvoiceDateInput({
       onChange={onChange}
       format="yyyy-MM-dd"
       fullWidth
-      invalidDateMessage="Neteisingas datos formatas"
-      error={validInvoiceDate ? !validInvoiceDate.success : false}
+      invalidDateMessage={'Neteisingas datos formatas'}
+      error={validInvoiceDate ? !validInvoiceDate.success : !date.getTime()}
       helperText={
         validInvoiceDate
           ? validInvoiceDate.minValidDate
@@ -38,6 +38,8 @@ export default function InvoiceDateInput({
                 validInvoiceDate.maxValidDate,
               )} arba ankstesnė`
             : ''
+          : !date.getTime()
+          ? 'Data yra būtina'
           : ''
       }
     />

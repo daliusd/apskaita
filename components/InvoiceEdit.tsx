@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
+import Typography from '@material-ui/core/Typography';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -86,7 +87,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
   const debouncedInvoiceDate = useDebounce(invoiceDate, 500);
   const { data: validInvoiceDate } = useSWR(
-    debouncedSeriesName && debouncedSeriesId && debouncedInvoiceDate
+    debouncedSeriesName &&
+      debouncedSeriesId &&
+      debouncedInvoiceDate &&
+      getMsSinceEpoch(debouncedInvoiceDate)
       ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getMsSinceEpoch(
           debouncedInvoiceDate,
         )}` + (invoiceId ? '?invoiceId=' + invoiceId : '')
@@ -102,6 +106,12 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom>
+          {invoiceId ? 'Keisti sąskaitą faktūrą' : 'Sukurti sąskaitą faktūrą'}
+        </Typography>
+      </Grid>
+
       <Grid item xs={6}>
         <SeriesNameInput
           seriesName={seriesName}
@@ -114,7 +124,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         <SeriesIdInput
           seriesId={seriesId}
           onChange={setSeriesId}
-          valid={validSeriesNumberData ? validSeriesNumberData.valid : true}
+          valid={validSeriesNumberData ? validSeriesNumberData.valid : false}
         />
       </Grid>
 
@@ -128,6 +138,12 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
       <Grid item xs={12}>
         <BuyerInput buyer={buyer} onChange={setBuyer} />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom>
+          Paslaugos ar prekės
+        </Typography>
       </Grid>
 
       {lineItems.map((g) => {
@@ -181,6 +197,32 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           startIcon={<AddIcon />}
           onClick={async () => {
             const created = getMsSinceEpoch(invoiceDate);
+            if (!created) {
+              setErrorText('Nurodykite sąskaitos datą.');
+              return;
+            }
+
+            if (!buyer) {
+              setErrorText('Nurodykite pirkėjo informaciją.');
+              return;
+            }
+
+            if (lineItems.some((li) => !li.name)) {
+              setErrorText('Nurodykite paslaugų ar prekių pavadinimus.');
+              return;
+            }
+
+            if (lineItems.some((li) => li.amount <= 0)) {
+              setErrorText('Nurodykite teisingus paslaugų ar prekių kiekius.');
+              return;
+            }
+
+            if (lineItems.some((li) => !li.price)) {
+              setErrorText('Nurodykite paslaugų ar prekių kainas.');
+              return;
+            }
+
+            console.log(lineItems);
             const invoice: IInvoice = {
               seriesName,
               seriesId: parseInt(seriesId, 10),
@@ -262,14 +304,12 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       )}
 
       <Snackbar
-        open={errorText}
+        open={!!errorText}
         autoHideDuration={6000}
         onClose={handleErrorClose}
       >
         <Alert onClose={handleErrorClose} severity="error">
-          {invoiceId
-            ? 'Klaida kečiant sąskaitą faktūrą.'
-            : 'Klaida kuriant sąskaitą faktūrą.'}
+          {errorText}
         </Alert>
       </Snackbar>
     </Grid>
