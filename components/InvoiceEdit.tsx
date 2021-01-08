@@ -102,7 +102,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
   if (error) return <div>failed to load</div>;
   if (!initialData) return <LinearProgress />;
-  if (!initialData.invoice) return 'Sąskaita faktūra neegzistuoja';
+  if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
 
   const handleErrorClose = () => {
     setErrorText('');
