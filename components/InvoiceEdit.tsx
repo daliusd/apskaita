@@ -273,7 +273,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
             }
 
             if (!invoiceId) {
-              router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+              router.push(`/`);
             } else {
               setMessageText('Sąskaita faktūra pakeista');
             }
