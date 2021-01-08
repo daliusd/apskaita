@@ -2,21 +2,21 @@ import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
 import * as path from 'path';
 
-export interface Good {
+export interface ILineItem {
   readonly id?: number;
   name: string;
   amount: number;
   price: number;
 }
 
-export interface Invoice {
+export interface IInvoice {
   readonly id?: number;
   seriesName: string;
   seriesId: number;
   created: number;
   price: number;
   buyer: string;
-  goods: Good[];
+  lineItems: ILineItem[];
 }
 
 export async function openDb(dbName: string) {
@@ -46,7 +46,7 @@ export async function getSetting(db: Database, name: string) {
   return result.value;
 }
 
-export async function createInvoice(db: Database, invoice: Invoice) {
+export async function createInvoice(db: Database, invoice: IInvoice) {
   if (!(await validSeriesNumber(db, invoice.seriesName, invoice.seriesId))) {
     return { success: false };
   }
@@ -72,13 +72,13 @@ export async function createInvoice(db: Database, invoice: Invoice) {
 
   const invoiceId = result.lastID;
 
-  for (const good of invoice.goods) {
+  for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO Good(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
       invoiceId,
-      good.name,
-      good.amount,
-      good.price,
+      lineItem.name,
+      lineItem.amount,
+      lineItem.price,
     );
   }
 
@@ -90,7 +90,7 @@ export async function getInvoiceList(
   limit: number,
   offset: number,
 ) {
-  const result = await db.all<Invoice[]>(
+  const result = await db.all<IInvoice[]>(
     'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
     limit,
     offset,
@@ -98,14 +98,14 @@ export async function getInvoiceList(
   return result;
 }
 
-export async function getInvoiceWithGoods(db: Database, invoiceId: number) {
-  const result = await db.get<Invoice>(
+export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
+  const result = await db.get<IInvoice>(
     'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
-  result.goods = await db.all<Good[]>(
-    'SELECT id, name, amount, price FROM Good WHERE invoiceId = ? ORDER BY id',
+  result.lineItems = await db.all<ILineItem[]>(
+    'SELECT id, name, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
   );
 
@@ -183,7 +183,7 @@ export async function validCreatedDate(
 export async function updateInvoice(
   db: Database,
   invoiceId: number,
-  invoice: Invoice,
+  invoice: IInvoice,
 ) {
   if (
     !(await validSeriesNumber(
@@ -217,15 +217,15 @@ export async function updateInvoice(
     invoiceId,
   );
 
-  await db.run('DELETE FROM Good WHERE invoiceId = ?', invoiceId);
+  await db.run('DELETE FROM LineItem WHERE invoiceId = ?', invoiceId);
 
-  for (const good of invoice.goods) {
+  for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO Good(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
       invoiceId,
-      good.name,
-      good.amount,
-      good.price,
+      lineItem.name,
+      lineItem.amount,
+      lineItem.price,
     );
   }
 
@@ -254,9 +254,9 @@ export async function getUniqueBuyerNames(db: Database, start: string) {
   return result.map((item) => item.buyer);
 }
 
-export async function getUniqueGoodsNames(db: Database, start: string) {
+export async function getUniqueLineItemsNames(db: Database, start: string) {
   const result = await db.all(
-    'SELECT DISTINCT name FROM Good WHERE name LIKE ? ORDER BY name LIMIT 10',
+    'SELECT DISTINCT name FROM LineItem WHERE name LIKE ? ORDER BY name LIMIT 10',
     start + '%',
   );
   return result.map((item) => item.name);

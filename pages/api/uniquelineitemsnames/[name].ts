@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
-import { openDb, getUniqueGoodsNames } from '../../../db/db';
+import { openDb, getUniqueLineItemsNames } from '../../../db/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -10,11 +10,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
       db = await openDb(session.user.email);
-      const goodsNames = await getUniqueGoodsNames(db, '');
+      const nameStart =
+        typeof req.query.name === 'string' ? req.query.name : req.query.name[0];
+      const lineItemsNames = await getUniqueLineItemsNames(db, nameStart);
 
-      return res.json({ goodsNames });
+      return res.json({ lineItemsNames });
     } catch {
-      return res.json({ goodsNames: [] });
+      return res.json({ lineItemsNames: [] });
     } finally {
       if (db) {
         await db.close();

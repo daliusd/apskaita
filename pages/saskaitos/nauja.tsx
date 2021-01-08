@@ -11,8 +11,8 @@ import { useSession } from 'next-auth/client';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useDebounce } from 'react-recipes';
 
-import { Good, Invoice } from '../../db/db';
-import GoodComponent from '../../components/GoodComponent';
+import { ILineItem, IInvoice } from '../../db/db';
+import LineItemEdit from '../../components/LineItemEdit';
 import { getDateNumber, getDateString } from '../../utils/date';
 
 function Alert(props: AlertProps) {
@@ -74,7 +74,7 @@ export default function InvoiceNew() {
       : null,
   );
 
-  const [goods, setGoods] = useState<Good[]>([
+  const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 1, name: '', amount: 1, price: 0 },
   ]);
 
@@ -172,18 +172,18 @@ export default function InvoiceNew() {
         />
       </Grid>
 
-      {goods.map((g) => {
+      {lineItems.map((g) => {
         return (
-          <GoodComponent
+          <LineItemEdit
             key={g.id}
-            good={g}
-            deleteEnabled={goods.length > 1}
+            lineItem={g}
+            deleteEnabled={lineItems.length > 1}
             onDelete={() => {
-              setGoods(goods.filter((gt) => gt.id != g.id));
+              setLineItems(lineItems.filter((gt) => gt.id != g.id));
             }}
             onChange={(gn) => {
-              setGoods(
-                goods.map((g) => {
+              setLineItems(
+                lineItems.map((g) => {
                   if (gn.id != g.id) {
                     return g;
                   }
@@ -200,10 +200,10 @@ export default function InvoiceNew() {
           variant="contained"
           color="primary"
           onClick={() => {
-            setGoods([
-              ...goods,
+            setLineItems([
+              ...lineItems,
               {
-                id: Math.max(...goods.map((g) => g.id)) + 1,
+                id: Math.max(...lineItems.map((g) => g.id)) + 1,
                 name: '',
                 amount: 1,
                 price: 0,
@@ -222,15 +222,15 @@ export default function InvoiceNew() {
           color="primary"
           onClick={async () => {
             const created = getDateNumber(invoiceDate);
-            const invoice: Invoice = {
+            const invoice: IInvoice = {
               seriesName,
               seriesId: parseInt(seriesId, 10),
               created,
-              price: goods
+              price: lineItems
                 .map((g) => g.price * g.amount)
                 .reduce((a, b) => a + b),
               buyer,
-              goods,
+              lineItems,
             };
             const response = await fetch('/api/invoices', {
               method: 'POST',

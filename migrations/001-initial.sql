@@ -23,27 +23,27 @@ CREATE UNIQUE INDEX Invoice_ix_serie ON Invoice (seriesName, seriesId);
 CREATE INDEX Invoice_ix_created ON Invoice (created);
 CREATE INDEX Invoice_ix_buyer ON Invoice (buyer);
 
-CREATE TABLE Good (
+CREATE TABLE LineItem (
   id        INTEGER PRIMARY KEY,
   name      TEXT    NOT NULL,
   amount    INTEGER NOT NULL,
   price     INTEGER NOT NULL,
 
   invoiceId  INTEGER NOT NULL,
-  CONSTRAINT Good_fk_invoiceId FOREIGN KEY (invoiceId)
+  CONSTRAINT LineItem_fk_invoiceId FOREIGN KEY (invoiceId)
     REFERENCES Invoice (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
-CREATE INDEX Good_ix_invoiceId ON Good (invoiceId);
-CREATE INDEX Good_ix_name ON Good (name);
+CREATE INDEX LineItem_ix_invoiceId ON LineItem (invoiceId);
+CREATE INDEX LineItem_ix_name ON LineItem (name);
 
 --------------------------------------------------------------------------------
 -- Down
 --------------------------------------------------------------------------------
 
-DROP INDEX Good_ix_invoiceId;
-DROP TABLE Good;
+DROP INDEX LineItem_ix_invoiceId;
+DROP TABLE LineItem;
 
 DROP INDEX Invoice_ix_buyer;
 DROP INDEX Invoice_ix_created;

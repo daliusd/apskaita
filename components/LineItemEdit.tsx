@@ -7,39 +7,39 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
-import { Good } from '../db/db';
+import { ILineItem } from '../db/db';
 
 interface Props {
-  good: Good;
-  onChange: (good: Good) => void;
+  lineItem: ILineItem;
+  onChange: (lineItem: ILineItem) => void;
   deleteEnabled: boolean;
   onDelete: () => void;
 }
 
-export default function GoodComponent({
-  good,
+export default function LineItemEdit({
+  lineItem,
   onChange,
   onDelete,
   deleteEnabled,
 }: Props) {
-  const [amount, setAmount] = useState(good.amount.toString());
+  const [amount, setAmount] = useState(lineItem.amount.toString());
   const [price, setPrice] = useState(
-    good.price === 0 ? '' : good.price.toString(),
+    lineItem.price === 0 ? '' : lineItem.price.toString(),
   );
 
-  const debouncedGoodName = useDebounce(good.name, 500);
-  const { data } = useSWR(`/api/uniquegoodsnames/${debouncedGoodName}`);
+  const debouncedLineItemName = useDebounce(lineItem.name, 500);
+  const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
 
   return (
     <>
       <Grid item xs={12}>
         <Autocomplete
           id="combo-box-demo"
-          options={data ? data.goodsNames : []}
+          options={data ? data.lineItemsNames : []}
           fullWidth
-          value={good.name}
+          value={lineItem.name}
           onInputChange={(_e, newValue) => {
-            onChange({ ...good, name: newValue });
+            onChange({ ...lineItem, name: newValue });
           }}
           freeSolo
           renderInput={(params) => (
@@ -55,7 +55,10 @@ export default function GoodComponent({
           value={amount}
           onChange={(e) => {
             setAmount(e.target.value);
-            onChange({ ...good, amount: parseInt(e.target.value, 10) || 0 });
+            onChange({
+              ...lineItem,
+              amount: parseInt(e.target.value, 10) || 0,
+            });
           }}
           fullWidth
         />
@@ -68,7 +71,7 @@ export default function GoodComponent({
           value={price}
           onChange={(e) => {
             setPrice(e.target.value);
-            onChange({ ...good, price: parseFloat(e.target.value) || 0 });
+            onChange({ ...lineItem, price: parseFloat(e.target.value) || 0 });
           }}
           fullWidth
           InputProps={{
