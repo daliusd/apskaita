@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import useSWR from 'swr';
 import { useSession } from 'next-auth/client';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useDebounce } from 'react-recipes';
 
 import { ILineItem, IInvoice } from '../../db/db';
 import LineItemEdit from '../../components/LineItemEdit';
-import { getDateNumber, getDateString } from '../../utils/date';
+import SeriesNameInput from '../../components/SeriesNameInput';
+import SeriesIdInput from '../../components/SeriesIdInput';
+import InvoiceDateInput from '../../components/InvoiceDateInput';
+import BuyerInput from '../../components/BuyerInput';
+import { getDateNumber } from '../../utils/date';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -53,11 +54,6 @@ export default function InvoiceNew() {
     }
   }, [seriesIdResp.data]);
 
-  const debouncedBuyer = useDebounce(buyer, 500);
-  const { data: dataBuyer } = useSWR(
-    `/api/uniquebuyersnames/${debouncedBuyer}`,
-  );
-
   const debouncedSeriesId = useDebounce(seriesId, 500);
   const { data: validSeriesNumberData } = useSWR(
     debouncedSeriesName && debouncedSeriesId
@@ -92,84 +88,31 @@ export default function InvoiceNew() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <Autocomplete
-          id="combo-box-demo"
+        <SeriesNameInput
+          seriesName={seriesName}
+          onChange={setSeriesName}
           options={seriesNamesData ? seriesNamesData.seriesNames : []}
-          fullWidth
-          value={seriesName}
-          onInputChange={(_e, newValue) => {
-            setSeriesName(newValue);
-          }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField {...params} label="Serijos pavadinimas" />
-          )}
         />
       </Grid>
 
       <Grid item xs={6}>
-        <TextField
-          type="number"
-          label="Serijos numeris"
-          value={seriesId}
-          onChange={(e) => {
-            setSeriesId(e.target.value);
-          }}
-          fullWidth
-          error={validSeriesNumberData ? !validSeriesNumberData.valid : false}
-          helperText={
-            validSeriesNumberData && !validSeriesNumberData.valid
-              ? 'Šis serijos numeris jau naudojamas.'
-              : ''
-          }
+        <SeriesIdInput
+          seriesId={seriesId}
+          onChange={setSeriesId}
+          valid={validSeriesNumberData ? validSeriesNumberData.valid : true}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <KeyboardDatePicker
-          label="Sąskaitos data"
-          value={invoiceDate}
+        <InvoiceDateInput
+          date={invoiceDate}
           onChange={setInvoiceDate}
-          format="yyyy-MM-dd"
-          fullWidth
-          invalidDateMessage="Neteisingas datos formatas"
-          error={validInvoiceDate ? !validInvoiceDate.success : false}
-          helperText={
-            validInvoiceDate
-              ? validInvoiceDate.minValidDate
-                ? `Data turi būti ${getDateString(
-                    validInvoiceDate.minValidDate,
-                  )} arba vėlesnė`
-                : validInvoiceDate.maxValidDate
-                ? `Data turi būti ${getDateString(
-                    validInvoiceDate.maxValidDate,
-                  )} arba ankstesnė`
-                : ''
-              : ''
-          }
+          validInvoiceDate={validInvoiceDate}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <Autocomplete
-          id="combo-box-demo"
-          options={dataBuyer ? dataBuyer.buyersNames : []}
-          fullWidth
-          value={buyer}
-          onInputChange={(_e, newValue) => {
-            setBuyer(newValue);
-          }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Pirkėjas"
-              multiline
-              rows={4}
-              variant="outlined"
-            />
-          )}
-        />
+        <BuyerInput buyer={buyer} onChange={setBuyer} />
       </Grid>
 
       {lineItems.map((g) => {
