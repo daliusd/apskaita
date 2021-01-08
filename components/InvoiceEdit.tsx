@@ -13,27 +13,41 @@ import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
-import { getDateNumber } from '../utils/date';
+import { getDateFromDateNumber, getDateNumber } from '../utils/date';
+
+interface IProps {
+  invoiceId?: string;
+}
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function InvoiceEdit() {
-  const { data, error } = useSWR('/api/initial');
+export default function InvoiceEdit({ invoiceId }: IProps) {
+  const { data: initialData, error } = useSWR(
+    '/api/initial' + (invoiceId ? '?id=' + invoiceId : ''),
+  );
   const [seriesName, setSeriesName] = useState('');
   const [seriesId, setSeriesId] = useState('');
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const [buyer, setBuyer] = useState('');
+  const [lineItems, setLineItems] = useState<ILineItem[]>([
+    { id: 1, name: '', amount: 1, price: 0 },
+  ]);
 
   const [errorOpen, setErrorOpen] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      setSeriesName(data.seriesName);
-      setSeriesId(data.seriesId);
+    if (initialData) {
+      setSeriesName(initialData.seriesName);
+      setSeriesId(initialData.seriesId);
+      setBuyer(initialData.buyer);
+      setLineItems(initialData.lineItems);
+      if (initialData.created) {
+        setInvoiceDate(getDateFromDateNumber(initialData.created));
+      }
     }
-  }, [data]);
+  }, [initialData]);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
 
@@ -46,15 +60,22 @@ export default function InvoiceEdit() {
   );
 
   useEffect(() => {
-    if (seriesIdResp.data) {
+    if (
+      invoiceId &&
+      initialData &&
+      debouncedSeriesName === initialData.seriesName
+    ) {
+      setSeriesId(initialData.seriesId);
+    } else if (seriesIdResp.data) {
       setSeriesId(seriesIdResp.data.seriesId);
     }
-  }, [seriesIdResp.data]);
+  }, [seriesIdResp.data, debouncedSeriesName, initialData, invoiceId]);
 
   const debouncedSeriesId = useDebounce(seriesId, 500);
   const { data: validSeriesNumberData } = useSWR(
     debouncedSeriesName && debouncedSeriesId
-      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}`
+      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}` +
+          (invoiceId ? '?invoiceId=' + invoiceId : '')
       : null,
   );
 
@@ -63,16 +84,12 @@ export default function InvoiceEdit() {
     debouncedSeriesName && debouncedSeriesId && debouncedInvoiceDate
       ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getDateNumber(
           debouncedInvoiceDate,
-        )}`
+        )}` + (invoiceId ? '?invoiceId=' + invoiceId : '')
       : null,
   );
 
-  const [lineItems, setLineItems] = useState<ILineItem[]>([
-    { id: 1, name: '', amount: 1, price: 0 },
-  ]);
-
   if (error) return <div>failed to load</div>;
-  if (!data) return <LinearProgress />;
+  if (!initialData) return <LinearProgress />;
 
   const handleErrorClose = () => {
     setErrorOpen(false);
@@ -168,13 +185,25 @@ export default function InvoiceEdit() {
               buyer,
               lineItems,
             };
-            const response = await fetch('/api/invoices', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(invoice),
-            });
+
+            let response;
+            if (invoiceId) {
+              response = await fetch('/api/invoices/' + invoiceId, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(invoice),
+              });
+            } else {
+              response = await fetch('/api/invoices', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(invoice),
+              });
+            }
 
             if (!response.ok) {
               setErrorOpen(true);
@@ -189,7 +218,7 @@ export default function InvoiceEdit() {
             // TODO: kažką daryti su invoiceId
           }}
         >
-          Sukurti
+          {invoiceId ? 'Keisti' : 'Sukurti'}
         </Button>
       </Grid>
 
@@ -199,7 +228,9 @@ export default function InvoiceEdit() {
         onClose={handleErrorClose}
       >
         <Alert onClose={handleErrorClose} severity="error">
-          Klaida kuriant sąskaitą faktūrą.
+          {invoiceId
+            ? 'Klaida kečiant sąskaitą faktūrą.'
+            : 'Klaida kuriant sąskaitą faktūrą.'}
         </Alert>
       </Snackbar>
     </Grid>

@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         typeof req.query.name === 'string' ? req.query.name : req.query.name[0];
       let seriesNames = await getUniqueSeriesNames(db, nameStart);
       if (seriesNames.length === 0) {
-        seriesNames = ['HAIKU'];
+        seriesNames = [nameStart];
       }
 
       return res.json({ seriesNames });

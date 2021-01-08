@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       db = await openDb(session.user.email);
 
       const {
-        query: { name, id, created },
+        query: { name, id, created, invoiceId },
       } = req;
 
       const result = await validCreatedDate(
@@ -20,6 +20,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         typeof name === 'string' ? name : name[0],
         parseInt(typeof id === 'string' ? id : id[0], 10),
         parseInt(typeof created === 'string' ? created : created[0], 10),
+        invoiceId &&
+          parseInt(
+            typeof invoiceId === 'string' ? invoiceId : invoiceId[0],
+            10,
+          ),
       );
 
       return res.json(result);

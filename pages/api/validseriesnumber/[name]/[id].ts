@@ -12,13 +12,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       db = await openDb(session.user.email);
 
       const {
-        query: { name, id },
+        query: { name, id, invoiceId },
       } = req;
 
       const valid = await validSeriesNumber(
         db,
         typeof name === 'string' ? name : name[0],
         parseInt(typeof id === 'string' ? id : id[0], 10),
+        invoiceId &&
+          parseInt(
+            typeof invoiceId === 'string' ? invoiceId : invoiceId[0],
+            10,
+          ),
       );
 
       return res.json({ valid });
