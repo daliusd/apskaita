@@ -10,7 +10,7 @@ export default function Apie() {
         bus naudinga ir kitiems. Kol kas tai yra labai ankstyva alfa versija,
         bet turėtų veikti gana stabiliai. Šiuo metu programa yra nemokama, bet
         ateityje ji kažkiek kainuos (kaina bus tikrai nedidelė, maždaug kavos
-        puodelio kainą už mėnesio abonimentą).
+        puodelio kaina už mėnesio abonementą).
       </Grid>
       <Grid item xs={12}>
         Haiku.lt yra atviro kodo programa ir jos kodą galite rasti čia{' '}
