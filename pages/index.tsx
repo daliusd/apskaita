@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { useSession } from 'next-auth/client';
 
 import Invoices from '../components/Invoices';
+import SellerInfoEdit from '../components/SellerInfoEdit';
 
 export default function Index() {
   const [session] = useSession();
@@ -16,6 +17,9 @@ export default function Index() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         Esi prisijungęs/prisijungusi kaip {session.user.email}.
+      </Grid>
+      <Grid item xs={12}>
+        <SellerInfoEdit />
       </Grid>
       <Grid item xs={12}>
         <Invoices limit={5} />
