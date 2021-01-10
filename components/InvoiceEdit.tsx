@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
@@ -38,7 +39,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const [buyer, setBuyer] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
-    { id: 1, name: '', amount: 1, price: 0 },
+    { id: 0, name: '', amount: 1, price: 0 },
   ]);
 
   const [errorText, setErrorText] = useState('');
@@ -195,7 +196,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         </Button>
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={4}>
         <Button
           type="submit"
           variant="contained"
@@ -228,7 +229,6 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               return;
             }
 
-            console.log(lineItems);
             const invoice: IInvoice = {
               seriesName,
               seriesId: parseInt(seriesId, 10),
@@ -287,13 +287,27 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       </Grid>
 
       {invoiceId && (
-        <Grid container item xs={6} justify="flex-end">
+        <Grid container item xs={4} justify="center">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<PictureAsPdfIcon />}
+            onClick={() => {
+              router.push('/api/pdf/' + invoiceId);
+            }}
+          >
+            PDF failas
+          </Button>
+        </Grid>
+      )}
+
+      {invoiceId && (
+        <Grid container item xs={4} justify="flex-end">
           <Button
             variant="contained"
             color="secondary"
             startIcon={<DeleteIcon />}
             onClick={async () => {
-              console.log('hi');
               const response = await fetch('/api/invoices/' + invoiceId, {
                 method: 'DELETE',
               });

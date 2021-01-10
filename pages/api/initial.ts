@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             seriesName: seriesNames[0],
             seriesId,
             buyer: '',
-            lineItems: [{ id: 1, name: '', amount: 1, price: 0 }],
+            lineItems: [{ id: 0, name: '', amount: 1, price: 0 }],
           },
         });
       }
