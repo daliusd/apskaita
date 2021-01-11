@@ -16,7 +16,11 @@ CREATE TABLE Invoice (
   seriesId    INTEGER NOT NULL,
   created     INTEGER NOT NULL,
   price       INTEGER NOT NULL,
-  buyer       TEXT    NOT NULL
+  buyer       TEXT    NOT NULL,
+  seller      TEXT    NOT NULL,
+  issuer      TEXT    NOT NULL,
+  flags       INTEGER NOT NULL,
+  pdfname     TEXT
 );
 
 CREATE UNIQUE INDEX Invoice_ix_serie ON Invoice (seriesName, seriesId);
