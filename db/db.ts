@@ -5,6 +5,7 @@ import * as path from 'path';
 export interface ILineItem {
   readonly id?: number;
   name: string;
+  unit: string;
   amount: number;
   price: number;
 }
@@ -74,9 +75,10 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price) VALUES(?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
+      lineItem.unit,
       lineItem.amount,
       lineItem.price,
     );
@@ -109,7 +111,7 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   }
 
   result.lineItems = await db.all<ILineItem[]>(
-    'SELECT id, name, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
+    'SELECT id, name, unit, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
   );
 
@@ -225,9 +227,10 @@ export async function updateInvoice(
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, amount, price) VALUES(?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price) VALUES(?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
+      lineItem.unit,
       lineItem.amount,
       lineItem.price,
     );

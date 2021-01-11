@@ -26,6 +26,7 @@ CREATE INDEX Invoice_ix_buyer ON Invoice (buyer);
 CREATE TABLE LineItem (
   id        INTEGER PRIMARY KEY,
   name      TEXT    NOT NULL,
+  unit      TEXT    NOT NULL,
   amount    INTEGER NOT NULL,
   price     INTEGER NOT NULL,
 

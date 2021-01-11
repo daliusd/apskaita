@@ -39,7 +39,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const [buyer, setBuyer] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
-    { id: 0, name: '', amount: 1, price: 0 },
+    { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
 
   const [errorText, setErrorText] = useState('');
@@ -186,6 +186,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               {
                 id: Math.max(...lineItems.map((g) => g.id)) + 1,
                 name: '',
+                unit: 'vnt.',
                 amount: 1,
                 price: 0,
               },
@@ -216,6 +217,11 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
             if (lineItems.some((li) => !li.name)) {
               setErrorText('Nurodykite paslaugų ar prekių pavadinimus.');
+              return;
+            }
+
+            if (lineItems.some((li) => !li.unit)) {
+              setErrorText('Nurodykite paslaugų ar prekių matą.');
               return;
             }
 

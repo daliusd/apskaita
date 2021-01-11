@@ -181,6 +181,7 @@ function generateContent(
     drawTableRow(doc, y, 'Roboto-Light', {
       id: (i + 1).toString(),
       name: lineItem.name,
+      unit: lineItem.unit,
       price: formatPrice(lineItem.price),
       amount: lineItem.amount.toString(),
       total: formatPrice(lineItem.price * lineItem.amount),
@@ -202,6 +203,7 @@ function generateContent(
   drawTableRow(doc, y, 'Roboto-Medium', {
     id: '',
     name: '',
+    unit: '',
     price: 'Viso',
     amount: '',
     total: formatPrice(invoice.price),
@@ -226,23 +228,28 @@ function drawTableRow(
   lineItem: {
     id: string;
     name: string;
+    unit: string;
     price: string;
     amount: string;
     total: string;
   },
 ) {
   // 210 - 40 = 170
-  // 10 + 100 + 20 + 20 + 20
+  // 10 + 80 + 20 + 20 + 20 + 20
   doc
     .font(font)
     .fontSize(10)
     .text(lineItem.id, PAGE_MARGIN, y, { width: 10 * PTPMM })
-    .text(lineItem.name, PAGE_MARGIN + 10 * PTPMM, y, { width: 100 * PTPMM })
-    .text(lineItem.price, PAGE_MARGIN + 110 * PTPMM, y, {
+    .text(lineItem.name, PAGE_MARGIN + 10 * PTPMM, y, { width: 80 * PTPMM })
+    .text(lineItem.unit, PAGE_MARGIN + 90 * PTPMM, y, {
       width: 20 * PTPMM,
       align: 'right',
     })
-    .text(lineItem.amount, PAGE_MARGIN + 130 * PTPMM, y, {
+    .text(lineItem.amount, PAGE_MARGIN + 110 * PTPMM, y, {
+      width: 20 * PTPMM,
+      align: 'right',
+    })
+    .text(lineItem.price, PAGE_MARGIN + 130 * PTPMM, y, {
       width: 20 * PTPMM,
       align: 'right',
     })
@@ -256,9 +263,10 @@ function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
   drawTableRow(doc, y, 'Roboto-Medium', {
     id: 'Nr',
     name: 'Paslaugos ar prekės pavadinimas',
-    price: 'Kaina',
+    unit: 'Matas',
+    price: 'Kaina (€)',
     amount: 'Kiekis',
-    total: 'Viso',
+    total: 'Viso (€)',
   });
 
   y += 5 * PTPMM;

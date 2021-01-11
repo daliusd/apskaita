@@ -34,7 +34,6 @@ export default function LineItemEdit({
     <>
       <Grid item xs={12}>
         <Autocomplete
-          id="combo-box-demo"
           options={data ? data.lineItemsNames : []}
           fullWidth
           value={lineItem.name}
@@ -48,7 +47,20 @@ export default function LineItemEdit({
         />
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={3}>
+        <Autocomplete
+          options={['vnt.', 'kg', 'val.']}
+          fullWidth
+          value={lineItem.unit}
+          onInputChange={(_e, newValue) => {
+            onChange({ ...lineItem, unit: newValue });
+          }}
+          freeSolo
+          renderInput={(params) => <TextField {...params} label="Matas" />}
+        />
+      </Grid>
+
+      <Grid item xs={3}>
         <TextField
           type="number"
           label="Kiekis"
@@ -64,7 +76,7 @@ export default function LineItemEdit({
         />
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={3}>
         <TextField
           type="number"
           label="Kaina"
@@ -84,7 +96,7 @@ export default function LineItemEdit({
       </Grid>
 
       {deleteEnabled && (
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Button variant="contained" color="primary" onClick={onDelete}>
             Pašalinti
           </Button>

@@ -139,8 +139,8 @@ describe('database tests', () => {
         price: 500,
         buyer: 'Buyer',
         lineItems: [
-          { name: 'test', amount: 1, price: 100 },
-          { name: 'test2', amount: 2, price: 200 },
+          { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -153,10 +153,12 @@ describe('database tests', () => {
       expect(retInvoice.buyer).toEqual(invoice.buyer);
 
       expect(retInvoice.lineItems[0].name).toEqual('test');
+      expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(100);
 
       expect(retInvoice.lineItems[1].name).toEqual('test2');
+      expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(2);
       expect(retInvoice.lineItems[1].price).toEqual(200);
     });
@@ -353,8 +355,8 @@ describe('database tests', () => {
         price: 500,
         buyer: 'Buyer',
         lineItems: [
-          { name: 'test', amount: 1, price: 100 },
-          { name: 'test2', amount: 2, price: 200 },
+          { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -365,8 +367,8 @@ describe('database tests', () => {
       invoice.price = 200;
       invoice.buyer = 'Buyer2';
       invoice.lineItems = [
-        { name: 'test3', amount: 1, price: 20 },
-        { name: 'test4', amount: 3, price: 60 },
+        { name: 'test3', unit: 'vnt.', amount: 1, price: 20 },
+        { name: 'test4', unit: 'vnt.', amount: 3, price: 60 },
       ];
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -386,10 +388,12 @@ describe('database tests', () => {
       expect(retInvoice.lineItems.length).toEqual(2);
 
       expect(retInvoice.lineItems[0].name).toEqual('test3');
+      expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(20);
 
       expect(retInvoice.lineItems[1].name).toEqual('test4');
+      expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(3);
       expect(retInvoice.lineItems[1].price).toEqual(60);
     });
@@ -402,8 +406,8 @@ describe('database tests', () => {
         price: 500,
         buyer: 'Buyer',
         lineItems: [
-          { name: 'test', amount: 1, price: 100 },
-          { name: 'test2', amount: 2, price: 200 },
+          { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -423,8 +427,8 @@ describe('database tests', () => {
         price: 500,
         buyer: 'Buyer',
         lineItems: [
-          { name: 'test', amount: 1, price: 100 },
-          { name: 'test2', amount: 2, price: 200 },
+          { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -556,9 +560,9 @@ describe('database tests', () => {
         price: 500,
         buyer: 'Buyer1',
         lineItems: [
-          { name: 'G1', amount: 1, price: 100 },
-          { name: 'G2', amount: 1, price: 200 },
-          { name: 'A1', amount: 1, price: 200 },
+          { name: 'G1', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'G2', unit: 'vnt.', amount: 1, price: 200 },
+          { name: 'A1', unit: 'vnt.', amount: 1, price: 200 },
         ],
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
