@@ -93,7 +93,7 @@ function generateHeader(
   doc
     .font('Roboto-Medium')
     .fontSize(14)
-    .text(`SĄSKAITA-FAKTŪRA`, PAGE_MARGIN, PAGE_MARGIN, {
+    .text(`SĄSKAITA - FAKTŪRA`, PAGE_MARGIN, PAGE_MARGIN, {
       width: CONTENT_WIDTH,
       align: 'center',
     });
