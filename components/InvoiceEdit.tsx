@@ -133,7 +133,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         <SeriesIdInput
           seriesId={seriesId}
           onChange={setSeriesId}
-          valid={validSeriesNumberData ? validSeriesNumberData.valid : false}
+          valid={validSeriesNumberData ? validSeriesNumberData.valid : true}
         />
       </Grid>
 
