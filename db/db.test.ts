@@ -74,6 +74,11 @@ describe('database tests', () => {
       const name = await getSetting(db, 'name');
       expect(name).toEqual('test2');
     });
+
+    it('if setting is not set', async () => {
+      const name = await getSetting(db, 'name');
+      expect(name).toBeUndefined();
+    });
   });
 
   describe('handles invoices properly', () => {

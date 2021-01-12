@@ -44,7 +44,7 @@ export async function setSetting(db: Database, name: string, value: string) {
 
 export async function getSetting(db: Database, name: string) {
   const result = await db.get('SELECT value FROM Setting WHERE name = ?', name);
-  return result.value;
+  return result && result.value;
 }
 
 export async function createInvoice(db: Database, invoice: IInvoice) {
