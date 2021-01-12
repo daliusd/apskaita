@@ -178,6 +178,18 @@ function generateContent(
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const lineItem = invoice.lineItems[i];
 
+    const rawHeight = doc
+      .font('Roboto-Light')
+      .fontSize(10)
+      .heightOfString(lineItem.name, { width: 80 * PTPMM });
+
+    if (y + rawHeight > PAGE_HEIGHT - PAGE_MARGIN) {
+      doc.addPage();
+      drawTableHeader(doc, PAGE_MARGIN);
+
+      y = PAGE_MARGIN + 7 * PTPMM;
+    }
+
     drawTableRow(doc, y, 'Roboto-Light', {
       id: (i + 1).toString(),
       name: lineItem.name,
@@ -187,14 +199,7 @@ function generateContent(
       total: formatPrice(lineItem.price * lineItem.amount),
     });
 
-    y += 7 * PTPMM;
-
-    if (y + 7 * PTPMM > PAGE_HEIGHT - PAGE_MARGIN) {
-      doc.addPage();
-      drawTableHeader(doc, PAGE_MARGIN);
-
-      y = PAGE_MARGIN + 7 * PTPMM;
-    }
+    y += rawHeight + 2 * PTPMM;
   }
 
   drawLine(doc, y);
