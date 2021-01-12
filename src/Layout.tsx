@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -6,10 +6,17 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
 
 import Copyright from './Copyright';
 import Link from './Link';
+import { Context, IContext } from '../src/Store';
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -30,8 +37,13 @@ const useStyles = makeStyles((theme) => ({
 const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const [session, loading] = useSession();
+  const { state, dispatch } = useContext<IContext>(Context);
 
   if (loading) return <LinearProgress />;
+
+  const handleMessageClose = () => {
+    dispatch({ type: 'HIDE_MESSAGE' });
+  };
 
   return (
     <Container maxWidth="sm">
@@ -90,6 +102,16 @@ const Layout: React.FC = ({ children }) => {
           <Copyright />
         </Grid>
       </Grid>
+
+      <Snackbar
+        open={!!state.messageText}
+        autoHideDuration={6000}
+        onClose={handleMessageClose}
+      >
+        <Alert onClose={handleMessageClose} severity={state.messageSeverity}>
+          {state.messageText}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

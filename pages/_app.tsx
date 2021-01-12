@@ -10,6 +10,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import ltLocale from 'date-fns/locale/lt';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
+import Store from '../src/Store';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -41,9 +42,11 @@ export default function MyApp(props: AppProps) {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <Provider session={pageProps.session}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <Store>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </Store>
           </Provider>
         </ThemeProvider>
       </MuiPickersUtilsProvider>

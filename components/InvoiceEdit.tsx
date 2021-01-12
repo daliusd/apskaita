@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
-import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
@@ -20,16 +18,15 @@ import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
+import { IContext, Context } from '../src/Store';
+
 interface IProps {
   invoiceId?: string;
 }
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 export default function InvoiceEdit({ invoiceId }: IProps) {
   const router = useRouter();
+  const { dispatch } = useContext<IContext>(Context);
 
   const { data: initialData, error } = useSWR(
     '/api/initial' + (invoiceId ? '?id=' + invoiceId : ''),
@@ -41,9 +38,6 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
-
-  const [errorText, setErrorText] = useState('');
-  const [messageText, setMessageText] = useState('');
 
   useEffect(() => {
     if (initialData && initialData.invoice) {
@@ -104,14 +98,6 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   if (error) return <div>failed to load</div>;
   if (!initialData) return <LinearProgress />;
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
-
-  const handleErrorClose = () => {
-    setErrorText('');
-  };
-
-  const handleMessageClose = () => {
-    setMessageText('');
-  };
 
   return (
     <Grid container spacing={2}>
@@ -206,32 +192,56 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           onClick={async () => {
             const created = getMsSinceEpoch(invoiceDate);
             if (!created) {
-              setErrorText('Nurodykite sąskaitos datą.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite sąskaitos datą.',
+                severity: 'error',
+              });
               return;
             }
 
             if (!buyer) {
-              setErrorText('Nurodykite pirkėjo informaciją.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite pirkėjo informaciją.',
+                severity: 'error',
+              });
               return;
             }
 
             if (lineItems.some((li) => !li.name)) {
-              setErrorText('Nurodykite paslaugų ar prekių pavadinimus.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite paslaugų ar prekių pavadinimus.',
+                severity: 'error',
+              });
               return;
             }
 
             if (lineItems.some((li) => !li.unit)) {
-              setErrorText('Nurodykite paslaugų ar prekių matą.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite paslaugų ar prekių matą.',
+                severity: 'error',
+              });
               return;
             }
 
             if (lineItems.some((li) => li.amount <= 0)) {
-              setErrorText('Nurodykite teisingus paslaugų ar prekių kiekius.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite teisingus paslaugų ar prekių kiekius.',
+                severity: 'error',
+              });
               return;
             }
 
             if (lineItems.some((li) => !li.price)) {
-              setErrorText('Nurodykite paslaugų ar prekių kainas.');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite paslaugų ar prekių kainas.',
+                severity: 'error',
+              });
               return;
             }
 
@@ -271,20 +281,37 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
                 : 'Klaida kuriant sąskaitą faktūrą.';
 
             if (!response.ok) {
-              setErrorText(getEditError());
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: getEditError(),
+                severity: 'error',
+              });
               return;
             }
 
             const responseJson = await response.json();
             if (!responseJson.success) {
-              setErrorText(getEditError());
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: getEditError(),
+                severity: 'error',
+              });
               return;
             }
 
             if (!invoiceId) {
-              router.push(`/`);
+              router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Sąskaita faktūra sukurta',
+                severity: 'success',
+              });
             } else {
-              setMessageText('Sąskaita faktūra pakeista');
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Sąskaita faktūra pakeista',
+                severity: 'success',
+              });
             }
           }}
         >
@@ -319,7 +346,11 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               });
 
               if (!response.ok || !(await response.json()).success) {
-                setErrorText('Klaida trinant sąskaitą faktūrą.');
+                dispatch({
+                  type: 'SET_MESSAGE',
+                  text: 'Klaida trinant sąskaitą faktūrą.',
+                  severity: 'error',
+                });
                 return;
               }
 
@@ -330,26 +361,6 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           </Button>
         </Grid>
       )}
-
-      <Snackbar
-        open={!!errorText}
-        autoHideDuration={6000}
-        onClose={handleErrorClose}
-      >
-        <Alert onClose={handleErrorClose} severity="error">
-          {errorText}
-        </Alert>
-      </Snackbar>
-
-      <Snackbar
-        open={!!messageText}
-        autoHideDuration={6000}
-        onClose={handleMessageClose}
-      >
-        <Alert onClose={handleMessageClose} severity="success">
-          {messageText}
-        </Alert>
-      </Snackbar>
     </Grid>
   );
 }
