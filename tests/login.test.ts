@@ -8,7 +8,7 @@ describe('Login test', () => {
     await page.goto('http://localhost:4000');
   });
 
-  it('should login and "', async () => {
+  it('should login', async () => {
     const email = await login(page);
 
     const doc = await getDocument(page);
