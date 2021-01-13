@@ -14,6 +14,7 @@ import {
   getSetting,
   IInvoice,
 } from '../../../db/db';
+import { getPriceInWords } from '../../../utils/priceinwords';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -215,6 +216,23 @@ function generateContent(
   });
 
   y += 30 * PTPMM;
+
+  const priceInWords = `Suma žodžiais: ${getPriceInWords(
+    Math.floor(invoice.price / 100),
+  )} ${invoice.price % 100} ct`;
+  const priceInWordsHeight = doc
+    .font('Roboto-Light')
+    .fontSize(12)
+    .heightOfString(priceInWords, { width: CONTENT_WIDTH });
+
+  if (y + priceInWordsHeight > PAGE_HEIGHT - PAGE_MARGIN) {
+    doc.addPage();
+    y = PAGE_MARGIN;
+  }
+
+  doc.font('Roboto-Light').fontSize(12).text(priceInWords, PAGE_MARGIN, y);
+
+  y += priceInWordsHeight + 5 * PTPMM;
   if (y + 7 * PTPMM > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
     y = PAGE_MARGIN;
