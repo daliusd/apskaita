@@ -101,6 +101,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -123,6 +124,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -149,6 +151,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -164,6 +167,7 @@ describe('database tests', () => {
       expect(retInvoice.buyer).toEqual(invoice.buyer);
       expect(retInvoice.seller).toEqual(invoice.seller);
       expect(retInvoice.issuer).toEqual(invoice.issuer);
+      expect(retInvoice.extra).toEqual(invoice.extra);
 
       expect(retInvoice.lineItems[0].name).toEqual('test');
       expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
@@ -190,6 +194,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       let resp = await createInvoice(db, invoice);
@@ -208,6 +213,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       let resp = await createInvoice(db, invoice);
@@ -238,6 +244,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
 
@@ -259,6 +266,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
 
@@ -276,6 +284,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
 
@@ -294,6 +303,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
 
@@ -350,6 +360,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
 
@@ -383,6 +394,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -397,6 +409,7 @@ describe('database tests', () => {
       invoice.buyer = 'Buyer2';
       invoice.seller = 'Seller2';
       invoice.issuer = 'Issuer2';
+      invoice.extra = 'Extra2';
       invoice.lineItems = [
         { name: 'test3', unit: 'vnt.', amount: 1, price: 20 },
         { name: 'test4', unit: 'vnt.', amount: 3, price: 60 },
@@ -417,6 +430,7 @@ describe('database tests', () => {
       expect(retInvoice.buyer).toEqual(invoice.buyer);
       expect(retInvoice.seller).toEqual(invoice.seller);
       expect(retInvoice.issuer).toEqual(invoice.issuer);
+      expect(retInvoice.extra).toEqual(invoice.extra);
 
       expect(retInvoice.lineItems.length).toEqual(2);
 
@@ -440,6 +454,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -463,6 +478,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -485,6 +501,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -508,6 +525,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -531,6 +549,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -548,6 +567,7 @@ describe('database tests', () => {
         buyer: 'Buyer',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -574,6 +594,7 @@ describe('database tests', () => {
         buyer: 'Buyer1',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [],
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
@@ -608,6 +629,7 @@ describe('database tests', () => {
         buyer: 'Buyer1',
         seller: 'Seller',
         issuer: 'Issuer',
+        extra: 'Extra',
         lineItems: [
           { name: 'G1', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'G2', unit: 'vnt.', amount: 1, price: 200 },

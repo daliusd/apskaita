@@ -18,6 +18,7 @@ import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
 import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
+import ExtraInput from '../components/ExtraInput';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 import { IContext, Context } from '../src/Store';
@@ -39,6 +40,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [seller, setSeller] = useState('');
   const [buyer, setBuyer] = useState('');
   const [issuer, setIssuer] = useState('');
+  const [extra, setExtra] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -51,6 +53,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setSeller(invoice.seller);
       setBuyer(invoice.buyer);
       setIssuer(invoice.issuer);
+      setExtra(invoice.extra);
       setLineItems(invoice.lineItems);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
@@ -147,6 +150,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
 
       <Grid item xs={12}>
         <IssuerInput issuer={issuer} onChange={setIssuer} />
+      </Grid>
+
+      <Grid item xs={12}>
+        <ExtraInput extra={extra} onChange={setExtra} />
       </Grid>
 
       <Grid item xs={12}>
@@ -287,6 +294,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               buyer,
               seller,
               issuer,
+              extra,
               lineItems,
             };
 

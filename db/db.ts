@@ -19,6 +19,7 @@ export interface IInvoice {
   buyer: string;
   seller: string;
   issuer: string;
+  extra: string;
   lineItems: ILineItem[];
 }
 
@@ -65,7 +66,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, flags) VALUES(?, ?, ?, ?, ?, ?, ?, "", 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -73,6 +74,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.buyer,
     invoice.seller,
     invoice.issuer,
+    invoice.extra,
   );
 
   const invoiceId = result.lastID;
@@ -106,7 +108,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -218,7 +220,7 @@ export async function updateInvoice(
   }
 
   await db.run(
-    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ? WHERE id = ?',
+    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ? WHERE id = ?',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -226,6 +228,7 @@ export async function updateInvoice(
     invoice.buyer,
     invoice.seller,
     invoice.issuer,
+    invoice.extra,
     invoiceId,
   );
 

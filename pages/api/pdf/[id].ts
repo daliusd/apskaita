@@ -90,8 +90,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           (await getSetting(db, 'issuer')) ||
           session.user.name;
 
-        const extra = await getSetting(db, 'extra');
-
         const doc = new PDFDocument({
           size: [PAGE_WIDTH, PAGE_HEIGHT],
           info: {
@@ -121,7 +119,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
         addFooter(doc);
         generateHeader(doc, invoice, seller);
-        generateContent(doc, invoice, seller, issuer, extra);
+        generateContent(doc, invoice, seller, issuer);
         doc.end();
         return;
       } catch (ex) {
@@ -224,7 +222,6 @@ function generateContent(
   invoice: IInvoice,
   seller: string,
   issuer: string,
-  extra: string,
 ) {
   let y = PAGE_MARGIN + 90 * PTPMM;
 
@@ -264,8 +261,8 @@ function generateContent(
   y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
   y += 20 * PTPMM;
 
-  if (extra) {
-    y = drawText(doc, y, 'Roboto-Light', 12, extra);
+  if (invoice.extra) {
+    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra);
     y += 10 * PTPMM;
   }
 
