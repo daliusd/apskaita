@@ -8,6 +8,44 @@ const PAGE_HEIGHT = 297 * PTPMM;
 const PAGE_MARGIN = 20 * PTPMM;
 const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN * 2;
 
+// 210 - 40 = 170
+// 10 + 80 + 20 + 20 + 20 + 20 = 170
+const FIELDS_INFO: { name: string; size: number }[] = [
+  {
+    name: 'id',
+    size: 10 * PTPMM,
+  },
+  {
+    name: 'name',
+    size: 80 * PTPMM,
+  },
+  {
+    name: 'unit',
+    size: 20 * PTPMM,
+  },
+  {
+    name: 'amount',
+    size: 20 * PTPMM,
+  },
+  {
+    name: 'price',
+    size: 20 * PTPMM,
+  },
+  {
+    name: 'total',
+    size: 20 * PTPMM,
+  },
+];
+
+interface ITableLineItem {
+  id: string;
+  name: string;
+  unit: string;
+  price: string;
+  amount: string;
+  total: string;
+}
+
 import {
   openDb,
   getInvoiceWithLineItems,
@@ -47,6 +85,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             Title: `Sąskaita faktūra ${invoice.seriesName}/${invoice.seriesId}`,
             Author: `${seller.split('\n')[0]} (via haiku.lt)`,
           },
+          margin: PAGE_MARGIN,
           bufferPages: true,
         });
 
@@ -173,25 +212,12 @@ function generateContent(
 ) {
   let y = PAGE_MARGIN + 90 * PTPMM;
 
-  drawTableHeader(doc, y);
-  y += 9 * PTPMM;
+  y = drawTableHeader(doc, y);
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const lineItem = invoice.lineItems[i];
 
-    const rawHeight = doc
-      .font('Roboto-Light')
-      .fontSize(10)
-      .heightOfString(lineItem.name, { width: 80 * PTPMM });
-
-    if (y + rawHeight > PAGE_HEIGHT - PAGE_MARGIN) {
-      doc.addPage();
-      drawTableHeader(doc, PAGE_MARGIN);
-
-      y = PAGE_MARGIN + 7 * PTPMM;
-    }
-
-    drawTableRow(doc, y, 'Roboto-Light', {
+    y = drawTableRow(doc, y, 'Roboto-Light', {
       id: (i + 1).toString(),
       name: lineItem.name,
       unit: lineItem.unit,
@@ -199,14 +225,12 @@ function generateContent(
       amount: lineItem.amount.toString(),
       total: formatPrice(lineItem.price * lineItem.amount),
     });
-
-    y += rawHeight + 2 * PTPMM;
   }
 
   drawLine(doc, y);
   y += 2 * PTPMM;
 
-  drawTableRow(doc, y, 'Roboto-Medium', {
+  y = drawTableRow(doc, y, 'Roboto-Medium', {
     id: '',
     name: '',
     unit: '',
@@ -220,70 +244,92 @@ function generateContent(
   const priceInWords = `Suma žodžiais: ${getPriceInWords(
     Math.floor(invoice.price / 100),
   )} ${invoice.price % 100} ct`;
-  const priceInWordsHeight = doc
-    .font('Roboto-Light')
-    .fontSize(12)
-    .heightOfString(priceInWords, { width: CONTENT_WIDTH });
 
-  if (y + priceInWordsHeight > PAGE_HEIGHT - PAGE_MARGIN) {
-    doc.addPage();
-    y = PAGE_MARGIN;
+  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
+
+  y += 5 * PTPMM;
+
+  y = drawText(
+    doc,
+    y,
+    'Roboto-Light',
+    12,
+    `Sąskaitą išrašė ${seller.split('\n')[0]}`,
+  );
+}
+
+function drawText(
+  doc: PDFKit.PDFDocument,
+  y: number,
+  font: string,
+  fontSize: number,
+  text: string,
+) {
+  const height = doc
+    .font(font)
+    .fontSize(fontSize)
+    .heightOfString(text, { width: CONTENT_WIDTH });
+
+  y = validateOrAddPage(doc, y, height).y;
+
+  doc.font(font).fontSize(fontSize).text(text, PAGE_MARGIN, y);
+  return y + height;
+}
+
+function getTableRowHeight(
+  doc: PDFKit.PDFDocument,
+  font: string,
+  lineItem: ITableLineItem,
+) {
+  const heights = [];
+  for (const field of FIELDS_INFO) {
+    heights.push(
+      doc
+        .font(font)
+        .fontSize(10)
+        .heightOfString(lineItem[field.name], { width: field.size }),
+    );
   }
 
-  doc.font('Roboto-Light').fontSize(12).text(priceInWords, PAGE_MARGIN, y);
+  return Math.max(...heights);
+}
 
-  y += priceInWordsHeight + 5 * PTPMM;
-  if (y + 7 * PTPMM > PAGE_HEIGHT - PAGE_MARGIN) {
+function validateOrAddPage(doc, y, height) {
+  if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
-    y = PAGE_MARGIN;
+    return { pageAdded: true, y: PAGE_MARGIN };
   }
-
-  doc
-    .font('Roboto-Light')
-    .fontSize(12)
-    .text(`Sąskaitą išrašė ${seller.split('\n')[0]}`, PAGE_MARGIN, y);
+  return { pageAdded: false, y };
 }
 
 function drawTableRow(
   doc: PDFKit.PDFDocument,
   y: number,
   font: string,
-  lineItem: {
-    id: string;
-    name: string;
-    unit: string;
-    price: string;
-    amount: string;
-    total: string;
-  },
+  lineItem: ITableLineItem,
 ) {
-  // 210 - 40 = 170
-  // 10 + 80 + 20 + 20 + 20 + 20
-  doc
-    .font(font)
-    .fontSize(10)
-    .text(lineItem.id, PAGE_MARGIN, y, { width: 10 * PTPMM })
-    .text(lineItem.name, PAGE_MARGIN + 10 * PTPMM, y, { width: 80 * PTPMM })
-    .text(lineItem.unit, PAGE_MARGIN + 90 * PTPMM, y, {
-      width: 20 * PTPMM,
-      align: 'right',
-    })
-    .text(lineItem.amount, PAGE_MARGIN + 110 * PTPMM, y, {
-      width: 20 * PTPMM,
-      align: 'right',
-    })
-    .text(lineItem.price, PAGE_MARGIN + 130 * PTPMM, y, {
-      width: 20 * PTPMM,
-      align: 'right',
-    })
-    .text(lineItem.total, PAGE_MARGIN + 150 * PTPMM, y, {
-      width: 20 * PTPMM,
-      align: 'right',
-    });
+  const height = getTableRowHeight(doc, font, lineItem);
+  const vres = validateOrAddPage(doc, y, height);
+  if (vres.pageAdded) {
+    y = drawTableHeader(doc, vres.y);
+  }
+
+  let x = PAGE_MARGIN;
+  for (const field of FIELDS_INFO) {
+    doc
+      .font(font)
+      .fontSize(10)
+      .text(lineItem[field.name], x, y, { width: field.size });
+    x += field.size;
+  }
+
+  y += height + 2 * PTPMM;
+
+  return y;
 }
 
 function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
-  drawTableRow(doc, y, 'Roboto-Medium', {
+  y = drawTableRow(doc, y, 'Roboto-Medium', {
     id: 'Nr',
     name: 'Paslaugos ar prekės pavadinimas',
     unit: 'Matas',
@@ -292,8 +338,10 @@ function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
     total: 'Viso (€)',
   });
 
-  y += 5 * PTPMM;
   drawLine(doc, y);
+  y += 2 * PTPMM;
+
+  return y;
 }
 
 function drawLine(doc, y) {
