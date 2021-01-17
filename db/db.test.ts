@@ -47,7 +47,7 @@ describe('database tests', () => {
       const db = await openDb('test');
       await db.close();
 
-      expect(existsSync(path.join(tempDir, 'test.db'))).toBeTruthy();
+      expect(existsSync(path.join(tempDir, 'db', 'test.db'))).toBeTruthy();
     });
   });
 

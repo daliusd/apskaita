@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
-import * as path from 'path';
+import path from 'path';
+import fs from 'fs';
 
 export interface ILineItem {
   readonly id?: number;
@@ -24,11 +25,18 @@ export interface IInvoice {
 }
 
 export async function openDb(dbName: string) {
+  const isMemory = dbName === ':memory:';
+  let dbDir = '';
+  if (!isMemory) {
+    dbDir = path.join(process.env.USER_DATA_PATH, 'db');
+
+    if (!fs.existsSync(dbDir)) {
+      fs.mkdirSync(dbDir, { recursive: true });
+    }
+  }
+
   const db = await open({
-    filename:
-      dbName === ':memory:'
-        ? dbName
-        : path.join(process.env.USER_DATA_PATH, dbName + '.db'),
+    filename: isMemory ? dbName : path.join(dbDir, dbName + '.db'),
     driver: sqlite3.Database,
   });
   await db.migrate();
