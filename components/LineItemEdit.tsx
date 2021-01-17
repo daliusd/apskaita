@@ -82,10 +82,19 @@ export default function LineItemEdit({
           label="Kaina"
           value={price}
           onChange={(e) => {
-            setPrice(e.target.value);
+            let price = Math.round(parseFloat(e.target.value) * 100);
+            if (price <= 0) {
+              price = 1;
+              setPrice('0.01');
+            } else if (price > 100000000) {
+              price = 100000000;
+              setPrice((price / 100).toString());
+            } else {
+              setPrice(e.target.value);
+            }
             onChange({
               ...lineItem,
-              price: Math.floor(parseFloat(e.target.value) * 100) || 0,
+              price: price || 0,
             });
           }}
           fullWidth

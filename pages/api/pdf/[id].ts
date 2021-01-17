@@ -283,7 +283,10 @@ function drawText(
 
   y = validateOrAddPage(doc, y, height).y;
 
-  doc.font(font).fontSize(fontSize).text(text, PAGE_MARGIN, y);
+  doc
+    .font(font)
+    .fontSize(fontSize)
+    .text(text, PAGE_MARGIN, y, { width: CONTENT_WIDTH });
   return y + height;
 }
 
