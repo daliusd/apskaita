@@ -74,9 +74,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           parseInt(invoiceId, 10),
         );
 
-        let seller = await getSetting(db, 'seller');
+        let seller = invoice.seller;
         if (!seller) {
-          seller = `${session.user.name}\n${session.user.email}`;
+          seller = await getSetting(db, 'seller');
+          if (!seller) {
+            seller = `${session.user.name}\n${session.user.email}`;
+          }
         }
 
         const extra = await getSetting(db, 'extra');

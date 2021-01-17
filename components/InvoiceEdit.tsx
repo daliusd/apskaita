@@ -16,6 +16,7 @@ import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
+import SellerInput from '../components/SellerInput';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 import { IContext, Context } from '../src/Store';
@@ -34,6 +35,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [seriesName, setSeriesName] = useState('');
   const [seriesId, setSeriesId] = useState('');
   const [invoiceDate, setInvoiceDate] = useState(new Date());
+  const [seller, setSeller] = useState('');
   const [buyer, setBuyer] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
@@ -44,6 +46,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       const { invoice } = initialData;
       setSeriesName(invoice.seriesName);
       setSeriesId(invoice.seriesId);
+      setSeller(invoice.seller);
       setBuyer(invoice.buyer);
       setLineItems(invoice.lineItems);
       if (invoice.created) {
@@ -132,6 +135,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
+        <SellerInput seller={seller} onChange={setSeller} />
+      </Grid>
+
+      <Grid item xs={12}>
         <BuyerInput buyer={buyer} onChange={setBuyer} />
       </Grid>
 
@@ -200,10 +207,19 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               return;
             }
 
+            if (!seller) {
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite pardavėjo duomenis.',
+                severity: 'error',
+              });
+              return;
+            }
+
             if (!buyer) {
               dispatch({
                 type: 'SET_MESSAGE',
-                text: 'Nurodykite pirkėjo informaciją.',
+                text: 'Nurodykite pirkėjo duomenis.',
                 severity: 'error',
               });
               return;
@@ -253,6 +269,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
                 .map((g) => g.price * g.amount)
                 .reduce((a, b) => a + b),
               buyer,
+              seller,
               lineItems,
             };
 

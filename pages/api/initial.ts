@@ -6,6 +6,7 @@ import {
   getUniqueSeriesNames,
   openDb,
   getInvoiceWithLineItems,
+  getSetting,
 } from '../../db/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -26,12 +27,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           seriesNames = ['HAIKU'];
         }
         const seriesId = await getNextSeriesId(db, seriesNames[0]);
+        const seller = await getSetting(db, 'seller');
 
         return res.json({
           invoice: {
             seriesName: seriesNames[0],
             seriesId,
             buyer: '',
+            seller,
             lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
           },
         });

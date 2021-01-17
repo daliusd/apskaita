@@ -99,6 +99,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -119,6 +120,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -143,6 +145,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -156,6 +159,7 @@ describe('database tests', () => {
       expect(retInvoice.created).toEqual(invoice.created);
       expect(retInvoice.price).toEqual(invoice.price);
       expect(retInvoice.buyer).toEqual(invoice.buyer);
+      expect(retInvoice.seller).toEqual(invoice.seller);
 
       expect(retInvoice.lineItems[0].name).toEqual('test');
       expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
@@ -180,6 +184,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       let resp = await createInvoice(db, invoice);
@@ -196,6 +201,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       let resp = await createInvoice(db, invoice);
@@ -224,6 +230,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
 
@@ -243,6 +250,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
 
@@ -258,6 +266,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
 
@@ -274,6 +283,7 @@ describe('database tests', () => {
         created,
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
 
@@ -328,6 +338,7 @@ describe('database tests', () => {
         created,
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
 
@@ -359,6 +370,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -371,6 +383,7 @@ describe('database tests', () => {
       invoice.created = new Date(2020, 1, 31).getTime();
       invoice.price = 200;
       invoice.buyer = 'Buyer2';
+      invoice.seller = 'Seller2';
       invoice.lineItems = [
         { name: 'test3', unit: 'vnt.', amount: 1, price: 20 },
         { name: 'test4', unit: 'vnt.', amount: 3, price: 60 },
@@ -389,6 +402,7 @@ describe('database tests', () => {
       expect(retInvoice.created).toEqual(invoice.created);
       expect(retInvoice.price).toEqual(invoice.price);
       expect(retInvoice.buyer).toEqual(invoice.buyer);
+      expect(retInvoice.seller).toEqual(invoice.seller);
 
       expect(retInvoice.lineItems.length).toEqual(2);
 
@@ -410,6 +424,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -431,6 +446,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -451,6 +467,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -472,6 +489,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -493,6 +511,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -508,6 +527,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer',
+        seller: 'Seller',
         lineItems: [],
       };
       await createInvoice(db, invoice);
@@ -532,6 +552,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         buyer: 'Buyer1',
+        seller: 'Seller',
         lineItems: [],
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
@@ -564,6 +585,7 @@ describe('database tests', () => {
         created: new Date(2020, 0, 31).getTime(),
         price: 500,
         buyer: 'Buyer1',
+        seller: 'Seller',
         lineItems: [
           { name: 'G1', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'G2', unit: 'vnt.', amount: 1, price: 200 },
