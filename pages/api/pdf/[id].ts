@@ -235,7 +235,7 @@ function generateContent(
     id: '',
     name: '',
     unit: '',
-    price: 'Viso',
+    price: 'Iš viso',
     amount: '',
     total: formatPrice(invoice.price),
   });
@@ -334,10 +334,10 @@ function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
   y = drawTableRow(doc, y, 'Roboto-Medium', {
     id: 'Nr',
     name: 'Paslaugos ar prekės pavadinimas',
-    unit: 'Matas',
+    unit: 'Mato vnt.',
     price: 'Kaina (€)',
     amount: 'Kiekis',
-    total: 'Viso (€)',
+    total: 'Suma (€)',
   });
 
   drawLine(doc, y);
@@ -356,7 +356,7 @@ function drawLine(doc, y) {
 }
 
 function formatPrice(cents) {
-  return `${(cents / 100).toFixed(2).replace('.', ',')} €`;
+  return (cents / 100).toFixed(2).replace('.', ',');
 }
 
 function addFooter(doc: PDFKit.PDFDocument) {
