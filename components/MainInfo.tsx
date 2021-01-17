@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/client';
 
 import Invoices from '../components/Invoices';
 import SellerInfoEdit from '../components/SellerInfoEdit';
+import IssuerEdit from '../components/IssuerEdit';
 import ExtraEdit from '../components/ExtraEdit';
 
 export default function MainInfo() {
@@ -40,6 +41,9 @@ export default function MainInfo() {
       </Grid>
       <Grid item xs={12}>
         <SellerInfoEdit />
+      </Grid>
+      <Grid item xs={12}>
+        <IssuerEdit />
       </Grid>
       <Grid item xs={12}>
         <ExtraEdit />

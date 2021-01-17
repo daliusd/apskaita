@@ -30,6 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const seller =
           (await getSetting(db, 'seller')) ||
           `${session.user.name}\n${session.user.email}`;
+        const issuer = (await getSetting(db, 'issuer')) || session.user.name;
 
         return res.json({
           invoice: {
@@ -37,6 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             seriesId,
             buyer: '',
             seller,
+            issuer,
             lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
           },
         });

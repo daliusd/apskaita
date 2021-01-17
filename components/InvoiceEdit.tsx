@@ -17,6 +17,7 @@ import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
 import SellerInput from '../components/SellerInput';
+import IssuerInput from '../components/IssuerInput';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 import { IContext, Context } from '../src/Store';
@@ -37,6 +38,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const [seller, setSeller] = useState('');
   const [buyer, setBuyer] = useState('');
+  const [issuer, setIssuer] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -48,6 +50,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setSeriesId(invoice.seriesId);
       setSeller(invoice.seller);
       setBuyer(invoice.buyer);
+      setIssuer(invoice.issuer);
       setLineItems(invoice.lineItems);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
@@ -143,6 +146,10 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
+        <IssuerInput issuer={issuer} onChange={setIssuer} />
+      </Grid>
+
+      <Grid item xs={12}>
         <Typography variant="h6">Paslaugos ar prekės</Typography>
       </Grid>
 
@@ -225,6 +232,15 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               return;
             }
 
+            if (!issuer) {
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Nurodykite kas išrašė sąskaitą faktūrą.',
+                severity: 'error',
+              });
+              return;
+            }
+
             if (lineItems.some((li) => !li.name)) {
               dispatch({
                 type: 'SET_MESSAGE',
@@ -270,6 +286,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
                 .reduce((a, b) => a + b),
               buyer,
               seller,
+              issuer,
               lineItems,
             };
 

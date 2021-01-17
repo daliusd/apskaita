@@ -80,13 +80,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           parseInt(invoiceId, 10),
         );
 
-        let seller = invoice.seller;
-        if (!seller) {
-          seller = await getSetting(db, 'seller');
-          if (!seller) {
-            seller = `${session.user.name}\n${session.user.email}`;
-          }
-        }
+        const seller =
+          invoice.seller ||
+          (await getSetting(db, 'seller')) ||
+          `${session.user.name}\n${session.user.email}`;
+
+        const issuer =
+          invoice.issuer ||
+          (await getSetting(db, 'issuer')) ||
+          session.user.name;
 
         const extra = await getSetting(db, 'extra');
 
@@ -119,7 +121,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
         addFooter(doc);
         generateHeader(doc, invoice, seller);
-        generateContent(doc, invoice, seller, extra);
+        generateContent(doc, invoice, seller, issuer, extra);
         doc.end();
         return;
       } catch (ex) {
@@ -221,6 +223,7 @@ function generateContent(
   doc: PDFKit.PDFDocument,
   invoice: IInvoice,
   seller: string,
+  issuer: string,
   extra: string,
 ) {
   let y = PAGE_MARGIN + 90 * PTPMM;
@@ -266,13 +269,7 @@ function generateContent(
     y += 10 * PTPMM;
   }
 
-  y = drawText(
-    doc,
-    y,
-    'Roboto-Light',
-    12,
-    `Sąskaitą išrašė ${seller.split('\n')[0]}`,
-  );
+  y = drawText(doc, y, 'Roboto-Light', 12, `Sąskaitą išrašė ${issuer}`);
 }
 
 function drawText(
