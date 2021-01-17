@@ -19,6 +19,7 @@ CREATE TABLE Invoice (
   buyer       TEXT    NOT NULL,
   seller      TEXT    NOT NULL,
   issuer      TEXT    NOT NULL,
+  extra       TEXT    NOT NULL,
   flags       INTEGER NOT NULL,
   pdfname     TEXT
 );

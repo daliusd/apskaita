@@ -63,7 +63,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, flags) VALUES(?, ?, ?, ?, ?, "", "", 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, flags) VALUES(?, ?, ?, ?, ?, "", "", "", 0)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
