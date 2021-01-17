@@ -39,7 +39,7 @@ export default function LineItemEdit({
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
             let newPrice;
-            if (data) {
+            if (data && newValue !== lineItem.name) {
               const oldItems = data.lineItemsNames.filter(
                 (i) => i.name === newValue,
               );
