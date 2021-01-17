@@ -16,7 +16,7 @@ export default function IssuerEdit() {
   const { data, error } = useSWR('/api/settings/issuer');
 
   useEffect(() => {
-    if (data) {
+    if (data && data.value) {
       setIssuer(data.value);
       setIssuerCurrent(data.value);
     }

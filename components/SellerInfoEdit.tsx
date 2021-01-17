@@ -18,7 +18,7 @@ export default function SellerInfoEdit() {
   const { data, error } = useSWR('/api/settings/seller');
 
   useEffect(() => {
-    if (data) {
+    if (data && data.value) {
       setSeller(data.value);
       setSellerCurrent(data.value);
     }

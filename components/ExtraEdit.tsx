@@ -14,7 +14,7 @@ export default function ExtraEdit() {
   const { data, error } = useSWR('/api/settings/extra');
 
   useEffect(() => {
-    if (data) {
+    if (data && data.value) {
       setExtra(data.value);
       setExtraCurrent(data.value);
     }
