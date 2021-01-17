@@ -10,30 +10,36 @@ const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN * 2;
 
 // 210 - 40 = 170
 // 10 + 80 + 20 + 20 + 20 + 20 = 170
-const FIELDS_INFO: { name: string; size: number }[] = [
+const FIELDS_INFO: { name: string; size: number; align: string }[] = [
   {
     name: 'id',
     size: 10 * PTPMM,
+    align: 'left',
   },
   {
     name: 'name',
     size: 80 * PTPMM,
+    align: 'left',
   },
   {
     name: 'unit',
     size: 20 * PTPMM,
+    align: 'right',
   },
   {
     name: 'amount',
     size: 20 * PTPMM,
+    align: 'right',
   },
   {
     name: 'price',
     size: 20 * PTPMM,
+    align: 'right',
   },
   {
     name: 'total',
     size: 20 * PTPMM,
+    align: 'right',
   },
 ];
 
@@ -328,10 +334,10 @@ function drawTableRow(
 
   let x = PAGE_MARGIN;
   for (const field of FIELDS_INFO) {
-    doc
-      .font(font)
-      .fontSize(10)
-      .text(lineItem[field.name], x, y, { width: field.size });
+    doc.font(font).fontSize(10).text(lineItem[field.name], x, y, {
+      width: field.size,
+      align: field.align,
+    });
     x += field.size;
   }
 
