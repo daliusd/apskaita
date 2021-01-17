@@ -85,7 +85,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             Title: `Sąskaita faktūra ${invoice.seriesName}/${invoice.seriesId}`,
             Author: `${seller.split('\n')[0]} (via haiku.lt)`,
           },
-          margin: PAGE_MARGIN,
+          margin: 0,
           bufferPages: true,
         });
 
@@ -106,6 +106,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
         doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
+        addFooter(doc);
         generateHeader(doc, invoice, seller);
         generateContent(doc, invoice, seller);
         doc.end();
@@ -297,6 +298,7 @@ function getTableRowHeight(
 function validateOrAddPage(doc, y, height) {
   if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
+    addFooter(doc);
     return { pageAdded: true, y: PAGE_MARGIN };
   }
   return { pageAdded: false, y };
@@ -347,7 +349,7 @@ function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
 function drawLine(doc, y) {
   doc
     .strokeColor('#aaaaaa')
-    .lineWidth(1)
+    .lineWidth(0.5 * PTPMM)
     .moveTo(PAGE_MARGIN, y)
     .lineTo(PAGE_WIDTH - PAGE_MARGIN, y)
     .stroke();
@@ -355,4 +357,32 @@ function drawLine(doc, y) {
 
 function formatPrice(cents) {
   return `${(cents / 100).toFixed(2).replace('.', ',')} €`;
+}
+
+function addFooter(doc: PDFKit.PDFDocument) {
+  doc.save();
+
+  doc
+    .strokeColor('#aaaaaa')
+    .lineWidth(0.25 * PTPMM)
+    .dash(PTPMM, { space: PTPMM })
+    .moveTo(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN)
+    .lineTo(PAGE_MARGIN + 50 * PTPMM, PAGE_HEIGHT - PAGE_MARGIN)
+    .stroke();
+
+  doc
+    .fillColor('#aaaaaa')
+    .font('Roboto-Light')
+    .fontSize(8)
+    .text(
+      'Haiku.lt - individualios veiklos apskaita',
+      PAGE_MARGIN,
+      PAGE_HEIGHT - PAGE_MARGIN + PTPMM,
+      {
+        width: CONTENT_WIDTH,
+        align: 'left',
+      },
+    );
+
+  doc.restore();
 }
