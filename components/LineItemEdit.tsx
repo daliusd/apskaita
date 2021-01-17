@@ -38,13 +38,15 @@ export default function LineItemEdit({
           fullWidth
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
-            const oldItems = data.lineItemsNames.filter(
-              (i) => i.name === newValue,
-            );
             let newPrice;
-            if (oldItems.length > 0) {
-              newPrice = oldItems[0].price;
-              setPrice((newPrice / 100).toString());
+            if (data) {
+              const oldItems = data.lineItemsNames.filter(
+                (i) => i.name === newValue,
+              );
+              if (oldItems.length > 0) {
+                newPrice = oldItems[0].price;
+                setPrice((newPrice / 100).toString());
+              }
             }
 
             onChange({ ...lineItem, name: newValue, price: newPrice });

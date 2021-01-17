@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
+import Link from '../src/Link';
 import { ILineItem, IInvoice } from '../db/db';
 import LineItemEdit from '../components/LineItemEdit';
 import SeriesNameInput from '../components/SeriesNameInput';
@@ -42,6 +42,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [buyer, setBuyer] = useState('');
   const [issuer, setIssuer] = useState('');
   const [extra, setExtra] = useState('');
+  const [pdfname, setPdfname] = useState('');
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -55,6 +56,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setBuyer(invoice.buyer);
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
+      setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
@@ -205,7 +207,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         </Button>
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <Button
           type="submit"
           variant="contained"
@@ -363,22 +365,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       </Grid>
 
       {invoiceId && (
-        <Grid container item xs={4} justify="center">
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<PictureAsPdfIcon />}
-            onClick={() => {
-              router.push('/api/pdf/' + invoiceId);
-            }}
-          >
-            PDF failas
-          </Button>
-        </Grid>
-      )}
-
-      {invoiceId && (
-        <Grid container item xs={4} justify="flex-end">
+        <Grid container item xs={6} justify="flex-end">
           <Button
             variant="contained"
             color="secondary"
@@ -402,6 +389,19 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           >
             Trinti
           </Button>
+        </Grid>
+      )}
+
+      {pdfname && (
+        <Grid item xs={12}>
+          <Link
+            href={`/api/pdf/${pdfname}/${seriesName}${seriesId
+              .toString()
+              .padStart(6, '0')}.pdf`}
+            color="secondary"
+          >
+            Sąskaitos faktūros PDF failas
+          </Link>
         </Grid>
       )}
     </Grid>

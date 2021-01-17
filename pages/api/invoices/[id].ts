@@ -1,7 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
-import { openDb, updateInvoice, deleteInvoice } from '../../../db/db';
+import {
+  openDb,
+  updateInvoice,
+  deleteInvoice,
+  getInvoiceWithLineItems,
+} from '../../../db/db';
+import { generateInvoicePdf } from '../../../utils/pdfinvoice';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -19,6 +25,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const invoiceId = parseInt(typeof id === 'string' ? id : id[0], 10);
 
         const success = await updateInvoice(db, invoiceId, req.body);
+
+        if (success) {
+          const invoice = await getInvoiceWithLineItems(db, invoiceId);
+          generateInvoicePdf(invoice);
+        }
+
         return res.json({ success });
       } catch {
         return res.json({ success: false });

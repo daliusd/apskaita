@@ -1,7 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import { v4 as uuidv4 } from 'uuid';
 
-import { openDb, createInvoice, getInvoiceList } from '../../../db/db';
+import {
+  openDb,
+  createInvoice,
+  getInvoiceList,
+  IInvoice,
+  getSetting,
+} from '../../../db/db';
+import { generateInvoicePdf } from '../../../utils/pdfinvoice';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -37,10 +45,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       let db;
 
       try {
+        const invoice = req.body as IInvoice;
+
+        if (!invoice.seller) {
+          invoice.seller =
+            (await getSetting(db, 'seller')) ||
+            `${session.user.name}\n${session.user.email}`;
+        }
+
+        if (!invoice.issuer) {
+          invoice.issuer =
+            (await getSetting(db, 'issuer')) || session.user.name;
+        }
+
+        invoice.pdfname = `${uuidv4()}.pdf`;
+
         db = await openDb(session.user.email);
-        const createResult = await createInvoice(db, req.body);
+        const createResult = await createInvoice(db, invoice);
+        generateInvoicePdf(invoice);
+
         return res.json(createResult);
-      } catch {
+      } catch (ex) {
+        console.log(ex);
         return res.json({ success: false });
       } finally {
         if (db) {

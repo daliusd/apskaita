@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           (await getSetting(db, 'seller')) ||
           `${session.user.name}\n${session.user.email}`;
         const issuer = (await getSetting(db, 'issuer')) || session.user.name;
-        const extra = await getSetting(db, 'extra');
+        const extra = (await getSetting(db, 'extra')) || '';
 
         return res.json({
           invoice: {

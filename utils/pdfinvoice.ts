@@ -1,6 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
+import path from 'path';
+import fs from 'fs';
 import PDFDocument from 'pdfkit';
+
+import { IInvoice } from '../db/db';
+import { getPriceInWords } from './priceinwords';
 
 const PTPMM = 72 / 25.4;
 const PAGE_WIDTH = 210 * PTPMM;
@@ -52,96 +55,33 @@ interface ITableLineItem {
   total: string;
 }
 
-import {
-  openDb,
-  getInvoiceWithLineItems,
-  getSetting,
-  IInvoice,
-} from '../../../db/db';
-import { getPriceInWords } from '../../../utils/priceinwords';
+export function generateInvoicePdf(invoice: IInvoice) {
+  const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-  if (session) {
-    if (req.method === 'GET') {
-      let db;
-
-      try {
-        db = await openDb(session.user.email);
-
-        const {
-          query: { id },
-        } = req;
-
-        const invoiceId = typeof id === 'string' ? id : id[0];
-
-        const invoice = await getInvoiceWithLineItems(
-          db,
-          parseInt(invoiceId, 10),
-        );
-
-        const seller =
-          invoice.seller ||
-          (await getSetting(db, 'seller')) ||
-          `${session.user.name}\n${session.user.email}`;
-
-        const issuer =
-          invoice.issuer ||
-          (await getSetting(db, 'issuer')) ||
-          session.user.name;
-
-        const doc = new PDFDocument({
-          size: [PAGE_WIDTH, PAGE_HEIGHT],
-          info: {
-            Title: `Sąskaita faktūra ${invoice.seriesName}/${invoice.seriesId}`,
-            Author: `${seller.split('\n')[0]} (via haiku.lt)`,
-          },
-          margin: 0,
-          bufferPages: true,
-        });
-
-        const buffers = [];
-        doc.on('data', buffers.push.bind(buffers));
-        doc.on('end', () => {
-          const pdfData = Buffer.concat(buffers);
-          res
-            .writeHead(200, {
-              'Content-Length': Buffer.byteLength(pdfData),
-              'Content-Type': 'application/pdf',
-              'Content-disposition': `attachment;filename=${
-                invoice.seriesName
-              }${invoice.seriesId.toString().padStart(6, '0')}.pdf`,
-            })
-            .end(pdfData);
-        });
-
-        doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
-        doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
-        addFooter(doc);
-        generateHeader(doc, invoice, seller);
-        generateContent(doc, invoice, seller, issuer);
-        doc.end();
-        return;
-      } catch (ex) {
-        // TODO: e-mail server side rendering errors
-        res.status(400);
-      } finally {
-        if (db) {
-          await db.close();
-        }
-      }
-    }
-  } else {
-    res.status(401);
+  if (!fs.existsSync(invoicesDir)) {
+    fs.mkdirSync(invoicesDir, { recursive: true });
   }
-  res.end();
-};
 
-function generateHeader(
-  doc: PDFKit.PDFDocument,
-  invoice: IInvoice,
-  seller: string,
-) {
+  const doc = new PDFDocument({
+    size: [PAGE_WIDTH, PAGE_HEIGHT],
+    info: {
+      Title: `Sąskaita faktūra ${invoice.seriesName}/${invoice.seriesId}`,
+      Author: `${invoice.issuer} (per haiku.lt)`,
+    },
+    margin: 0,
+    bufferPages: true,
+  });
+
+  doc.pipe(fs.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
+  doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
+  doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
+  addFooter(doc);
+  generateHeader(doc, invoice);
+  generateContent(doc, invoice);
+  doc.end();
+}
+
+function generateHeader(doc: PDFKit.PDFDocument, invoice: IInvoice) {
   doc
     .font('Roboto-Medium')
     .fontSize(14)
@@ -186,7 +126,7 @@ function generateHeader(
   doc
     .font('Roboto-Light')
     .fontSize(12)
-    .text(`${seller}`, PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
+    .text(`${invoice.seller}`, PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
       width: CONTENT_WIDTH / 2,
     });
 
@@ -217,12 +157,7 @@ function generateHeader(
     );
 }
 
-function generateContent(
-  doc: PDFKit.PDFDocument,
-  invoice: IInvoice,
-  seller: string,
-  issuer: string,
-) {
+function generateContent(doc: PDFKit.PDFDocument, invoice: IInvoice) {
   let y = PAGE_MARGIN + 90 * PTPMM;
 
   y = drawTableHeader(doc, y);
@@ -266,7 +201,7 @@ function generateContent(
     y += 10 * PTPMM;
   }
 
-  y = drawText(doc, y, 'Roboto-Light', 12, `Sąskaitą išrašė ${issuer}`);
+  y = drawText(doc, y, 'Roboto-Light', 12, `Sąskaitą išrašė ${invoice.issuer}`);
 }
 
 function drawText(

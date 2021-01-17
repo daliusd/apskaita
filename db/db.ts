@@ -21,6 +21,7 @@ export interface IInvoice {
   seller: string;
   issuer: string;
   extra: string;
+  pdfname?: string;
   lineItems: ILineItem[];
 }
 
@@ -74,7 +75,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -83,6 +84,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.seller,
     invoice.issuer,
     invoice.extra,
+    invoice.pdfname,
   );
 
   const invoiceId = result.lastID;
@@ -107,7 +109,7 @@ export async function getInvoiceList(
   offset: number,
 ) {
   const result = await db.all<IInvoice[]>(
-    'SELECT id, seriesName, seriesId, created, price, buyer FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
     limit,
     offset,
   );
@@ -116,7 +118,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
