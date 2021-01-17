@@ -640,11 +640,35 @@ describe('database tests', () => {
 
       let uniqueBuyerNames = await getUniqueLineItemsNames(db, '');
       expect(uniqueBuyerNames).toHaveLength(3);
-      expect(uniqueBuyerNames).toEqual(['A1', 'G1', 'G2']);
+      expect(uniqueBuyerNames.map((i) => i.name)).toEqual(['A1', 'G1', 'G2']);
 
       uniqueBuyerNames = await getUniqueLineItemsNames(db, 'A');
       expect(uniqueBuyerNames).toHaveLength(1);
-      expect(uniqueBuyerNames).toEqual(['A1']);
+      expect(uniqueBuyerNames.map((i) => i.name)).toEqual(['A1']);
+    });
+
+    it('gets unique line items names returns max value', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer1',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        lineItems: [{ name: 'G1', unit: 'vnt.', amount: 1, price: 100 }],
+      };
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      invoice.seriesId = 2;
+      invoice.lineItems = [{ name: 'G1', unit: 'vnt.', amount: 1, price: 120 }];
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      const uniqueBuyerNames = await getUniqueLineItemsNames(db, '');
+      expect(uniqueBuyerNames).toHaveLength(1);
+      expect(uniqueBuyerNames[0].name).toEqual('G1');
+      expect(uniqueBuyerNames[0].price).toEqual(120);
     });
   });
 });

@@ -34,11 +34,20 @@ export default function LineItemEdit({
     <>
       <Grid item xs={12}>
         <Autocomplete
-          options={data ? data.lineItemsNames : []}
+          options={data ? data.lineItemsNames.map((i) => i.name) : []}
           fullWidth
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
-            onChange({ ...lineItem, name: newValue });
+            const oldItems = data.lineItemsNames.filter(
+              (i) => i.name === newValue,
+            );
+            let newPrice;
+            if (oldItems.length > 0) {
+              newPrice = oldItems[0].price;
+              setPrice((newPrice / 100).toString());
+            }
+
+            onChange({ ...lineItem, name: newValue, price: newPrice });
           }}
           freeSolo
           renderInput={(params) => (
