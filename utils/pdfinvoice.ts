@@ -81,6 +81,21 @@ export function generateInvoicePdf(invoice: IInvoice) {
   doc.end();
 }
 
+export function deleteInvoicePdf(invoice: IInvoice) {
+  const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
+
+  if (!fs.existsSync(invoicesDir)) {
+    return true;
+  }
+
+  const pdfFileName = path.join(invoicesDir, invoice.pdfname);
+  if (fs.existsSync(pdfFileName)) {
+    fs.unlinkSync(pdfFileName);
+  }
+
+  return true;
+}
+
 function generateHeader(doc: PDFKit.PDFDocument, invoice: IInvoice) {
   doc
     .font('Roboto-Medium')

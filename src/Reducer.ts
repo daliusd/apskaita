@@ -1,4 +1,4 @@
-type Severity = 'error' | 'success';
+type Severity = 'error' | 'success' | 'info';
 
 interface IActionSetMessage {
   type: 'SET_MESSAGE';

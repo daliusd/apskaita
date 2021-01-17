@@ -7,7 +7,10 @@ import {
   deleteInvoice,
   getInvoiceWithLineItems,
 } from '../../../db/db';
-import { generateInvoicePdf } from '../../../utils/pdfinvoice';
+import {
+  deleteInvoicePdf,
+  generateInvoicePdf,
+} from '../../../utils/pdfinvoice';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -50,6 +53,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } = req;
 
         const invoiceId = parseInt(typeof id === 'string' ? id : id[0], 10);
+
+        const invoice = await getInvoiceWithLineItems(db, invoiceId);
+        if (invoice) {
+          deleteInvoicePdf(invoice);
+        }
 
         const success = await deleteInvoice(db, invoiceId);
         return res.json({ success });

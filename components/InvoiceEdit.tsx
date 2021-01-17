@@ -385,6 +385,11 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               }
 
               router.replace(`/saskaitos`);
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Sąskaita faktūra ištrinta.',
+                severity: 'info',
+              });
             }}
           >
             Trinti
