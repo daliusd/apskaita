@@ -4,6 +4,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { useRouter } from 'next/router';
@@ -209,7 +210,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           type="submit"
           variant="contained"
           color="primary"
-          startIcon={<AddIcon />}
+          startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
           onClick={async () => {
             const created = getMsSinceEpoch(invoiceDate);
             if (!created) {
@@ -351,13 +352,13 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
             } else {
               dispatch({
                 type: 'SET_MESSAGE',
-                text: 'Sąskaita faktūra pakeista',
+                text: 'Sąskaitos faktūros pakeitimai išsaugoti',
                 severity: 'success',
               });
             }
           }}
         >
-          {invoiceId ? 'Keisti' : 'Sukurti'}
+          {invoiceId ? 'Saugoti' : 'Sukurti'}
         </Button>
       </Grid>
 
