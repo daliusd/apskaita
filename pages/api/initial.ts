@@ -27,7 +27,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           seriesNames = ['HAIKU'];
         }
         const seriesId = await getNextSeriesId(db, seriesNames[0]);
-        const seller = await getSetting(db, 'seller');
+        const seller =
+          (await getSetting(db, 'seller')) ||
+          `${session.user.name}\n${session.user.email}`;
 
         return res.json({
           invoice: {
