@@ -8,10 +8,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
 import { getDateString } from '../utils/date';
+import Link from '../src/Link';
 
 interface Props {
   limit?: number;
@@ -25,6 +27,10 @@ export default function Invoices({ limit }: Props) {
 
   if (!data.invoices.length) return <>Jūs neturite sąskaitų faktūrų.</>;
 
+  const openInvoice = (i) => {
+    router.push(`/saskaitos/id/${i.id}`);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -34,23 +40,41 @@ export default function Invoices({ limit }: Props) {
             <TableCell>Data</TableCell>
             <TableCell>Pirkėjas</TableCell>
             <TableCell>Suma (€)</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.invoices.map((i) => (
-            <TableRow
-              key={i.id}
-              hover
-              onClick={() => {
-                router.push(`/saskaitos/id/${i.id}`);
-              }}
-            >
-              <TableCell component="th" scope="row">
+            <TableRow key={i.id} hover>
+              <TableCell
+                component="th"
+                scope="row"
+                onClick={() => openInvoice(i)}
+              >
                 {i.seriesName}/{i.seriesId}
               </TableCell>
-              <TableCell>{getDateString(i.created)}</TableCell>
-              <TableCell>{i.buyer.split('\n')[0]}</TableCell>
-              <TableCell>{i.price / 100}</TableCell>
+              <TableCell onClick={() => openInvoice(i)}>
+                {getDateString(i.created)}
+              </TableCell>
+              <TableCell onClick={() => openInvoice(i)}>
+                {i.buyer.split('\n')[0]}
+              </TableCell>
+              <TableCell onClick={() => openInvoice(i)}>
+                {i.price / 100}
+              </TableCell>
+              <TableCell>
+                <Link href={`/saskaitos/id/${i.id}`}>
+                  <EditIcon />
+                </Link>
+                <Link
+                  href={`/api/pdf/${i.pdfname}/${
+                    i.seriesName
+                  }${i.seriesId.toString().padStart(6, '0')}.pdf`}
+                  color="secondary"
+                >
+                  <PictureAsPdfIcon />
+                </Link>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
