@@ -79,6 +79,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           seller = `${session.user.name}\n${session.user.email}`;
         }
 
+        const extra = await getSetting(db, 'extra');
+
         const doc = new PDFDocument({
           size: [PAGE_WIDTH, PAGE_HEIGHT],
           info: {
@@ -108,7 +110,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
         addFooter(doc);
         generateHeader(doc, invoice, seller);
-        generateContent(doc, invoice, seller);
+        generateContent(doc, invoice, seller, extra);
         doc.end();
         return;
       } catch (ex) {
@@ -210,6 +212,7 @@ function generateContent(
   doc: PDFKit.PDFDocument,
   invoice: IInvoice,
   seller: string,
+  extra: string,
 ) {
   let y = PAGE_MARGIN + 90 * PTPMM;
 
@@ -240,15 +243,19 @@ function generateContent(
     total: formatPrice(invoice.price),
   });
 
-  y += 30 * PTPMM;
+  y += 10 * PTPMM;
 
   const priceInWords = `Suma žodžiais: ${getPriceInWords(
     Math.floor(invoice.price / 100),
   )} ${invoice.price % 100} ct`;
 
   y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
+  y += 20 * PTPMM;
 
-  y += 5 * PTPMM;
+  if (extra) {
+    y = drawText(doc, y, 'Roboto-Light', 12, extra);
+    y += 10 * PTPMM;
+  }
 
   y = drawText(
     doc,
