@@ -8,6 +8,7 @@ import {
   getInvoiceList,
   IInvoice,
   getSetting,
+  setSetting,
 } from '../../../db/db';
 import { generateInvoicePdf } from '../../../utils/pdfinvoice';
 
@@ -47,28 +48,32 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const invoice = req.body as IInvoice;
 
+        db = await openDb(session.user.email);
+
+        const savedSeller = await getSetting(db, 'seller');
         if (!invoice.seller) {
           invoice.seller =
-            (await getSetting(db, 'seller')) ||
-            `${session.user.name}\n${session.user.email}`;
+            savedSeller || `${session.user.name}\n${session.user.email}`;
+        } else if (!savedSeller) {
+          await setSetting(db, 'seller', invoice.seller);
         }
 
+        const savedIssuer = await getSetting(db, 'issuer');
         if (!invoice.issuer) {
-          invoice.issuer =
-            (await getSetting(db, 'issuer')) || session.user.name;
+          invoice.issuer = savedIssuer || session.user.name;
+        } else if (!savedIssuer) {
+          await setSetting(db, 'issuer', invoice.issuer);
         }
 
         invoice.pdfname = `${uuidv4()}.pdf`;
 
         const zeroes = await getSetting(db, 'zeroes');
 
-        db = await openDb(session.user.email);
         const createResult = await createInvoice(db, invoice);
         generateInvoicePdf(invoice, zeroes);
 
         return res.json(createResult);
       } catch (ex) {
-        console.log(ex);
         return res.json({ success: false });
       } finally {
         if (db) {
