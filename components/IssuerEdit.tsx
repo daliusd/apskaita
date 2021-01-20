@@ -27,7 +27,7 @@ export default function IssuerEdit() {
   return (
     <>
       <TextField
-        label="Numatytasis asmuo sąskaitų faktūrų išrašymui"
+        label="Asmuo įprastai išrašantis sąskaitas faktūras"
         value={issuer}
         onChange={(e) => {
           setIssuer(e.target.value);

@@ -25,7 +25,8 @@ export default function ExtraEdit() {
   return (
     <>
       <TextField
-        label="Numatyta papildoma informacija sąskaitoje faktūroje"
+        label="Papildoma informacija sąskaitoje faktūroje"
+        helperText="Pavyzdžiui „Prašome apmokėti sąskaitą faktūrą per 10 dienų“"
         value={extra}
         onChange={(e) => {
           setExtra(e.target.value);
