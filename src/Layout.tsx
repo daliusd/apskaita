@@ -88,6 +88,15 @@ const Layout: React.FC = ({ children }) => {
             <Link href="/" color="primary" className={classes.toolbarLink}>
               Pagrindinis
             </Link>
+            {session && (
+              <Link
+                href="/nustatymai"
+                color="primary"
+                className={classes.toolbarLink}
+              >
+                Nustatymai
+              </Link>
+            )}
             <Link href="/apie" color="primary" className={classes.toolbarLink}>
               Apie
             </Link>

@@ -6,6 +6,7 @@ import {
   updateInvoice,
   deleteInvoice,
   getInvoiceWithLineItems,
+  getSetting,
 } from '../../../db/db';
 import {
   deleteInvoicePdf,
@@ -31,7 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (success) {
           const invoice = await getInvoiceWithLineItems(db, invoiceId);
-          generateInvoicePdf(invoice);
+          const zeroes = await getSetting(db, 'zeroes');
+          generateInvoicePdf(invoice, zeroes);
         }
 
         return res.json({ success });

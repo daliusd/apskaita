@@ -60,9 +60,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         invoice.pdfname = `${uuidv4()}.pdf`;
 
+        const zeroes = await getSetting(db, 'zeroes');
+
         db = await openDb(session.user.email);
         const createResult = await createInvoice(db, invoice);
-        generateInvoicePdf(invoice);
+        generateInvoicePdf(invoice, zeroes);
 
         return res.json(createResult);
       } catch (ex) {

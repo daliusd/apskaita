@@ -55,17 +55,22 @@ interface ITableLineItem {
   total: string;
 }
 
-export function generateInvoicePdf(invoice: IInvoice) {
+export function generateInvoicePdf(invoice: IInvoice, zeroes: number) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
   if (!fs.existsSync(invoicesDir)) {
     fs.mkdirSync(invoicesDir, { recursive: true });
   }
 
+  let seriesId = invoice.seriesId.toString();
+  if (zeroes) {
+    seriesId = seriesId.padStart(zeroes, '0');
+  }
+
   const doc = new PDFDocument({
     size: [PAGE_WIDTH, PAGE_HEIGHT],
     info: {
-      Title: `Sąskaita faktūra ${invoice.seriesName}/${invoice.seriesId}`,
+      Title: `Sąskaita - faktūra Serija ${invoice.seriesName} Nr. ${seriesId}`,
       Author: `${invoice.issuer} (per haiku.lt)`,
     },
     margin: 0,
@@ -76,7 +81,7 @@ export function generateInvoicePdf(invoice: IInvoice) {
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
   addFooter(doc);
-  generateHeader(doc, invoice);
+  generateHeader(doc, invoice, seriesId);
   generateContent(doc, invoice);
   doc.end();
 }
@@ -96,7 +101,11 @@ export function deleteInvoicePdf(invoice: IInvoice) {
   return true;
 }
 
-function generateHeader(doc: PDFKit.PDFDocument, invoice: IInvoice) {
+function generateHeader(
+  doc: PDFKit.PDFDocument,
+  invoice: IInvoice,
+  seriesId: string,
+) {
   doc
     .font('Roboto-Medium')
     .fontSize(14)
@@ -109,7 +118,7 @@ function generateHeader(doc: PDFKit.PDFDocument, invoice: IInvoice) {
     .font('Roboto-Medium')
     .fontSize(12)
     .text(
-      `Serija ${invoice.seriesName} Nr. ${invoice.seriesId}`,
+      `Serija ${invoice.seriesName} Nr. ${seriesId}`,
       PAGE_MARGIN,
       PAGE_MARGIN + 8 * PTPMM,
       {
