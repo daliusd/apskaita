@@ -2,7 +2,7 @@
 name: Klaidos pranešimas
 about: Praneškite apie klaidą
 title: ''
-labels: bug
+labels: klaida
 assignees: daliusd
 
 ---

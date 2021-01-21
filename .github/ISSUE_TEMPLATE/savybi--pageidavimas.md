@@ -2,7 +2,7 @@
 name: Savybių pageidavimas
 about: Pasiūlyk idėja projektui
 title: ''
-labels: enhancement
+labels: patobulinimas
 assignees: daliusd
 
 ---
