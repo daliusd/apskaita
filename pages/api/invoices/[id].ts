@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import * as Sentry from '@sentry/node';
+
+import { init } from '../../../utils/sentry';
+
+init();
 
 import {
   openDb,
@@ -37,7 +42,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         return res.json({ success });
-      } catch {
+      } catch (ex) {
+        Sentry.captureException(ex);
         return res.json({ success: false });
       } finally {
         if (db) {
@@ -63,7 +69,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const success = await deleteInvoice(db, invoiceId);
         return res.json({ success });
-      } catch {
+      } catch (ex) {
+        Sentry.captureException(ex);
         return res.json({ success: false });
       } finally {
         if (db) {

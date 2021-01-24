@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import * as Sentry from '@sentry/node';
 
 import { openDb, getSetting, setSetting } from '../../../db/db';
+import { init } from '../../../utils/sentry';
+
+init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -21,7 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           typeof name === 'string' ? name : name[0],
         );
         return res.json({ value });
-      } catch {
+      } catch (ex) {
+        Sentry.captureException(ex);
         res.status(404);
       } finally {
         if (db) {
@@ -40,7 +45,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           req.body.value,
         );
         return res.json({ success: true });
-      } catch {
+      } catch (ex) {
+        Sentry.captureException(ex);
         return res.json({ success: false });
       } finally {
         if (db) {

@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import * as Sentry from '@sentry/node';
 
+import { init } from '../../../utils/sentry';
 import { getNextSeriesId, openDb } from '../../../db/db';
+
+init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -15,7 +19,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const seriesId = await getNextSeriesId(db, seriesName);
 
       return res.json({ seriesId });
-    } catch {
+    } catch (ex) {
+      Sentry.captureException(ex);
       return res.json({ seriesId: 1 });
     } finally {
       if (db) {

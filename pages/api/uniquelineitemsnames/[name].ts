@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import * as Sentry from '@sentry/node';
 
 import { openDb, getUniqueLineItemsNames } from '../../../db/db';
+import { init } from '../../../utils/sentry';
+
+init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -15,7 +19,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const lineItemsNames = await getUniqueLineItemsNames(db, nameStart);
 
       return res.json({ lineItemsNames });
-    } catch {
+    } catch (ex) {
+      Sentry.captureException(ex);
       return res.json({ lineItemsNames: [] });
     } finally {
       if (db) {

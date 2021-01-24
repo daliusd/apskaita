@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import * as Sentry from '@sentry/node';
+
+import { init } from '../../utils/sentry';
+
+init();
 
 import {
   getNextSeriesId,
@@ -53,7 +58,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       return res.json({ invoice });
-    } catch {
+    } catch (err) {
+      Sentry.captureException(err);
       return res.json({ invoice: undefined });
     } finally {
       if (db) {
