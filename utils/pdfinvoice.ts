@@ -81,8 +81,8 @@ export function generateInvoicePdf(invoice: IInvoice, zeroes: number) {
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
   addFooter(doc);
-  generateHeader(doc, invoice, seriesId);
-  generateContent(doc, invoice);
+  const y = generateHeader(doc, invoice, seriesId);
+  generateContent(doc, invoice, y);
   doc.end();
 }
 
@@ -150,9 +150,14 @@ function generateHeader(
   doc
     .font('Roboto-Light')
     .fontSize(12)
-    .text(`${invoice.seller}`, PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
+    .text(invoice.seller, PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
       width: CONTENT_WIDTH / 2,
     });
+
+  const sellerHeight = doc
+    .font('Roboto-Light')
+    .fontSize(12)
+    .heightOfString(invoice.seller, { width: CONTENT_WIDTH / 2 });
 
   doc
     .font('Roboto-Medium')
@@ -171,7 +176,7 @@ function generateHeader(
     .font('Roboto-Light')
     .fontSize(12)
     .text(
-      `${invoice.buyer}`,
+      invoice.buyer,
       PAGE_MARGIN + CONTENT_WIDTH / 2,
       PAGE_MARGIN + 45 * PTPMM,
       {
@@ -179,10 +184,25 @@ function generateHeader(
         align: 'right',
       },
     );
+
+  const buyerHeight = doc
+    .font('Roboto-Light')
+    .fontSize(12)
+    .heightOfString(invoice.buyer, { width: CONTENT_WIDTH / 2 });
+
+  return Math.max(
+    PAGE_MARGIN + 90 * PTPMM,
+    PAGE_MARGIN + 45 * PTPMM + sellerHeight + 20 * PTPMM,
+    PAGE_MARGIN + 45 * PTPMM + buyerHeight + 20 * PTPMM,
+  );
 }
 
-function generateContent(doc: PDFKit.PDFDocument, invoice: IInvoice) {
-  let y = PAGE_MARGIN + 90 * PTPMM;
+function generateContent(
+  doc: PDFKit.PDFDocument,
+  invoice: IInvoice,
+  startY: number,
+) {
+  let y = startY;
 
   y = drawTableHeader(doc, y);
 
