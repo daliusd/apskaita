@@ -17,8 +17,14 @@ export default function SeriesIdInput({ seriesId, onChange, valid }: IProps) {
         onChange(e.target.value);
       }}
       fullWidth
-      error={!valid}
-      helperText={!valid ? 'Šis serijos numeris jau naudojamas.' : ''}
+      error={!valid || !seriesId}
+      helperText={
+        !valid
+          ? 'Šis serijos numeris jau naudojamas.'
+          : !seriesId
+          ? 'Serijos numeris negali būti tuščias'
+          : ''
+      }
     />
   );
 }

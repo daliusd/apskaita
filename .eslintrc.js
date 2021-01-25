@@ -35,6 +35,7 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
   },
   globals: {
     React: 'writable',

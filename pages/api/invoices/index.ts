@@ -54,6 +54,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const invoice = req.body as IInvoice;
 
+        if (!invoice.seriesId) {
+          return res.json({ success: false });
+        }
+
         db = await openDb(session.user.email);
 
         const savedSeller = await getSetting(db, 'seller');

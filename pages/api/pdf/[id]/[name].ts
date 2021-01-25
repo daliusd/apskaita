@@ -14,7 +14,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         query: { id, name },
       } = req;
 
-      console.log(id, name);
       const fileName = typeof id === 'string' ? id : id[0];
       const downloadName = typeof name === 'string' ? name : name[0];
 
