@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useSession } from 'next-auth/client';
 
 import SellerInfoEdit from '../components/SellerInfoEdit';
 import IssuerEdit from '../components/IssuerEdit';
@@ -8,6 +9,12 @@ import ExtraEdit from '../components/ExtraEdit';
 import ZeroesEdit from '../components/ZeroesEdit';
 
 export default function Apie() {
+  const [session] = useSession();
+
+  if (!session) {
+    return null;
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
