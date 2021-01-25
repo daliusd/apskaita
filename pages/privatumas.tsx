@@ -21,6 +21,11 @@ export default function Apie() {
             </ul>
           </li>
           <li>
+            Klaidų sekimui mes naudojame <a href="https://sentry.io">Sentry</a>,
+            o tai reiškia, kad įvykus klaidai šiek tiek anonimizuotos
+            informacijos apie jus gali būti išsiųsta į Sentry serverius.
+          </li>
+          <li>
             Mes užtikriname, kad imamės pagrįstų techninių priemonių, kad
             apsaugotumėme surinktus duomenis.
           </li>
