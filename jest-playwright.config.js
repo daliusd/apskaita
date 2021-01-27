@@ -1,11 +1,10 @@
 module.exports = {
-  server: {
+  serverOptions: {
     command: 'npm run dev -- -p 4000',
     port: 4000,
   },
-  launch: {
+  launchOptions: {
     headless: true,
     devtools: false,
   },
-  browserContext: 'incognito',
 };

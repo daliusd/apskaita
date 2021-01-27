@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["puppeteer", "jest-environment-puppeteer", "expect-puppeteer"],
+    "types": ["jest", "jest-playwright-preset"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,

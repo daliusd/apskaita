@@ -1,7 +1,4 @@
-import { getDocument, queries } from 'pptr-testing-library';
 import { login } from './login';
-
-const { queryByText, findByText } = queries;
 
 describe('Login test', () => {
   beforeAll(async () => {
@@ -11,8 +8,7 @@ describe('Login test', () => {
   it('should login', async () => {
     const email = await login(page);
 
-    const doc = await getDocument(page);
-    await findByText(doc, /.*Esi prisijungęs.*/i);
-    expect((await queryByText(doc, new RegExp(email))) === null).toBeFalsy();
+    await page.waitForSelector('text=Esi prisijungęs');
+    await page.waitForSelector(`text=${email}`);
   });
 });

@@ -5,7 +5,7 @@ describe('Simple test', () => {
     await page.goto('http://localhost:4000');
   });
 
-  it('should be titled "Haiku.lt"', async () => {
-    await expect(page.title()).resolves.toMatch('Haiku.lt');
+  it('should have "Haiku.lt" somewhere', async () => {
+    await page.waitForSelector('text=Haiku.lt');
   });
 });
