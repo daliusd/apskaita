@@ -28,6 +28,9 @@ export default function IssuerEdit() {
     <>
       <TextField
         label="Asmuo įprastai išrašantis sąskaitas faktūras"
+        inputProps={{
+          'aria-label': 'Asmuo įprastai išrašantis sąskaitas faktūras',
+        }}
         value={issuer}
         onChange={(e) => {
           setIssuer(e.target.value);
@@ -40,6 +43,7 @@ export default function IssuerEdit() {
         color="primary"
         startIcon={<EditIcon />}
         disabled={issuer === issuerCurrent}
+        aria-label="Išsaugoti asmenį išrašantį sąskaitas"
         onClick={async () => {
           await fetch('/api/settings/issuer', {
             method: 'PUT',

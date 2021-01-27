@@ -25,8 +25,12 @@ export default function ZeroesEdit() {
   return (
     <>
       <TextField
-        label="Nulių skaičius sąskaitoje faktūroje"
-        helperText="Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
+        label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"
+        inputProps={{
+          'aria-label':
+            'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
+        }}
+        helperText="Jei skaitmenų skaičius mažesnis priekyje bus prirašyti nuliai. Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
         type="number"
         value={zeroes}
         onChange={(e) => {
@@ -50,6 +54,7 @@ export default function ZeroesEdit() {
           });
           setZeroesCurrent(zeroes);
         }}
+        aria-label="Išsaugoti skaitmenų skaičių"
       >
         Išsaugoti
       </Button>

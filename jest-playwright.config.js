@@ -6,5 +6,6 @@ module.exports = {
   launchOptions: {
     headless: true,
     devtools: false,
+    // slowMo: 250,
   },
 };

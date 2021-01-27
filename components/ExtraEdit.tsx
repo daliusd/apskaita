@@ -26,6 +26,9 @@ export default function ExtraEdit() {
     <>
       <TextField
         label="Papildoma informacija sąskaitoje faktūroje"
+        inputProps={{
+          'aria-label': 'Papildoma informacija sąskaitoje faktūroje',
+        }}
         helperText="Pavyzdžiui „Prašome apmokėti sąskaitą faktūrą per 10 dienų“"
         value={extra}
         onChange={(e) => {
@@ -51,6 +54,7 @@ export default function ExtraEdit() {
           });
           setExtraCurrent(extra);
         }}
+        aria-label="Išsaugoti papildomą informaciją"
       >
         Išsaugoti
       </Button>

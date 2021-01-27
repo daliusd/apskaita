@@ -30,6 +30,7 @@ export default function SellerInfoEdit() {
     <>
       <TextField
         label="Tavo rekvizitai sąskaitai faktūrai"
+        inputProps={{ 'aria-label': 'Tavo rekvizitai sąskaitai faktūrai' }}
         value={seller}
         onChange={(e) => {
           setSeller(e.target.value);
@@ -44,6 +45,7 @@ export default function SellerInfoEdit() {
         color="primary"
         startIcon={<EditIcon />}
         disabled={seller === sellerCurrent}
+        aria-label="Išsaugoti rekvizitus"
         onClick={async () => {
           await fetch('/api/settings/seller', {
             method: 'PUT',
