@@ -14,7 +14,7 @@ describe('Settings test', () => {
     const invoice: IInvoice = {
       seriesName: 'TEST',
       seriesId: 0,
-      created: new Date(2020, 0, 31).getTime(),
+      created: Date.UTC(2020, 0, 31),
       price: 50,
       buyer: 'Dalius',
       seller: 'Jonas',
