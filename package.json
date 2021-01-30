@@ -33,7 +33,7 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest --config=jest.config.js",
-    "test:e2e": "jest --config=jest.e2e.config.js",
+    "test:e2e": "jest --config=jest.e2e.config.js -w 2",
     "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext ts tests/"
   },
   "devDependencies": {

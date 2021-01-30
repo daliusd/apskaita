@@ -11,6 +11,7 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
     invoice.seriesName,
   );
   await page.press('input[aria-label="Serijos pavadinimas"]', 'Escape');
+  await page.waitForTimeout(1000);
 
   if (invoice.seriesId > 0) {
     await page.click('input[aria-label="Serijos numeris"]');
