@@ -21,6 +21,7 @@ export default function InvoiceDateInput({
   return (
     <KeyboardDatePicker
       label="Sąskaitos data"
+      inputProps={{ 'aria-label': 'Sąskaitos data' }}
       value={date}
       onChange={onChange}
       format="yyyy-MM-dd"

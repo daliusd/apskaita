@@ -11,6 +11,7 @@ export default function SeriesIdInput({ seriesId, onChange, valid }: IProps) {
   return (
     <TextField
       type="number"
+      inputProps={{ 'aria-label': 'Serijos numeris' }}
       label="Serijos numeris"
       value={seriesId}
       onChange={(e) => {

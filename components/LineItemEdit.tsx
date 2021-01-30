@@ -30,6 +30,8 @@ export default function LineItemEdit({
   const debouncedLineItemName = useDebounce(lineItem.name, 500);
   const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
 
+  const lid = lineItem.id > 0 ? ' ' + lineItem.id : '';
+
   return (
     <>
       <Grid item xs={12}>
@@ -53,7 +55,11 @@ export default function LineItemEdit({
           }}
           freeSolo
           renderInput={(params) => (
-            <TextField {...params} label="Paslaugos ar prekės pavadinimas" />
+            <TextField
+              {...params}
+              label="Paslaugos ar prekės pavadinimas"
+              inputProps={{ 'aria-label': 'Paslaugos pavadinimas' + lid }}
+            />
           )}
         />
       </Grid>
@@ -67,7 +73,13 @@ export default function LineItemEdit({
             onChange({ ...lineItem, unit: newValue });
           }}
           freeSolo
-          renderInput={(params) => <TextField {...params} label="Matas" />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Matas"
+              inputProps={{ 'aria-label': 'Matas' + lid }}
+            />
+          )}
         />
       </Grid>
 
@@ -75,6 +87,7 @@ export default function LineItemEdit({
         <TextField
           type="number"
           label="Kiekis"
+          inputProps={{ 'aria-label': 'Kiekis' + lid }}
           value={amount}
           onChange={(e) => {
             setAmount(e.target.value);
@@ -91,6 +104,7 @@ export default function LineItemEdit({
         <TextField
           type="number"
           label="Kaina"
+          inputProps={{ 'aria-label': 'Kaina' + lid }}
           value={price}
           onChange={(e) => {
             let price = Math.round(parseFloat(e.target.value) * 100);
@@ -117,7 +131,12 @@ export default function LineItemEdit({
 
       {deleteEnabled && (
         <Grid item xs={3}>
-          <Button variant="contained" color="primary" onClick={onDelete}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onDelete}
+            aria-label={'Pašalinti' + lid}
+          >
             Pašalinti
           </Button>
         </Grid>

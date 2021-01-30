@@ -15,7 +15,6 @@ export default function SeriesNameInput({
 }: IProps) {
   return (
     <Autocomplete
-      id="combo-box-demo"
       options={options}
       fullWidth
       value={seriesName}
@@ -24,7 +23,11 @@ export default function SeriesNameInput({
       }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label="Serijos pavadinimas" />
+        <TextField
+          {...params}
+          label="Serijos pavadinimas"
+          inputProps={{ 'aria-label': 'Serijos pavadinimas' }}
+        />
       )}
     />
   );

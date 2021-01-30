@@ -190,6 +190,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         <Button
           color="primary"
           startIcon={<AddIcon />}
+          aria-label="Pridėti paslaugą"
           onClick={() => {
             setLineItems([
               ...lineItems,
@@ -210,6 +211,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       <Grid item xs={6}>
         <Button
           type="submit"
+          aria-label={invoiceId ? 'Saugoti' : 'Sukurti'}
           variant="contained"
           color="primary"
           startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
@@ -369,6 +371,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           <Button
             variant="contained"
             color="secondary"
+            aria-label="Trinti"
             startIcon={<DeleteIcon />}
             onClick={async () => {
               const response = await fetch('/api/invoices/' + invoiceId, {
@@ -400,6 +403,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       {pdfname && (
         <Grid item xs={12}>
           <Link
+            aria-label="PDF failas"
             href={`/api/pdf/${pdfname}/${seriesName}${seriesId
               .toString()
               .padStart(6, '0')}.pdf`}

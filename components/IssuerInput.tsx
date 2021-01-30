@@ -10,6 +10,7 @@ export default function SellerInput({ issuer, onChange }: IProps) {
   return (
     <TextField
       label="Sąskaitą faktūrą išrašė"
+      inputProps={{ 'aria-label': 'SF išrašė' }}
       value={issuer}
       onChange={(e) => {
         onChange(e.target.value);

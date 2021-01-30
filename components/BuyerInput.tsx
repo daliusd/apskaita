@@ -30,6 +30,7 @@ export default function BuyerInput({ buyer, onChange }: IProps) {
         <TextField
           {...params}
           label="Pirkėjas"
+          inputProps={{ 'aria-label': 'Pirkėjas' }}
           multiline
           rows={4}
           variant="outlined"

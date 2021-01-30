@@ -10,6 +10,7 @@ export default function SellerInput({ seller, onChange }: IProps) {
   return (
     <TextField
       label="Pardavėjas"
+      inputProps={{ 'aria-label': 'Pardavėjas' }}
       value={seller}
       onChange={(e) => {
         onChange(e.target.value);

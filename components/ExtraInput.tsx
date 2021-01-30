@@ -10,6 +10,7 @@ export default function SellerInput({ extra, onChange }: IProps) {
   return (
     <TextField
       label="Papildoma informacija sąskaitoje faktūroje"
+      inputProps={{ 'aria-label': 'Papildoma informacija' }}
       value={extra}
       onChange={(e) => {
         onChange(e.target.value);

@@ -117,7 +117,11 @@ const Layout: React.FC = ({ children }) => {
         autoHideDuration={6000}
         onClose={handleMessageClose}
       >
-        <Alert onClose={handleMessageClose} severity={state.messageSeverity}>
+        <Alert
+          onClose={handleMessageClose}
+          severity={state.messageSeverity}
+          closeText="Uždaryti"
+        >
           {state.messageText}
         </Alert>
       </Snackbar>
