@@ -30,7 +30,7 @@ export default function LineItemEdit({
   const debouncedLineItemName = useDebounce(lineItem.name, 500);
   const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
 
-  const lid = lineItem.id > 0 ? ' ' + lineItem.id : '';
+  const lid = ` ${lineItem.id + 1}`;
 
   return (
     <>
@@ -58,7 +58,10 @@ export default function LineItemEdit({
             <TextField
               {...params}
               label="Paslaugos ar prekės pavadinimas"
-              inputProps={{ 'aria-label': 'Paslaugos pavadinimas' + lid }}
+              inputProps={{
+                'aria-label': 'Paslaugos pavadinimas' + lid,
+                ...params.inputProps,
+              }}
             />
           )}
         />
@@ -77,7 +80,7 @@ export default function LineItemEdit({
             <TextField
               {...params}
               label="Matas"
-              inputProps={{ 'aria-label': 'Matas' + lid }}
+              inputProps={{ 'aria-label': 'Matas' + lid, ...params.inputProps }}
             />
           )}
         />

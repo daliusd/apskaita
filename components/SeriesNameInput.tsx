@@ -26,7 +26,10 @@ export default function SeriesNameInput({
         <TextField
           {...params}
           label="Serijos pavadinimas"
-          inputProps={{ 'aria-label': 'Serijos pavadinimas' }}
+          inputProps={{
+            'aria-label': 'Serijos pavadinimas',
+            ...params.inputProps,
+          }}
         />
       )}
     />
