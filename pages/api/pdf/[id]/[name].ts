@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       res
         .writeHead(200, {
-          'Content-disposition': 'attachment; filename=' + downloadName,
+          'Content-disposition': 'inline; filename=' + downloadName,
           'Content-type': 'application/pdf',
         })
         .end(
