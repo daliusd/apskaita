@@ -10,6 +10,7 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
     'input[aria-label="Serijos pavadinimas"]',
     invoice.seriesName,
   );
+  await page.press('input[aria-label="Serijos pavadinimas"]', 'Escape');
 
   if (invoice.seriesId > 0) {
     await page.click('input[aria-label="Serijos numeris"]');
@@ -30,6 +31,7 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
 
   await page.click('textarea[aria-label="Pirkėjas"]');
   await page.fill('textarea[aria-label="Pirkėjas"]', invoice.buyer);
+  await page.press('textarea[aria-label="Pirkėjas"]', 'Escape');
 
   await page.click('input[aria-label="SF išrašė"]');
   await page.fill('input[aria-label="SF išrašė"]', invoice.issuer);
@@ -50,6 +52,10 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
     await page.fill(
       `input[aria-label="Paslaugos pavadinimas${pid}"]`,
       invoice.lineItems[i].name,
+    );
+    await page.press(
+      `input[aria-label="Paslaugos pavadinimas${pid}"]`,
+      'Escape',
     );
 
     await page.click(`input[aria-label="Matas${pid}"]`);
