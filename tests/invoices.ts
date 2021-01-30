@@ -1,0 +1,109 @@
+import { Page } from 'playwright';
+
+import { IInvoice } from '../db/db';
+
+import { validateTextArea, validateInput } from './utils';
+
+export async function fillNewInvoice(page: Page, invoice: IInvoice) {
+  await page.click('input[aria-label="Serijos pavadinimas"]');
+  await page.fill(
+    'input[aria-label="Serijos pavadinimas"]',
+    invoice.seriesName,
+  );
+
+  if (invoice.seriesId > 0) {
+    await page.click('input[aria-label="Serijos numeris"]');
+    await page.fill(
+      'input[aria-label="Serijos numeris"]',
+      invoice.seriesId.toString(),
+    );
+  }
+
+  await page.click('input[aria-label="Sąskaitos data"]');
+  await page.fill(
+    'input[aria-label="Sąskaitos data"]',
+    new Date(invoice.created).toISOString().slice(0, 10),
+  );
+
+  await page.click('textarea[aria-label="Pardavėjas"]');
+  await page.fill('textarea[aria-label="Pardavėjas"]', invoice.seller);
+
+  await page.click('textarea[aria-label="Pirkėjas"]');
+  await page.fill('textarea[aria-label="Pirkėjas"]', invoice.buyer);
+
+  await page.click('input[aria-label="SF išrašė"]');
+  await page.fill('input[aria-label="SF išrašė"]', invoice.issuer);
+
+  await page.click('textarea[aria-label="Papildoma informacija"]');
+  await page.fill(
+    'textarea[aria-label="Papildoma informacija"]',
+    invoice.extra,
+  );
+
+  for (let i = 0; i < invoice.lineItems.length; i++) {
+    if (i > 0) {
+      await page.click('text="Pridėti paslaugą"');
+    }
+
+    const pid = ` ${i + 1}`;
+    await page.click(`input[aria-label="Paslaugos pavadinimas${pid}"]`);
+    await page.fill(
+      `input[aria-label="Paslaugos pavadinimas${pid}"]`,
+      invoice.lineItems[i].name,
+    );
+
+    await page.click(`input[aria-label="Matas${pid}"]`);
+    await page.fill(
+      `input[aria-label="Matas${pid}"]`,
+      invoice.lineItems[i].unit,
+    );
+
+    await page.click(`input[aria-label="Kiekis${pid}"]`);
+    await page.fill(
+      `input[aria-label="Kiekis${pid}"]`,
+      invoice.lineItems[i].amount.toString(),
+    );
+
+    await page.click(`input[aria-label="Kaina${pid}"]`);
+    await page.fill(
+      `input[aria-label="Kaina${pid}"]`,
+      invoice.lineItems[i].price.toString(),
+    );
+  }
+}
+
+export async function validateInvoice(page: Page, invoice: IInvoice) {
+  validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
+
+  validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
+
+  validateInput(
+    page,
+    'Sąskaitos data',
+    new Date(invoice.created).toISOString().slice(0, 10),
+  );
+
+  validateTextArea(page, 'Pardavėjas', invoice.seller);
+
+  validateTextArea(page, 'Pirkėjas', invoice.buyer);
+
+  validateInput(page, 'SF išrašė', invoice.issuer);
+
+  validateTextArea(page, 'Papildoma informacija', invoice.extra);
+
+  for (let i = 0; i < invoice.lineItems.length; i++) {
+    const pid = ` ${i + 1}`;
+
+    validateInput(
+      page,
+      `Paslaugos pavadinimas${pid}`,
+      invoice.lineItems[i].name,
+    );
+
+    validateInput(page, `Matas{pid}`, invoice.lineItems[i].unit);
+
+    validateInput(page, `Kiekis{pid}`, invoice.lineItems[i].amount.toString());
+
+    validateInput(page, `Kaina{pid}`, invoice.lineItems[i].price.toString());
+  }
+}

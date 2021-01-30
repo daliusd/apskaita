@@ -1,4 +1,5 @@
 import { login } from './login';
+import { validateTextArea, validateInput } from './utils';
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -53,44 +54,28 @@ describe('Settings test', () => {
 
     await page.goto('http://localhost:4000/nustatymai');
 
-    await page.waitForSelector(
-      'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
+    validateTextArea(
+      page,
+      'Tavo rekvizitai sąskaitai faktūrai',
+      'mano rekvizitai',
     );
-    expect(
-      await page.$eval(
-        'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
-        (el) => (el as HTMLTextAreaElement).value,
-      ),
-    ).toEqual('mano rekvizitai');
 
-    await page.waitForSelector(
-      'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
+    validateInput(
+      page,
+      'Asmuo įprastai išrašantis sąskaitas faktūras',
+      'vardenis pavardenis',
     );
-    expect(
-      await page.$eval(
-        'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
-        (el) => (el as HTMLInputElement).value,
-      ),
-    ).toEqual('vardenis pavardenis');
 
-    await page.waitForSelector(
-      'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
+    validateTextArea(
+      page,
+      'Papildoma informacija sąskaitoje faktūroje',
+      'papildoma informacija',
     );
-    expect(
-      await page.$eval(
-        'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
-        (el) => (el as HTMLTextAreaElement).value,
-      ),
-    ).toEqual('papildoma informacija');
 
-    await page.waitForSelector(
-      'input[aria-label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"]',
+    validateInput(
+      page,
+      'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
+      '3',
     );
-    expect(
-      await page.$eval(
-        'input[aria-label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"]',
-        (el) => (el as HTMLInputElement).value,
-      ),
-    ).toEqual('3');
   });
 });
