@@ -118,7 +118,7 @@ function generateHeader(
     .font('Roboto-Medium')
     .fontSize(12)
     .text(
-      `Serija ${invoice.seriesName} Nr. ${seriesId}`,
+      `Serija ${invoice.seriesName.normalize()} Nr. ${seriesId}`,
       PAGE_MARGIN,
       PAGE_MARGIN + 8 * PTPMM,
       {
@@ -150,7 +150,7 @@ function generateHeader(
   doc
     .font('Roboto-Light')
     .fontSize(12)
-    .text(invoice.seller, PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
+    .text(invoice.seller.normalize(), PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
       width: CONTENT_WIDTH / 2,
     });
 
@@ -176,7 +176,7 @@ function generateHeader(
     .font('Roboto-Light')
     .fontSize(12)
     .text(
-      invoice.buyer,
+      invoice.buyer.normalize(),
       PAGE_MARGIN + CONTENT_WIDTH / 2,
       PAGE_MARGIN + 45 * PTPMM,
       {
@@ -258,14 +258,14 @@ function drawText(
   const height = doc
     .font(font)
     .fontSize(fontSize)
-    .heightOfString(text, { width: CONTENT_WIDTH });
+    .heightOfString(text.normalize(), { width: CONTENT_WIDTH });
 
   y = validateOrAddPage(doc, y, height).y;
 
   doc
     .font(font)
     .fontSize(fontSize)
-    .text(text, PAGE_MARGIN, y, { width: CONTENT_WIDTH });
+    .text(text.normalize(), PAGE_MARGIN, y, { width: CONTENT_WIDTH });
   return y + height;
 }
 
@@ -310,7 +310,7 @@ function drawTableRow(
 
   let x = PAGE_MARGIN;
   for (const field of FIELDS_INFO) {
-    doc.font(font).fontSize(10).text(lineItem[field.name], x, y, {
+    doc.font(font).fontSize(10).text(lineItem[field.name].normalize(), x, y, {
       width: field.size,
       align: field.align,
     });
