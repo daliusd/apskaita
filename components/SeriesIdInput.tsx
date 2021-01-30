@@ -5,9 +5,15 @@ interface IProps {
   seriesId: string;
   onChange: (value: string) => void;
   valid: boolean;
+  disabled: boolean;
 }
 
-export default function SeriesIdInput({ seriesId, onChange, valid }: IProps) {
+export default function SeriesIdInput({
+  seriesId,
+  onChange,
+  valid,
+  disabled,
+}: IProps) {
   return (
     <TextField
       type="number"
@@ -17,6 +23,7 @@ export default function SeriesIdInput({ seriesId, onChange, valid }: IProps) {
       onChange={(e) => {
         onChange(e.target.value);
       }}
+      disabled={disabled}
       fullWidth
       error={!valid || !seriesId}
       helperText={
