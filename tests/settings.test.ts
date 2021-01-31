@@ -54,25 +54,25 @@ describe('Settings test', () => {
 
     await page.goto('http://localhost:4000/nustatymai');
 
-    validateTextArea(
+    await validateTextArea(
       page,
       'Tavo rekvizitai sąskaitai faktūrai',
       'mano rekvizitai',
     );
 
-    validateInput(
+    await validateInput(
       page,
       'Asmuo įprastai išrašantis sąskaitas faktūras',
       'vardenis pavardenis',
     );
 
-    validateTextArea(
+    await validateTextArea(
       page,
       'Papildoma informacija sąskaitoje faktūroje',
       'papildoma informacija',
     );
 
-    validateInput(
+    await validateInput(
       page,
       'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
       '3',

@@ -1,4 +1,5 @@
 import { login } from './login';
+import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
@@ -6,6 +7,7 @@ import { IInvoice } from '../db/db';
 describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000');
+    await page.setViewportSize({ width: 960, height: 600 });
   });
 
   it('should create invoice', async () => {
@@ -15,14 +17,14 @@ describe('Settings test', () => {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(2020, 0, 31),
-      price: 100,
+      price: 60,
       buyer: 'Dalius',
       seller: 'Jonas',
       issuer: 'Jonas',
       extra: 'Apmokėti per 10 dienų',
       lineItems: [
         { name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 },
-        { name: 'Testavimas', unit: 'val.', amount: 2, price: 25 },
+        { name: 'Testavimas', unit: 'val.', amount: 1, price: 20 },
       ],
     };
 
@@ -44,5 +46,12 @@ describe('Settings test', () => {
 
     invoice.seriesId = 1; // new series starts with 1
     await validateInvoice(page, invoice);
+
+    const el = await page.waitForSelector('a[aria-label="PDF failas"]');
+    const href = await el.evaluate((e) => e.getAttribute('href'));
+    await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
+    await page.waitForSelector('text=rendered');
+
+    await screenshotTest(page, 'invoice-multiple-line-items');
   });
 });

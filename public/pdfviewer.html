@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<style>
+#viewport canvas {
+  width: 100%;
+  height: 100vh;
+}
+</style>
+
+<div><canvas id="the-canvas"></canvas><span id="msg"></span></div>
+
+<script src="https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js"></script>
+<script>
+  let pdfInstance = null;
+
+  window.initPDFViewer = function(pdfURL) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@latest/build/pdf.worker.js';
+
+    pdfjsLib.getDocument(pdfURL).promise.then(pdf => {
+      pdfInstance = pdf;
+      pdfInstance.getPage(1).then(page => {
+        let pdfViewport = page.getViewport({ scale: 1.5});
+
+        let canvas = document.getElementById('the-canvas');
+        let context = canvas.getContext('2d');
+        canvas.height = pdfViewport.height;
+        canvas.width = pdfViewport.width;
+
+        page.render({
+          canvasContext: context,
+          viewport: pdfViewport
+        }).promise.then(() => {
+          document.getElementById('msg').textContent = 'rendered';
+        });
+      });
+    });
+  };
+
+  function render() {
+
+  }
+
+  window.onload = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    initPDFViewer(urlParams.get('pdf'));
+  };
+</script>

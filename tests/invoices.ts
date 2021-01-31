@@ -79,37 +79,45 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
 }
 
 export async function validateInvoice(page: Page, invoice: IInvoice) {
-  validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
+  await validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
 
-  validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
+  await validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
 
-  validateInput(
+  await validateInput(
     page,
     'Sąskaitos data',
     new Date(invoice.created).toISOString().slice(0, 10),
   );
 
-  validateTextArea(page, 'Pardavėjas', invoice.seller);
+  await validateTextArea(page, 'Pardavėjas', invoice.seller);
 
-  validateTextArea(page, 'Pirkėjas', invoice.buyer);
+  await validateTextArea(page, 'Pirkėjas', invoice.buyer);
 
-  validateInput(page, 'SF išrašė', invoice.issuer);
+  await validateInput(page, 'SF išrašė', invoice.issuer);
 
-  validateTextArea(page, 'Papildoma informacija', invoice.extra);
+  await validateTextArea(page, 'Papildoma informacija', invoice.extra);
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const pid = ` ${i + 1}`;
 
-    validateInput(
+    await validateInput(
       page,
       `Paslaugos pavadinimas${pid}`,
       invoice.lineItems[i].name,
     );
 
-    validateInput(page, `Matas{pid}`, invoice.lineItems[i].unit);
+    await validateInput(page, `Matas${pid}`, invoice.lineItems[i].unit);
 
-    validateInput(page, `Kiekis{pid}`, invoice.lineItems[i].amount.toString());
+    await validateInput(
+      page,
+      `Kiekis${pid}`,
+      invoice.lineItems[i].amount.toString(),
+    );
 
-    validateInput(page, `Kaina{pid}`, invoice.lineItems[i].price.toString());
+    await validateInput(
+      page,
+      `Kaina${pid}`,
+      invoice.lineItems[i].price.toString(),
+    );
   }
 }

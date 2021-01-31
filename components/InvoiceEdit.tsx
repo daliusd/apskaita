@@ -164,10 +164,11 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         <Typography variant="h6">Paslaugos ar prekės</Typography>
       </Grid>
 
-      {lineItems.map((g) => {
+      {lineItems.map((g, idx) => {
         return (
           <LineItemEdit
             key={g.id}
+            idx={idx}
             lineItem={g}
             deleteEnabled={lineItems.length > 1}
             onDelete={() => {

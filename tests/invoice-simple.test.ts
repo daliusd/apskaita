@@ -1,4 +1,5 @@
 import { login } from './login';
+import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
@@ -41,5 +42,12 @@ describe('Settings test', () => {
 
     invoice.seriesId = 1; // new series starts with 1
     await validateInvoice(page, invoice);
+
+    const el = await page.waitForSelector('a[aria-label="PDF failas"]');
+    const href = await el.evaluate((e) => e.getAttribute('href'));
+    await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
+    await page.waitForSelector('text=rendered');
+
+    await screenshotTest(page, 'invoice-simple');
   });
 });

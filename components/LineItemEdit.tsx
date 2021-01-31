@@ -11,6 +11,7 @@ import { ILineItem } from '../db/db';
 
 interface Props {
   lineItem: ILineItem;
+  idx: number;
   onChange: (lineItem: ILineItem) => void;
   deleteEnabled: boolean;
   onDelete: () => void;
@@ -18,6 +19,7 @@ interface Props {
 
 export default function LineItemEdit({
   lineItem,
+  idx,
   onChange,
   onDelete,
   deleteEnabled,
@@ -30,7 +32,7 @@ export default function LineItemEdit({
   const debouncedLineItemName = useDebounce(lineItem.name, 500);
   const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
 
-  const lid = ` ${lineItem.id + 1}`;
+  const lid = ` ${idx + 1}`;
 
   return (
     <>
