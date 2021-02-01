@@ -7,6 +7,7 @@ import SellerInfoEdit from '../components/SellerInfoEdit';
 import IssuerEdit from '../components/IssuerEdit';
 import ExtraEdit from '../components/ExtraEdit';
 import ZeroesEdit from '../components/ZeroesEdit';
+import LogoEdit from '../components/LogoEdit';
 
 export default function Apie() {
   const [session] = useSession();
@@ -33,6 +34,9 @@ export default function Apie() {
       </Grid>
       <Grid item xs={12}>
         <ZeroesEdit />
+      </Grid>
+      <Grid item xs={12}>
+        <LogoEdit />
       </Grid>
     </Grid>
   );

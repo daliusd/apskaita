@@ -9,6 +9,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
+import Image from 'next/image';
 
 import Copyright from './Copyright';
 import Link from './Link';
@@ -57,7 +58,7 @@ const Layout: React.FC = ({ children }) => {
               className={classes.toolbarTitle}
             >
               <Link href="/" color="secondary">
-                Haiku.lt
+                <Image src="/logo.png" alt="Haiku.lt" width={192} height={64} />
               </Link>
             </Typography>
             {!session && (

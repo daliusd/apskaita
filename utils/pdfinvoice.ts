@@ -10,6 +10,7 @@ const PAGE_WIDTH = 210 * PTPMM;
 const PAGE_HEIGHT = 297 * PTPMM;
 const PAGE_MARGIN = 20 * PTPMM;
 const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN * 2;
+const LOGO_WIDTH = 50 * PTPMM;
 
 // 210 - 40 = 170
 // 10 + 80 + 20 + 20 + 20 + 20 = 170
@@ -55,7 +56,11 @@ interface ITableLineItem {
   total: string;
 }
 
-export function generateInvoicePdf(invoice: IInvoice, zeroes: number) {
+export function generateInvoicePdf(
+  invoice: IInvoice,
+  zeroes: number,
+  logo?: string,
+) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
   if (!fs.existsSync(invoicesDir)) {
@@ -81,7 +86,7 @@ export function generateInvoicePdf(invoice: IInvoice, zeroes: number) {
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
   addFooter(doc);
-  const y = generateHeader(doc, invoice, seriesId);
+  const y = generateHeader(doc, invoice, seriesId, logo);
   generateContent(doc, invoice, y);
   doc.end();
 }
@@ -105,7 +110,14 @@ function generateHeader(
   doc: PDFKit.PDFDocument,
   invoice: IInvoice,
   seriesId: string,
+  logo?: string,
 ) {
+  if (logo) {
+    doc.image(logo, PAGE_MARGIN, PAGE_MARGIN, {
+      width: LOGO_WIDTH,
+    });
+  }
+
   doc
     .font('Roboto-Medium')
     .fontSize(14)
