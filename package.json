@@ -42,7 +42,7 @@
     "@types/next-auth": "3.1.24",
     "@types/pixelmatch": "5.2.2",
     "@types/pngjs": "3.4.2",
-    "@typescript-eslint/eslint-plugin": "4.14.1",
+    "@typescript-eslint/eslint-plugin": "4.14.2",
     "@typescript-eslint/parser": "4.14.1",
     "chance": "1.1.7",
     "eslint": "7.19.0",
