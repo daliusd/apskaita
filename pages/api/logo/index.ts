@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 const uploadPromise = (name, req) => {
   return new Promise((resolve, reject) => {
-    upload.single(name)(req, {}, (err) => {
+    upload.single(name)(req, undefined, (err) => {
       if (err) {
         reject();
       } else {
@@ -36,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       db = await openDb(session.user.email);
       const file = await uploadPromise('logo', req);
 
-      const image = sharp(file.buffer);
+      const image = sharp((file as Express.Multer.File).buffer);
       const meta = await image.metadata();
       const format = meta.format;
 
@@ -49,14 +49,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         resized = await resized.toFormat('png');
       }
 
-      resized = await resized.toBuffer();
+      const resizedImage = await resized.toBuffer();
 
       await setSetting(
         db,
         'logo',
         `data:image/${
           format === 'jpeg' ? 'jpeg' : 'png'
-        };base64,${resized.toString('base64')}`,
+        };base64,${resizedImage.toString('base64')}`,
       );
 
       return res.json({ success: true });

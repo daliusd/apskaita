@@ -42,6 +42,7 @@
   "devDependencies": {
     "@types/chance": "1.1.1",
     "@types/jest": "26.0.20",
+    "@types/multer": "^1.4.5",
     "@types/next-auth": "3.1.24",
     "@types/pixelmatch": "5.2.2",
     "@types/pngjs": "3.4.2",
