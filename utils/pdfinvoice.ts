@@ -59,7 +59,8 @@ interface ITableLineItem {
 export function generateInvoicePdf(
   invoice: IInvoice,
   zeroes: number,
-  logo?: string,
+  logo: string | undefined,
+  logoRatio: number,
 ) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
@@ -86,7 +87,7 @@ export function generateInvoicePdf(
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
   addFooter(doc);
-  const y = generateHeader(doc, invoice, seriesId, logo);
+  const y = generateHeader(doc, invoice, seriesId, logo, logoRatio);
   generateContent(doc, invoice, y);
   doc.end();
 }
@@ -110,12 +111,15 @@ function generateHeader(
   doc: PDFKit.PDFDocument,
   invoice: IInvoice,
   seriesId: string,
-  logo?: string,
+  logo: string | undefined,
+  logoRatio: number,
 ) {
+  let logoHeightAdd = 0;
   if (logo) {
     doc.image(logo, PAGE_MARGIN, PAGE_MARGIN, {
       width: LOGO_WIDTH,
     });
+    logoHeightAdd = Math.ceil(LOGO_WIDTH * logoRatio);
   }
 
   doc
@@ -152,19 +156,25 @@ function generateHeader(
       },
     );
 
+  const yPos = Math.max(40 * PTPMM, logoHeightAdd + 10 * PTPMM);
   doc
     .font('Roboto-Medium')
     .fontSize(12)
-    .text(`Pardavėjas:`, PAGE_MARGIN, PAGE_MARGIN + 40 * PTPMM, {
+    .text(`Pardavėjas:`, PAGE_MARGIN, PAGE_MARGIN + yPos, {
       width: CONTENT_WIDTH / 2,
     });
 
   doc
     .font('Roboto-Light')
     .fontSize(12)
-    .text(invoice.seller.normalize(), PAGE_MARGIN, PAGE_MARGIN + 45 * PTPMM, {
-      width: CONTENT_WIDTH / 2,
-    });
+    .text(
+      invoice.seller.normalize(),
+      PAGE_MARGIN,
+      PAGE_MARGIN + yPos + 5 * PTPMM,
+      {
+        width: CONTENT_WIDTH / 2,
+      },
+    );
 
   const sellerHeight = doc
     .font('Roboto-Light')
@@ -174,15 +184,10 @@ function generateHeader(
   doc
     .font('Roboto-Medium')
     .fontSize(12)
-    .text(
-      `Pirkėjas:`,
-      PAGE_MARGIN + CONTENT_WIDTH / 2,
-      PAGE_MARGIN + 40 * PTPMM,
-      {
-        width: CONTENT_WIDTH / 2,
-        align: 'right',
-      },
-    );
+    .text(`Pirkėjas:`, PAGE_MARGIN + CONTENT_WIDTH / 2, PAGE_MARGIN + yPos, {
+      width: CONTENT_WIDTH / 2,
+      align: 'right',
+    });
 
   doc
     .font('Roboto-Light')
@@ -190,7 +195,7 @@ function generateHeader(
     .text(
       invoice.buyer.normalize(),
       PAGE_MARGIN + CONTENT_WIDTH / 2,
-      PAGE_MARGIN + 45 * PTPMM,
+      PAGE_MARGIN + yPos + 5 * PTPMM,
       {
         width: CONTENT_WIDTH / 2,
         align: 'right',
@@ -204,8 +209,8 @@ function generateHeader(
 
   return Math.max(
     PAGE_MARGIN + 90 * PTPMM,
-    PAGE_MARGIN + 45 * PTPMM + sellerHeight + 20 * PTPMM,
-    PAGE_MARGIN + 45 * PTPMM + buyerHeight + 20 * PTPMM,
+    PAGE_MARGIN + yPos + 5 * PTPMM + sellerHeight + 20 * PTPMM,
+    PAGE_MARGIN + yPos + 5 * PTPMM + buyerHeight + 20 * PTPMM,
   );
 }
 

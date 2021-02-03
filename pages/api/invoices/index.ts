@@ -79,9 +79,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const zeroes = await getSetting(db, 'zeroes');
         const logo = await getSetting(db, 'logo');
+        const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
 
         const createResult = await createInvoice(db, invoice);
-        generateInvoicePdf(invoice, zeroes, logo);
+        generateInvoicePdf(invoice, zeroes, logo, logo_ratio);
 
         return res.json(createResult);
       } catch (ex) {

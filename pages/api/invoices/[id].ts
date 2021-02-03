@@ -39,7 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           const invoice = await getInvoiceWithLineItems(db, invoiceId);
           const zeroes = await getSetting(db, 'zeroes');
           const logo = await getSetting(db, 'logo');
-          generateInvoicePdf(invoice, zeroes, logo);
+          const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
+          generateInvoicePdf(invoice, zeroes, logo, logo_ratio);
         }
 
         return res.json({ success });

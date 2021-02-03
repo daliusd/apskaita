@@ -59,6 +59,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         };base64,${resizedImage.toString('base64')}`,
       );
 
+      await setSetting(db, 'logo_ratio', (meta.height / meta.width).toString());
+
       return res.json({ success: true });
     } catch (ex) {
       Sentry.captureException(ex);
