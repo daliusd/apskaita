@@ -26,7 +26,7 @@ describe('Settings test', () => {
       created: Date.UTC(2020, 0, 31),
       price: 50,
       buyer: 'Dalius',
-      seller: 'Jonas',
+      seller: 'Jonas\nadresas\ninfo 1\ninfo 2\ninfo 3',
       issuer: 'Jonas',
       extra: 'Apmokėti per 10 dienų',
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
