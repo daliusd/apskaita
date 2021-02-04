@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       let resized = await image.resize({
         width: 284,
-        kernel: sharp.kernel.nearest,
+        kernel: sharp.kernel.lanczos3,
       });
 
       if (format !== 'jpeg') {
