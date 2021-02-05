@@ -119,7 +119,7 @@ function generateHeader(
     doc.image(logo, PAGE_MARGIN, PAGE_MARGIN, {
       width: LOGO_WIDTH,
     });
-    logoHeightAdd = Math.ceil(LOGO_WIDTH * logoRatio);
+    logoHeightAdd = Math.ceil(LOGO_WIDTH * (logoRatio || 1));
   }
 
   doc
