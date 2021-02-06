@@ -21,6 +21,7 @@ export default function InvoiceDateInput({
   return (
     <KeyboardDatePicker
       label="Sąskaitos data"
+      autoOk={true}
       inputProps={{ 'aria-label': 'Sąskaitos data' }}
       value={date}
       onChange={onChange}
@@ -43,6 +44,8 @@ export default function InvoiceDateInput({
           ? 'Data yra būtina'
           : ''
       }
+      okLabel="Gerai"
+      cancelLabel="Nutraukti"
     />
   );
 }
