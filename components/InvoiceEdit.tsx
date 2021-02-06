@@ -192,7 +192,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         <Button
           color="primary"
           startIcon={<AddIcon />}
-          aria-label="Pridėti paslaugą"
+          aria-label="Pridėti paslaugą ar prekę"
           onClick={() => {
             setLineItems([
               ...lineItems,
@@ -206,7 +206,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
             ]);
           }}
         >
-          Pridėti paslaugą
+          Pridėti paslaugą ar prekę
         </Button>
       </Grid>
 

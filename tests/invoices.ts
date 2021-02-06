@@ -44,7 +44,7 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     if (i > 0) {
-      await page.click('text="Pridėti paslaugą"');
+      await page.click('text="Pridėti paslaugą ar prekę"');
     }
 
     const pid = ` ${i + 1}`;
