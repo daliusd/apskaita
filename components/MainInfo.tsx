@@ -40,7 +40,7 @@ export default function MainInfo() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6" component="h1" noWrap>
-          Sąskaitos faktūros
+          Paskutinės sąskaitos faktūros
         </Typography>
       </Grid>
       <Grid item xs={12}>
