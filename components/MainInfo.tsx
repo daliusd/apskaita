@@ -46,7 +46,7 @@ export default function MainInfo() {
       <Grid item xs={12}>
         <Invoices limit={5} />
       </Grid>
-      <Grid container item xs={12} justify="flex-end">
+      <Grid item xs={12}>
         <Link href="/saskaitos" color="secondary">
           Visos sąskaitos faktūros
         </Link>
