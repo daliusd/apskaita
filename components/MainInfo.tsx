@@ -1,13 +1,21 @@
 import React from 'react';
 import Link from '../src/Link';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
 import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 import Invoices from '../components/Invoices';
 
 export default function MainInfo() {
   const [session] = useSession();
+  const router = useRouter();
+
+  const onClickCreateInvoice = () => {
+    router.push('/saskaitos/nauja');
+  };
 
   return (
     <Grid container spacing={2}>
@@ -20,6 +28,17 @@ export default function MainInfo() {
         .
       </Grid>
       <Grid item xs={12}>
+        <Button
+          aria-label="Nauja sąskaita faktūra"
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={onClickCreateInvoice}
+        >
+          Nauja sąskaita faktūra
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
         <Typography variant="h6" component="h1" noWrap>
           Sąskaitos faktūros
         </Typography>
@@ -27,13 +46,9 @@ export default function MainInfo() {
       <Grid item xs={12}>
         <Invoices limit={5} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid container item xs={12} justify="flex-end">
         <Link href="/saskaitos" color="secondary">
           Visos sąskaitos faktūros
-        </Link>
-        &nbsp;&mdash;&nbsp;
-        <Link href="/saskaitos/nauja" color="secondary">
-          Nauja sąskaita faktūra
         </Link>
       </Grid>
     </Grid>
