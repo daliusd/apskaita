@@ -91,6 +91,15 @@ const Layout: React.FC = ({ children }) => {
             </Link>
             {session && (
               <Link
+                href="/saskaitos"
+                color="primary"
+                className={classes.toolbarLink}
+              >
+                Sąskaitos
+              </Link>
+            )}
+            {session && (
+              <Link
                 href="/nustatymai"
                 color="primary"
                 className={classes.toolbarLink}
