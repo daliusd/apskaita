@@ -27,6 +27,7 @@
     "sqlite": "4.0.19",
     "sqlite3": "5.0.1",
     "swr": "0.4.1",
+    "ts-node": "^9.1.1",
     "uuid": "8.3.2"
   },
   "scripts": {
@@ -37,7 +38,8 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest --config=jest.config.js",
     "test:e2e": "jest --config=jest.e2e.config.js",
-    "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext ts tests/"
+    "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext ts tests/",
+    "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts"
   },
   "devDependencies": {
     "@types/chance": "1.1.1",

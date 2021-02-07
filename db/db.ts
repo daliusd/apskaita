@@ -36,11 +36,17 @@ export async function openDb(dbName: string) {
     }
   }
 
+  const dbFileName = path.join(dbDir, dbName + '.db');
+  const needsMigration = isMemory || !fs.existsSync(dbFileName);
+
   const db = await open({
-    filename: isMemory ? dbName : path.join(dbDir, dbName + '.db'),
+    filename: isMemory ? dbName : dbFileName,
     driver: sqlite3.Database,
   });
-  await db.migrate();
+
+  if (needsMigration) {
+    await db.migrate();
+  }
 
   return db;
 }
