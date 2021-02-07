@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         );
     } catch (ex) {
       Sentry.captureException(ex);
-      res.status(400);
+      res.status(400).json({ success: false });
     }
   }
 

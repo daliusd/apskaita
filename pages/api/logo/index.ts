@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
-import * as Sentry from '@sentry/node';
 import multer from 'multer';
 import sharp from 'sharp';
 
-import { openDb, setSetting } from '../../../db/db';
+import { setSetting } from '../../../db/db';
+
+import { dbWrapper } from '../../../db/apiwrapper';
 
 export const config = {
   api: {
@@ -15,7 +15,7 @@ export const config = {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const uploadPromise = (name, req) => {
+const uploadPromise = (name: string, req) => {
   return new Promise((resolve, reject) => {
     upload.single(name)(req, undefined, (err) => {
       if (err) {
@@ -28,49 +28,34 @@ const uploadPromise = (name, req) => {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-  if (session) {
-    let db;
+  return dbWrapper(req, res, async (db) => {
+    const file = await uploadPromise('logo', req);
 
-    try {
-      db = await openDb(session.user.email);
-      const file = await uploadPromise('logo', req);
+    const image = sharp((file as Express.Multer.File).buffer);
+    const meta = await image.metadata();
+    const format = meta.format;
 
-      const image = sharp((file as Express.Multer.File).buffer);
-      const meta = await image.metadata();
-      const format = meta.format;
+    let resized = image.resize({
+      width: 284,
+      kernel: sharp.kernel.lanczos3,
+    });
 
-      let resized = await image.resize({
-        width: 284,
-        kernel: sharp.kernel.lanczos3,
-      });
-
-      if (format !== 'jpeg') {
-        resized = await resized.toFormat('png');
-      }
-
-      const resizedImage = await resized.toBuffer();
-
-      await setSetting(
-        db,
-        'logo',
-        `data:image/${
-          format === 'jpeg' ? 'jpeg' : 'png'
-        };base64,${resizedImage.toString('base64')}`,
-      );
-
-      await setSetting(db, 'logo_ratio', (meta.height / meta.width).toString());
-
-      return res.json({ success: true });
-    } catch (ex) {
-      Sentry.captureException(ex);
-      return res.json({ success: false });
-    } finally {
-      if (db) {
-        await db.close();
-      }
+    if (format !== 'jpeg') {
+      resized = resized.toFormat('png');
     }
-  } else {
-    res.status(401);
-  }
+
+    const resizedImage = await resized.toBuffer();
+
+    await setSetting(
+      db,
+      'logo',
+      `data:image/${
+        format === 'jpeg' ? 'jpeg' : 'png'
+      };base64,${resizedImage.toString('base64')}`,
+    );
+
+    await setSetting(db, 'logo_ratio', (meta.height / meta.width).toString());
+
+    return res.json({ success: true });
+  });
 };

@@ -1,6 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
-import * as Sentry from '@sentry/node';
 
 import { init } from '../../utils/sentry';
 
@@ -9,65 +7,46 @@ init();
 import {
   getNextSeriesId,
   getUniqueSeriesNames,
-  openDb,
   getInvoiceWithLineItems,
   getSetting,
 } from '../../db/db';
 
+import { dbWrapper } from '../../db/apiwrapper';
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-  if (session) {
-    let db;
+  return dbWrapper(req, res, async (db, session) => {
+    const {
+      query: { id },
+    } = req;
 
-    try {
-      db = await openDb(session.user.email);
-
-      const {
-        query: { id },
-      } = req;
-
-      if (!id) {
-        let seriesNames = await getUniqueSeriesNames(db, '');
-        if (seriesNames.length === 0) {
-          seriesNames = ['HAIKU'];
-        }
-        const seriesId = await getNextSeriesId(db, seriesNames[0]);
-        const seller =
-          (await getSetting(db, 'seller')) ||
-          `${session.user.name}\n${session.user.email}`;
-        const issuer = (await getSetting(db, 'issuer')) || session.user.name;
-        const extra = (await getSetting(db, 'extra')) || '';
-
-        return res.json({
-          invoice: {
-            seriesName: seriesNames[0],
-            seriesId,
-            buyer: '',
-            seller,
-            issuer,
-            extra,
-            lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
-          },
-        });
+    if (!id) {
+      let seriesNames = await getUniqueSeriesNames(db, '');
+      if (seriesNames.length === 0) {
+        seriesNames = ['HAIKU'];
       }
+      const seriesId = await getNextSeriesId(db, seriesNames[0]);
+      const seller =
+        (await getSetting(db, 'seller')) ||
+        `${session.user.name}\n${session.user.email}`;
+      const issuer = (await getSetting(db, 'issuer')) || session.user.name;
+      const extra = (await getSetting(db, 'extra')) || '';
 
-      const invoiceId = typeof id === 'string' ? id : id[0];
-      const invoice = await getInvoiceWithLineItems(
-        db,
-        parseInt(invoiceId, 10),
-      );
-
-      return res.json({ invoice });
-    } catch (err) {
-      Sentry.captureException(err);
-      return res.json({ invoice: undefined });
-    } finally {
-      if (db) {
-        await db.close();
-      }
+      return res.json({
+        invoice: {
+          seriesName: seriesNames[0],
+          seriesId,
+          buyer: '',
+          seller,
+          issuer,
+          extra,
+          lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
+        },
+      });
     }
-  } else {
-    res.status(401);
-  }
-  res.end();
+
+    const invoiceId = typeof id === 'string' ? id : id[0];
+    const invoice = await getInvoiceWithLineItems(db, parseInt(invoiceId, 10));
+
+    res.json({ invoice });
+  });
 };
