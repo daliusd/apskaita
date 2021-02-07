@@ -6,6 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
 
+import { cleanUpString } from '../utils/textutils';
+
 export default function SellerInfoEdit() {
   const [session] = useSession();
   const [sellerCurrent, setSellerCurrent] = useState<string | undefined>(
@@ -33,7 +35,7 @@ export default function SellerInfoEdit() {
         inputProps={{ 'aria-label': 'Tavo rekvizitai sąskaitai faktūrai' }}
         value={seller}
         onChange={(e) => {
-          setSeller(e.target.value);
+          setSeller(cleanUpString(e.target.value));
         }}
         fullWidth
         multiline

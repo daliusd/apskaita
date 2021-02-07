@@ -2,6 +2,8 @@ import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
+import { cleanUpString } from '../utils/textutils';
+
 interface IProps {
   seriesName: string;
   onChange: (value: string) => void;
@@ -19,7 +21,7 @@ export default function SeriesNameInput({
       fullWidth
       value={seriesName}
       onInputChange={(_e, newValue) => {
-        onChange(newValue);
+        onChange(cleanUpString(newValue));
       }}
       freeSolo
       renderInput={(params) => (

@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
+import { cleanUpString } from '../utils/textutils';
 
 interface Props {
   lineItem: ILineItem;
@@ -43,6 +44,7 @@ export default function LineItemEdit({
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
             let newPrice;
+            newValue = cleanUpString(newValue);
             if (data && newValue !== lineItem.name) {
               const oldItems = data.lineItemsNames.filter(
                 (i) => i.name === newValue,

@@ -5,6 +5,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
+import { cleanUpString } from '../utils/textutils';
+
 export default function ExtraEdit() {
   const [extraCurrent, setExtraCurrent] = useState<string | undefined>(
     undefined,
@@ -32,7 +34,7 @@ export default function ExtraEdit() {
         helperText="Pavyzdžiui „Prašome apmokėti sąskaitą faktūrą per 10 dienų“"
         value={extra}
         onChange={(e) => {
-          setExtra(e.target.value);
+          setExtra(cleanUpString(e.target.value));
         }}
         fullWidth
         multiline

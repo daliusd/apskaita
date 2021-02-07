@@ -6,6 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
 
+import { cleanUpString } from '../utils/textutils';
+
 export default function IssuerEdit() {
   const [session] = useSession();
   const [issuerCurrent, setIssuerCurrent] = useState<string | undefined>(
@@ -33,7 +35,7 @@ export default function IssuerEdit() {
         }}
         value={issuer}
         onChange={(e) => {
-          setIssuer(e.target.value);
+          setIssuer(cleanUpString(e.target.value));
         }}
         fullWidth
         variant="outlined"

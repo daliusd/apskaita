@@ -1,6 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
+import { cleanUpString } from '../utils/textutils';
+
 interface IProps {
   seller: string;
   onChange: (b: string) => void;
@@ -13,7 +15,7 @@ export default function SellerInput({ seller, onChange }: IProps) {
       inputProps={{ 'aria-label': 'Pardavėjas' }}
       value={seller}
       onChange={(e) => {
-        onChange(e.target.value);
+        onChange(cleanUpString(e.target.value));
       }}
       fullWidth
       multiline
