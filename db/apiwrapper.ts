@@ -24,7 +24,7 @@ export async function dbWrapper(
       return await callback(db, session);
     } catch (err) {
       Sentry.captureException(err);
-      res.status(400).json({ success: false });
+      res.status(500).json({ success: false });
       return;
     } finally {
       if (db) {

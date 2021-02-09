@@ -107,7 +107,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       : null,
   );
 
-  if (error) return <div>failed to load</div>;
+  if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
   if (!initialData) return <LinearProgress />;
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
 
