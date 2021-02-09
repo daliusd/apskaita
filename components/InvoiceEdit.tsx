@@ -4,14 +4,13 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
 import Link from '../src/Link';
-import { ILineItem, IInvoice } from '../db/db';
+import { ILineItem } from '../db/db';
 import LineItemEdit from '../components/LineItemEdit';
 import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
@@ -20,6 +19,7 @@ import BuyerInput from '../components/BuyerInput';
 import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
+import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 import { IContext, Context } from '../src/Store';
@@ -211,184 +211,17 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       </Grid>
 
       <Grid item xs={6}>
-        <Button
-          type="submit"
-          aria-label={invoiceId ? 'Saugoti' : 'Sukurti'}
-          variant="contained"
-          color="primary"
-          startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
-          onClick={async () => {
-            const created = getMsSinceEpoch(invoiceDate);
-            if (!created) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite sąskaitos datą.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (!seller) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite pardavėjo duomenis.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (!buyer) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite pirkėjo duomenis.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (!issuer) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite kas išrašė sąskaitą faktūrą.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (lineItems.some((li) => !li.name)) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite paslaugų ar prekių pavadinimus.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (lineItems.some((li) => !li.unit)) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite paslaugų ar prekių matą.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (lineItems.some((li) => li.amount <= 0)) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite teisingus paslaugų ar prekių kiekius.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (lineItems.some((li) => !li.price)) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Nurodykite paslaugų ar prekių kainas.',
-                severity: 'error',
-              });
-              return;
-            }
-
-            const invoice: IInvoice = {
-              seriesName,
-              seriesId: parseInt(seriesId, 10),
-              created,
-              price: lineItems
-                .map((g) => g.price * g.amount)
-                .reduce((a, b) => a + b),
-              buyer,
-              seller,
-              issuer,
-              extra,
-              lineItems,
-            };
-
-            let response;
-            if (invoiceId) {
-              response = await fetch('/api/invoices/' + invoiceId, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(invoice),
-              });
-            } else {
-              response = await fetch('/api/invoices', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(invoice),
-              });
-            }
-
-            const getEditError = () =>
-              invoiceId
-                ? 'Klaida kečiant sąskaitą faktūrą.'
-                : 'Klaida kuriant sąskaitą faktūrą.';
-
-            if (!response.ok) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: getEditError(),
-                severity: 'error',
-              });
-              return;
-            }
-
-            const responseJson = await response.json();
-            if (!responseJson.success) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: getEditError(),
-                severity: 'error',
-              });
-              return;
-            }
-
-            const responsePdf = await fetch(
-              '/api/invoicespdf/' + (invoiceId || responseJson.invoiceId),
-              {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-              },
-            );
-
-            if (!invoiceId) {
-              router.push(`/saskaitos/id/${responseJson.invoiceId}`);
-            }
-
-            if (!responsePdf.ok || !(await responsePdf.json()).success) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Klaida generuojant sąskaitos faktūros PDF failą',
-                severity: 'error',
-              });
-              return;
-            }
-
-            if (!invoiceId) {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Sąskaita faktūra sukurta',
-                severity: 'success',
-              });
-            } else {
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Sąskaitos faktūros pakeitimai išsaugoti',
-                severity: 'success',
-              });
-            }
-          }}
-        >
-          {invoiceId ? 'Saugoti' : 'Sukurti'}
-        </Button>
+        <InvoiceEditChangeButton
+          invoiceId={invoiceId}
+          seriesName={seriesName}
+          seriesId={seriesId}
+          invoiceDate={invoiceDate}
+          seller={seller}
+          buyer={buyer}
+          issuer={issuer}
+          extra={extra}
+          lineItems={lineItems}
+        />
       </Grid>
 
       {invoiceId && (
