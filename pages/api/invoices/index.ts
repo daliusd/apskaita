@@ -12,7 +12,6 @@ import {
   getSetting,
   setSetting,
 } from '../../../db/db';
-import { generateInvoicePdf } from '../../../utils/pdfinvoice';
 
 import { dbWrapper } from '../../../db/apiwrapper';
 
@@ -57,13 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       invoice.pdfname = `${uuidv4()}.pdf`;
 
-      const zeroes = await getSetting(db, 'zeroes');
-      const logo = await getSetting(db, 'logo');
-      const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
-
       const createResult = await createInvoice(db, invoice);
-      generateInvoicePdf(invoice, zeroes, logo, logo_ratio);
-
       return res.json(createResult);
     });
   }

@@ -8,12 +8,8 @@ import {
   updateInvoice,
   deleteInvoice,
   getInvoiceWithLineItems,
-  getSetting,
 } from '../../../db/db';
-import {
-  deleteInvoicePdf,
-  generateInvoicePdf,
-} from '../../../utils/pdfinvoice';
+import { deleteInvoicePdf } from '../../../utils/pdfinvoice';
 
 import { dbWrapper } from '../../../db/apiwrapper';
 
@@ -27,14 +23,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const invoiceId = parseInt(typeof id === 'string' ? id : id[0], 10);
 
       const success = await updateInvoice(db, invoiceId, req.body);
-
-      if (success) {
-        const invoice = await getInvoiceWithLineItems(db, invoiceId);
-        const zeroes = await getSetting(db, 'zeroes');
-        const logo = await getSetting(db, 'logo');
-        const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
-        generateInvoicePdf(invoice, zeroes, logo, logo_ratio);
-      }
 
       return res.json({ success });
     });

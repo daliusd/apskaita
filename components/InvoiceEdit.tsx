@@ -348,8 +348,31 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
               return;
             }
 
+            const responsePdf = await fetch(
+              '/api/invoicespdf/' + (invoiceId || responseJson.invoiceId),
+              {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+              },
+            );
+
             if (!invoiceId) {
               router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+            }
+
+            if (!responsePdf.ok || !(await responsePdf.json()).success) {
+              dispatch({
+                type: 'SET_MESSAGE',
+                text: 'Klaida generuojant sąskaitos faktūros PDF failą',
+                severity: 'error',
+              });
+              return;
+            }
+
+            if (!invoiceId) {
               dispatch({
                 type: 'SET_MESSAGE',
                 text: 'Sąskaita faktūra sukurta',
