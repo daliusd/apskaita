@@ -47,8 +47,8 @@ describe('Settings test', () => {
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
     await validateInvoice(page, invoice);
 
-    const el = await page.waitForSelector('a[aria-label="PDF failas"]');
-    const href = await el.evaluate((e) => e.getAttribute('href'));
+    const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
+    const href = await el.evaluate((e) => e.getAttribute('value'));
     await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 

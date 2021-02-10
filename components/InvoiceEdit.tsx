@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
-import Link from '../src/Link';
 import { ILineItem } from '../db/db';
 import LineItemEdit from '../components/LineItemEdit';
 import SeriesNameInput from '../components/SeriesNameInput';
@@ -20,6 +19,7 @@ import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
+import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 import { IContext, Context } from '../src/Store';
@@ -210,7 +210,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         </Button>
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <InvoiceEditChangeButton
           invoiceId={invoiceId}
           seriesName={seriesName}
@@ -224,8 +224,14 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         />
       </Grid>
 
+      <InvoicePdfView
+        seriesName={seriesName}
+        seriesId={seriesId}
+        pdfname={pdfname}
+      />
+
       {invoiceId && (
-        <Grid container item xs={6} justify="flex-end">
+        <Grid container item xs={12} justify="flex-end">
           <Button
             variant="contained"
             color="secondary"
@@ -255,20 +261,6 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
           >
             Trinti
           </Button>
-        </Grid>
-      )}
-
-      {pdfname && (
-        <Grid item xs={12}>
-          <Link
-            aria-label="PDF failas"
-            href={`/api/pdf/${pdfname}/${seriesName}${seriesId
-              .toString()
-              .padStart(6, '0')}.pdf`}
-            color="secondary"
-          >
-            Sąskaitos faktūros PDF failas
-          </Link>
         </Grid>
       )}
     </Grid>

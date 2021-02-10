@@ -9,6 +9,7 @@ Google autentikacijos parametrus:
 
 ```sh
 NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_URL=http://localhost:3000
 GOOGLE_ID=
 GOOGLE_SECRET=
 USER_DATA_PATH=./data
