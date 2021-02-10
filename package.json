@@ -40,7 +40,7 @@
     "test:e2e": "jest --config=jest.e2e.config.js",
     "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext ts tests/",
     "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts",
-    "postinstall": "husky install"
+    "postinstall": "husky install .config/husky"
   },
   "devDependencies": {
     "@types/chance": "1.1.1",
