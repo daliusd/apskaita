@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
@@ -19,19 +17,15 @@ import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
+import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
-
-import { IContext, Context } from '../src/Store';
 
 interface IProps {
   invoiceId?: string;
 }
 
 export default function InvoiceEdit({ invoiceId }: IProps) {
-  const router = useRouter();
-  const { dispatch } = useContext<IContext>(Context);
-
   const { data: initialData, error } = useSWR(
     '/api/initial' + (invoiceId ? '?id=' + invoiceId : ''),
   );
@@ -230,39 +224,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         pdfname={pdfname}
       />
 
-      {invoiceId && (
-        <Grid container item xs={12} justify="flex-end">
-          <Button
-            variant="contained"
-            color="secondary"
-            aria-label="Trinti"
-            startIcon={<DeleteIcon />}
-            onClick={async () => {
-              const response = await fetch('/api/invoices/' + invoiceId, {
-                method: 'DELETE',
-              });
-
-              if (!response.ok || !(await response.json()).success) {
-                dispatch({
-                  type: 'SET_MESSAGE',
-                  text: 'Klaida trinant sąskaitą faktūrą.',
-                  severity: 'error',
-                });
-                return;
-              }
-
-              router.replace(`/saskaitos`);
-              dispatch({
-                type: 'SET_MESSAGE',
-                text: 'Sąskaita faktūra ištrinta.',
-                severity: 'info',
-              });
-            }}
-          >
-            Trinti
-          </Button>
-        </Grid>
-      )}
+      <InvoiceEditDeleteButton invoiceId={invoiceId} />
     </Grid>
   );
 }
