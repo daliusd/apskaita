@@ -22,6 +22,7 @@ export interface IInvoice {
   issuer: string;
   extra: string;
   pdfname?: string;
+  flags?: number;
   lineItems: ILineItem[];
 }
 
@@ -115,7 +116,7 @@ export async function getInvoiceList(
   offset: number,
 ) {
   const result = await db.all<IInvoice[]>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, flags FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
     limit,
     offset,
   );
@@ -124,7 +125,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, flags FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -262,6 +263,24 @@ export async function updateInvoice(
   }
 
   return true;
+}
+
+export async function changeInvoicePaidStatus(
+  db: Database,
+  invoiceId: number,
+  paid: boolean,
+) {
+  if (paid) {
+    await db.run(
+      'UPDATE Invoice SET flags = flags | 1 WHERE id = ?',
+      invoiceId,
+    );
+  } else {
+    await db.run(
+      'UPDATE Invoice SET flags = flags & ~1 WHERE id = ?',
+      invoiceId,
+    );
+  }
 }
 
 export async function deleteInvoice(db: Database, invoiceId: number) {

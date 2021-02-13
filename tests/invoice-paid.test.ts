@@ -3,12 +3,12 @@ import { fillNewInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
 
-describe('Delete test', () => {
+describe('Paid test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000');
   });
 
-  it('should delete invoice', async () => {
+  it('should mark invoice as paid', async () => {
     await login(page);
 
     const invoice: IInvoice = {
@@ -39,12 +39,13 @@ describe('Delete test', () => {
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.click('text="Trinti"');
-    await page.click('text="Nutraukti"');
-    await page.click('text="Trinti"');
-    await page.click('div[role="dialog"] >> text="Trinti"');
+    await page.click('text="Sąskaita faktūra neapmokėta"');
+    await page.waitForSelector('text="Sąskaita faktūra apmokėta"');
 
-    await page.waitForNavigation({ url: 'http://localhost:4000/saskaitos' });
-    await page.click('text="Jūs neturite sąskaitų faktūrų."');
+    await page.reload();
+
+    await page.waitForSelector('text="Sąskaita faktūra apmokėta"');
+    await page.click('text="Sąskaita faktūra apmokėta"');
+    await page.click('text="Sąskaita faktūra neapmokėta"');
   });
 });

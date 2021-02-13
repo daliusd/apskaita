@@ -18,6 +18,7 @@ import {
   getUniqueSeriesNames,
   getUniqueBuyerNames,
   getUniqueLineItemsNames,
+  changeInvoicePaidStatus,
 } from './db';
 
 describe('database tests', () => {
@@ -538,6 +539,33 @@ describe('database tests', () => {
 
       const success = await updateInvoice(db, invoiceId, invoice);
       expect(success).toBeTruthy();
+    });
+
+    it('change invoice paid status', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        lineItems: [{ name: 'test', unit: 'vnt.', amount: 1, price: 100 }],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+
+      await changeInvoicePaidStatus(db, invoiceId, true);
+
+      let invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].flags).toEqual(1);
+
+      await changeInvoicePaidStatus(db, invoiceId, false);
+
+      invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].flags).toEqual(0);
     });
 
     it('deletes invoice', async () => {

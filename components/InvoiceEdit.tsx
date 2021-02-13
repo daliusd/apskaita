@@ -18,6 +18,7 @@ import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
+import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
@@ -37,6 +38,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
   const [issuer, setIssuer] = useState('');
   const [extra, setExtra] = useState('');
   const [pdfname, setPdfname] = useState('');
+  const [paid, setPaid] = useState(false);
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -52,6 +54,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setExtra(invoice.extra);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
+      setPaid((invoice.flags & 1) === 1);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       }
@@ -223,6 +226,8 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
         seriesId={seriesId}
         pdfname={pdfname}
       />
+
+      <InvoiceEditPaid invoiceId={invoiceId} paid={paid} setPaid={setPaid} />
 
       <InvoiceEditDeleteButton invoiceId={invoiceId} />
     </Grid>
