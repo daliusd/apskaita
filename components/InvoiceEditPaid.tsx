@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 
 import { IContext, Context } from '../src/Store';
@@ -43,7 +43,7 @@ export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
     <Grid item xs={12}>
       <FormControlLabel
         control={
-          <Checkbox
+          <Switch
             checked={paid}
             onChange={handleChange}
             name="paid"
