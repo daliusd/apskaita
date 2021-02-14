@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import EditIcon from '@material-ui/icons/Edit';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import { IInvoice } from '../db/db';
 import { getDateString } from '../utils/date';
@@ -64,6 +65,16 @@ export default function InvoiceView({ invoice }: Props) {
             startIcon={<EditIcon />}
           >
             Keisti
+          </Button>
+        </Link>
+
+        <Link href={`/saskaitos/nauja?sourceId=${invoice.id}`}>
+          <Button
+            aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
+            color="primary"
+            startIcon={<FileCopyIcon />}
+          >
+            Nauja SF šios pagrindu
           </Button>
         </Link>
 

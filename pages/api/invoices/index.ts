@@ -14,6 +14,7 @@ import {
 } from '../../../db/db';
 
 import { dbWrapper } from '../../../db/apiwrapper';
+import { defaultOrFirst } from '../../../utils/query';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -24,12 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const invoices = await getInvoiceList(
         db,
-        limit
-          ? parseInt(typeof limit === 'string' ? limit : limit[0], 10)
-          : 1000,
-        offset
-          ? parseInt(typeof offset === 'string' ? offset : offset[0], 10)
-          : 0,
+        limit ? parseInt(defaultOrFirst(limit), 10) : 1000,
+        offset ? parseInt(defaultOrFirst(offset), 10) : 0,
       );
       return res.json({ invoices });
     });

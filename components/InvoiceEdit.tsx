@@ -24,11 +24,14 @@ import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
 interface IProps {
   invoiceId?: string;
+  sourceId?: string;
 }
 
-export default function InvoiceEdit({ invoiceId }: IProps) {
+export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const { data: initialData, error } = useSWR(
-    '/api/initial' + (invoiceId ? '?id=' + invoiceId : ''),
+    '/api/initial' +
+      (invoiceId ? '?id=' + invoiceId : '') +
+      (sourceId ? '?sourceId=' + sourceId : ''),
   );
   const [seriesName, setSeriesName] = useState('');
   const [seriesId, setSeriesId] = useState('');

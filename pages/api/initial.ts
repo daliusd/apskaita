@@ -12,14 +12,15 @@ import {
 } from '../../db/db';
 
 import { dbWrapper } from '../../db/apiwrapper';
+import { defaultOrFirst } from '../../utils/query';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db, session) => {
     const {
-      query: { id },
+      query: { id, sourceId },
     } = req;
 
-    if (!id) {
+    if (!id && !sourceId) {
       let seriesNames = await getUniqueSeriesNames(db, '');
       if (seriesNames.length === 0) {
         seriesNames = ['HAIKU'];
@@ -42,9 +43,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
         },
       });
+    } else if (sourceId) {
+      const invoice = await getInvoiceWithLineItems(
+        db,
+        parseInt(defaultOrFirst(sourceId), 10),
+      );
+
+      const seriesId = await getNextSeriesId(db, invoice.seriesName);
+
+      return res.json({
+        invoice: {
+          ...invoice,
+          seriesId,
+          created: undefined,
+          pdfname: '',
+          paid: 0,
+        },
+      });
     }
 
-    const invoiceId = typeof id === 'string' ? id : id[0];
+    const invoiceId = defaultOrFirst(id);
     const invoice = await getInvoiceWithLineItems(db, parseInt(invoiceId, 10));
 
     res.json({ invoice });
