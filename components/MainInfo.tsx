@@ -43,9 +43,7 @@ export default function MainInfo() {
           Paskutinės sąskaitos faktūros
         </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Invoices limit={5} />
-      </Grid>
+      <Invoices limit={5} />
       <Grid item xs={12}>
         <Link href="/saskaitos" color="secondary">
           Visos sąskaitos faktūros

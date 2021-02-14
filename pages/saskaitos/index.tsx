@@ -32,9 +32,7 @@ export default function Index() {
           Nauja sąskaita faktūra
         </Button>
       </Grid>
-      <Grid item xs={12}>
-        <Invoices />
-      </Grid>
+      <Invoices />
     </Grid>
   );
 }
