@@ -60,7 +60,6 @@ export default function InvoiceView({ invoice }: Props) {
         <Link href={`/saskaitos/id/${invoice.id}`}>
           <Button
             aria-label={`Keisti SF ${invoice.id}`}
-            variant="contained"
             color="primary"
             startIcon={<EditIcon />}
           >
@@ -76,7 +75,6 @@ export default function InvoiceView({ invoice }: Props) {
         >
           <Button
             aria-label={`Peržiūrėti PDF ${invoice.id}`}
-            variant="contained"
             color="primary"
             startIcon={<PictureAsPdfIcon />}
           >
