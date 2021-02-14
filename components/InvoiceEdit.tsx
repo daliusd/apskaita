@@ -54,7 +54,7 @@ export default function InvoiceEdit({ invoiceId }: IProps) {
       setExtra(invoice.extra);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
-      setPaid((invoice.flags & 1) === 1);
+      setPaid(invoice.paid === 1);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       }

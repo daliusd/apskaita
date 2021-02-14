@@ -559,13 +559,13 @@ describe('database tests', () => {
 
       let invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(1);
-      expect(invoices[0].flags).toEqual(1);
+      expect(invoices[0].paid).toEqual(1);
 
       await changeInvoicePaidStatus(db, invoiceId, false);
 
       invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(1);
-      expect(invoices[0].flags).toEqual(0);
+      expect(invoices[0].paid).toEqual(0);
     });
 
     it('deletes invoice', async () => {

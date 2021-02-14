@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 export default function InvoiceView({ invoice }: Props) {
   const classes = useStyles();
   const router = useRouter();
-  const [paid, setPaid] = useState((invoice.flags & 1) === 1);
+  const [paid, setPaid] = useState(invoice.paid === 1);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
