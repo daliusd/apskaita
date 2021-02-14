@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
+import { mutate } from 'swr';
 
 import { IContext, Context } from '../src/Store';
 
@@ -36,6 +37,8 @@ export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
       return;
     }
 
+    await mutate('/api/invoices');
+    await mutate('/api/invoices?limit=5');
     setPaid(paid);
   };
 

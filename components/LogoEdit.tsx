@@ -40,7 +40,7 @@ export default function ZeroesEdit() {
       severity: 'success',
     });
 
-    mutate('/api/settings/logo');
+    await mutate('/api/settings/logo');
   };
 
   const handleDelete = async () => {
@@ -52,7 +52,7 @@ export default function ZeroesEdit() {
       body: JSON.stringify({ value: '' }),
     });
 
-    mutate('/api/settings/logo');
+    await mutate('/api/settings/logo');
   };
 
   const loaded = data || error;
