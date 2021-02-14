@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { IInvoice } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
+import InvoiceEditPaid from './InvoiceEditPaid';
 
 interface Props {
   invoice: IInvoice;
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 export default function InvoiceView({ invoice }: Props) {
   const classes = useStyles();
   const router = useRouter();
+  const [paid, setPaid] = useState((invoice.flags & 1) === 1);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
@@ -48,6 +50,11 @@ export default function InvoiceView({ invoice }: Props) {
         <Typography variant="body2" color="textSecondary" component="p">
           Kaina: {invoice.price / 100} €
         </Typography>
+        <InvoiceEditPaid
+          invoiceId={invoice.id.toString()}
+          paid={paid}
+          setPaid={setPaid}
+        />
       </CardContent>
       <CardActions>
         <Link href={`/saskaitos/id/${invoice.id}`}>
