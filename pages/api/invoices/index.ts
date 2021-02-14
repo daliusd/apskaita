@@ -24,7 +24,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const invoices = await getInvoiceList(
         db,
-        limit ? parseInt(typeof limit === 'string' ? limit : limit[0], 10) : 10,
+        limit
+          ? parseInt(typeof limit === 'string' ? limit : limit[0], 10)
+          : 1000,
         offset
           ? parseInt(typeof offset === 'string' ? offset : offset[0], 10)
           : 0,
