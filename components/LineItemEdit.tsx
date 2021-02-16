@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import ClearIcon from '@material-ui/icons/Clear';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
@@ -43,14 +44,14 @@ export default function LineItemEdit({
           fullWidth
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
-            let newPrice;
+            let newPrice = lineItem.price;
             newValue = cleanUpString(newValue);
             if (data && newValue !== lineItem.name) {
-              const oldItems = data.lineItemsNames.filter(
+              const existingItems = data.lineItemsNames.filter(
                 (i) => i.name === newValue,
               );
-              if (oldItems.length > 0) {
-                newPrice = oldItems[0].price;
+              if (existingItems.length > 0) {
+                newPrice = existingItems[0].price;
                 setPrice((newPrice / 100).toString());
               }
             }
@@ -136,11 +137,28 @@ export default function LineItemEdit({
         />
       </Grid>
 
+      <Grid item xs={3}>
+        <TextField
+          type="number"
+          label="Viso"
+          disabled
+          value={
+            !isNaN(parseFloat(price)) && !isNaN(parseInt(amount, 10))
+              ? parseFloat(price) * parseInt(amount, 10)
+              : '-'
+          }
+          fullWidth
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+          }}
+        />
+      </Grid>
+
       {deleteEnabled && (
         <Grid item xs={3}>
           <Button
-            variant="contained"
-            color="primary"
+            color="secondary"
+            startIcon={<ClearIcon />}
             onClick={onDelete}
             aria-label={'Pašalinti' + lid}
           >
