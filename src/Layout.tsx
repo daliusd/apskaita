@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
@@ -40,8 +39,6 @@ const Layout: React.FC = ({ children }) => {
   const [session, loading] = useSession();
   const { state, dispatch } = useContext<IContext>(Context);
 
-  if (loading) return <LinearProgress />;
-
   const handleMessageClose = () => {
     dispatch({ type: 'HIDE_MESSAGE' });
   };
@@ -61,7 +58,7 @@ const Layout: React.FC = ({ children }) => {
                 <Image src="/logo.png" alt="Haiku.lt" width={192} height={64} />
               </Link>
             </Typography>
-            {!session && (
+            {!loading && !session && (
               <Button
                 onClick={() => {
                   signIn('google');
