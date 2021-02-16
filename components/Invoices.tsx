@@ -23,7 +23,7 @@ export default function Invoices({ limit }: Props) {
   return (
     <Grid item xs={12}>
       {data.invoices.map((i: IInvoice) => (
-        <InvoiceView key={`${i.id}_${i.paid}`} invoice={i} />
+        <InvoiceView key={i.id} invoice={i} />
       ))}
     </Grid>
   );

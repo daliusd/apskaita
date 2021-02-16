@@ -37,8 +37,6 @@ export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
       return;
     }
 
-    await mutate('/api/invoices');
-    await mutate('/api/invoices?limit=5');
     setPaid(paid);
   };
 

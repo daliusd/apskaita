@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -29,6 +29,10 @@ export default function InvoiceView({ invoice }: Props) {
   const classes = useStyles();
   const router = useRouter();
   const [paid, setPaid] = useState(invoice.paid === 1);
+
+  useEffect(() => {
+    setPaid(invoice.paid === 1);
+  }, [invoice.paid]);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
