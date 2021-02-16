@@ -40,11 +40,6 @@ describe('Paid test', () => {
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
     await page.click('text="Sąskaita faktūra neapmokėta"');
-    await page.waitForSelector('text="Sąskaita faktūra apmokėta"');
-
-    await page.reload();
-
-    await page.waitForSelector('text="Sąskaita faktūra apmokėta"');
     await page.click('text="Sąskaita faktūra apmokėta"');
     await page.click('text="Sąskaita faktūra neapmokėta"');
   });
