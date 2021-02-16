@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import EditIcon from '@material-ui/icons/Edit';
@@ -41,61 +42,75 @@ export default function InvoiceView({ invoice }: Props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography
-          variant="h6"
-          component="h1"
-          onClick={() => openInvoice(invoice)}
-        >
-          {invoice.seriesName}/{invoice.seriesId} (
-          {getDateString(invoice.created)})
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Pirkėjas: {invoice.buyer.split('\n')[0]}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Kaina: {invoice.price / 100} €
-        </Typography>
-        <InvoiceEditPaid
-          invoiceId={invoice.id.toString()}
-          paid={paid}
-          setPaid={setPaid}
-        />
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              component="h1"
+              onClick={() => openInvoice(invoice)}
+            >
+              {invoice.seriesName}/{invoice.seriesId} (
+              {getDateString(invoice.created)})
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Pirkėjas: {invoice.buyer.split('\n')[0]}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Kaina: {invoice.price / 100} €
+            </Typography>
+          </Grid>
+          <InvoiceEditPaid
+            invoiceId={invoice.id.toString()}
+            paid={paid}
+            setPaid={setPaid}
+          />
+        </Grid>
       </CardContent>
       <CardActions>
-        <Link href={`/saskaitos/id/${invoice.id}`}>
-          <Button
-            aria-label={`Keisti SF ${invoice.id}`}
-            color="primary"
-            startIcon={<EditIcon />}
-          >
-            Keisti
-          </Button>
-        </Link>
+        <Grid container>
+          <Grid item xs={12}>
+            <Link href={`/saskaitos/id/${invoice.id}`}>
+              <Button
+                aria-label={`Keisti SF ${invoice.id}`}
+                color="primary"
+                startIcon={<EditIcon />}
+              >
+                Keisti
+              </Button>
+            </Link>
 
-        <Link href={`/saskaitos/nauja?sourceId=${invoice.id}`}>
-          <Button
-            aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
-            color="primary"
-            startIcon={<FileCopyIcon />}
-          >
-            Nauja SF šios pagrindu
-          </Button>
-        </Link>
+            <Link
+              href={`/api/pdf/${invoice.pdfname}/${
+                invoice.seriesName
+              }${invoice.seriesId.toString().padStart(6, '0')}.pdf`}
+              color="secondary"
+            >
+              <Button
+                aria-label={`Peržiūrėti PDF ${invoice.id}`}
+                color="primary"
+                startIcon={<PictureAsPdfIcon />}
+              >
+                Peržiūrėti
+              </Button>
+            </Link>
+          </Grid>
 
-        <Link
-          href={`/api/pdf/${invoice.pdfname}/${
-            invoice.seriesName
-          }${invoice.seriesId.toString().padStart(6, '0')}.pdf`}
-          color="secondary"
-        >
-          <Button
-            aria-label={`Peržiūrėti PDF ${invoice.id}`}
-            color="primary"
-            startIcon={<PictureAsPdfIcon />}
-          >
-            Peržiūrėti
-          </Button>
-        </Link>
+          <Grid item xs={12}>
+            <Link href={`/saskaitos/nauja?sourceId=${invoice.id}`}>
+              <Button
+                aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
+                color="primary"
+                startIcon={<FileCopyIcon />}
+              >
+                Nauja SF šios pagrindu
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
       </CardActions>
     </Card>
   );
