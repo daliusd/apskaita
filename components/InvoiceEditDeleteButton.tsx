@@ -14,9 +14,13 @@ import { IContext, Context } from '../src/Store';
 
 interface IProps {
   invoiceId?: string;
+  disabled: boolean;
 }
 
-export default function InvoiceEditDeleteButton({ invoiceId }: IProps) {
+export default function InvoiceEditDeleteButton({
+  invoiceId,
+  disabled,
+}: IProps) {
   const router = useRouter();
   const { dispatch } = useContext<IContext>(Context);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -53,6 +57,7 @@ export default function InvoiceEditDeleteButton({ invoiceId }: IProps) {
         aria-label="Trinti"
         startIcon={<DeleteIcon />}
         onClick={() => setDeleteOpen(true)}
+        disabled={disabled}
       >
         Trinti
       </Button>

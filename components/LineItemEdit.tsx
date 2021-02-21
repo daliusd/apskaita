@@ -160,13 +160,14 @@ export default function LineItemEdit({
         />
       </Grid>
 
-      {deleteEnabled && !disabled && (
+      {deleteEnabled && (
         <Grid item xs={3}>
           <Button
             color="secondary"
             startIcon={<ClearIcon />}
             onClick={onDelete}
             aria-label={'Pašalinti' + lid}
+            disabled={disabled}
           >
             Pašalinti
           </Button>

@@ -194,29 +194,28 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         );
       })}
 
-      {!locked && (
-        <Grid item xs={12}>
-          <Button
-            color="primary"
-            startIcon={<AddIcon />}
-            aria-label="Pridėti paslaugą ar prekę"
-            onClick={() => {
-              setLineItems([
-                ...lineItems,
-                {
-                  id: Math.max(...lineItems.map((g) => g.id)) + 1,
-                  name: '',
-                  unit: 'vnt.',
-                  amount: 1,
-                  price: 0,
-                },
-              ]);
-            }}
-          >
-            Pridėti paslaugą ar prekę
-          </Button>
-        </Grid>
-      )}
+      <Grid item xs={12}>
+        <Button
+          color="primary"
+          startIcon={<AddIcon />}
+          aria-label="Pridėti paslaugą ar prekę"
+          disabled={locked}
+          onClick={() => {
+            setLineItems([
+              ...lineItems,
+              {
+                id: Math.max(...lineItems.map((g) => g.id)) + 1,
+                name: '',
+                unit: 'vnt.',
+                amount: 1,
+                price: 0,
+              },
+            ]);
+          }}
+        >
+          Pridėti paslaugą ar prekę
+        </Button>
+      </Grid>
 
       <Grid item xs={12}>
         <InvoiceEditChangeButton
@@ -246,7 +245,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         withHelperText={true}
       />
 
-      {!locked && <InvoiceEditDeleteButton invoiceId={invoiceId} />}
+      <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
     </Grid>
   );
 }
