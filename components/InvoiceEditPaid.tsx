@@ -30,7 +30,7 @@ export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
     if (!response.ok || !(await response.json()).success) {
       dispatch({
         type: 'SET_MESSAGE',
-        text: 'įvyko klaida keičiant apmokėjimo būseną.',
+        text: 'Įvyko klaida keičiant apmokėjimo būseną.',
         severity: 'error',
       });
       return;
