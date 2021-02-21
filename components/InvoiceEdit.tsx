@@ -19,6 +19,7 @@ import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoiceEditPaid from './InvoiceEditPaid';
+import InvoiceEditLocked from './InvoiceEditLocked';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
@@ -42,6 +43,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [extra, setExtra] = useState('');
   const [pdfname, setPdfname] = useState('');
   const [paid, setPaid] = useState(false);
+  const [locked, setLocked] = useState(false);
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -58,6 +60,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
       setPaid(invoice.paid === 1);
+      setLocked(invoice.locked === 1);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       }
@@ -124,6 +127,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           seriesName={seriesName}
           onChange={setSeriesName}
           options={seriesNamesData ? seriesNamesData.seriesNames : []}
+          disabled={locked}
         />
       </Grid>
 
@@ -132,7 +136,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           seriesId={seriesId}
           onChange={setSeriesId}
           valid={validSeriesNumberData ? validSeriesNumberData.valid : true}
-          disabled={!seriesIdResp.data && !seriesIdResp.error}
+          disabled={(!seriesIdResp.data && !seriesIdResp.error) || locked}
         />
       </Grid>
 
@@ -141,23 +145,24 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           date={invoiceDate}
           onChange={setInvoiceDate}
           validInvoiceDate={validInvoiceDate}
+          disabled={locked}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <SellerInput seller={seller} onChange={setSeller} />
+        <SellerInput seller={seller} onChange={setSeller} disabled={locked} />
       </Grid>
 
       <Grid item xs={12}>
-        <BuyerInput buyer={buyer} onChange={setBuyer} />
+        <BuyerInput buyer={buyer} onChange={setBuyer} disabled={locked} />
       </Grid>
 
       <Grid item xs={12}>
-        <IssuerInput issuer={issuer} onChange={setIssuer} />
+        <IssuerInput issuer={issuer} onChange={setIssuer} disabled={locked} />
       </Grid>
 
       <Grid item xs={12}>
-        <ExtraInput extra={extra} onChange={setExtra} />
+        <ExtraInput extra={extra} onChange={setExtra} disabled={locked} />
       </Grid>
 
       <Grid item xs={12}>
@@ -184,31 +189,34 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
                 }),
               );
             }}
+            disabled={locked}
           />
         );
       })}
 
-      <Grid item xs={12}>
-        <Button
-          color="primary"
-          startIcon={<AddIcon />}
-          aria-label="Pridėti paslaugą ar prekę"
-          onClick={() => {
-            setLineItems([
-              ...lineItems,
-              {
-                id: Math.max(...lineItems.map((g) => g.id)) + 1,
-                name: '',
-                unit: 'vnt.',
-                amount: 1,
-                price: 0,
-              },
-            ]);
-          }}
-        >
-          Pridėti paslaugą ar prekę
-        </Button>
-      </Grid>
+      {!locked && (
+        <Grid item xs={12}>
+          <Button
+            color="primary"
+            startIcon={<AddIcon />}
+            aria-label="Pridėti paslaugą ar prekę"
+            onClick={() => {
+              setLineItems([
+                ...lineItems,
+                {
+                  id: Math.max(...lineItems.map((g) => g.id)) + 1,
+                  name: '',
+                  unit: 'vnt.',
+                  amount: 1,
+                  price: 0,
+                },
+              ]);
+            }}
+          >
+            Pridėti paslaugą ar prekę
+          </Button>
+        </Grid>
+      )}
 
       <Grid item xs={12}>
         <InvoiceEditChangeButton
@@ -231,8 +239,14 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       />
 
       <InvoiceEditPaid invoiceId={invoiceId} paid={paid} setPaid={setPaid} />
+      <InvoiceEditLocked
+        invoiceId={invoiceId}
+        locked={locked}
+        setLocked={setLocked}
+        withHelperText={true}
+      />
 
-      <InvoiceEditDeleteButton invoiceId={invoiceId} />
+      {!locked && <InvoiceEditDeleteButton invoiceId={invoiceId} />}
     </Grid>
   );
 }

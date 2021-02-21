@@ -15,6 +15,7 @@ import { IInvoice } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
 import InvoiceEditPaid from './InvoiceEditPaid';
+import InvoiceEditLocked from './InvoiceEditLocked';
 
 interface Props {
   invoice: IInvoice;
@@ -30,10 +31,15 @@ export default function InvoiceView({ invoice }: Props) {
   const classes = useStyles();
   const router = useRouter();
   const [paid, setPaid] = useState(invoice.paid === 1);
+  const [locked, setLocked] = useState(invoice.locked === 1);
 
   useEffect(() => {
     setPaid(invoice.paid === 1);
   }, [invoice.paid]);
+
+  useEffect(() => {
+    setLocked(invoice.locked === 1);
+  }, [invoice.locked]);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
@@ -67,6 +73,11 @@ export default function InvoiceView({ invoice }: Props) {
             invoiceId={invoice.id.toString()}
             paid={paid}
             setPaid={setPaid}
+          />
+          <InvoiceEditLocked
+            invoiceId={invoice.id.toString()}
+            locked={locked}
+            setLocked={setLocked}
           />
         </Grid>
       </CardContent>

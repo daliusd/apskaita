@@ -17,6 +17,7 @@ interface Props {
   onChange: (lineItem: ILineItem) => void;
   deleteEnabled: boolean;
   onDelete: () => void;
+  disabled: boolean;
 }
 
 export default function LineItemEdit({
@@ -25,6 +26,7 @@ export default function LineItemEdit({
   onChange,
   onDelete,
   deleteEnabled,
+  disabled,
 }: Props) {
   const [amount, setAmount] = useState(lineItem.amount.toString());
   const [price, setPrice] = useState(
@@ -42,6 +44,7 @@ export default function LineItemEdit({
         <Autocomplete
           options={data ? data.lineItemsNames.map((i) => i.name) : []}
           fullWidth
+          disabled={disabled}
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
             let newPrice = lineItem.price;
@@ -76,6 +79,7 @@ export default function LineItemEdit({
         <Autocomplete
           options={['vnt.', 'kg', 'val.']}
           fullWidth
+          disabled={disabled}
           value={lineItem.unit}
           onInputChange={(_e, newValue) => {
             onChange({ ...lineItem, unit: newValue });
@@ -97,6 +101,7 @@ export default function LineItemEdit({
           label="Kiekis"
           inputProps={{ 'aria-label': 'Kiekis' + lid }}
           value={amount}
+          disabled={disabled}
           onChange={(e) => {
             setAmount(e.target.value);
             onChange({
@@ -114,6 +119,7 @@ export default function LineItemEdit({
           label="Kaina"
           inputProps={{ 'aria-label': 'Kaina' + lid }}
           value={price}
+          disabled={disabled}
           onChange={(e) => {
             let price = Math.round(parseFloat(e.target.value) * 100);
             if (price <= 0) {
@@ -154,7 +160,7 @@ export default function LineItemEdit({
         />
       </Grid>
 
-      {deleteEnabled && (
+      {deleteEnabled && !disabled && (
         <Grid item xs={3}>
           <Button
             color="secondary"

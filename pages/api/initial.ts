@@ -58,6 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           created: undefined,
           pdfname: '',
           paid: 0,
+          locked: 0,
         },
       });
     }

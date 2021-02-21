@@ -23,6 +23,7 @@ export interface IInvoice {
   extra: string;
   pdfname?: string;
   paid?: number;
+  locked?: number;
   lineItems: ILineItem[];
 }
 
@@ -116,7 +117,7 @@ export async function getInvoiceList(
   offset: number,
 ) {
   const result = await db.all<IInvoice[]>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
     limit,
     offset,
   );
@@ -125,7 +126,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -273,6 +274,18 @@ export async function changeInvoicePaidStatus(
   await db.run(
     'UPDATE Invoice SET paid = ? WHERE id = ?',
     paid ? 1 : 0,
+    invoiceId,
+  );
+}
+
+export async function changeInvoiceLockedStatus(
+  db: Database,
+  invoiceId: number,
+  locked: boolean,
+) {
+  await db.run(
+    'UPDATE Invoice SET locked = ? WHERE id = ?',
+    locked ? 1 : 0,
     invoiceId,
   );
 }

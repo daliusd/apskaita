@@ -19,6 +19,7 @@ import {
   getUniqueBuyerNames,
   getUniqueLineItemsNames,
   changeInvoicePaidStatus,
+  changeInvoiceLockedStatus,
 } from './db';
 
 describe('database tests', () => {
@@ -566,6 +567,33 @@ describe('database tests', () => {
       invoices = await getInvoiceList(db, 10, 0);
       expect(invoices).toHaveLength(1);
       expect(invoices[0].paid).toEqual(0);
+    });
+
+    it('change invoice locked status', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        lineItems: [{ name: 'test', unit: 'vnt.', amount: 1, price: 100 }],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+
+      await changeInvoiceLockedStatus(db, invoiceId, true);
+
+      let invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].locked).toEqual(1);
+
+      await changeInvoiceLockedStatus(db, invoiceId, false);
+
+      invoices = await getInvoiceList(db, 10, 0);
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].locked).toEqual(0);
     });
 
     it('deletes invoice', async () => {

@@ -8,12 +8,14 @@ interface IProps {
   seriesName: string;
   onChange: (value: string) => void;
   options: string[];
+  disabled: boolean;
 }
 
 export default function SeriesNameInput({
   seriesName,
   onChange,
   options,
+  disabled,
 }: IProps) {
   return (
     <Autocomplete
@@ -34,6 +36,7 @@ export default function SeriesNameInput({
           }}
         />
       )}
+      disabled={disabled}
     />
   );
 }

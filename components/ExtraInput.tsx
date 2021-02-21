@@ -6,9 +6,10 @@ import { cleanUpString } from '../utils/textutils';
 interface IProps {
   extra: string;
   onChange: (b: string) => void;
+  disabled: boolean;
 }
 
-export default function SellerInput({ extra, onChange }: IProps) {
+export default function SellerInput({ extra, onChange, disabled }: IProps) {
   return (
     <TextField
       label="Papildoma informacija sąskaitoje faktūroje"
@@ -21,6 +22,7 @@ export default function SellerInput({ extra, onChange }: IProps) {
       multiline
       rows={2}
       variant="outlined"
+      disabled={disabled}
     />
   );
 }

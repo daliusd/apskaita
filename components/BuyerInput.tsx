@@ -10,9 +10,10 @@ import { cleanUpString } from '../utils/textutils';
 interface IProps {
   buyer: string;
   onChange: (b: string) => void;
+  disabled: boolean;
 }
 
-export default function BuyerInput({ buyer, onChange }: IProps) {
+export default function BuyerInput({ buyer, onChange, disabled }: IProps) {
   const debouncedBuyer = useDebounce(buyer, 500);
   const { data: dataBuyer } = useSWR(
     `/api/uniquebuyersnames/${debouncedBuyer}`,
@@ -24,6 +25,7 @@ export default function BuyerInput({ buyer, onChange }: IProps) {
       options={dataBuyer ? dataBuyer.buyersNames : []}
       fullWidth
       value={buyer}
+      disabled={disabled}
       onInputChange={(_e, newValue) => {
         onChange(cleanUpString(newValue));
       }}

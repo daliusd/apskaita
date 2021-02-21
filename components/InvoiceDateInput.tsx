@@ -11,12 +11,14 @@ interface IProps {
     minValidDate?: number;
     maxValidDate?: number;
   };
+  disabled: boolean;
 }
 
 export default function InvoiceDateInput({
   date,
   onChange,
   validInvoiceDate,
+  disabled,
 }: IProps) {
   return (
     <KeyboardDatePicker
@@ -29,6 +31,7 @@ export default function InvoiceDateInput({
       fullWidth
       invalidDateMessage={'Neteisingas datos formatas'}
       error={validInvoiceDate ? !validInvoiceDate.success : !date.getTime()}
+      disabled={disabled}
       helperText={
         validInvoiceDate
           ? validInvoiceDate.minValidDate
