@@ -23,7 +23,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-recipes": "1.1.1",
-    "sharp": "0.27.1",
+    "sharp": "0.27.2",
     "sqlite": "4.0.19",
     "sqlite3": "5.0.2",
     "swr": "0.4.2",
