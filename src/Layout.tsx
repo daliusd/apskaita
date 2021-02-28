@@ -104,6 +104,13 @@ const Layout: React.FC = ({ children }) => {
                 Nustatymai
               </Link>
             )}
+            <Link
+              href="/straipsniai/pakeitimai"
+              color="primary"
+              className={classes.toolbarLink}
+            >
+              Pakeitimai
+            </Link>
             <Link href="/apie" color="primary" className={classes.toolbarLink}>
               Apie
             </Link>
