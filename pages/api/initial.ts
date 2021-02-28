@@ -51,6 +51,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const seriesId = await getNextSeriesId(db, invoice.seriesName);
 
+      const seller = (await getSetting(db, 'seller')) || invoice.seller;
+      const issuer = (await getSetting(db, 'issuer')) || invoice.issuer;
+      const extra = (await getSetting(db, 'extra')) || invoice.extra;
+
       return res.json({
         invoice: {
           ...invoice,
@@ -59,6 +63,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           pdfname: '',
           paid: 0,
           locked: 0,
+          seller,
+          issuer,
+          extra,
         },
       });
     }
