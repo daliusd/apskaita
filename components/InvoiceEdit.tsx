@@ -9,6 +9,7 @@ import { useDebounce } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
 import LineItemEdit from '../components/LineItemEdit';
+import LanguageSelect from '../components/LanguageSelect';
 import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
@@ -29,6 +30,7 @@ interface IProps {
 }
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
+  const [language, setLanguage] = useState('lt');
   const { data: initialData, error } = useSWR(
     '/api/initial' +
       (invoiceId ? '?id=' + invoiceId : '') +
@@ -57,6 +59,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setBuyer(invoice.buyer);
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
+      setLanguage(invoice.language);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
       setPaid(invoice.paid === 1);
@@ -140,11 +143,19 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={6}>
         <InvoiceDateInput
           date={invoiceDate}
           onChange={setInvoiceDate}
           validInvoiceDate={validInvoiceDate}
+          disabled={locked}
+        />
+      </Grid>
+
+      <Grid item xs={6}>
+        <LanguageSelect
+          language={language}
+          onChange={setLanguage}
           disabled={locked}
         />
       </Grid>
@@ -227,6 +238,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           buyer={buyer}
           issuer={issuer}
           extra={extra}
+          language={language}
           lineItems={lineItems}
         />
       </Grid>
