@@ -7,13 +7,19 @@ import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
 
-export default function ExtraEdit() {
+interface Props {
+  language: string;
+}
+
+export default function ExtraEdit({ language }: Props) {
   const [extraCurrent, setExtraCurrent] = useState<string | undefined>(
     undefined,
   );
   const [extra, setExtra] = useState('');
 
-  const { data, error } = useSWR('/api/settings/extra');
+  const settingApiUrl = `/api/settings/extra${language === 'lt' ? '' : '_en'}`;
+
+  const { data, error } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
@@ -47,7 +53,7 @@ export default function ExtraEdit() {
         startIcon={<EditIcon />}
         disabled={extra === extraCurrent}
         onClick={async () => {
-          await fetch('/api/settings/extra', {
+          await fetch(settingApiUrl, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

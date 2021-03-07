@@ -9,6 +9,7 @@ import { useDebounce } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
 import LineItemEdit from '../components/LineItemEdit';
+import LanguageSelect from '../components/LanguageSelect';
 import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
@@ -29,6 +30,9 @@ interface IProps {
 }
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
+  const [language, setLanguage] = useState('lt');
+  const [languageAfterChange, setLanguageAfterChange] = useState(null);
+
   const { data: initialData, error } = useSWR(
     '/api/initial' +
       (invoiceId ? '?id=' + invoiceId : '') +
@@ -57,6 +61,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setBuyer(invoice.buyer);
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
+      setLanguage(invoice.language);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
       setPaid(invoice.paid === 1);
@@ -110,6 +115,35 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       : null,
   );
 
+  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
+
+  const { data: sellerData } = useSWR(
+    languageAfterChange && `/api/settings/seller${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (sellerData && sellerData.value) {
+      setSeller(sellerData.value);
+    }
+  }, [sellerData]);
+
+  const { data: issuerData } = useSWR(
+    languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (issuerData && issuerData.value) {
+      setIssuer(issuerData.value);
+    }
+  }, [issuerData]);
+
+  const { data: extraData } = useSWR(
+    languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (extraData && extraData.value) {
+      setExtra(extraData.value);
+    }
+  }, [extraData]);
+
   if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
   if (!initialData) return <LinearProgress />;
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
@@ -140,7 +174,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={6}>
         <InvoiceDateInput
           date={invoiceDate}
           onChange={setInvoiceDate}
@@ -149,8 +183,23 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         />
       </Grid>
 
+      <Grid item xs={6}>
+        <LanguageSelect
+          language={language}
+          onChange={(l) => {
+            setLanguage(l);
+            setLanguageAfterChange(l);
+          }}
+          disabled={locked}
+        />
+      </Grid>
+
       <Grid item xs={12}>
-        <SellerInput seller={seller} onChange={setSeller} disabled={locked} />
+        <SellerInput
+          seller={seller}
+          onChange={setSeller}
+          disabled={locked || (languageAfterChange && !sellerData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -158,11 +207,19 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <IssuerInput issuer={issuer} onChange={setIssuer} disabled={locked} />
+        <IssuerInput
+          issuer={issuer}
+          onChange={setIssuer}
+          disabled={locked || (languageAfterChange && !issuerData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
-        <ExtraInput extra={extra} onChange={setExtra} disabled={locked} />
+        <ExtraInput
+          extra={extra}
+          onChange={setExtra}
+          disabled={locked || (languageAfterChange && !extraData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -227,6 +284,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           buyer={buyer}
           issuer={issuer}
           extra={extra}
+          language={language}
           lineItems={lineItems}
         />
       </Grid>

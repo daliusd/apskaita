@@ -1,14 +1,15 @@
 import { login } from './login';
-import { fillNewInvoice } from './invoices';
+import { screenshotTest } from './utils';
+import { fillNewInvoice, validateInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
 
-describe('Paid test', () => {
+describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000');
   });
 
-  it('should mark invoice as paid', async () => {
+  it('should create invoice', async () => {
     await login(page);
 
     const invoice: IInvoice = {
@@ -19,9 +20,9 @@ describe('Paid test', () => {
       buyer: 'Dalius',
       seller: 'Jonas',
       issuer: 'Jonas',
-      extra: 'Apmokėti per 10 dienų',
-      language: 'lt',
-      lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
+      extra: 'Kindly pay your invoice within 10 days',
+      language: 'en',
+      lineItems: [{ name: 'Therapy session', unit: 'h', amount: 2, price: 26 }],
     };
 
     await page.click('text="Nauja sąskaita faktūra"');
@@ -40,8 +41,14 @@ describe('Paid test', () => {
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.click('text="Sąskaita faktūra neapmokėta"');
-    await page.click('text="Sąskaita faktūra apmokėta"');
-    await page.click('text="Sąskaita faktūra neapmokėta"');
+    invoice.seriesId = 1; // new series starts with 1
+    await validateInvoice(page, invoice);
+
+    const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
+    const href = await el.evaluate((e) => e.getAttribute('value'));
+    await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
+    await page.waitForSelector('text=rendered');
+
+    await screenshotTest(page, 'invoice-simple-english');
   });
 });

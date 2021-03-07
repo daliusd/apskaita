@@ -18,6 +18,7 @@ interface IProps {
   buyer: string;
   issuer: string;
   extra: string;
+  language: string;
   lineItems: ILineItem[];
 }
 
@@ -30,6 +31,7 @@ export default function InvoiceEditChangeButton({
   buyer,
   issuer,
   extra,
+  language,
   lineItems,
 }: IProps) {
   const router = useRouter();
@@ -127,6 +129,7 @@ export default function InvoiceEditChangeButton({
           seller,
           issuer,
           extra,
+          language,
           lineItems,
         };
 

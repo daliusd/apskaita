@@ -8,7 +8,11 @@ import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
 
-export default function SellerInfoEdit() {
+interface Props {
+  language: string;
+}
+
+export default function SellerInfoEdit({ language }: Props) {
   const [session] = useSession();
   const [sellerCurrent, setSellerCurrent] = useState<string | undefined>(
     undefined,
@@ -17,7 +21,9 @@ export default function SellerInfoEdit() {
     `${session.user.name}\n${session.user.email}`,
   );
 
-  const { data, error } = useSWR('/api/settings/seller');
+  const settingApiUrl = `/api/settings/seller${language === 'lt' ? '' : '_en'}`;
+
+  const { data, error } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
@@ -49,7 +55,7 @@ export default function SellerInfoEdit() {
         disabled={seller === sellerCurrent}
         aria-label="Išsaugoti rekvizitus"
         onClick={async () => {
-          await fetch('/api/settings/seller', {
+          await fetch(settingApiUrl, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

@@ -38,19 +38,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     return dbWrapper(req, res, async (db, session) => {
-      const savedSeller = await getSetting(db, 'seller');
+      const lp = invoice.language === 'lt' ? '' : '_en';
+
+      const savedSeller = await getSetting(db, 'seller' + lp);
       if (!invoice.seller) {
         invoice.seller =
           savedSeller || `${session.user.name}\n${session.user.email}`;
       } else if (!savedSeller) {
-        await setSetting(db, 'seller', invoice.seller);
+        await setSetting(db, 'seller' + lp, invoice.seller);
       }
 
-      const savedIssuer = await getSetting(db, 'issuer');
+      const savedIssuer = await getSetting(db, 'issuer' + lp);
       if (!invoice.issuer) {
         invoice.issuer = savedIssuer || session.user.name;
       } else if (!savedIssuer) {
-        await setSetting(db, 'issuer', invoice.issuer);
+        await setSetting(db, 'issuer' + lp, invoice.issuer);
       }
 
       invoice.pdfname = `${uuidv4()}.pdf`;

@@ -1,3 +1,5 @@
+import converter from 'number-to-words';
+
 const LT_NUMBERS = {
   0: 'nulis',
   1: 'vienas',
@@ -92,7 +94,16 @@ function getPartInWords(part) {
   return words;
 }
 
-export function getPriceInWords(price: number): string {
+function getPriceInWordsEnglish(price: number): string {
+  const inWords = converter.toWords(price);
+  return inWords + ' ' + (price === 1 ? 'euro' : 'euros');
+}
+
+export function getPriceInWords(price: number, language = 'lt'): string {
+  if (language === 'en') {
+    return getPriceInWordsEnglish(price);
+  }
+
   if (price === 0) {
     return LT_NUMBERS[0] + ' ' + formsEuros[0];
   }

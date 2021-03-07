@@ -28,6 +28,7 @@ describe('Settings test', () => {
       seller: 'Triušis',
       issuer: 'Triušis',
       extra: 'Apmokėti morkų sėklomis',
+      language: 'lt',
       lineItems: [
         { name: 'Bičių medus', unit: 'vnt.', amount: 1, price: 12.34 },
       ],

@@ -20,6 +20,7 @@ describe('Delete test', () => {
       seller: 'Jonas',
       issuer: 'Jonas',
       extra: 'Apmokėti per 10 dienų',
+      language: 'lt',
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
     };
 
