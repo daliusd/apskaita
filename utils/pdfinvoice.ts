@@ -47,6 +47,41 @@ const FIELDS_INFO: { name: string; size: number; align: string }[] = [
   },
 ];
 
+const invoiceStrings = {
+  lt: {
+    title: 'SĄSKAITA - FAKTŪRA',
+    serie: 'Serija',
+    no: 'Nr',
+    seller: `Pardavėjas:`,
+    buyer: `Pirkėjas:`,
+    lineItemName: 'Paslaugos ar prekės pavadinimas',
+    lineItemUnit: 'Mato vnt.',
+    lineItemPrice: 'Kaina (€)',
+    lineItemAmount: 'Kiekis',
+    lineItemSum: 'Suma (€)',
+    sumInWords: 'Suma žodžiais:',
+    total: 'Iš viso',
+    invoiceIssuedBy: 'Sąskaitą išrašė',
+    footer: 'Haiku.lt - individualios veiklos apskaita',
+  },
+  en: {
+    title: 'INVOICE',
+    serie: 'Serie',
+    no: 'No',
+    seller: `Seller:`,
+    buyer: `Buyer:`,
+    lineItemName: 'Service or item name',
+    lineItemUnit: 'Unit',
+    lineItemPrice: 'Price (€)',
+    lineItemAmount: 'Amount',
+    lineItemSum: 'Sum (€)',
+    sumInWords: 'Sum in words:',
+    total: 'Total',
+    invoiceIssuedBy: 'Invoice issued by',
+    footer: 'Haiku.lt',
+  },
+};
+
 interface ITableLineItem {
   id: string;
   name: string;
@@ -86,7 +121,7 @@ export function generateInvoicePdf(
   doc.pipe(fs.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
-  addFooter(doc);
+  addFooter(doc, invoice.language);
   const y = generateHeader(doc, invoice, seriesId, logo, logoRatio);
   generateContent(doc, invoice, y);
   doc.end();
@@ -122,10 +157,12 @@ function generateHeader(
     logoHeightAdd = Math.ceil(LOGO_WIDTH * (logoRatio || 1));
   }
 
+  const t = invoiceStrings[invoice.language];
+
   doc
     .font('Roboto-Medium')
     .fontSize(14)
-    .text(`SĄSKAITA - FAKTŪRA`, PAGE_MARGIN, PAGE_MARGIN, {
+    .text(t.title, PAGE_MARGIN, PAGE_MARGIN, {
       width: CONTENT_WIDTH,
       align: 'center',
     });
@@ -134,7 +171,7 @@ function generateHeader(
     .font('Roboto-Medium')
     .fontSize(12)
     .text(
-      `Serija ${invoice.seriesName.normalize()} Nr. ${seriesId}`,
+      `${t.serie} ${invoice.seriesName.normalize()} ${t.no}. ${seriesId}`,
       PAGE_MARGIN,
       PAGE_MARGIN + 8 * PTPMM,
       {
@@ -160,7 +197,7 @@ function generateHeader(
   doc
     .font('Roboto-Medium')
     .fontSize(12)
-    .text(`Pardavėjas:`, PAGE_MARGIN, PAGE_MARGIN + yPos, {
+    .text(t.seller, PAGE_MARGIN, PAGE_MARGIN + yPos, {
       width: CONTENT_WIDTH / 2,
     });
 
@@ -184,7 +221,7 @@ function generateHeader(
   doc
     .font('Roboto-Medium')
     .fontSize(12)
-    .text(`Pirkėjas:`, PAGE_MARGIN + CONTENT_WIDTH / 2, PAGE_MARGIN + yPos, {
+    .text(t.buyer, PAGE_MARGIN + CONTENT_WIDTH / 2, PAGE_MARGIN + yPos, {
       width: CONTENT_WIDTH / 2,
       align: 'right',
     });
@@ -219,14 +256,16 @@ function generateContent(
   invoice: IInvoice,
   startY: number,
 ) {
+  const t = invoiceStrings[invoice.language];
+
   let y = startY;
 
-  y = drawTableHeader(doc, y);
+  y = drawTableHeader(doc, y, invoice.language);
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const lineItem = invoice.lineItems[i];
 
-    y = drawTableRow(doc, y, 'Roboto-Light', {
+    y = drawTableRow(doc, y, 'Roboto-Light', invoice.language, {
       id: (i + 1).toString(),
       name: lineItem.name,
       unit: lineItem.unit,
@@ -239,30 +278,38 @@ function generateContent(
   drawLine(doc, y);
   y += 2 * PTPMM;
 
-  y = drawTableRow(doc, y, 'Roboto-Medium', {
+  y = drawTableRow(doc, y, 'Roboto-Medium', invoice.language, {
     id: '',
     name: '',
     unit: '',
-    price: 'Iš viso',
+    price: t.total,
     amount: '',
     total: formatPrice(invoice.price),
   });
 
   y += 10 * PTPMM;
 
-  const priceInWords = `Suma žodžiais: ${getPriceInWords(
+  const priceInWords = `${t.sumInWords} ${getPriceInWords(
     Math.floor(invoice.price / 100),
+    invoice.language,
   )} ${invoice.price % 100} ct`;
 
-  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
+  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords, invoice.language);
   y += 20 * PTPMM;
 
   if (invoice.extra) {
-    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra);
+    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra, invoice.language);
     y += 10 * PTPMM;
   }
 
-  y = drawText(doc, y, 'Roboto-Light', 12, `Sąskaitą išrašė ${invoice.issuer}`);
+  y = drawText(
+    doc,
+    y,
+    'Roboto-Light',
+    12,
+    `${t.invoiceIssuedBy} ${invoice.issuer}`,
+    invoice.language,
+  );
 }
 
 function drawText(
@@ -271,13 +318,14 @@ function drawText(
   font: string,
   fontSize: number,
   text: string,
+  language: string,
 ) {
   const height = doc
     .font(font)
     .fontSize(fontSize)
     .heightOfString(text.normalize(), { width: CONTENT_WIDTH });
 
-  y = validateOrAddPage(doc, y, height).y;
+  y = validateOrAddPage(doc, y, height, language).y;
 
   doc
     .font(font)
@@ -304,10 +352,10 @@ function getTableRowHeight(
   return Math.max(...heights);
 }
 
-function validateOrAddPage(doc, y, height) {
+function validateOrAddPage(doc, y, height, language) {
   if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
-    addFooter(doc);
+    addFooter(doc, language);
     return { pageAdded: true, y: PAGE_MARGIN };
   }
   return { pageAdded: false, y };
@@ -317,12 +365,13 @@ function drawTableRow(
   doc: PDFKit.PDFDocument,
   y: number,
   font: string,
+  language: string,
   lineItem: ITableLineItem,
 ) {
   const height = getTableRowHeight(doc, font, lineItem);
-  const vres = validateOrAddPage(doc, y, height);
+  const vres = validateOrAddPage(doc, y, height, language);
   if (vres.pageAdded) {
-    y = drawTableHeader(doc, vres.y);
+    y = drawTableHeader(doc, vres.y, language);
   }
 
   let x = PAGE_MARGIN;
@@ -339,14 +388,16 @@ function drawTableRow(
   return y;
 }
 
-function drawTableHeader(doc: PDFKit.PDFDocument, y: number) {
-  y = drawTableRow(doc, y, 'Roboto-Medium', {
-    id: 'Nr',
-    name: 'Paslaugos ar prekės pavadinimas',
-    unit: 'Mato vnt.',
-    price: 'Kaina (€)',
-    amount: 'Kiekis',
-    total: 'Suma (€)',
+function drawTableHeader(doc: PDFKit.PDFDocument, y: number, language: string) {
+  const t = invoiceStrings[language];
+
+  y = drawTableRow(doc, y, 'Roboto-Medium', language, {
+    id: t.no,
+    name: t.lineItemName,
+    unit: t.lineItemUnit,
+    price: t.lineItemPrice,
+    amount: t.lineItemAmount,
+    total: t.lineItemSum,
   });
 
   drawLine(doc, y);
@@ -368,30 +419,32 @@ function formatPrice(cents) {
   return (cents / 100).toFixed(2).replace('.', ',');
 }
 
-function addFooter(doc: PDFKit.PDFDocument) {
+function addFooter(doc: PDFKit.PDFDocument, language: string) {
+  const t = invoiceStrings[language];
+
   doc.save();
+
+  const textWidth = doc
+    .font('Roboto-Light')
+    .fontSize(8)
+    .widthOfString(t.footer);
 
   doc
     .strokeColor('#aaaaaa')
     .lineWidth(0.25 * PTPMM)
     .dash(PTPMM, { space: PTPMM })
     .moveTo(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN)
-    .lineTo(PAGE_MARGIN + 50 * PTPMM, PAGE_HEIGHT - PAGE_MARGIN)
+    .lineTo(PAGE_MARGIN + textWidth, PAGE_HEIGHT - PAGE_MARGIN)
     .stroke();
 
   doc
     .fillColor('#aaaaaa')
     .font('Roboto-Light')
     .fontSize(8)
-    .text(
-      'Haiku.lt - individualios veiklos apskaita',
-      PAGE_MARGIN,
-      PAGE_HEIGHT - PAGE_MARGIN + PTPMM,
-      {
-        width: CONTENT_WIDTH,
-        align: 'left',
-      },
-    );
+    .text(t.footer, PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN + PTPMM, {
+      width: CONTENT_WIDTH,
+      align: 'left',
+    });
 
   doc.restore();
 }
