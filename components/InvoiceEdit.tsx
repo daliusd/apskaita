@@ -195,7 +195,11 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <SellerInput seller={seller} onChange={setSeller} disabled={locked} />
+        <SellerInput
+          seller={seller}
+          onChange={setSeller}
+          disabled={locked || (languageAfterChange && !sellerData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -203,11 +207,19 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <IssuerInput issuer={issuer} onChange={setIssuer} disabled={locked} />
+        <IssuerInput
+          issuer={issuer}
+          onChange={setIssuer}
+          disabled={locked || (languageAfterChange && !issuerData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
-        <ExtraInput extra={extra} onChange={setExtra} disabled={locked} />
+        <ExtraInput
+          extra={extra}
+          onChange={setExtra}
+          disabled={locked || (languageAfterChange && !extraData)}
+        />
       </Grid>
 
       <Grid item xs={12}>
