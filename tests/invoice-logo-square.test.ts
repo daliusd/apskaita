@@ -29,6 +29,7 @@ describe('Settings test', () => {
       seller: 'Jonas\nadresas\ninfo 1\ninfo 2\ninfo 3',
       issuer: 'Jonas',
       extra: 'Apmokėti per 10 dienų',
+      language: 'lt',
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
     };
 
