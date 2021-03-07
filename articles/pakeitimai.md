@@ -7,6 +7,13 @@ date: '2021-02-28'
 pakeitimų iki seniausių). Jei turite klausimų ar pasiūlymų
 rašykite el. paštu [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2021-03-07
+
+* Sąskaitų faktūrų PDF failai anglų kalba. Kuriant sąskaitą
+  faktūrą galima nurodyti kalbą. Taip pat galima nustatymuose
+  pakeisti rekvizitus, sąskaitas išrašantį asmenį ir papildomą
+  informaciją anglų kalbai.
+
 ## 2021-02-28
 
 * Pridėtas pakeitimų sąrašas. Nuo šiol, jei kils klausimų dėl
