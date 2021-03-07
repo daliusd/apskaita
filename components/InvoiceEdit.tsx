@@ -31,6 +31,8 @@ interface IProps {
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [language, setLanguage] = useState('lt');
+  const [languageAfterChange, setLanguageAfterChange] = useState(null);
+
   const { data: initialData, error } = useSWR(
     '/api/initial' +
       (invoiceId ? '?id=' + invoiceId : '') +
@@ -113,6 +115,35 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       : null,
   );
 
+  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
+
+  const { data: sellerData } = useSWR(
+    languageAfterChange && `/api/settings/seller${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (sellerData && sellerData.value) {
+      setSeller(sellerData.value);
+    }
+  }, [sellerData]);
+
+  const { data: issuerData } = useSWR(
+    languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (issuerData && issuerData.value) {
+      setIssuer(issuerData.value);
+    }
+  }, [issuerData]);
+
+  const { data: extraData } = useSWR(
+    languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (extraData && extraData.value) {
+      setExtra(extraData.value);
+    }
+  }, [extraData]);
+
   if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
   if (!initialData) return <LinearProgress />;
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
@@ -155,7 +186,10 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       <Grid item xs={6}>
         <LanguageSelect
           language={language}
-          onChange={setLanguage}
+          onChange={(l) => {
+            setLanguage(l);
+            setLanguageAfterChange(l);
+          }}
           disabled={locked}
         />
       </Grid>

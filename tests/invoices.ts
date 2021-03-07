@@ -27,6 +27,11 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
     new Date(invoice.created).toISOString().slice(0, 10),
   );
 
+  if (invoice.language !== 'lt') {
+    await page.click('div[aria-label="Kalba"]');
+    await page.click('li[aria-label="en"]');
+  }
+
   await page.click('textarea[aria-label="Pardavėjas"]');
   await page.fill('textarea[aria-label="Pardavėjas"]', invoice.seller);
 

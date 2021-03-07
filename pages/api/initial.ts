@@ -52,9 +52,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const seriesId = await getNextSeriesId(db, invoice.seriesName);
 
-      const seller = (await getSetting(db, 'seller')) || invoice.seller;
-      const issuer = (await getSetting(db, 'issuer')) || invoice.issuer;
-      const extra = (await getSetting(db, 'extra')) || invoice.extra;
+      const lp = invoice.language === 'lt' ? '' : '_en';
+      const seller = (await getSetting(db, 'seller' + lp)) || invoice.seller;
+      const issuer = (await getSetting(db, 'issuer' + lp)) || invoice.issuer;
+      const extra = (await getSetting(db, 'extra' + lp)) || invoice.extra;
 
       return res.json({
         invoice: {

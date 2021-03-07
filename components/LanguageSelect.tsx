@@ -16,7 +16,7 @@ export default function LanguageSelect({
   disabled,
 }: IProps) {
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth aria-label="Kalba">
       <InputLabel id="language-selector">Kalba</InputLabel>
       <Select
         labelId="language-selector"
@@ -24,8 +24,12 @@ export default function LanguageSelect({
         onChange={(e) => onChange(e.target.value as string)}
         disabled={disabled}
       >
-        <MenuItem value="lt">Lietuvių</MenuItem>
-        <MenuItem value="en">Anglų</MenuItem>
+        <MenuItem value="lt" aria-label="lt">
+          Lietuvių
+        </MenuItem>
+        <MenuItem value="en" aria-label="en">
+          Anglų
+        </MenuItem>
       </Select>
     </FormControl>
   );

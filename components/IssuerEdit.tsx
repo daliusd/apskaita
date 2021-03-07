@@ -8,14 +8,20 @@ import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
 
-export default function IssuerEdit() {
+interface Props {
+  language: string;
+}
+
+export default function IssuerEdit({ language }: Props) {
   const [session] = useSession();
   const [issuerCurrent, setIssuerCurrent] = useState<string | undefined>(
     undefined,
   );
   const [issuer, setIssuer] = useState(session.user.name);
 
-  const { data, error } = useSWR('/api/settings/issuer');
+  const settingApiUrl = `/api/settings/issuer${language === 'lt' ? '' : '_en'}`;
+
+  const { data, error } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
@@ -47,7 +53,7 @@ export default function IssuerEdit() {
         disabled={issuer === issuerCurrent}
         aria-label="Išsaugoti asmenį išrašantį sąskaitas"
         onClick={async () => {
-          await fetch('/api/settings/issuer', {
+          await fetch(settingApiUrl, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
