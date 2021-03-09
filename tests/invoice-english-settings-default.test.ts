@@ -19,21 +19,19 @@ describe('English settings test', () => {
       'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
       'sellerlt',
     );
-    await page.click('text="Išsaugoti rekvizitus"');
+    await page.click('[aria-label="Išsaugoti rekvizitus"]');
 
     await page.fill(
       'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
       'issuerlt',
     );
-    await page.click('text="Išsaugoti"');
+    await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
 
     await page.fill(
       'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
       'extralt',
     );
-    await page.click(
-      'button[aria-label="Išsaugoti papildomą informaciją"] >> text="Išsaugoti"',
-    );
+    await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 
     // Create english invoice
     await Promise.all([
@@ -57,7 +55,10 @@ describe('English settings test', () => {
     await page.fill('input[aria-label="Paslaugos pavadinimas 1"]', 'Training');
     await page.fill('input[aria-label="Kaina 1"]', '100');
 
-    await Promise.all([page.waitForNavigation(), page.click('text="Sukurti"')]);
+    await Promise.all([
+      page.waitForNavigation(),
+      page.click('[aria-label="Sukurti"]'),
+    ]);
 
     // Check English settings
 

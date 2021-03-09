@@ -25,7 +25,7 @@ describe('Settings test', () => {
 
     await page.fill('input[aria-label="Kaina 1"]', '10');
 
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
     await page.waitForNavigation();
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
@@ -35,21 +35,19 @@ describe('Settings test', () => {
       'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
       'Mano rekvizitai',
     );
-    await page.click('text="Išsaugoti rekvizitus"');
+    await page.click('[aria-label="Išsaugoti rekvizitus"]');
 
     await page.fill(
       'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
       'Mikė Pūkuotukas',
     );
-    await page.click('text="Išsaugoti"');
+    await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
 
     await page.fill(
       'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
       'Nekreipk dėmesio',
     );
-    await page.click(
-      'button[aria-label="Išsaugoti papildomą informaciją"] >> text="Išsaugoti"',
-    );
+    await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 
     await page.goto('http://localhost:4000/saskaitos');
 

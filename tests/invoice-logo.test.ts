@@ -35,7 +35,7 @@ describe('Settings test', () => {
 
     await page.goto('http://localhost:4000/saskaitos/nauja');
     await fillNewInvoice(page, invoice);
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
 
     await page.waitForNavigation();
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');

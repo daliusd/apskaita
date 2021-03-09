@@ -6,7 +6,7 @@ export async function setSeller(page: Page, seller: string) {
     'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
     seller,
   );
-  await page.click('text="Išsaugoti rekvizitus"');
+  await page.click('[aria-label="Išsaugoti rekvizitus"]');
 }
 
 export async function setIssuer(page: Page, issuer: string) {
@@ -17,7 +17,7 @@ export async function setIssuer(page: Page, issuer: string) {
     'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
     issuer,
   );
-  await page.click('text="Išsaugoti"');
+  await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
 }
 
 export async function setExtra(page: Page, extra: string) {
@@ -28,9 +28,7 @@ export async function setExtra(page: Page, extra: string) {
     'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
     extra,
   );
-  await page.click(
-    'button[aria-label="Išsaugoti papildomą informaciją"] >> text="Išsaugoti"',
-  );
+  await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 }
 
 export async function setZeroes(page: Page, zeroes: string) {

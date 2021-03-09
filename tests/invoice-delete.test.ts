@@ -31,7 +31,7 @@ describe('Delete test', () => {
 
     await fillNewInvoice(page, invoice);
 
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
 
     await page.waitForNavigation();
     expect(

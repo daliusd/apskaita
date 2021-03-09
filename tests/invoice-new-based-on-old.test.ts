@@ -32,9 +32,11 @@ describe('Creating new invoice based on old', () => {
 
     await fillNewInvoice(page, invoice);
 
-    await page.click('text="Sukurti"');
+    await Promise.all([
+      page.waitForNavigation(),
+      page.click('[aria-label="Sukurti"]'),
+    ]);
 
-    await page.waitForNavigation();
     expect(
       page.url().startsWith('http://localhost:4000/saskaitos/id/'),
     ).toBeTruthy();

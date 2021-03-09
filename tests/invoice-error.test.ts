@@ -31,7 +31,7 @@ describe('Settings test', () => {
 
     await fillNewInvoice(page, invoice);
 
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
     await page.waitForNavigation();
 
     // Second invoice
@@ -41,13 +41,13 @@ describe('Settings test', () => {
     invoice.created = Date.UTC(2021, 1, 1);
 
     await fillNewInvoice(page, invoice);
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
     await page.waitForNavigation();
 
     // Attempts to create invalid invoice
     await page.goto('http://localhost:4000/saskaitos/nauja');
 
-    await page.click('text="Sukurti"');
+    await page.click('[aria-label="Sukurti"]');
     await page.click('text="Nurodykite pirkėjo duomenis."');
 
     await page.fill('input[aria-label="Serijos numeris"]', '3');
