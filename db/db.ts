@@ -84,7 +84,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -95,6 +95,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.extra,
     invoice.pdfname,
     invoice.language,
+    invoice.paid || 0,
   );
 
   const invoiceId = result.lastID;
@@ -113,16 +114,63 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   return { success: true, invoiceId };
 }
 
+interface GetInvoiceListParams {
+  limit?: number;
+  offset?: number;
+  minDate?: number;
+  maxDate?: number;
+  seriesName?: string;
+  buyer?: string;
+  paid?: number;
+}
+
 export async function getInvoiceList(
   db: Database,
-  limit: number,
-  offset: number,
+  params: GetInvoiceListParams,
 ) {
-  const result = await db.all<IInvoice[]>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked FROM Invoice ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?',
-    limit,
-    offset,
-  );
+  const { limit = 10, offset = 0 } = params;
+  const args = [];
+
+  let query =
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked FROM Invoice';
+
+  const whereConditions = [];
+
+  if (params.minDate !== undefined) {
+    whereConditions.push('created >= ?');
+    args.push(params.minDate);
+  }
+
+  if (params.maxDate !== undefined) {
+    whereConditions.push('created <= ?');
+    args.push(params.maxDate);
+  }
+
+  if (params.seriesName !== undefined) {
+    whereConditions.push('seriesName LIKE ?');
+    args.push(params.seriesName + '%');
+  }
+
+  if (params.buyer !== undefined) {
+    whereConditions.push('buyer LIKE ?');
+    args.push(params.buyer + '%');
+  }
+
+  if (params.paid !== undefined) {
+    whereConditions.push('paid = ?');
+    args.push(params.paid);
+  }
+
+  if (whereConditions.length > 0) {
+    query += ' WHERE ' + whereConditions.join(' AND ');
+  }
+
+  query += ' ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?';
+
+  args.push(limit);
+  args.push(offset);
+
+  const result = await db.all<IInvoice[]>(query, ...args);
   return result;
 }
 

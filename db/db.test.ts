@@ -108,7 +108,7 @@ describe('database tests', () => {
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
-      const invoices = await getInvoiceList(db, 10, 0);
+      const invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].id).toEqual(invoiceId);
       expect(invoices[0].seriesName).toEqual(invoice.seriesName);
@@ -139,7 +139,7 @@ describe('database tests', () => {
       invoice.seriesId = 2;
       await createInvoice(db, invoice);
 
-      const invoices = await getInvoiceList(db, 10, 0);
+      const invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(3);
       expect(invoices[0].seriesId).toEqual(3);
       expect(invoices[1].seriesId).toEqual(2);
@@ -433,7 +433,7 @@ describe('database tests', () => {
       const success = await updateInvoice(db, invoiceId, invoice);
       expect(success).toBeTruthy();
 
-      const invoices = await getInvoiceList(db, 10, 0);
+      const invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       const retInvoice = await getInvoiceWithLineItems(db, invoiceId);
 
@@ -577,13 +577,13 @@ describe('database tests', () => {
 
       await changeInvoicePaidStatus(db, invoiceId, true);
 
-      let invoices = await getInvoiceList(db, 10, 0);
+      let invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].paid).toEqual(1);
 
       await changeInvoicePaidStatus(db, invoiceId, false);
 
-      invoices = await getInvoiceList(db, 10, 0);
+      invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].paid).toEqual(0);
     });
@@ -605,13 +605,13 @@ describe('database tests', () => {
 
       await changeInvoiceLockedStatus(db, invoiceId, true);
 
-      let invoices = await getInvoiceList(db, 10, 0);
+      let invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].locked).toEqual(1);
 
       await changeInvoiceLockedStatus(db, invoiceId, false);
 
-      invoices = await getInvoiceList(db, 10, 0);
+      invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].locked).toEqual(0);
     });
@@ -631,7 +631,7 @@ describe('database tests', () => {
       };
       const { invoiceId } = await createInvoice(db, invoice);
       await deleteInvoice(db, invoiceId);
-      const invoices = await getInvoiceList(db, 10, 0);
+      const invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(0);
     });
 
