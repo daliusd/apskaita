@@ -51,7 +51,7 @@
     "@types/chance": "1.1.1",
     "@types/jest": "26.0.20",
     "@types/multer": "1.4.5",
-    "@types/next-auth": "3.7.0",
+    "@types/next-auth": "3.7.1",
     "@types/pixelmatch": "5.2.2",
     "@types/pngjs": "6.0.0",
     "@typescript-eslint/eslint-plugin": "4.17.0",
