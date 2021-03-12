@@ -12,10 +12,13 @@ describe('Creating new invoice based on old', () => {
   it('should create invoice based on old one', async () => {
     await login(page);
 
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+
     const invoice: IInvoice = {
       seriesName: 'TEST',
       seriesId: 0,
-      created: Date.UTC(2020, 0, 31),
+      created: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
       price: 50,
       buyer: 'Dalius',
       seller: 'Jonas',

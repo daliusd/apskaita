@@ -11,9 +11,15 @@ interface IProps {
   buyer: string;
   onChange: (b: string) => void;
   disabled: boolean;
+  rows?: number;
 }
 
-export default function BuyerInput({ buyer, onChange, disabled }: IProps) {
+export default function BuyerInput({
+  buyer,
+  onChange,
+  disabled,
+  rows = 4,
+}: IProps) {
   const debouncedBuyer = useDebounce(buyer, 500);
   const { data: dataBuyer } = useSWR(
     `/api/uniquebuyersnames/${debouncedBuyer}`,
@@ -36,8 +42,8 @@ export default function BuyerInput({ buyer, onChange, disabled }: IProps) {
           label="Pirkėjas"
           inputProps={{ 'aria-label': 'Pirkėjas', ...params.inputProps }}
           multiline
-          rows={4}
-          variant="outlined"
+          rows={rows}
+          variant={rows > 1 ? 'outlined' : undefined}
         />
       )}
     />

@@ -74,10 +74,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
 
-  const { data: seriesNamesData } = useSWR(
-    `/api/uniqueseriesnames/${debouncedSeriesName}`,
-  );
-
   const seriesIdResp = useSWR(
     debouncedSeriesName ? `/api/seriesid/${debouncedSeriesName}` : null,
   );
@@ -160,7 +156,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         <SeriesNameInput
           seriesName={seriesName}
           onChange={setSeriesName}
-          options={seriesNamesData ? seriesNamesData.seriesNames : []}
           disabled={locked}
         />
       </Grid>

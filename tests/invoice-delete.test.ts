@@ -11,10 +11,11 @@ describe('Delete test', () => {
   it('should delete invoice', async () => {
     await login(page);
 
+    const date = new Date();
     const invoice: IInvoice = {
       seriesName: 'TEST',
       seriesId: 0,
-      created: Date.UTC(2020, 0, 31),
+      created: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
       price: 50,
       buyer: 'Dalius',
       seller: 'Jonas',
@@ -46,6 +47,8 @@ describe('Delete test', () => {
     await page.click('div[role="dialog"] >> text="Trinti"');
 
     await page.waitForNavigation({ url: 'http://localhost:4000/saskaitos' });
-    await page.click('text="Jūs neturite sąskaitų faktūrų."');
+    await page.waitForSelector(
+      'text=Nerasta sąskaitų faktūrų pagal šiuos filtrus.',
+    );
   });
 });
