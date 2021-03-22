@@ -28,6 +28,16 @@ export interface IInvoice {
   lineItems: ILineItem[];
 }
 
+export interface IExpense {
+  readonly id?: number;
+  description: string;
+  created: number;
+  price: number;
+  gdriveId: string;
+  webContentLink: string;
+  webViewLink: string;
+}
+
 export async function openDb(dbName: string) {
   const isMemory = dbName === ':memory:';
   let dbDir = '';
@@ -370,4 +380,74 @@ export async function getUniqueLineItemsNames(db: Database, start: string) {
     start + '%',
   );
   return result;
+}
+
+export async function createExpense(db: Database, expense: IExpense) {
+  const result = await db.run(
+    'INSERT INTO Expense(description, created, price, gdriveId, webViewLink, webContentLink) VALUES(?, ?, ?, ?, ?, ?)',
+    expense.description,
+    expense.created,
+    expense.price,
+    expense.gdriveId,
+    expense.webViewLink,
+    expense.webContentLink,
+  );
+
+  const expenseId = result.lastID;
+
+  return { success: true, expenseId };
+}
+
+interface GetExpenseListParams {
+  limit?: number;
+  offset?: number;
+  description?: string;
+  minDate?: number;
+  maxDate?: number;
+}
+
+export async function getExpenseList(
+  db: Database,
+  params: GetExpenseListParams,
+) {
+  const { limit = 10, offset = 0 } = params;
+  const args = [];
+
+  let query =
+    'SELECT id, description, created, price, gdriveId, webViewLink, webContentLink FROM Expense';
+
+  const whereConditions = [];
+
+  if (params.description !== undefined) {
+    whereConditions.push('description LIKE ?');
+    args.push('%' + params.description + '%');
+  }
+
+  if (params.minDate !== undefined) {
+    whereConditions.push('created >= ?');
+    args.push(params.minDate);
+  }
+
+  if (params.maxDate !== undefined) {
+    whereConditions.push('created <= ?');
+    args.push(params.maxDate);
+  }
+
+  if (whereConditions.length > 0) {
+    query += ' WHERE ' + whereConditions.join(' AND ');
+  }
+
+  query += ' ORDER BY created DESC LIMIT ? OFFSET ?';
+
+  args.push(limit);
+  args.push(offset);
+
+  const result = await db.all<IInvoice[]>(query, ...args);
+  return result;
+}
+
+export async function deleteExpense(db: Database, expenseId: number) {
+  await db.run('DELETE FROM Expense WHERE id = ?', expenseId);
+
+  return true;
 }
