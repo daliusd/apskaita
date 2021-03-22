@@ -1,10 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import multer from 'multer';
 import sharp from 'sharp';
 
 import { setSetting } from '../../../db/db';
 
 import { dbWrapper } from '../../../db/apiwrapper';
+
+import { uploadPromise } from '../../../utils/upload';
+
+import { init } from '../../../utils/sentry';
+
+init();
 
 export const config = {
   api: {
@@ -12,24 +17,10 @@ export const config = {
   },
 };
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-const uploadPromise = (name: string, req) => {
-  return new Promise((resolve, reject) => {
-    upload.single(name)(req, undefined, (err) => {
-      if (err) {
-        reject();
-      } else {
-        resolve(req.file);
-      }
-    });
-  });
-};
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {
-    const file = await uploadPromise('logo', req);
+    const upload = await uploadPromise('logo', req);
+    const file = upload.files['logo'][0];
 
     const image = sharp((file as Express.Multer.File).buffer);
     const meta = await image.metadata();
