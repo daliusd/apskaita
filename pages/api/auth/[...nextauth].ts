@@ -1,11 +1,63 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+import * as Sentry from '@sentry/node';
+
+const GOOGLE_AUTHORIZATION_URL =
+  'https://accounts.google.com/o/oauth2/v2/auth?' +
+  new URLSearchParams({
+    prompt: 'consent',
+    access_type: 'offline',
+    response_type: 'code',
+  });
+
+async function refreshAccessToken(token) {
+  try {
+    const url =
+      'https://oauth2.googleapis.com/token?' +
+      new URLSearchParams({
+        client_id: process.env.GOOGLE_ID,
+        client_secret: process.env.GOOGLE_SECRET,
+        grant_type: 'refresh_token',
+        refresh_token: token.refreshToken,
+      });
+
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      method: 'POST',
+    });
+
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      throw refreshedTokens;
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.access_token,
+      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    };
+  } catch (error) {
+    Sentry.captureException(error);
+
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    };
+  }
+}
 
 const options = {
   providers: [
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      authorizationUrl: GOOGLE_AUTHORIZATION_URL,
+      scope:
+        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
     }),
     Providers.Credentials({
       name: 'Credentials',
@@ -34,12 +86,48 @@ const options = {
     }),
   ],
 
+  secret: process.env.SECRET,
+
   session: {
     jwt: true,
   },
 
   pages: {
     signOut: '/atsijungti',
+  },
+
+  callbacks: {
+    async jwt(token, user, account) {
+      // Initial sign in
+      if (account && user && account.accessToken) {
+        return {
+          accessToken: account.accessToken,
+          accessTokenExpires: Date.now() + account.expires_in * 1000,
+          refreshToken: account.refresh_token,
+          user,
+        };
+      }
+
+      // Return previous token if the access token has not expired yet
+      if (
+        token.accessTokenExpires === undefined ||
+        Date.now() < token.accessTokenExpires
+      ) {
+        return token;
+      }
+
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
+    },
+    async session(session, token) {
+      if (token) {
+        session.user = token.user !== undefined ? token.user : session.user;
+        session.accessToken = token.accessToken;
+        session.error = token.error;
+      }
+
+      return session;
+    },
   },
 
   debug: true,

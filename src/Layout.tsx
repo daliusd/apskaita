@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -38,6 +38,15 @@ const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const [session, loading] = useSession();
   const { state, dispatch } = useContext<IContext>(Context);
+
+  useEffect(() => {
+    if (
+      ((session as unknown) as { error: string })?.error ===
+      'RefreshAccessTokenError'
+    ) {
+      signIn('google');
+    }
+  }, [session]);
 
   const handleMessageClose = () => {
     dispatch({ type: 'HIDE_MESSAGE' });
