@@ -398,6 +398,22 @@ export async function createExpense(db: Database, expense: IExpense) {
   return { success: true, expenseId };
 }
 
+export async function updateExpense(
+  db: Database,
+  expenseId: number,
+  expense: IExpense,
+) {
+  await db.run(
+    'UPDATE Expense SET description = ?, created = ?, price = ? WHERE id = ?',
+    expense.description,
+    expense.created,
+    expense.price,
+    expenseId,
+  );
+
+  return true;
+}
+
 interface GetExpenseListParams {
   limit?: number;
   offset?: number;
@@ -442,7 +458,7 @@ export async function getExpenseList(
   args.push(limit);
   args.push(offset);
 
-  const result = await db.all<IInvoice[]>(query, ...args);
+  const result = await db.all<IExpense[]>(query, ...args);
   return result;
 }
 

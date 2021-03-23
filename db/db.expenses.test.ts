@@ -5,6 +5,7 @@ import {
   deleteExpense,
   getExpenseList,
   IExpense,
+  updateExpense,
 } from './db';
 
 describe('expenses tests', () => {
@@ -73,6 +74,31 @@ describe('expenses tests', () => {
       expect(expenses).toHaveLength(2);
       expect(expenses[0].id).toEqual(expense1Id);
       expect(expenses[1].id).toEqual(expense3Id);
+    });
+
+    it('update expense', async () => {
+      const expense: IExpense = {
+        description: 'spausdintuvas',
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        gdriveId: '123',
+        webViewLink: 'view_link_1',
+        webContentLink: 'content_link_1',
+      };
+      const { expenseId } = await createExpense(db, expense);
+
+      expense.created = new Date(2020, 0, 30).getTime();
+      expense.description = 'dažai';
+      expense.price = 101;
+
+      await updateExpense(db, expenseId, expense);
+
+      const expenses = await getExpenseList(db, {});
+      expect(expenses).toHaveLength(1);
+      expect(expenses[0].id).toEqual(expenseId);
+      expect(expenses[0].created).toEqual(expense.created);
+      expect(expenses[0].description).toEqual(expense.description);
+      expect(expenses[0].price).toEqual(expense.price);
     });
 
     it('deletes expense', async () => {
