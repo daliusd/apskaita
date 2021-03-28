@@ -8,5 +8,5 @@ CREATE TABLE Expense (
   webViewLink     TEXT
 );
 
-CREATE UNIQUE INDEX Expense_ix_description ON Expense (description);
+CREATE INDEX Expense_ix_description ON Expense (description);
 CREATE INDEX Expense_ix_created ON Expense (created);
