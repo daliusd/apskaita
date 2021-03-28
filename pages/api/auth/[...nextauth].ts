@@ -130,6 +130,9 @@ const options = {
           accessToken: account.accessToken,
           accessTokenExpires: Date.now() + account.expires_in * 1000,
           refreshToken: account.refresh_token,
+          gdrive: account.scope.includes(
+            'https://www.googleapis.com/auth/drive.file',
+          ),
           user,
         };
       }
@@ -149,6 +152,7 @@ const options = {
       if (token) {
         session.user = token.user !== undefined ? token.user : session.user;
         session.accessToken = token.accessToken;
+        session.gdrive = token.gdrive;
         session.error = token.error;
       }
 
