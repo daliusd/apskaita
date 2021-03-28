@@ -33,9 +33,9 @@ export interface IExpense {
   description: string;
   created: number;
   price: number;
-  gdriveId: string;
-  webContentLink: string;
-  webViewLink: string;
+  gdriveId: string | null;
+  webContentLink: string | null;
+  webViewLink: string | null;
 }
 
 export async function openDb(dbName: string) {
