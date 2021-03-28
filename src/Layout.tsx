@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import Image from 'next/image';
+import { useLocalStorage } from 'react-recipes';
 
 import Copyright from './Copyright';
 import Link from './Link';
@@ -38,15 +39,16 @@ const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const [session, loading] = useSession();
   const { state, dispatch } = useContext<IContext>(Context);
+  const [experiments] = useLocalStorage('experiments', '');
 
   useEffect(() => {
     if (
       ((session as unknown) as { error: string })?.error ===
       'RefreshAccessTokenError'
     ) {
-      signIn('google');
+      signIn(experiments.includes('expenses') ? 'googleEx' : 'google');
     }
-  }, [session]);
+  }, [session, experiments]);
 
   const handleMessageClose = () => {
     dispatch({ type: 'HIDE_MESSAGE' });
@@ -70,7 +72,9 @@ const Layout: React.FC = ({ children }) => {
             {!loading && !session && (
               <Button
                 onClick={() => {
-                  signIn('google');
+                  signIn(
+                    experiments.includes('expenses') ? 'googleEx' : 'google',
+                  );
                 }}
                 color="primary"
               >
@@ -102,6 +106,15 @@ const Layout: React.FC = ({ children }) => {
                 className={classes.toolbarLink}
               >
                 Sąskaitos
+              </Link>
+            )}
+            {session && experiments.includes('expenses') && (
+              <Link
+                href="/islaidos"
+                color="primary"
+                className={classes.toolbarLink}
+              >
+                Išlaidos
               </Link>
             )}
             {session && (
