@@ -462,6 +462,15 @@ export async function getExpenseList(
   return result;
 }
 
+export async function getExpense(db: Database, expenseId: number) {
+  const result = await db.get<IExpense>(
+    'SELECT id, description, created, price, gdriveId, webViewLink, webContentLink FROM Expense WHERE id = ?',
+    expenseId,
+  );
+
+  return result;
+}
+
 export async function deleteExpense(db: Database, expenseId: number) {
   await db.run('DELETE FROM Expense WHERE id = ?', expenseId);
 

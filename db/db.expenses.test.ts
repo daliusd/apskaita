@@ -6,6 +6,7 @@ import {
   getExpenseList,
   IExpense,
   updateExpense,
+  getExpense,
 } from './db';
 
 describe('expenses tests', () => {
@@ -18,6 +19,27 @@ describe('expenses tests', () => {
 
     afterEach(async () => {
       await db.close();
+    });
+
+    it('get expense by id', async () => {
+      const expense: IExpense = {
+        description: 'spausdintuvas',
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        gdriveId: '123',
+        webViewLink: 'view_link_1',
+        webContentLink: 'content_link_1',
+      };
+      const { expenseId } = await createExpense(db, expense);
+
+      const expenseFromDb = await getExpense(db, expenseId);
+      expect(expenseFromDb.id).toEqual(expenseId);
+      expect(expenseFromDb.description).toEqual(expense.description);
+      expect(expenseFromDb.created).toEqual(expense.created);
+      expect(expenseFromDb.price).toEqual(expense.price);
+      expect(expenseFromDb.gdriveId).toEqual(expense.gdriveId);
+      expect(expenseFromDb.webViewLink).toEqual(expense.webViewLink);
+      expect(expenseFromDb.webContentLink).toEqual(expense.webContentLink);
     });
 
     it('get expenses by using different filters', async () => {
