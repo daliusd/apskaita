@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -8,13 +8,16 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Pageview from '@material-ui/icons/Pageview';
 import CloudDownload from '@material-ui/icons/CloudDownload';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { IExpense } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
+import { IContext, Context } from '../src/Store';
 
 interface Props {
   expense: IExpense;
+  onDelete: () => void;
 }
 
 const useStyles = makeStyles({
@@ -23,8 +26,32 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ExpenseView({ expense }: Props) {
+export default function ExpenseView(props: Props) {
+  const { expense } = props;
   const classes = useStyles();
+  const { dispatch } = useContext<IContext>(Context);
+
+  const handleDelete = async () => {
+    const response = await fetch('/api/expenses/' + expense.id, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok || !(await response.json()).success) {
+      dispatch({
+        type: 'SET_MESSAGE',
+        text: 'Klaida trinant išlaidų įrašą.',
+        severity: 'error',
+      });
+      return;
+    }
+
+    dispatch({
+      type: 'SET_MESSAGE',
+      text: 'Išlaidų įrašas ištrintas.',
+      severity: 'info',
+    });
+    props.onDelete();
+  };
 
   return (
     <Card className={classes.root}>
@@ -68,10 +95,18 @@ export default function ExpenseView({ expense }: Props) {
                   color="primary"
                   startIcon={<CloudDownload />}
                 >
-                  Parsisiųsti
+                  Atsisiųsti
                 </Button>
               </Link>
             )}
+            <Button
+              aria-label={`Ištrinti išlaidų įrašą`}
+              color="secondary"
+              startIcon={<DeleteIcon />}
+              onClick={handleDelete}
+            >
+              Ištrinti
+            </Button>
           </Grid>
         </Grid>
       </CardActions>

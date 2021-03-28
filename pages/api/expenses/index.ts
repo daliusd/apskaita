@@ -1,4 +1,3 @@
-import { google } from 'googleapis';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { uploadPromise } from '../../../utils/upload';
 
@@ -11,6 +10,7 @@ import { init } from '../../../utils/sentry';
 import {
   createFile,
   GDriveInfo,
+  getDrive,
   getOrCreateFolder,
 } from '../../../utils/gdrive';
 
@@ -49,15 +49,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       };
 
       if (upload.files['file']) {
-        const oAuth2Client = new google.auth.OAuth2(
-          process.env.GOOGLE_ID,
-          process.env.GOOGLE_SECRET,
-        );
-
-        oAuth2Client.setCredentials({
-          access_token: session.accessToken as string,
-        });
-        const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+        const drive = getDrive(session.accessToken as string);
 
         const createdDate = new Date(parseInt(upload.body.created));
         const year = createdDate.getFullYear().toString();

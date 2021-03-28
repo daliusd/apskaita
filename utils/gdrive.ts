@@ -1,9 +1,22 @@
+import { google } from 'googleapis';
 import { Readable } from 'stream';
 
 export interface GDriveInfo {
   id: string | null;
   webViewLink: string | null;
   webContentLink: string | null;
+}
+
+export function getDrive(accessToken: string) {
+  const oAuth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_ID,
+    process.env.GOOGLE_SECRET,
+  );
+
+  oAuth2Client.setCredentials({
+    access_token: accessToken,
+  });
+  return google.drive({ version: 'v3', auth: oAuth2Client });
 }
 
 export async function getOrCreateFolder(drive, name: string, parent?: string) {
@@ -56,4 +69,10 @@ export async function createFile(
   });
 
   return resp.data;
+}
+
+export async function deleteFile(drive, fileId: string) {
+  await drive.files.delete({
+    fileId,
+  });
 }

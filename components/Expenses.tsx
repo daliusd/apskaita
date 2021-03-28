@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import { IExpense } from '../db/db';
 import ExpenseView from './ExpenseView';
@@ -35,7 +35,11 @@ export default function Expenses(props: Props) {
   return (
     <Grid item xs={12}>
       {data.expenses.map((e: IExpense) => (
-        <ExpenseView key={e.id} expense={e} />
+        <ExpenseView
+          key={e.id}
+          expense={e}
+          onDelete={() => mutate(props.query)}
+        />
       ))}
     </Grid>
   );
