@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import useSWR, { mutate } from 'swr';
 
 import { IExpense } from '../db/db';
@@ -11,6 +12,15 @@ interface Props {
 
 export default function Expenses(props: Props) {
   const { data, error } = useSWR(props.query);
+  const [sum, setSum] = useState(0);
+
+  useEffect(() => {
+    if (data && data.expenses) {
+      setSum(
+        data.expenses.map((e) => e.price * 100).reduce((a, b) => a + b, 0),
+      );
+    }
+  }, [data]);
 
   if (error)
     return (
@@ -33,14 +43,22 @@ export default function Expenses(props: Props) {
     );
 
   return (
-    <Grid item xs={12}>
-      {data.expenses.map((e: IExpense) => (
-        <ExpenseView
-          key={e.id}
-          expense={e}
-          onChange={() => mutate(props.query)}
-        />
-      ))}
-    </Grid>
+    <>
+      <Grid item xs={12}>
+        <Typography variant="body1" component="div">
+          Rasta išlaidų įrašų pagal filtrus: {data.expenses.length}. Šių išlaidų
+          įrašų bendra suma {sum / 100} €.
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        {data.expenses.map((e: IExpense) => (
+          <ExpenseView
+            key={e.id}
+            expense={e}
+            onChange={() => mutate(props.query)}
+          />
+        ))}
+      </Grid>
+    </>
   );
 }
