@@ -38,7 +38,7 @@ export default function Expenses(props: Props) {
         <ExpenseView
           key={e.id}
           expense={e}
-          onDelete={() => mutate(props.query)}
+          onChange={() => mutate(props.query)}
         />
       ))}
     </Grid>

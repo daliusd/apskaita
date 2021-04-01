@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -9,7 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Pageview from '@material-ui/icons/Pageview';
 import CloudDownload from '@material-ui/icons/CloudDownload';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
+import ExpenseEditDialog from './ExpenseEditDialog';
 import { IExpense } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
@@ -17,7 +19,7 @@ import { IContext, Context } from '../src/Store';
 
 interface Props {
   expense: IExpense;
-  onDelete: () => void;
+  onChange: () => void;
 }
 
 const useStyles = makeStyles({
@@ -30,6 +32,7 @@ export default function ExpenseView(props: Props) {
   const { expense } = props;
   const classes = useStyles();
   const { dispatch } = useContext<IContext>(Context);
+  const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
   const handleDelete = async () => {
     const response = await fetch('/api/expenses/' + expense.id, {
@@ -50,7 +53,7 @@ export default function ExpenseView(props: Props) {
       text: 'Išlaidų įrašas ištrintas.',
       severity: 'info',
     });
-    props.onDelete();
+    props.onChange();
   };
 
   return (
@@ -77,6 +80,15 @@ export default function ExpenseView(props: Props) {
       <CardActions>
         <Grid container>
           <Grid item xs={12}>
+            <Button
+              aria-label={`Keisti`}
+              color="primary"
+              startIcon={<EditIcon />}
+              onClick={() => setExpenseEditOpen(true)}
+            >
+              Keisti
+            </Button>
+
             {expense.webViewLink && (
               <Link href={expense.webViewLink} color="secondary">
                 <Button
@@ -110,6 +122,14 @@ export default function ExpenseView(props: Props) {
           </Grid>
         </Grid>
       </CardActions>
+
+      {expenseEditOpen && (
+        <ExpenseEditDialog
+          expense={expense}
+          onClose={() => setExpenseEditOpen(false)}
+          onChange={props.onChange}
+        />
+      )}
     </Card>
   );
 }

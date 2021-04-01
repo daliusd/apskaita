@@ -4,7 +4,7 @@ import { init } from '../../../utils/sentry';
 
 init();
 
-import { getExpense, deleteExpense } from '../../../db/db';
+import { getExpense, updateExpense, deleteExpense } from '../../../db/db';
 
 import { dbWrapper } from '../../../db/apiwrapper';
 import { defaultOrFirst } from '../../../utils/query';
@@ -12,7 +12,19 @@ import { defaultOrFirst } from '../../../utils/query';
 import { getDrive, deleteFile } from '../../../utils/gdrive';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'DELETE') {
+  if (req.method === 'PUT') {
+    return dbWrapper(req, res, async (db) => {
+      const {
+        query: { id },
+      } = req;
+
+      const expenseId = parseInt(defaultOrFirst(id), 10);
+
+      const success = await updateExpense(db, expenseId, req.body);
+
+      return res.json({ success });
+    });
+  } else if (req.method === 'DELETE') {
     return dbWrapper(req, res, async (db, session) => {
       const {
         query: { id },
