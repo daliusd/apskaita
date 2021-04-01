@@ -98,8 +98,8 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
       severity: 'success',
     });
 
-    onChange();
     handleClose();
+    onChange();
   };
 
   return (

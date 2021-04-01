@@ -64,8 +64,8 @@ export default function Index() {
 
       <Grid item xs={12}>
         <TextField
-          inputProps={{ 'aria-label': 'Išlaidų aprašymas' }}
-          label="Išlaidų aprašymas"
+          inputProps={{ 'aria-label': 'Išlaidų aprašymas ar jo dalis' }}
+          label="Išlaidų aprašymas ar jo dalis"
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
