@@ -84,7 +84,7 @@ export default function InvoiceEditDeleteButton({
             Nutraukti
           </Button>
           <Button onClick={handleDelete} color="primary">
-            Trinti
+            Taip, trinti
           </Button>
         </DialogActions>
       </Dialog>

@@ -44,7 +44,7 @@ describe('Delete test', () => {
     await page.click('text="Trinti"');
     await page.click('text="Nutraukti"');
     await page.click('text="Trinti"');
-    await page.click('div[role="dialog"] >> text="Trinti"');
+    await page.click('div[role="dialog"] >> text="Taip, trinti"');
 
     await page.waitForNavigation({ url: 'http://localhost:4000/saskaitos' });
     await page.waitForSelector(
