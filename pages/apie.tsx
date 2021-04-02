@@ -1,34 +1,12 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import ArticleView from '../components/ArticleView';
+import { getArticleBySlug } from '../db/articles';
 
-export default function Apie() {
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Apie
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        Haiku.lt - paprasta individualios veiklos apskaitos programa. Aš ją
-        sukūriau mano šeimos poreikiams, bet tikiuosi, kad ji bus naudinga ir
-        kitiems. Kol kas tai yra labai ankstyva versija, bet turėtų veikti gana
-        stabiliai. Šiuo metu programa yra nemokama, bet ateityje ji kažkiek
-        kainuos (kaina bus tikrai nedidelė, maždaug kavos puodelio kaina už
-        mėnesio abonementą).
-      </Grid>
-      <Grid item xs={12}>
-        Haiku.lt yra atviro kodo programa ir jos kodą galite rasti čia{' '}
-        <a href="https://github.com/daliusd/apskaita">
-          https://github.com/daliusd/apskaita
-        </a>
-        . Jeigu turite idėjų, pasiūlymų ar problemų, jas galite registruoti čia{' '}
-        <a href="https://github.com/daliusd/apskaita/issues">
-          https://github.com/daliusd/apskaita/issues
-        </a>
-        .
-      </Grid>
-    </Grid>
-  );
+export default function Apie({ article }) {
+  return <ArticleView article={article} showDate={false} />;
+}
+
+export async function getStaticProps() {
+  const article = await getArticleBySlug('apie');
+  return { props: { article } };
 }

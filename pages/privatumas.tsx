@@ -1,36 +1,12 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import ArticleView from '../components/ArticleView';
+import { getArticleBySlug } from '../db/articles';
 
-export default function Apie() {
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Privatumo politika
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <ul>
-          <li>
-            {' '}
-            Mes renkame šiuo duomenis:
-            <ul>
-              <li>IP adresas, data ir laikas, naršyklės informacija</li>
-              <li>El. pašto adresas</li>
-            </ul>
-          </li>
-          <li>
-            Klaidų sekimui mes naudojame <a href="https://sentry.io">Sentry</a>,
-            o tai reiškia, kad įvykus klaidai šiek tiek anonimizuotos
-            informacijos apie jus gali būti išsiųsta į Sentry serverius.
-          </li>
-          <li>
-            Mes užtikriname, kad imamės pagrįstų techninių priemonių, kad
-            apsaugotumėme surinktus duomenis.
-          </li>
-        </ul>
-      </Grid>
-    </Grid>
-  );
+export default function Privacy({ article }) {
+  return <ArticleView article={article} showDate={false} />;
+}
+
+export async function getStaticProps() {
+  const article = await getArticleBySlug('privatumas');
+  return { props: { article } };
 }
