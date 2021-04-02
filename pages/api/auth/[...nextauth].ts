@@ -57,7 +57,7 @@ const options = {
       clientSecret: process.env.GOOGLE_SECRET,
       authorizationUrl: GOOGLE_AUTHORIZATION_URL,
       scope:
-        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
     }),
     {
       id: 'googleEx',
@@ -72,9 +72,6 @@ const options = {
       authorizationUrl: GOOGLE_AUTHORIZATION_URL,
       profileUrl: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
       async profile(profile) {
-        // You can use the tokens, in case you want to fetch more profile information
-        // For example several OAuth provider does not return e-mail by default.
-        // Depending on your provider, will have tokens like `access_token`, `id_token` and or `refresh_token`
         return {
           id: profile.id,
           name: profile.name,

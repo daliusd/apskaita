@@ -8,7 +8,6 @@ describe('Settings test', () => {
   it('should create invoice', async () => {
     await login(page);
 
-    await page.goto('http://localhost:4000/experiments?value=expenses');
     await page.goto('http://localhost:4000/');
 
     await Promise.all([

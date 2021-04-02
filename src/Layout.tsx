@@ -46,7 +46,7 @@ const Layout: React.FC = ({ children }) => {
       ((session as unknown) as { error: string })?.error ===
       'RefreshAccessTokenError'
     ) {
-      signIn(experiments.includes('expenses') ? 'googleEx' : 'google');
+      signIn(experiments.includes('exp') ? 'googleEx' : 'google');
     }
   }, [session, experiments]);
 
@@ -72,9 +72,7 @@ const Layout: React.FC = ({ children }) => {
             {!loading && !session && (
               <Button
                 onClick={() => {
-                  signIn(
-                    experiments.includes('expenses') ? 'googleEx' : 'google',
-                  );
+                  signIn(experiments.includes('exp') ? 'googleEx' : 'google');
                 }}
                 color="primary"
               >
@@ -108,7 +106,7 @@ const Layout: React.FC = ({ children }) => {
                 Sąskaitos
               </Link>
             )}
-            {session && experiments.includes('expenses') && (
+            {session && (
               <Link
                 href="/islaidos"
                 color="primary"
