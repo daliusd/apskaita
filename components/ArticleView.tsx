@@ -7,7 +7,7 @@ import { IArticle } from '../db/articles';
 
 interface ArticleViewProps {
   article: IArticle;
-  showDate: boolean;
+  showDate?: boolean;
 }
 
 export default function ArticleView({
