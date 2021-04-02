@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession, Session } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
+import { Session } from 'next-auth';
 import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 
