@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import Providers, { Provider } from 'next-auth/providers';
 import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 import { openDb } from '../../../db/db';
@@ -52,6 +52,30 @@ async function refreshAccessToken(token) {
   }
 }
 
+const googleExProvider: Provider = {
+  id: undefined,
+  name: 'Google Experimental',
+  type: 'oauth',
+  version: '2.0',
+  scope:
+    'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
+  params: { grant_type: 'authorization_code' },
+  accessTokenUrl: 'https://accounts.google.com/o/oauth2/token',
+  requestTokenUrl: 'https://accounts.google.com/o/oauth2/auth',
+  authorizationUrl: GOOGLE_AUTHORIZATION_URL,
+  profileUrl: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
+  async profile(profile) {
+    return {
+      id: profile.id,
+      name: profile.name,
+      email: profile.email,
+      image: profile.picture,
+    };
+  },
+  clientId: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
+};
+
 const options = {
   providers: [
     Providers.Google({
@@ -61,29 +85,7 @@ const options = {
       scope:
         'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
     }),
-    {
-      id: 'googleEx',
-      name: 'Google Experimental',
-      type: 'oauth',
-      version: '2.0',
-      scope:
-        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
-      params: { grant_type: 'authorization_code' },
-      accessTokenUrl: 'https://accounts.google.com/o/oauth2/token',
-      requestTokenUrl: 'https://accounts.google.com/o/oauth2/auth',
-      authorizationUrl: GOOGLE_AUTHORIZATION_URL,
-      profileUrl: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
-      async profile(profile) {
-        return {
-          id: profile.id,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-        };
-      },
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    },
+    googleExProvider,
     Providers.Credentials({
       name: 'Credentials',
       credentials: {
