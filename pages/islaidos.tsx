@@ -4,6 +4,7 @@ import { Typography, TextField } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useSession } from 'next-auth/client';
 import { useDebounce } from 'react-recipes';
+import Link from '../src/Link';
 import { mutate } from 'swr';
 
 import Expenses from '../components/Expenses';
@@ -52,8 +53,24 @@ export default function Index() {
     return null;
   }
 
+  const gdrive = ((session as unknown) as { gdrive: boolean }).gdrive;
+
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="body1" component="div">
+          Čia galite registruoti savo išlaidas.{' '}
+          {gdrive
+            ? 'Pridėti failai bus saugomi jūsų Google Drive.'
+            : 'Jei duotumėte priėjimą prie Google Drive, sistema juos saugotų jūsų Google Drive.'}{' '}
+          Daugiau informacijos{' '}
+          <Link href="/straipsniai/islaidu-sekimas" color="primary">
+            čia
+          </Link>
+          .
+        </Typography>
+      </Grid>
+
       <ExpenseCreate onCreate={onCreate} />
 
       <Grid item xs={12}>
