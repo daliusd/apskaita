@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 import * as Sentry from '@sentry/node';
+import { Database } from 'sqlite';
+import { openDb } from '../../../db/db';
 
 const GOOGLE_AUTHORIZATION_URL =
   'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -120,6 +122,16 @@ const options = {
   },
 
   callbacks: {
+    async signIn(user) {
+      let db: Database;
+      try {
+        db = await openDb(user.email);
+      } finally {
+        await db.close();
+      }
+
+      return true;
+    },
     async jwt(token, user, account) {
       // Initial sign in
       if (account && user && account.accessToken) {
