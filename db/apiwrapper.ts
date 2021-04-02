@@ -23,6 +23,7 @@ export async function dbWrapper(
 
       return await callback(db, session);
     } catch (err) {
+      Sentry.setUser({ email: session.user.email });
       Sentry.captureException(err);
       res.status(500).json({ success: false });
       return;
