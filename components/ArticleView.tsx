@@ -18,10 +18,25 @@ export default function ArticleView({
     return <ErrorPage statusCode={404} />;
   }
 
+  const structuredArticle = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.meta.title,
+    datePublished: article.meta.date + 'T08:00:00+00:00',
+    dateModified: article.meta.modified + 'T08:00:00+00:00',
+  };
+
   return (
     <>
       <Head>
         <title>{article.meta.title} | Haiku.lt</title>
+        <meta name="description" content={article.description} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredArticle),
+          }}
+        ></script>
       </Head>
 
       <Grid container spacing={2}>

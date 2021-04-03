@@ -1,7 +1,10 @@
 ---
 title: 'Išlaidų sekimas'
 date: '2021-04-02'
+modified: '2021-04-02'
 ---
+
+Šiame straipsnyje apžvelgta kaip „Haiku.lt“ padeda sekti išlaidas.
 
 Vykdant individualią veiklą išlaidas galima valdyti dviem būdais:
 

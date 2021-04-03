@@ -7,12 +7,14 @@ import html from 'remark-html';
 export interface IArticleMeta {
   title: string;
   date: string;
+  modified: string;
 }
 
 export interface IArticle {
   slug: string;
   meta: IArticleMeta;
   content: string;
+  description: string;
 }
 
 const articlesDirectory = join(process.cwd(), 'articles');
@@ -26,11 +28,18 @@ export async function getArticleBySlug(slug: string): Promise<IArticle> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
+  const description = content.split('\n\n')[0];
+
   const htmlContent = (
     await remark()
       .use(html)
       .process(content || '')
   ).toString();
 
-  return { slug, meta: data as IArticleMeta, content: htmlContent };
+  return {
+    slug,
+    meta: data as IArticleMeta,
+    content: htmlContent,
+    description,
+  };
 }

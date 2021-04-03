@@ -1,7 +1,11 @@
 ---
 title: 'Privatumo politika'
 date: '2021-04-02'
+modified: '2021-04-02'
 ---
+
+Čia aprašyta „Haiku.lt“ privatumo politika - kokius duomenis mes
+renkame ir ką vėliau darome su tai duomenimis.
 
 * Mes renkame šiuo duomenis:
 
