@@ -45,7 +45,7 @@ export default function ArticleView({
 
           {showDate && (
             <Typography variant="body1" color="textSecondary">
-              {article.meta.date}
+              {article.meta.modified}
             </Typography>
           )}
 
