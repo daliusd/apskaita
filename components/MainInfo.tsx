@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
 import Invoices from '../components/Invoices';
+import ContactAgreement from '../components/ContactAgreement';
 
 export default function MainInfo() {
   const [session] = useSession();
@@ -20,13 +21,16 @@ export default function MainInfo() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        Esi prisijungęs/prisijungusi kaip {session.user.email}. Savo nustatymus
-        galite pakeisti{' '}
-        <Link href="/nustatymai" color="secondary">
-          čia
-        </Link>
-        .
+        <Typography variant="body1" component="div">
+          Esi prisijungęs/prisijungusi kaip {session.user.email}. Savo
+          nustatymus galite pakeisti{' '}
+          <Link href="/nustatymai" color="secondary">
+            čia
+          </Link>
+          .
+        </Typography>
       </Grid>
+      <ContactAgreement />
       <Grid item xs={12}>
         <Button
           aria-label="Nauja sąskaita faktūra"
