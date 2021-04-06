@@ -19,6 +19,7 @@ import InvoiceEditLocked from './InvoiceEditLocked';
 
 interface Props {
   invoice: IInvoice;
+  onChange: () => void;
 }
 
 const useStyles = makeStyles({
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InvoiceView({ invoice }: Props) {
+export default function InvoiceView({ invoice, onChange }: Props) {
   const classes = useStyles();
   const router = useRouter();
   const [paid, setPaid] = useState(invoice.paid === 1);
@@ -35,11 +36,11 @@ export default function InvoiceView({ invoice }: Props) {
 
   useEffect(() => {
     setPaid(invoice.paid === 1);
-  }, [invoice.paid]);
+  }, [invoice.paid, onChange]);
 
   useEffect(() => {
     setLocked(invoice.locked === 1);
-  }, [invoice.locked]);
+  }, [invoice.locked, onChange]);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
@@ -72,12 +73,18 @@ export default function InvoiceView({ invoice }: Props) {
           <InvoiceEditPaid
             invoiceId={invoice.id.toString()}
             paid={paid}
-            setPaid={setPaid}
+            setPaid={(v) => {
+              setPaid(v);
+              onChange();
+            }}
           />
           <InvoiceEditLocked
             invoiceId={invoice.id.toString()}
             locked={locked}
-            setLocked={setLocked}
+            setLocked={(v) => {
+              setLocked(v);
+              onChange();
+            }}
           />
         </Grid>
       </CardContent>

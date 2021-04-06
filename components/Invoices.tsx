@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';
 import InvoiceView from './InvoiceView';
@@ -41,7 +41,22 @@ export default function Invoices(props: Props) {
     args.offset = offset.toString();
   }
   const params = new URLSearchParams(args);
-  const { data, error } = useSWR('/api/invoices?' + params.toString());
+  const query = '/api/invoices?' + params.toString();
+  const { data, error } = useSWR(query);
+  const [sum, setSum] = useState(0);
+  const [countUnpaid, setCountUnpaid] = useState(0);
+  const [sumUnpaid, setSumUnpaid] = useState(0);
+
+  useEffect(() => {
+    if (data && data.invoices) {
+      setSum(
+        data.invoices.map((e) => e.price).reduce((a, b) => a + b, 0) / 100,
+      );
+      const unpaid = data.invoices.filter((e) => !e.paid);
+      setCountUnpaid(unpaid.length);
+      setSumUnpaid(unpaid.map((e) => e.price).reduce((a, b) => a + b, 0) / 100);
+    }
+  }, [data]);
 
   if (error)
     return (
@@ -64,10 +79,18 @@ export default function Invoices(props: Props) {
     );
 
   return (
-    <Grid item xs={12}>
-      {data.invoices.map((i: IInvoice) => (
-        <InvoiceView key={i.id} invoice={i} />
-      ))}
-    </Grid>
+    <>
+      <Grid item xs={12}>
+        Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length},
+        kurių bendra suma {sum} €.{' '}
+        {countUnpaid &&
+          `Iš jų neapmokėtų:  ${countUnpaid}, kurių bendra suma ${sumUnpaid} €`}
+      </Grid>
+      <Grid item xs={12}>
+        {data.invoices.map((i: IInvoice) => (
+          <InvoiceView key={i.id} invoice={i} onChange={() => mutate(query)} />
+        ))}
+      </Grid>
+    </>
   );
 }
