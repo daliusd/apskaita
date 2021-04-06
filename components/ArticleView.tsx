@@ -44,12 +44,14 @@ export default function ArticleView({
           <Typography variant="h4">{article.meta.title}</Typography>
 
           {showDate && (
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body1" color="textSecondary">
               {article.meta.date}
             </Typography>
           )}
 
-          <div dangerouslySetInnerHTML={{ __html: article.content }} />
+          <Typography variant="body1" component="div">
+            <div dangerouslySetInnerHTML={{ __html: article.content }} />
+          </Typography>
         </Grid>
       </Grid>
     </>

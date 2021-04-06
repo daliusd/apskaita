@@ -10,6 +10,13 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2021-04-06
+
+* Sąskaitų faktūrų puslapyje paieškoje pridėtas sąskaitų faktūrų
+  skaičiaus ir sumos rodymas.
+
+* Kiti smulkūs pakeitimai.
+
 ## 2021-04-02
 
 * Pridėta galimybė sekti išlaidas ([Daugiau
