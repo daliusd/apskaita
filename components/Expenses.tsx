@@ -48,6 +48,8 @@ export default function Expenses(props: Props) {
         <Typography variant="body1" component="div">
           Rasta išlaidų įrašų pagal filtrus: {data.expenses.length}. Šių išlaidų
           įrašų bendra suma {sum / 100} €.
+          {data.expenses.length === 1000 &&
+            ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visi įrašai.'}
         </Typography>
       </Grid>
       <Grid item xs={12}>
