@@ -49,11 +49,11 @@ export default function ContactAgreement() {
     <>
       <Grid item xs={12}>
         <Typography variant="body1" component="div">
-          „Haiku.lt“ tobulinimui mums kartais gali reikėti jūsų nuomonės arba
-          informacijos kaip jūs naudojatės sistema ar ko jums trūksta iš jos. Iš
-          kitos pusės nesinori trukdyti vartotojų, kurie nori tiesiog naudotis
-          sistema. Todėl klausiame ar sutinkate, kad mes kartais su jumis
-          susisiektumėme:
+          „Haiku.lt“ tobulinimui mums kartais gali reikėti jūsų nuomonės,
+          informacijos kaip jūs naudojatės sistema arba ko jums trūksta iš jos.
+          Iš kitos pusės nesinori trukdyti vartotojų, kurie nori tiesiog
+          naudotis sistema. Todėl klausiame ar sutinkate, kad mes kartais su
+          jumis susisiektumėme:
         </Typography>
       </Grid>
       <Grid item xs={12}>

@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
+import Link from '../src/Link';
 import LineItemEdit from '../components/LineItemEdit';
 import LanguageSelect from '../components/LanguageSelect';
 import SeriesNameInput from '../components/SeriesNameInput';
@@ -149,6 +150,16 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       <Grid item xs={12}>
         <Typography variant="h6">
           {invoiceId ? 'Keisti sąskaitą faktūrą' : 'Sukurti sąskaitą faktūrą'}
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography variant="body2" component="div">
+          Pagalbinės informacijos apie sąskaitų faktūrų sukūrimą, keitimą ir
+          kitą funkcionalumą galite rasti šiame straipsnyje{' '}
+          <Link href="/straipsniai/saskaitos-fakturos">
+            „Sąskaitų faktūrų sukūrimas ir redagavimas“
+          </Link>
         </Typography>
       </Grid>
 
