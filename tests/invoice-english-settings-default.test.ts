@@ -44,6 +44,8 @@ describe('English settings test', () => {
       page.click('text="Nauja sąskaita faktūra"'),
     ]);
 
+    await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
+
     await page.click('div[aria-label="Kalba"]');
     await page.click('li[aria-label="en"]');
 

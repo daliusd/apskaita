@@ -10,12 +10,14 @@ interface IProps {
   seriesName: string;
   onChange: (value: string) => void;
   disabled: boolean;
+  valid?: boolean;
 }
 
 export default function SeriesNameInput({
   seriesName,
   onChange,
   disabled,
+  valid,
 }: IProps) {
   const debouncedSeriesName = useDebounce(seriesName, 500);
 
@@ -42,6 +44,8 @@ export default function SeriesNameInput({
             'aria-label': 'Serijos pavadinimas',
             ...params.inputProps,
           }}
+          error={valid === false}
+          helperText={valid === false ? 'Įveskite serijos pavadinimą' : ''}
         />
       )}
       disabled={disabled}

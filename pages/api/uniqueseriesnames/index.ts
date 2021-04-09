@@ -8,10 +8,7 @@ init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {
-    let seriesNames = await getUniqueSeriesNames(db, '');
-    if (seriesNames.length === 0) {
-      seriesNames = ['HAIKU'];
-    }
+    const seriesNames = await getUniqueSeriesNames(db, '');
 
     return res.json({ seriesNames });
   });

@@ -157,6 +157,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={locked}
+          valid={seriesName.length > 0}
         />
       </Grid>
 

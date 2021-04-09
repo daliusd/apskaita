@@ -29,6 +29,9 @@ describe('Settings test', () => {
       url: 'http://localhost:4000/saskaitos/nauja',
     });
 
+    await page.click('[aria-label="Sukurti"]');
+    await page.waitForSelector('text="Nurodykite serijos pavadinimą."');
+
     await fillNewInvoice(page, invoice);
 
     await page.click('[aria-label="Sukurti"]');

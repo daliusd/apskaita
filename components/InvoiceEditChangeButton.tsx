@@ -45,6 +45,15 @@ export default function InvoiceEditChangeButton({
       color="primary"
       startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
       onClick={async () => {
+        if (!seriesName) {
+          dispatch({
+            type: 'SET_MESSAGE',
+            text: 'Nurodykite serijos pavadinimą.',
+            severity: 'error',
+          });
+          return;
+        }
+
         const created = getMsSinceEpoch(invoiceDate);
         if (!created) {
           dispatch({

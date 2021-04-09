@@ -21,11 +21,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = req;
 
     if (!id && !sourceId) {
-      let seriesNames = await getUniqueSeriesNames(db, '');
-      if (seriesNames.length === 0) {
-        seriesNames = ['HAIKU'];
-      }
-      const seriesId = await getNextSeriesId(db, seriesNames[0]);
+      const seriesNames = await getUniqueSeriesNames(db, '');
+      const seriesId = await getNextSeriesId(db, seriesNames[0] || '');
       const seller =
         (await getSetting(db, 'seller')) ||
         `${session.user.name}\n${session.user.email}`;
@@ -34,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       return res.json({
         invoice: {
-          seriesName: seriesNames[0],
+          seriesName: seriesNames[0] || '',
           seriesId,
           buyer: '',
           seller,

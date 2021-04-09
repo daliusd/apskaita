@@ -14,6 +14,8 @@ describe('Settings test', () => {
       page.click('text="Nauja sąskaita faktūra"'),
     ]);
 
+    await page.fill('[aria-label="Serijos pavadinimas"]', 'ZZ');
+
     await page.click('textarea[aria-label="Pirkėjas"]');
     await page.fill('textarea[aria-label="Pirkėjas"]', 'Matas Matauskas');
 
