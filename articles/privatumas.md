@@ -29,4 +29,4 @@ renkame ir ką vėliau darome su tai duomenimis.
 
   * Atnaujiname haiku.lt programinę įrangą kiek įmanoma dažniau.
 
-  * Tinkamai sukonfigūruotas serveriai.
+  * Tinkamai sukonfigūruoti serveriai.
