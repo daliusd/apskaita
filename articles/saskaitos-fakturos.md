@@ -1,7 +1,7 @@
 ---
 title: 'Sąskaitų faktūrų sukūrimas ir redagavimas'
-date: '2021-04-09 '
-modified: '2021-04-09 '
+date: '2021-04-09'
+modified: '2021-04-09'
 ---
 
 Šiame straipsnyje apžvelgsime sąskaitų faktūrų kūrimą, redagavimą
