@@ -144,6 +144,9 @@ const options = {
           gdrive: account.scope.includes(
             'https://www.googleapis.com/auth/drive.file',
           ),
+          gmailSend: account.scope.includes(
+            'https://www.googleapis.com/auth/gmail.send',
+          ),
           user,
         };
       }
@@ -164,6 +167,7 @@ const options = {
         session.user = token.user !== undefined ? token.user : session.user;
         session.accessToken = token.accessToken;
         session.gdrive = token.gdrive;
+        session.gmailSend = token.gmailSend;
         session.error = token.error;
       }
 

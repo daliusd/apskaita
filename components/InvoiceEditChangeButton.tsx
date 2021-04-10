@@ -16,6 +16,7 @@ interface IProps {
   invoiceDate: Date;
   seller: string;
   buyer: string;
+  email: string;
   issuer: string;
   extra: string;
   language: string;
@@ -29,6 +30,7 @@ export default function InvoiceEditChangeButton({
   invoiceDate,
   seller,
   buyer,
+  email,
   issuer,
   extra,
   language,
@@ -135,6 +137,7 @@ export default function InvoiceEditChangeButton({
             .map((g) => g.price * g.amount)
             .reduce((a, b) => a + b),
           buyer,
+          email,
           seller,
           issuer,
           extra,

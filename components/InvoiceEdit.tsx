@@ -4,8 +4,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
+import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
+import { useDebounce, useLocalStorage } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
 import Link from '../src/Link';
@@ -15,6 +16,7 @@ import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
+import EmailInput from '../components/EmailInput';
 import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
@@ -31,6 +33,10 @@ interface IProps {
 }
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
+  const [experiments] = useLocalStorage('experiments', '');
+  const [session] = useSession();
+  const gmailSend = ((session as unknown) as { gmailSend: boolean }).gmailSend;
+
   const [language, setLanguage] = useState('lt');
   const [languageAfterChange, setLanguageAfterChange] = useState(null);
 
@@ -44,6 +50,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const [seller, setSeller] = useState('');
   const [buyer, setBuyer] = useState('');
+  const [email, setEmail] = useState('');
   const [issuer, setIssuer] = useState('');
   const [extra, setExtra] = useState('');
   const [pdfname, setPdfname] = useState('');
@@ -60,6 +67,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setSeriesId(invoice.seriesId);
       setSeller(invoice.seller);
       setBuyer(invoice.buyer);
+      setEmail(invoice.email);
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
       setLanguage(invoice.language);
@@ -213,6 +221,12 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         <BuyerInput buyer={buyer} onChange={setBuyer} disabled={locked} />
       </Grid>
 
+      {experiments.includes('gmail') && gmailSend && (
+        <Grid item xs={12}>
+          <EmailInput email={email} onChange={setEmail} disabled={locked} />
+        </Grid>
+      )}
+
       <Grid item xs={12}>
         <IssuerInput
           issuer={issuer}
@@ -289,6 +303,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           invoiceDate={invoiceDate}
           seller={seller}
           buyer={buyer}
+          email={email}
           issuer={issuer}
           extra={extra}
           language={language}
