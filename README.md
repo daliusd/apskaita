@@ -34,3 +34,8 @@ egzistuojančių duombazių prieš naudojant kokį nors funkcionalumą
 su tomis duombazėmis, kuris būtų paremtas ta migracija. Tai
 reiškia, kad migracija turėtų būti deploy'inta prieš
 funkcionalumą.
+
+### Eksperimentai
+
+Jei vartotojas nori įsijungti eksperimentą jis turi nueiti į
+`/experiments?value=test`.

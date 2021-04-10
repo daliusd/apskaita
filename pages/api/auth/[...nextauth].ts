@@ -52,13 +52,13 @@ async function refreshAccessToken(token) {
   }
 }
 
-const googleExProvider: Provider = {
-  id: undefined,
+const googleExProvider: Provider<'googleEx'> = {
+  id: 'googleEx',
   name: 'Google Experimental',
   type: 'oauth',
   version: '2.0',
   scope:
-    'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
   params: { grant_type: 'authorization_code' },
   accessTokenUrl: 'https://accounts.google.com/o/oauth2/token',
   requestTokenUrl: 'https://accounts.google.com/o/oauth2/auth',
