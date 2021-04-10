@@ -38,7 +38,8 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
 
   const { onClose, onChange } = props;
 
-  const gdrive = ((session as unknown) as { gdrive: boolean }).gdrive;
+  const gdrive =
+    session && ((session as unknown) as { gdrive: boolean }).gdrive;
 
   const handleClose = () => {
     onClose();

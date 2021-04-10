@@ -53,7 +53,8 @@ export default function Index() {
     return null;
   }
 
-  const gdrive = ((session as unknown) as { gdrive: boolean }).gdrive;
+  const gdrive =
+    session && ((session as unknown) as { gdrive: boolean }).gdrive;
 
   return (
     <Grid container spacing={2}>

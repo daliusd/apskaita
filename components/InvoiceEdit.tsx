@@ -36,7 +36,8 @@ interface IProps {
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [experiments] = useLocalStorage('experiments', '');
   const [session] = useSession();
-  const gmailSend = ((session as unknown) as { gmailSend: boolean }).gmailSend;
+  const gmailSend =
+    session && ((session as unknown) as { gmailSend: boolean }).gmailSend;
 
   const [language, setLanguage] = useState('lt');
   const [languageAfterChange, setLanguageAfterChange] = useState(null);
