@@ -25,6 +25,8 @@ export interface IInvoice {
   pdfname?: string;
   paid?: number;
   locked?: number;
+  email?: string;
+  sent?: number;
   lineItems: ILineItem[];
 }
 
@@ -94,7 +96,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, email, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -106,6 +108,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.pdfname,
     invoice.language,
     invoice.paid || 0,
+    invoice.email || '',
   );
 
   const invoiceId = result.lastID;
@@ -142,7 +145,7 @@ export async function getInvoiceList(
   const args = [];
 
   let query =
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked FROM Invoice';
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent FROM Invoice';
 
   const whereConditions = [];
 
@@ -186,7 +189,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, language FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -298,7 +301,7 @@ export async function updateInvoice(
   }
 
   await db.run(
-    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ? WHERE id = ?',
+    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ?, email = ? WHERE id = ?',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -308,6 +311,7 @@ export async function updateInvoice(
     invoice.issuer,
     invoice.extra,
     invoice.language,
+    invoice.email || '',
     invoiceId,
   );
 
@@ -347,6 +351,18 @@ export async function changeInvoiceLockedStatus(
   await db.run(
     'UPDATE Invoice SET locked = ? WHERE id = ?',
     locked ? 1 : 0,
+    invoiceId,
+  );
+}
+
+export async function changeInvoiceSentStatus(
+  db: Database,
+  invoiceId: number,
+  sent: boolean,
+) {
+  await db.run(
+    'UPDATE Invoice SET sent = ? WHERE id = ?',
+    sent ? 1 : 0,
     invoiceId,
   );
 }

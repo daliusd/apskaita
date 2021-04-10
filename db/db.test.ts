@@ -20,6 +20,7 @@ import {
   getUniqueLineItemsNames,
   changeInvoicePaidStatus,
   changeInvoiceLockedStatus,
+  changeInvoiceSentStatus,
 } from './db';
 
 describe('database tests', () => {
@@ -157,6 +158,7 @@ describe('database tests', () => {
         issuer: 'Issuer',
         extra: 'Extra',
         language: 'lt',
+        email: 'dalius@haiku.lt',
         lineItems: [
           { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
           { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
@@ -174,6 +176,7 @@ describe('database tests', () => {
       expect(retInvoice.issuer).toEqual(invoice.issuer);
       expect(retInvoice.extra).toEqual(invoice.extra);
       expect(retInvoice.language).toEqual(invoice.language);
+      expect(retInvoice.email).toEqual(invoice.email);
 
       expect(retInvoice.lineItems[0].name).toEqual('test');
       expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
@@ -425,6 +428,7 @@ describe('database tests', () => {
       invoice.issuer = 'Issuer2';
       invoice.extra = 'Extra2';
       invoice.language = 'en';
+      invoice.email = 'dalius@haiku.lt';
       invoice.lineItems = [
         { name: 'test3', unit: 'vnt.', amount: 1, price: 20 },
         { name: 'test4', unit: 'vnt.', amount: 3, price: 60 },
@@ -447,6 +451,7 @@ describe('database tests', () => {
       expect(retInvoice.issuer).toEqual(invoice.issuer);
       expect(retInvoice.extra).toEqual(invoice.extra);
       expect(retInvoice.language).toEqual(invoice.language);
+      expect(retInvoice.email).toEqual(invoice.email);
 
       expect(retInvoice.lineItems.length).toEqual(2);
 
@@ -614,6 +619,34 @@ describe('database tests', () => {
       invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
       expect(invoices[0].locked).toEqual(0);
+    });
+
+    it('change invoice sent status', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [{ name: 'test', unit: 'vnt.', amount: 1, price: 100 }],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+
+      await changeInvoiceSentStatus(db, invoiceId, true);
+
+      let invoices = await getInvoiceList(db, {});
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].sent).toEqual(1);
+
+      await changeInvoiceSentStatus(db, invoiceId, false);
+
+      invoices = await getInvoiceList(db, {});
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].sent).toEqual(0);
     });
 
     it('deletes invoice', async () => {
