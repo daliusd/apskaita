@@ -24,6 +24,7 @@ import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
+import InvoiceEditSent from './InvoiceEditSent';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
@@ -56,6 +57,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [pdfname, setPdfname] = useState('');
   const [paid, setPaid] = useState(false);
   const [locked, setLocked] = useState(false);
+  const [sent, setSent] = useState(false);
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
   ]);
@@ -75,6 +77,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setLineItems(invoice.lineItems);
       setPaid(invoice.paid === 1);
       setLocked(invoice.locked === 1);
+      setSent(invoice.sent === 1);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       }
@@ -324,6 +327,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         setLocked={setLocked}
         withHelperText={true}
       />
+      <InvoiceEditSent invoiceId={invoiceId} sent={sent} setSent={setSent} />
 
       <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
     </Grid>

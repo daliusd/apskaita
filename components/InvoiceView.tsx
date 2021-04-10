@@ -16,6 +16,7 @@ import { getDateString } from '../utils/date';
 import Link from '../src/Link';
 import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
+import InvoiceEditSent from './InvoiceEditSent';
 
 interface Props {
   invoice: IInvoice;
@@ -33,6 +34,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
   const router = useRouter();
   const [paid, setPaid] = useState(invoice.paid === 1);
   const [locked, setLocked] = useState(invoice.locked === 1);
+  const [sent, setSent] = useState(invoice.sent === 1);
 
   useEffect(() => {
     setPaid(invoice.paid === 1);
@@ -41,6 +43,10 @@ export default function InvoiceView({ invoice, onChange }: Props) {
   useEffect(() => {
     setLocked(invoice.locked === 1);
   }, [invoice.locked, onChange]);
+
+  useEffect(() => {
+    setSent(invoice.sent === 1);
+  }, [invoice.sent, onChange]);
 
   const openInvoice = (i) => {
     router.push(`/saskaitos/id/${i.id}`);
@@ -83,6 +89,14 @@ export default function InvoiceView({ invoice, onChange }: Props) {
             locked={locked}
             setLocked={(v) => {
               setLocked(v);
+              onChange();
+            }}
+          />
+          <InvoiceEditSent
+            invoiceId={invoice.id.toString()}
+            sent={sent}
+            setSent={(v) => {
+              setSent(v);
               onChange();
             }}
           />
