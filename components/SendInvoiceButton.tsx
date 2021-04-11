@@ -8,12 +8,14 @@ interface IProps {
   invoiceId?: string;
   email: string;
   onSent: () => void;
+  disabled: boolean;
 }
 
 export default function SendInvoiceButton({
   invoiceId,
   email,
   onSent,
+  disabled,
 }: IProps) {
   const { dispatch } = useContext<IContext>(Context);
 
@@ -65,6 +67,7 @@ export default function SendInvoiceButton({
         color="primary"
         aria-label="Išsiųsti Sąskaitą Faktūrą"
         onClick={handleClick}
+        disabled={disabled}
       >
         Išsiųsti Sąskaitą Faktūrą
       </Button>

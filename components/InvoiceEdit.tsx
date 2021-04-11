@@ -338,6 +338,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
             setSent(true);
             setLocked(true);
           }}
+          disabled={sent}
         />
       )}
 
