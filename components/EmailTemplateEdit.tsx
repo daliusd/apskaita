@@ -5,24 +5,11 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
+import { defaultEmailTemplate } from '../utils/email';
+
 interface Props {
   language: string;
 }
-
-const defaultEmailTemplate = {
-  lt: `Sveiki,
-
-Siunčiame jums sąskaitą faktūrą.
-
-Su pagarba,
-{{issuer}}`,
-  en: `Hello,
-
-We are sending an invoice for you.
-
-Best regards,
-{{issuer}}`,
-};
 
 export default function EmailTemplateEdit({ language }: Props) {
   const [emailTemplateCurrent, setEmailTemplateCurrent] = useState<
@@ -54,7 +41,7 @@ export default function EmailTemplateEdit({ language }: Props) {
         inputProps={{
           'aria-label': 'Siunčiamo laiško šablonas',
         }}
-        helperText="{{issuer}} siunčiant bus pakeista asmeniu, kuris išrašė sąskaitą faktūrą."
+        helperText="{{išrašė}} siunčiant bus pakeista asmeniu, kuris išrašė sąskaitą faktūrą. {{sfnr}} bus pakeista sąskaitos faktūros numeriu."
         value={emailTemplate}
         onChange={(e) => {
           setEmailTemplate(e.target.value);

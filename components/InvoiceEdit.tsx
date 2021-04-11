@@ -25,6 +25,7 @@ import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
 import InvoiceEditSent from './InvoiceEditSent';
+import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 
@@ -329,6 +330,16 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         withHelperText={true}
       />
       <InvoiceEditSent invoiceId={invoiceId} sent={sent} setSent={setSent} />
+      {experiments.includes('gmail') && gmailSend && (
+        <SendInvoiceButton
+          invoiceId={invoiceId}
+          email={email}
+          onSent={() => {
+            setSent(true);
+            setLocked(true);
+          }}
+        />
+      )}
 
       <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
     </Grid>

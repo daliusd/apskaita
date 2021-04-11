@@ -5,14 +5,11 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
+import { defaultEmailSubject } from '../utils/email';
+
 interface Props {
   language: string;
 }
-
-const defaultEmailSubject = {
-  lt: 'Sąskaita faktūra',
-  en: 'Invoice',
-};
 
 export default function EmailSubjectEdit({ language }: Props) {
   const [emailSubjectCurrent, setEmailSubjectCurrent] = useState<

@@ -24,6 +24,10 @@ export async function dbWrapper(
 
       return await callback(db, session);
     } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(err); // eslint-disable-line
+      }
+
       Sentry.setUser({ email: session.user.email });
       Sentry.captureException(err);
       res.status(500).json({ success: false });
