@@ -227,7 +227,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           buyer={buyer}
           onChange={(buyerInfo) => {
             setBuyer(buyerInfo.buyer);
-            setEmail(buyerInfo.email);
+            if (!email) {
+              setEmail(buyerInfo.email);
+            }
           }}
           disabled={locked}
         />
@@ -345,7 +347,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
             setSent(true);
             setLocked(true);
           }}
-          disabled={sent}
+          disabled={!email || sent}
         />
       )}
 

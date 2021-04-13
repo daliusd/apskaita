@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
+import Link from '../src/Link';
 import { IContext, Context } from '../src/Store';
 
 interface IProps {
@@ -61,16 +63,33 @@ export default function SendInvoiceButton({
   };
 
   return (
-    <Grid item xs={12}>
-      <Button
-        variant="contained"
-        color="primary"
-        aria-label="Išsiųsti Sąskaitą Faktūrą"
-        onClick={handleClick}
-        disabled={disabled}
-      >
-        Išsiųsti Sąskaitą Faktūrą
-      </Button>
-    </Grid>
+    <>
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          aria-label="Išsiųsti Sąskaitą Faktūrą"
+          onClick={handleClick}
+          disabled={disabled}
+        >
+          Išsiųsti Sąskaitą Faktūrą
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        {email ? (
+          <Typography variant="body2" component="div">
+            Jūs galite išsiųsti sąskaitą faktūrą {email} adresu paspaudę šį
+            mygtuką. Sąskaita faktūra bus išsiųsta iš jūsų el. pašto adreso
+            naudojant laiško šabloną, kurį galite pakeisti{' '}
+            <Link href="/nustatymai">nustatymuose</Link>.
+          </Typography>
+        ) : (
+          <Typography variant="body2" component="div">
+            Jei norite išsiųsti sąskaitą faktūrą el. paštu nurodykite pirkėjo
+            el. paštą aukščiau.
+          </Typography>
+        )}
+      </Grid>
+    </>
   );
 }
