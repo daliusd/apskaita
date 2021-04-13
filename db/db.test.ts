@@ -16,7 +16,7 @@ import {
   IInvoice,
   deleteInvoice,
   getUniqueSeriesNames,
-  getUniqueBuyerNames,
+  getUniqueBuyers,
   getUniqueLineItemsNames,
   changeInvoicePaidStatus,
   changeInvoiceLockedStatus,
@@ -696,7 +696,7 @@ describe('database tests', () => {
       expect(uniqueSerieNames).toEqual(['EA']);
     });
 
-    it('gets unique buyer names', async () => {
+    it('gets unique buyers', async () => {
       const invoice: IInvoice = {
         seriesName: 'DD',
         seriesId: 1,
@@ -707,6 +707,7 @@ describe('database tests', () => {
         issuer: 'Issuer',
         extra: 'Extra',
         language: 'lt',
+        email: '',
         lineItems: [],
       };
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
@@ -717,19 +718,34 @@ describe('database tests', () => {
 
       invoice.seriesId = 3;
       invoice.buyer = 'ACME';
+      invoice.email = '';
       expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
-      let uniqueBuyerNames = await getUniqueBuyerNames(db, '');
-      expect(uniqueBuyerNames).toHaveLength(3);
-      expect(uniqueBuyerNames).toEqual(['ACME', 'Buyer1', 'Buyer2']);
+      invoice.seriesId = 4;
+      invoice.buyer = 'ACME';
+      invoice.email = 'acme@acme.com';
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
 
-      uniqueBuyerNames = await getUniqueBuyerNames(db, 'A');
-      expect(uniqueBuyerNames).toHaveLength(1);
-      expect(uniqueBuyerNames).toEqual(['ACME']);
+      let uniqueBuyers = await getUniqueBuyers(db, '');
+      expect(uniqueBuyers).toHaveLength(3);
+      expect(uniqueBuyers.map((item) => item.buyer)).toEqual([
+        'ACME',
+        'Buyer1',
+        'Buyer2',
+      ]);
+      expect(uniqueBuyers[0].email).toEqual('acme@acme.com');
+      expect(uniqueBuyers[1].email).toEqual('');
+      expect(uniqueBuyers[2].email).toEqual('');
 
-      uniqueBuyerNames = await getUniqueBuyerNames(db, 'er1');
-      expect(uniqueBuyerNames).toHaveLength(1);
-      expect(uniqueBuyerNames).toEqual(['Buyer1']);
+      uniqueBuyers = await getUniqueBuyers(db, 'A');
+      expect(uniqueBuyers).toHaveLength(1);
+      expect(uniqueBuyers[0].buyer).toEqual('ACME');
+      expect(uniqueBuyers[0].email).toEqual('acme@acme.com');
+
+      uniqueBuyers = await getUniqueBuyers(db, 'er1');
+      expect(uniqueBuyers).toHaveLength(1);
+      expect(uniqueBuyers[0].buyer).toEqual('Buyer1');
+      expect(uniqueBuyers[0].email).toEqual('');
     });
 
     it('gets unique line items names', async () => {

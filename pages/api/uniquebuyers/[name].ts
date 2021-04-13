@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getUniqueBuyerNames } from '../../../db/db';
+import { getUniqueBuyers } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 import { init } from '../../../utils/sentry';
 
@@ -10,8 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {
     const nameStart =
       typeof req.query.name === 'string' ? req.query.name : req.query.name[0];
-    const buyersNames = await getUniqueBuyerNames(db, nameStart);
+    const buyers = await getUniqueBuyers(db, nameStart);
 
-    return res.json({ buyersNames });
+    return res.json({ buyers });
   });
 };

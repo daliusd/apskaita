@@ -223,7 +223,14 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <BuyerInput buyer={buyer} onChange={setBuyer} disabled={locked} />
+        <BuyerInput
+          buyer={buyer}
+          onChange={(buyerInfo) => {
+            setBuyer(buyerInfo.buyer);
+            setEmail(buyerInfo.email);
+          }}
+          disabled={locked}
+        />
       </Grid>
 
       {experiments.includes('gmail') && gmailSend && (

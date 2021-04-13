@@ -382,12 +382,12 @@ export async function getUniqueSeriesNames(db: Database, start: string) {
   return result.map((item) => item.seriesName);
 }
 
-export async function getUniqueBuyerNames(db: Database, start: string) {
+export async function getUniqueBuyers(db: Database, start: string) {
   const result = await db.all(
-    'SELECT DISTINCT buyer FROM Invoice WHERE buyer LIKE ? ORDER BY buyer LIMIT 10',
+    'SELECT i1.buyer, (SELECT i2.email FROM Invoice i2 WHERE i2.buyer = i1.buyer ORDER BY i2.id DESC LIMIT 1) as email FROM Invoice i1 WHERE i1.buyer LIKE ? GROUP BY i1.buyer ORDER BY i1.buyer LIMIT 10',
     '%' + start + '%',
   );
-  return result.map((item) => item.buyer);
+  return result;
 }
 
 export async function getUniqueLineItemsNames(db: Database, start: string) {

@@ -37,6 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           seller,
           issuer,
           extra,
+          email: '',
           language: 'lt',
           lineItems: [{ id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 }],
         },

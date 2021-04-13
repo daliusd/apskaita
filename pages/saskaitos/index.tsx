@@ -102,7 +102,7 @@ export default function Index() {
       <Grid item xs={12}>
         <BuyerInput
           buyer={buyer}
-          onChange={setBuyer}
+          onChange={(bi) => setBuyer(bi.buyer)}
           rows={1}
           disabled={false}
         />
