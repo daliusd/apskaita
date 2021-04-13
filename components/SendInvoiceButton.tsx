@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +20,7 @@ export default function SendInvoiceButton({
   disabled,
 }: IProps) {
   const { dispatch } = useContext<IContext>(Context);
+  const [sending, setSending] = useState(false);
 
   if (!invoiceId) return null;
 
@@ -34,6 +35,8 @@ export default function SendInvoiceButton({
       return;
     }
 
+    setSending(true);
+
     const response = await fetch('/api/invoicemailer', {
       method: 'POST',
       headers: {
@@ -43,6 +46,8 @@ export default function SendInvoiceButton({
         invoiceId,
       }),
     });
+
+    setSending(false);
 
     if (!response.ok || !(await response.json()).success) {
       dispatch({
@@ -70,7 +75,7 @@ export default function SendInvoiceButton({
           color="primary"
           aria-label="Išsiųsti Sąskaitą Faktūrą"
           onClick={handleClick}
-          disabled={disabled}
+          disabled={disabled || sending}
         >
           Išsiųsti Sąskaitą Faktūrą
         </Button>
