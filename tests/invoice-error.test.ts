@@ -5,7 +5,7 @@ import { IInvoice } from '../db/db';
 
 describe('Settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should show errors if user tries to create wrong invoice', async () => {
@@ -26,7 +26,7 @@ describe('Settings test', () => {
 
     await page.click('text="Nauja sąskaita faktūra"');
     await page.waitForNavigation({
-      url: 'http://localhost:4000/saskaitos/nauja',
+      url: 'http://localhost:3000/saskaitos/nauja',
     });
 
     await page.click('[aria-label="Sukurti"]');
@@ -38,7 +38,7 @@ describe('Settings test', () => {
     await page.waitForNavigation();
 
     // Second invoice
-    await page.goto('http://localhost:4000/saskaitos/nauja');
+    await page.goto('http://localhost:3000/saskaitos/nauja');
 
     invoice.seriesId = 3;
     invoice.created = Date.UTC(2021, 1, 1);
@@ -48,7 +48,7 @@ describe('Settings test', () => {
     await page.waitForNavigation();
 
     // Attempts to create invalid invoice
-    await page.goto('http://localhost:4000/saskaitos/nauja');
+    await page.goto('http://localhost:3000/saskaitos/nauja');
 
     await page.click('[aria-label="Sukurti"]');
     await page.click('text="Nurodykite pirkėjo duomenis."');

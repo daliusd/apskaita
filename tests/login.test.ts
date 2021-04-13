@@ -2,7 +2,7 @@ import { login } from './login';
 
 describe('Login test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should login', async () => {

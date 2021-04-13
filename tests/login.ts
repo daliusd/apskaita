@@ -4,7 +4,7 @@ import { Chance } from 'chance';
 const chance = Chance();
 
 export async function login(page: Page) {
-  await page.goto('http://localhost:4000/api/auth/signin');
+  await page.goto('http://localhost:3000/api/auth/signin');
 
   const email = chance.email({ domain: 'haiku.lt' });
   await page.click('input[name="username"]');
@@ -15,7 +15,7 @@ export async function login(page: Page) {
 
   await page.click('text="Sign in with Credentials"');
 
-  await page.waitForNavigation({ url: 'http://localhost:4000/' });
+  await page.waitForNavigation({ url: 'http://localhost:3000/' });
 
   return email;
 }

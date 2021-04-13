@@ -3,7 +3,7 @@ import { validateInput, validateTextArea } from './utils';
 
 describe('English settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should use english settings', async () => {

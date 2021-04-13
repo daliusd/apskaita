@@ -6,7 +6,7 @@ import { getMsSinceEpoch } from '../utils/date';
 
 describe('Creating new invoice based on old', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should create invoice based on old one', async () => {
@@ -30,7 +30,7 @@ describe('Creating new invoice based on old', () => {
 
     await page.click('text="Nauja sąskaita faktūra"');
     await page.waitForNavigation({
-      url: 'http://localhost:4000/saskaitos/nauja',
+      url: 'http://localhost:3000/saskaitos/nauja',
     });
 
     await fillNewInvoice(page, invoice);
@@ -41,13 +41,13 @@ describe('Creating new invoice based on old', () => {
     ]);
 
     expect(
-      page.url().startsWith('http://localhost:4000/saskaitos/id/'),
+      page.url().startsWith('http://localhost:3000/saskaitos/id/'),
     ).toBeTruthy();
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
     await Promise.all([
-      page.waitForNavigation({ url: 'http://localhost:4000/saskaitos' }),
+      page.waitForNavigation({ url: 'http://localhost:3000/saskaitos' }),
       page.click('text="Sąskaitos"'),
     ]);
 
@@ -57,7 +57,7 @@ describe('Creating new invoice based on old', () => {
     ]);
 
     expect(
-      page.url().startsWith('http://localhost:4000/saskaitos/nauja?sourceId='),
+      page.url().startsWith('http://localhost:3000/saskaitos/nauja?sourceId='),
     ).toBeTruthy();
 
     invoice.seriesId = 2; // cloned invoice should have next series id

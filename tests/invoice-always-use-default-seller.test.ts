@@ -3,7 +3,7 @@ import { validateInput, validateTextArea } from './utils';
 
 describe('Settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should create invoice', async () => {
@@ -31,7 +31,7 @@ describe('Settings test', () => {
     await page.waitForNavigation();
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.goto('http://localhost:4000/nustatymai');
+    await page.goto('http://localhost:3000/nustatymai');
 
     await page.fill(
       'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
@@ -51,7 +51,7 @@ describe('Settings test', () => {
     );
     await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 
-    await page.goto('http://localhost:4000/saskaitos');
+    await page.goto('http://localhost:3000/saskaitos');
 
     await Promise.all([
       page.waitForNavigation(),

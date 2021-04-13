@@ -2,16 +2,16 @@ import { login } from './login';
 
 describe('Settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should create invoice', async () => {
     await login(page);
 
-    await page.goto('http://localhost:4000/');
+    await page.goto('http://localhost:3000/');
 
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'http://localhost:4000/islaidos' }*/),
+      page.waitForNavigation(/*{ url: 'http://localhost:3000/islaidos' }*/),
       page.click('text=Išlaidos'),
     ]);
 

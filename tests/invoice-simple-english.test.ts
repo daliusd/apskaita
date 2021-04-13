@@ -6,7 +6,7 @@ import { IInvoice } from '../db/db';
 
 describe('Settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should create invoice', async () => {
@@ -27,7 +27,7 @@ describe('Settings test', () => {
 
     await page.click('text="Nauja sąskaita faktūra"');
     await page.waitForNavigation({
-      url: 'http://localhost:4000/saskaitos/nauja',
+      url: 'http://localhost:3000/saskaitos/nauja',
     });
 
     await fillNewInvoice(page, invoice);
@@ -36,7 +36,7 @@ describe('Settings test', () => {
 
     await page.waitForNavigation();
     expect(
-      page.url().startsWith('http://localhost:4000/saskaitos/id/'),
+      page.url().startsWith('http://localhost:3000/saskaitos/id/'),
     ).toBeTruthy();
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
@@ -46,7 +46,7 @@ describe('Settings test', () => {
 
     const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
     const href = await el.evaluate((e) => e.getAttribute('value'));
-    await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
+    await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 
     await screenshotTest(page, 'invoice-simple-english');

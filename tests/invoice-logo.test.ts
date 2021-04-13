@@ -6,13 +6,13 @@ import { IInvoice } from '../db/db';
 
 describe('Settings test', () => {
   beforeAll(async () => {
-    await page.goto('http://localhost:4000');
+    await page.goto('http://localhost:3000');
   });
 
   it('should create invoice with logo', async () => {
     await login(page);
 
-    await page.goto('http://localhost:4000/nustatymai');
+    await page.goto('http://localhost:3000/nustatymai');
     await page.waitForSelector('text="Pakeisti logo"');
     await page.setInputFiles(
       'label[aria-label="Pakeisti logo"] input',
@@ -33,7 +33,7 @@ describe('Settings test', () => {
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
     };
 
-    await page.goto('http://localhost:4000/saskaitos/nauja');
+    await page.goto('http://localhost:3000/saskaitos/nauja');
     await fillNewInvoice(page, invoice);
     await page.click('[aria-label="Sukurti"]');
 
@@ -42,7 +42,7 @@ describe('Settings test', () => {
 
     const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
     const href = await el.evaluate((e) => e.getAttribute('value'));
-    await page.goto(`http://localhost:4000/pdfviewer.html?pdf=${href}`);
+    await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 
     await screenshotTest(page, 'invoice-logo');
