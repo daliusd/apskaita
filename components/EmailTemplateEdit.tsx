@@ -5,6 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
+import Link from '../src/Link';
 import { defaultEmailTemplate } from '../utils/email';
 
 interface Props {
@@ -41,7 +42,17 @@ export default function EmailTemplateEdit({ language }: Props) {
         inputProps={{
           'aria-label': 'Siunčiamo laiško šablonas',
         }}
-        helperText="{{išrašė}} siunčiant bus pakeista asmeniu, kuris išrašė sąskaitą faktūrą. {{sfnr}} bus pakeista sąskaitos faktūros numeriu."
+        helperText={
+          <>
+            &#123;&#123;išrašė&#125;&#125; siunčiant bus pakeista asmeniu, kuris
+            išrašė sąskaitą faktūrą. &#123;&#123;sfnr&#125;&#125; bus pakeista
+            sąskaitos faktūros numeriu.{' '}
+            <Link href="/straipsniai/saskaitu-fakturu-siuntimas">
+              „Sąskaitų faktūrų siuntimas“
+            </Link>
+            .
+          </>
+        }
         value={emailTemplate}
         onChange={(e) => {
           setEmailTemplate(e.target.value);

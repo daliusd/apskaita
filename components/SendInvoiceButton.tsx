@@ -86,7 +86,12 @@ export default function SendInvoiceButton({
             Jūs galite išsiųsti sąskaitą faktūrą {email} adresu paspaudę šį
             mygtuką. Sąskaita faktūra bus išsiųsta iš jūsų el. pašto adreso
             naudojant laiško šabloną, kurį galite pakeisti{' '}
-            <Link href="/nustatymai">nustatymuose</Link>.
+            <Link href="/nustatymai">nustatymuose</Link>. Daugiau informacijos
+            straipsnyje{' '}
+            <Link href="/straipsniai/saskaitu-fakturu-siuntimas">
+              „Sąskaitų faktūrų siuntimas“
+            </Link>
+            .
           </Typography>
         ) : (
           <Typography variant="body2" component="div">

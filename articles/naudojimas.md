@@ -1,7 +1,7 @@
 ---
 title: 'Naudojimo sąlygos'
 date: '2021-04-02'
-modified: '2021-04-02'
+modified: '2021-04-15'
 ---
 
 „Haiku.lt“ suteikia paprastą ir greitą būdą valdyti sąskaitas
@@ -16,3 +16,6 @@ Dobravolsku - „Haiku.lt“ savininku (Savininku):
 
 * Vartotojas gali leisti „Haiku.lt“ kurti failus jo Google Drive
   paskyroje.
+
+* Vartotojas gali leisti „Haiku.lt“ siųsti laiškus per savo Gmail
+  paskyrą.
