@@ -173,6 +173,9 @@ const options = {
 
       return session;
     },
+    async redirect(url, baseUrl) {
+      return baseUrl;
+    },
   },
 
   debug: true,
