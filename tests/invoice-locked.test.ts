@@ -54,9 +54,9 @@ describe('Paid test', () => {
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.click('text="Sąskaita faktūra atrakinta"');
+    await page.click('text="Užrakinta"');
 
-    await page.waitForSelector('text="Sąskaita faktūra užrakinta"');
+    await page.waitForSelector('input[name="locked"]:checked');
 
     await testIfDisabled(page, 'Serijos pavadinimas');
     await testIfDisabled(page, 'Serijos numeris');
@@ -76,7 +76,7 @@ describe('Paid test', () => {
       await testIfDisabled(page, `Kaina${pid}`);
     }
 
-    await page.click('text="Sąskaita faktūra užrakinta"');
-    await page.waitForSelector('text="Sąskaita faktūra atrakinta"');
+    await page.click('text="Užrakinta"');
+    await page.waitForSelector('input[name="locked"]:not(checked)');
   });
 });

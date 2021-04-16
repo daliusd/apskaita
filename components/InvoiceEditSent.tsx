@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { IContext, Context } from '../src/Store';
 
@@ -41,22 +40,18 @@ export default function InvoiceEditSent({ invoiceId, sent, setSent }: IProps) {
   };
 
   return (
-    <Grid item xs={12}>
-      <FormControl>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={sent}
-              onChange={handleChange}
-              name="sent"
-              color="primary"
-            />
-          }
-          label={
-            sent ? 'Sąskaita faktūra išsiųsta' : 'Sąskaita faktūra neišsiųsta'
-          }
-        />
-      </FormControl>
-    </Grid>
+    <FormControl>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={sent}
+            onChange={handleChange}
+            name="sent"
+            color="primary"
+          />
+        }
+        label={'Išsiųsta'}
+      />
+    </FormControl>
   );
 }

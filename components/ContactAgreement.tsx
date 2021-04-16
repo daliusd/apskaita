@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import Checkbox from '@material-ui/core/Checkbox';
 import useSWR, { mutate } from 'swr';
 
 import { IContext, Context } from '../src/Store';
@@ -59,18 +59,14 @@ export default function ContactAgreement() {
       <Grid item xs={12}>
         <FormControlLabel
           control={
-            <Switch
+            <Checkbox
               checked={agreed}
               onChange={handleContactAgreement}
               name="agreed"
               color="primary"
             />
           }
-          label={
-            agreed
-              ? 'Sutinku, kad su manimi kartais susisiektumėte.'
-              : 'Nesutinku, kad su manimi susisiektumėte.'
-          }
+          label={'Sutinku, kad su manimi kartais susisiektumėte.'}
         />
       </Grid>
     </>

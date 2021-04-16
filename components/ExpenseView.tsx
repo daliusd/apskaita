@@ -57,7 +57,7 @@ export default function ExpenseView(props: Props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={3}>
       <CardContent>
         <Grid container>
           <Grid item xs={12}>
@@ -66,12 +66,12 @@ export default function ExpenseView(props: Props) {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body1" color="textSecondary" component="p">
               Data: {getDateString(expense.created)}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body1" color="textSecondary" component="p">
               Suma: {expense.price} €
             </Typography>
           </Grid>

@@ -53,9 +53,9 @@ export default function InvoiceView({ invoice, onChange }: Props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={3}>
       <CardContent>
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
             <Typography
               variant="h6"
@@ -67,39 +67,41 @@ export default function InvoiceView({ invoice, onChange }: Props) {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body1" color="textSecondary" component="p">
               Pirkėjas: {invoice.buyer.split('\n')[0]}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body1" color="textSecondary" component="p">
               Kaina: {invoice.price / 100} €
             </Typography>
           </Grid>
-          <InvoiceEditPaid
-            invoiceId={invoice.id.toString()}
-            paid={paid}
-            setPaid={(v) => {
-              setPaid(v);
-              onChange();
-            }}
-          />
-          <InvoiceEditLocked
-            invoiceId={invoice.id.toString()}
-            locked={locked}
-            setLocked={(v) => {
-              setLocked(v);
-              onChange();
-            }}
-          />
-          <InvoiceEditSent
-            invoiceId={invoice.id.toString()}
-            sent={sent}
-            setSent={(v) => {
-              setSent(v);
-              onChange();
-            }}
-          />
+          <Grid item xs={12}>
+            <InvoiceEditPaid
+              invoiceId={invoice.id.toString()}
+              paid={paid}
+              setPaid={(v) => {
+                setPaid(v);
+                onChange();
+              }}
+            />
+            <InvoiceEditLocked
+              invoiceId={invoice.id.toString()}
+              locked={locked}
+              setLocked={(v) => {
+                setLocked(v);
+                onChange();
+              }}
+            />
+            <InvoiceEditSent
+              invoiceId={invoice.id.toString()}
+              sent={sent}
+              setSent={(v) => {
+                setSent(v);
+                onChange();
+              }}
+            />
+          </Grid>
         </Grid>
       </CardContent>
       <CardActions>
@@ -129,9 +131,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
                 Peržiūrėti
               </Button>
             </Link>
-          </Grid>
 
-          <Grid item xs={12}>
             <Link href={`/saskaitos/nauja?sourceId=${invoice.id}`}>
               <Button
                 aria-label={`Nauja SF šios pagrindu ${invoice.id}`}

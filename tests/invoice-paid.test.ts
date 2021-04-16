@@ -40,8 +40,13 @@ describe('Paid test', () => {
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.click('text="Sąskaita faktūra neapmokėta"');
-    await page.click('text="Sąskaita faktūra apmokėta"');
-    await page.click('text="Sąskaita faktūra neapmokėta"');
+    await page.click('text="Apmokėta"');
+    await page.waitForSelector('input[name="paid"]:checked');
+
+    await page.click('text="Apmokėta"');
+    await page.waitForSelector('input[name="paid"]:not(checked)');
+
+    await page.click('text="Apmokėta"');
+    await page.waitForSelector('input[name="paid"]:checked');
   });
 });

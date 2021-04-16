@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { IContext, Context } from '../src/Store';
 
@@ -40,20 +39,16 @@ export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
   };
 
   return (
-    <Grid item xs={12}>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={paid}
-            onChange={handleChange}
-            name="paid"
-            color="primary"
-          />
-        }
-        label={
-          paid ? 'Sąskaita faktūra apmokėta' : 'Sąskaita faktūra neapmokėta'
-        }
-      />
-    </Grid>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={paid}
+          onChange={handleChange}
+          name="paid"
+          color="primary"
+        />
+      }
+      label={'Apmokėta'}
+    />
   );
 }

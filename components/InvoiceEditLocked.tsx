@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { IContext, Context } from '../src/Store';
 
@@ -11,14 +9,12 @@ interface IProps {
   invoiceId?: string;
   locked: boolean;
   setLocked: (v: boolean) => void;
-  withHelperText?: boolean;
 }
 
 export default function InvoiceEditLocked({
   invoiceId,
   locked,
   setLocked,
-  withHelperText,
 }: IProps) {
   const { dispatch } = useContext<IContext>(Context);
 
@@ -48,27 +44,18 @@ export default function InvoiceEditLocked({
   };
 
   return (
-    <Grid item xs={12}>
-      <FormControl>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={locked}
-              onChange={handleChange}
-              name="locked"
-              color="primary"
-            />
-          }
-          label={
-            locked ? 'Sąskaita faktūra užrakinta' : 'Sąskaita faktūra atrakinta'
-          }
-        />
-        {withHelperText && (
-          <FormHelperText>
-            Užrakinta sąskaita faktūra negali būti pakeista ir ištrinta.
-          </FormHelperText>
-        )}
-      </FormControl>
-    </Grid>
+    <FormControl>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={locked}
+            onChange={handleChange}
+            name="locked"
+            color="primary"
+          />
+        }
+        label={'Užrakinta'}
+      />
+    </FormControl>
   );
 }

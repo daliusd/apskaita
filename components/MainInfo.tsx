@@ -50,7 +50,7 @@ export default function MainInfo() {
       <Invoices limit={5} />
       <Grid item xs={12}>
         <Link href="/saskaitos" color="secondary">
-          Visos sąskaitos faktūros
+          Detalesnė sąskaitų faktūrų paieška
         </Link>
       </Grid>
     </Grid>
