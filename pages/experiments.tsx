@@ -7,14 +7,21 @@ import { defaultOrFirst } from '../utils/query';
 export default function Experiments() {
   const router = useRouter();
 
-  const [, setExperiments] = useLocalStorage('experiments', '');
-  const { value } = router.query;
+  const [experiments, setExperiments] = useLocalStorage('experiments', '');
+  const value = defaultOrFirst(router.query.value);
 
   useEffect(() => {
-    setExperiments(defaultOrFirst(value));
+    if (value === undefined || router === undefined) {
+      return;
+    }
 
-    router.replace('/');
-  }, [value, router, setExperiments]);
+    if (experiments === value) {
+      router.replace('/');
+    } else {
+      setExperiments(value);
+      router.reload();
+    }
+  }, [value, router, experiments, setExperiments]);
 
   return <div>Experiments</div>;
 }
