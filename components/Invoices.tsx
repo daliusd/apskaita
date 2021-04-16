@@ -83,7 +83,7 @@ export default function Invoices(props: Props) {
       <Grid item xs={12}>
         Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length},
         kurių bendra suma {sum} €.{' '}
-        {countUnpaid &&
+        {countUnpaid > 0 &&
           `Iš jų neapmokėtų:  ${countUnpaid}, kurių bendra suma ${sumUnpaid} €`}
         {data.invoices.length === 1000 &&
           ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visos sąskaitos faktūros.'}
