@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
@@ -20,23 +19,24 @@ export default function SellerInfoEdit({ language }: Props) {
   const [seller, setSeller] = useState(
     `${session.user.name}\n${session.user.email}`,
   );
+  const [enabled, setEnabled] = useState(false);
 
   const settingApiUrl = `/api/settings/seller${language === 'lt' ? '' : '_en'}`;
 
-  const { data, error } = useSWR(settingApiUrl);
+  const { data } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
       setSeller(data.value);
       setSellerCurrent(data.value);
     }
+    setEnabled(true);
   }, [data]);
-
-  if (!data && !error) return <LinearProgress />;
 
   return (
     <>
       <TextField
+        disabled={!enabled}
         label="Tavo rekvizitai sąskaitai faktūrai"
         inputProps={{ 'aria-label': 'Tavo rekvizitai sąskaitai faktūrai' }}
         value={seller}

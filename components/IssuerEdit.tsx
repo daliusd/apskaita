@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
@@ -18,23 +17,24 @@ export default function IssuerEdit({ language }: Props) {
     undefined,
   );
   const [issuer, setIssuer] = useState(session.user.name);
+  const [enabled, setEnabled] = useState(false);
 
   const settingApiUrl = `/api/settings/issuer${language === 'lt' ? '' : '_en'}`;
 
-  const { data, error } = useSWR(settingApiUrl);
+  const { data } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
       setIssuer(data.value);
       setIssuerCurrent(data.value);
     }
+    setEnabled(true);
   }, [data]);
-
-  if (!data && !error) return <LinearProgress />;
 
   return (
     <>
       <TextField
+        disabled={!enabled}
         label="Asmuo įprastai išrašantis sąskaitas faktūras"
         inputProps={{
           'aria-label': 'Asmuo įprastai išrašantis sąskaitas faktūras',

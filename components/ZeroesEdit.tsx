@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
@@ -10,21 +9,22 @@ export default function ZeroesEdit() {
     undefined,
   );
   const [zeroes, setZeroes] = useState('');
+  const [enabled, setEnabled] = useState(false);
 
-  const { data, error } = useSWR('/api/settings/zeroes');
+  const { data } = useSWR('/api/settings/zeroes');
 
   useEffect(() => {
     if (data && data.value) {
       setZeroes(data.value);
       setZeroesCurrent(data.value);
     }
+    setEnabled(true);
   }, [data]);
-
-  if (!data && !error) return <LinearProgress />;
 
   return (
     <>
       <TextField
+        disabled={!enabled}
         label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"
         inputProps={{
           'aria-label':

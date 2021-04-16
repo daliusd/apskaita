@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
@@ -18,25 +17,26 @@ export default function EmailSubjectEdit({ language }: Props) {
   const [emailSubject, setEmailSubject] = useState(
     defaultEmailSubject[language],
   );
+  const [enabled, setEnabled] = useState(false);
 
   const settingApiUrl = `/api/settings/emailsubject${
     language === 'lt' ? '' : '_en'
   }`;
 
-  const { data, error } = useSWR(settingApiUrl);
+  const { data } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data) {
       setEmailSubject(data.value || defaultEmailSubject[language]);
       setEmailSubjectCurrent(data.value || defaultEmailSubject[language]);
     }
+    setEnabled(true);
   }, [data, language]);
-
-  if (!data && !error) return <LinearProgress />;
 
   return (
     <>
       <TextField
+        disabled={!enabled}
         label="Siunčiamo laiško tema"
         inputProps={{
           'aria-label': 'Siunčiamo laiško tema',

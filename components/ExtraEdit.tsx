@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
@@ -16,23 +15,24 @@ export default function ExtraEdit({ language }: Props) {
     undefined,
   );
   const [extra, setExtra] = useState('');
+  const [enabled, setEnabled] = useState(false);
 
   const settingApiUrl = `/api/settings/extra${language === 'lt' ? '' : '_en'}`;
 
-  const { data, error } = useSWR(settingApiUrl);
+  const { data } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
       setExtra(data.value);
       setExtraCurrent(data.value);
     }
+    setEnabled(true);
   }, [data]);
-
-  if (!data && !error) return <LinearProgress />;
 
   return (
     <>
       <TextField
+        disabled={!enabled}
         label="Papildoma informacija sąskaitoje faktūroje"
         inputProps={{
           'aria-label': 'Papildoma informacija sąskaitoje faktūroje',

@@ -1,7 +1,7 @@
 ---
 title: 'Pakeitimai'
 date: '2021-04-02'
-modified: '2021-04-09'
+modified: '2021-04-16'
 ---
 
 Čia rasite kas yra pakeista sistemoje pagal datą (nuo naujausių
@@ -9,6 +9,10 @@ pakeitimų iki seniausių).
 
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
+
+## 2021-04-16
+
+* Smulkūs vartotojo aplinkos ir kiti pataisymai.
 
 ## 2021-04-09
 
