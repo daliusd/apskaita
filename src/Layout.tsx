@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   toolbarTitle: {},
   toolbarSecondary: {
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
+    overflowX: 'auto',
   },
   toolbarLink: {
     padding: theme.spacing(1),
@@ -69,7 +69,7 @@ const Layout: React.FC = ({ children }) => {
     <Container maxWidth="sm">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Toolbar className={classes.toolbar}>
+          <Toolbar className={classes.toolbar} disableGutters={true}>
             <Typography
               variant="h4"
               component="h1"
@@ -145,7 +145,7 @@ const Layout: React.FC = ({ children }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Toolbar className={classes.toolbarSecondary}>
+          <Toolbar className={classes.toolbarSecondary} disableGutters={true}>
             <Link href="/" color="primary" className={classes.toolbarLink}>
               Pagrindinis
             </Link>
