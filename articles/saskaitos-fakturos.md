@@ -1,15 +1,15 @@
 ---
-title: 'Sąskaitų faktūrų sukūrimas ir redagavimas'
+title: 'Sąskaitų faktūrų išrašymas ir redagavimas'
 date: '2021-04-09'
 modified: '2021-04-09'
 ---
 
-Šiame straipsnyje apžvelgsime sąskaitų faktūrų kūrimą, redagavimą
-ir kaip „Haiku.lt“ padeda su šiomis užduotimis.
+Šiame straipsnyje apžvelgsime sąskaitų faktūrų išrašymą,
+redagavimą ir kaip „Haiku.lt“ padeda su šiomis užduotimis.
 
-## Sąskaitų Faktūrų sukūrimas
+## Sąskaitų Faktūrų išrašymas
 
-Kuriant Sąskaitą Faktūrą (toliau SF) reikia nurodyti šią
+Išrašant Sąskaitą Faktūrą (toliau SF) reikia nurodyti šią
 informaciją:
 
 * Serijos pavadinimą - serijos pavadinimas paprastai būna kelios
@@ -57,7 +57,7 @@ informaciją:
   ```
 
   „Haiku.lt“ išsaugos šią informaciją į nustatymus ir kitą kartą
-  kuriant SF paims šią informaciją iš nustatymų.
+  išrašant SF paims šią informaciją iš nustatymų.
 
 * Pirkėjas - čia turite nurodyti informaciją apie pirkėją. Jei
   pirkėjas yra fizinis asmuo, nevykdantis individualios veiklos ir

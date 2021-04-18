@@ -171,7 +171,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
           Pagalbinės informacijos apie sąskaitų faktūrų sukūrimą, keitimą ir
           kitą funkcionalumą galite rasti šiame straipsnyje{' '}
           <Link href="/straipsniai/saskaitos-fakturos">
-            „Sąskaitų faktūrų sukūrimas ir redagavimas“
+            „Sąskaitų faktūrų išrašymas ir redagavimas“
           </Link>
         </Typography>
       </Grid>
