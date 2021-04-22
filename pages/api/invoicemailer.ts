@@ -24,7 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       if (!invoice.email) {
-        res.json({
+        return res.json({
           success: false,
           message:
             'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',

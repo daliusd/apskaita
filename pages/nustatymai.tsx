@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useSession } from 'next-auth/client';
-import { useLocalStorage } from 'react-recipes';
 
 import SellerInfoEdit from '../components/SellerInfoEdit';
 import IssuerEdit from '../components/IssuerEdit';
@@ -16,7 +15,6 @@ import LogoEdit from '../components/LogoEdit';
 import ContactAgreement from '../components/ContactAgreement';
 
 export default function Apie() {
-  const [experiments] = useLocalStorage('experiments', '');
   const [session] = useSession();
   const gmailSend =
     session && ((session as unknown) as { gmailSend: boolean }).gmailSend;
@@ -54,12 +52,12 @@ export default function Apie() {
       <Grid item xs={12}>
         <ExtraEdit language={language} />
       </Grid>
-      {experiments.includes('gmail') && gmailSend && (
+      {gmailSend && (
         <Grid item xs={12}>
           <EmailSubjectEdit language={language} />
         </Grid>
       )}
-      {experiments.includes('gmail') && gmailSend && (
+      {gmailSend && (
         <Grid item xs={12}>
           <EmailTemplateEdit language={language} />
         </Grid>

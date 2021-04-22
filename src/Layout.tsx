@@ -49,7 +49,7 @@ const Layout: React.FC = ({ children }) => {
       ((session as unknown) as { error: string })?.error ===
       'RefreshAccessTokenError'
     ) {
-      signIn(experiments.includes('gmail') ? 'googleEx' : 'google');
+      signIn(experiments.includes('exp') ? 'googleEx' : 'google');
     }
   }, [session, experiments]);
 

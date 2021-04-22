@@ -49,10 +49,20 @@ export default function SendInvoiceButton({
 
     setSending(false);
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response.ok) {
       dispatch({
         type: 'SET_MESSAGE',
         text: 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
+        severity: 'error',
+      });
+      return;
+    }
+
+    const message = await response.json();
+    if (!message.success) {
+      dispatch({
+        type: 'SET_MESSAGE',
+        text: message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
         severity: 'error',
       });
       return;
@@ -96,7 +106,7 @@ export default function SendInvoiceButton({
         ) : (
           <Typography variant="body2" component="div">
             Jei norite išsiųsti sąskaitą faktūrą el. paštu nurodykite pirkėjo
-            el. paštą aukščiau.
+            el. paštą aukščiau ir išsaugokite sąskaitą faktūrą.
           </Typography>
         )}
       </Grid>

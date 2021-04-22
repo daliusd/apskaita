@@ -235,7 +235,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         />
       </Grid>
 
-      {experiments.includes('gmail') && gmailSend && (
+      {gmailSend && (
         <Grid item xs={12}>
           <EmailInput email={email} onChange={setEmail} disabled={locked} />
         </Grid>
@@ -346,7 +346,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         />
         <InvoiceEditSent invoiceId={invoiceId} sent={sent} setSent={setSent} />
       </Grid>
-      {experiments.includes('gmail') && gmailSend && (
+      {gmailSend && (
         <SendInvoiceButton
           invoiceId={invoiceId}
           email={email}
