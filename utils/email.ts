@@ -6,13 +6,13 @@ export const defaultEmailSubject = {
 export const defaultEmailTemplate = {
   lt: `Sveiki,
 
-Siunčiame jums sąskaitą faktūrą {{sfnr}}.
+Siunčiu jums sąskaitą faktūrą {{sfnr}}.
 
 Su pagarba,
 {{išrašė}}`,
   en: `Hello,
 
-We are sending the invoice {{sfnr}} for you.
+I am sending the invoice {{sfnr}} for you.
 
 Best regards,
 {{išrašė}}`,
