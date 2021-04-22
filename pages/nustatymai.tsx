@@ -13,6 +13,7 @@ import EmailTemplateEdit from '../components/EmailTemplateEdit';
 import EmailSubjectEdit from '../components/EmailSubjectEdit';
 import ZeroesEdit from '../components/ZeroesEdit';
 import LogoEdit from '../components/LogoEdit';
+import ContactAgreement from '../components/ContactAgreement';
 
 export default function Apie() {
   const [experiments] = useLocalStorage('experiments', '');
@@ -76,6 +77,8 @@ export default function Apie() {
       <Grid item xs={12}>
         <LogoEdit />
       </Grid>
+
+      <ContactAgreement />
     </Grid>
   );
 }

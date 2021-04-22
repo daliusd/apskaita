@@ -8,7 +8,6 @@ import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
 import Invoices from '../components/Invoices';
-import ContactAgreement from '../components/ContactAgreement';
 
 export default function MainInfo() {
   const [session] = useSession();
@@ -30,7 +29,6 @@ export default function MainInfo() {
           .
         </Typography>
       </Grid>
-      <ContactAgreement />
       <Grid item xs={12}>
         <Button
           aria-label="Nauja sąskaita faktūra"

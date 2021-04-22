@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,12 +9,18 @@ import { IContext, Context } from '../src/Store';
 
 export default function ContactAgreement() {
   const { dispatch } = useContext<IContext>(Context);
+  const [enabled, setEnabled] = useState(false);
+
   const { data: contactAgreementData } = useSWR(
     '/api/settings/contactagreement',
   );
 
   const agreed =
     contactAgreementData && contactAgreementData.value === '1' ? true : false;
+
+  useEffect(() => {
+    setEnabled(true);
+  }, [contactAgreementData]);
 
   const handleContactAgreement = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -41,10 +47,6 @@ export default function ContactAgreement() {
     }
   };
 
-  if (!contactAgreementData) {
-    return null;
-  }
-
   return (
     <>
       <Grid item xs={12}>
@@ -60,6 +62,7 @@ export default function ContactAgreement() {
         <FormControlLabel
           control={
             <Checkbox
+              disabled={!enabled}
               checked={agreed}
               onChange={handleContactAgreement}
               name="agreed"
