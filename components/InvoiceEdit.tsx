@@ -331,21 +331,34 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         pdfname={pdfname}
       />
 
-      <Grid item xs={12}>
-        <Typography variant="body1" color="textSecondary" component="p">
-          Ši sąskaita faktūra yra:
-        </Typography>
-      </Grid>
+      {!!invoiceId && (
+        <Grid item xs={12}>
+          <Typography variant="body1" color="textSecondary" component="p">
+            Ši sąskaita faktūra yra:
+          </Typography>
+        </Grid>
+      )}
 
-      <Grid item xs={12}>
-        <InvoiceEditPaid invoiceId={invoiceId} paid={paid} setPaid={setPaid} />
-        <InvoiceEditLocked
-          invoiceId={invoiceId}
-          locked={locked}
-          setLocked={setLocked}
-        />
-        <InvoiceEditSent invoiceId={invoiceId} sent={sent} setSent={setSent} />
-      </Grid>
+      {!!invoiceId !== null && (
+        <Grid item xs={12}>
+          <InvoiceEditPaid
+            invoiceId={invoiceId}
+            paid={paid}
+            setPaid={setPaid}
+          />
+          <InvoiceEditLocked
+            invoiceId={invoiceId}
+            locked={locked}
+            setLocked={setLocked}
+          />
+          <InvoiceEditSent
+            invoiceId={invoiceId}
+            sent={sent}
+            setSent={setSent}
+          />
+        </Grid>
+      )}
+
       {gmailSend && (
         <SendInvoiceButton
           invoiceId={invoiceId}
