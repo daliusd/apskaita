@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import Providers, { OAuthConfig } from 'next-auth/providers';
-import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 import { openDb } from '../../../db/db';
 
@@ -43,8 +42,6 @@ async function refreshAccessToken(token) {
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     };
   } catch (error) {
-    Sentry.captureException(error);
-
     return {
       ...token,
       error: 'RefreshAccessTokenError',
