@@ -13,6 +13,7 @@ import EmailSubjectEdit from '../components/EmailSubjectEdit';
 import ZeroesEdit from '../components/ZeroesEdit';
 import LogoEdit from '../components/LogoEdit';
 import ContactAgreement from '../components/ContactAgreement';
+import DataDeleteButton from '../components/DataDeleteButton';
 import Link from '../src/Link';
 
 export default function Apie() {
@@ -89,6 +90,8 @@ export default function Apie() {
           .
         </Typography>
       </Grid>
+
+      <DataDeleteButton />
     </Grid>
   );
 }

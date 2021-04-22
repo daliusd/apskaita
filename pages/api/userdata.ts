@@ -14,24 +14,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401);
   }
 
-  if (req.method === 'GET') {
-    try {
-      const filename = session.user.email + '.db';
+  const filename = session.user.email + '.db';
+  const filenameInFs = path.join(process.env.USER_DATA_PATH, 'db', filename);
 
+  try {
+    if (req.method === 'GET') {
       return res
         .writeHead(200, {
           'Content-disposition': 'inline; filename=' + filename,
           'Content-type': 'application/vnd.sqlite3',
         })
-        .end(
-          fs.readFileSync(
-            path.join(process.env.USER_DATA_PATH, 'db', filename),
-          ),
-        );
-    } catch (ex) {
-      Sentry.captureException(ex);
-      res.status(400).json({ success: false });
+        .end(fs.readFileSync(filenameInFs));
+    } else if (req.method === 'DELETE') {
+      fs.unlinkSync(filenameInFs);
+      return res.status(200).json({ success: true });
     }
+  } catch (ex) {
+    Sentry.captureException(ex);
+    res.status(400).json({ success: false });
   }
 
   res.end();
