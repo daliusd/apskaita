@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import Providers, { Provider } from 'next-auth/providers';
+import Providers, { OAuthConfig } from 'next-auth/providers';
 import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 import { openDb } from '../../../db/db';
@@ -52,7 +52,12 @@ async function refreshAccessToken(token) {
   }
 }
 
-const googleExProvider: Provider<'googleEx'> = {
+const googleExProvider: OAuthConfig<{
+  id: string;
+  name: string;
+  email: string;
+  picture: string;
+}> = {
   id: 'googleEx',
   name: 'Google Experimental',
   type: 'oauth',
@@ -83,16 +88,16 @@ const options = {
       clientSecret: process.env.GOOGLE_SECRET,
       authorizationUrl: GOOGLE_AUTHORIZATION_URL,
       scope:
-        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file',
+        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
     }),
-    googleExProvider as Provider,
+    googleExProvider,
     Providers.Credentials({
       name: 'Credentials',
       credentials: {
         username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials: Record<string, string>) => {
         // Add logic here to look up the user from the credentials supplied
         const user = {
           id: 1,
