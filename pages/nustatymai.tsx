@@ -13,6 +13,7 @@ import EmailSubjectEdit from '../components/EmailSubjectEdit';
 import ZeroesEdit from '../components/ZeroesEdit';
 import LogoEdit from '../components/LogoEdit';
 import ContactAgreement from '../components/ContactAgreement';
+import Link from '../src/Link';
 
 export default function Apie() {
   const [session] = useSession();
@@ -77,6 +78,17 @@ export default function Apie() {
       </Grid>
 
       <ContactAgreement />
+
+      <Grid item xs={12}>
+        <Typography variant="body1" component="div">
+          Jeigu norite galite parsisiųsti savo duomenis kaip SQLite duombazę.{' '}
+          <Link href="/api/userdata">Parsisiųsti</Link>. Daugiau informacijos{' '}
+          <Link href="/straipsniai/duomenu-parsisiuntimas">
+            „Duomenų parsisiuntimas“
+          </Link>
+          .
+        </Typography>
+      </Grid>
     </Grid>
   );
 }
