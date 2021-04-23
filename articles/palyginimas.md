@@ -38,13 +38,9 @@ Naudojami sutrumpinimai:
 Aš bandžiau nagrinėti sistemas vertindamas kiek užtrunka padaryti
 tam tikrus dalykus, kokius ir kaip galima padaryti apskritai bei
 keletas kitų savybių. Pirmuosius žingsnius įrašiau ir galite
-peržiūrėti kiekvienos sistemos video (žemiau).
+peržiūrėti kiekvienos sistemos video (žemiau, video be garso).
 
-Toliau galite skaityti arba tiesiog peržiūrėti video, kuriame
-eidamas per [„haiku.lt“](https://www.haiku.lt) sistemą paaiškinu
-kaip vertinau sistemas:
-
-...
+Haiku.lt video bus pridėtas vėliau.
 
 **Pastaba**: kur aktualu rezultatus surūšiavau nuo geriausio iki
 blogiausio.
@@ -515,6 +511,8 @@ sistemą.
 
 ### [itax.lt](https://www.itax.lt)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ykQiJPcBq18" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Sistema atrodo tikrai gerai padaryta ir veikia greitai. Atrodo
 tikrai galingas įrankis.
 
@@ -525,12 +523,12 @@ Kitos pastabos:
 
 * Norint pažymėti SF kaip apmokėtą reikia padaryti daug žingsnių.
 
-* Video:
-
 Rekomendacija: jei reikia tokio funkcionalumo - naudokite, bet
 individualiai veiklai yra pigesnių ir paprastesnių alternatyvų.
 
 ### [invoice.lt](https://www.invoice.lt)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mb3G3-sygyY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Sistema veikia pagrįstai greitai, bet vartotojo aplinka galėtų
 būti patobulinta, nes atlikti kai kurias operacijas užtrunka
@@ -539,22 +537,22 @@ kad ji nemokama, bet jei sistemos kūrėjai sugalvotų ją
 apmokestinti (o taip būna), tai duomenų iškelti į kitą sistemą
 nebūtų kaip.
 
-* Video:
-
 Rekomendacija: vengti.
 
 ### [cflow.lt](https://www.cflow.lt)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zfF2WdmsN2M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 „cflow“ teigia, kad jie atsižvelgia į vartotojų poreikius, bet
 realiai tas matosi ne visur. Visiškai naujos SF išrašymas pas juos
 gana greitas (palyginus su daugelių kitų sistemų), bet sistema
 turi įvairių minusų.
 
-* Video:
-
 Rekomendacija: už tokią kainą galima gauti daugiau.
 
 ### [saskaitos.lt](https://www.saskaitos.lt)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dEn7xFpi6kI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Sistema pasirodė gana neintuityvi ir kai kur neišbaigta. Bendras
 įspūdis, kad bandoma aprėpti labai daug ir dėl to dalis
@@ -565,6 +563,8 @@ Rekomendacija: vengti.
 
 ### [saskaita123.lt](https://saskaita123.lt)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4xpwDPvgQoA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Geriausia įspūdį palikusi sistema. Iš pradžių užtrukau kol
 susigaudžiau, bet pradėjus naudoti sistemą ja naudotis tikrai
 paprasta.
@@ -573,12 +573,16 @@ Rekomendacija: vienas iš geriausių variantų IDV veiklai
 
 ### [naujasaskaita.lt](https://naujasaskaita.lt)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iHBBd0oM-P0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Nemažai mažų trūkumų turinti sistema, nors kai kuriose vietose ji
 netikėtai gera, bet kitose stipriai nuvilianti.
 
 Rekomendacija: nenaudoti
 
 ### [isaskaita.lt](https://isaskaita.lt)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o2lbUCokXOg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Sistema, kuri leidžia tiesiog išrašyti SF ir sugeneruoti jos PDF
 failą. Tam tikra prasme nusivylimas, nes tokia paprasta sistema
@@ -589,6 +593,8 @@ Rekomendacija: jei tikrai to užtenka, naudokite
 
 ### [b1.lt](https://www.b1.lt)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zHXid7IJngA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 IDV visiškai netinkama sistema. Reklama sudarė geresnį įspūdi apie
 sistemą, negu ji yra iš tikro (marketingo specialistą akivaizdžiai
 turi gerą).
@@ -596,6 +602,8 @@ turi gerą).
 Rekomendacija: IDV nenaudokite
 
 ### i.APS
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-SD0JoysUqM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Testavau DEMO versiją, tai galbūt susidariau neteisingą įspūdį.
 
