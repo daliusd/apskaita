@@ -26,6 +26,10 @@ export default function MainInfo() {
           <Link href="/nustatymai" color="secondary">
             čia
           </Link>
+          . Pagalbos skyrių rasite{' '}
+          <Link href="/pagalba" color="secondary">
+            čia
+          </Link>
           .
         </Typography>
       </Grid>

@@ -1,6 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Head from 'next/head';
+
+import Link from '../src/Link';
 
 export default function IndexPageInfo() {
   return (
@@ -8,31 +11,24 @@ export default function IndexPageInfo() {
       <Head>
         <meta
           name="description"
-          content="Individualios veiklos apskaita: paprastai ir greitai išrašykite sąskaitas, sugeneruokite PDF failus ir sekite išlaidas."
+          content="Individualios veiklos apskaita: paprastai ir greitai išrašykite sąskaitas, sugeneruokite PDF failus, išsiųskite juos el. paštu ir sekite išlaidas."
         />
       </Head>
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          Individualios veiklos apskaita.
+          <Typography variant="body1" component="div">
+            Individualios veiklos apskaita: paprastai ir greitai išrašykite
+            sąskaitas, sugeneruokite PDF failus, išsiųskite juos el. paštu ir
+            sekite išlaidas.
+          </Typography>
         </Grid>
         <Grid item xs={12}>
-          Paprastai ir greitai galite padaryti šiuos dalykus:
-          <ul>
-            <li> Išrašyti sąskaitąs </li>
-            <li> Sugeneruoti PDF failus </li>
-            <li> Sekti išlaidas </li>
-          </ul>
-          Jums tereikia prisijungti su savo Google paskyra.
-        </Grid>
-        <Grid item xs={12}>
-          Ateityje galėsite:
-          <ul>
-            <li> Išrašyti išankstines sąskaitas faktūras </li>
-            <li> Automatiškai suskaičiuoti mokesčius </li>
-            <li> Peržiūrėti apskaitos žurnalą </li>
-            <li> ... ir daugiau. </li>
-          </ul>
+          <Typography variant="body1" component="div">
+            Peržiūrėkite <Link href="/straipsniai/palyginimas">palyginimą</Link>{' '}
+            su kitomis sistemomis, kuris padės nuspręsti kodėl verta pasirinkti
+            mus.
+          </Typography>
         </Grid>
       </Grid>
     </>

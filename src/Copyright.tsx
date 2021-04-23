@@ -11,10 +11,14 @@ export default function Copyright() {
       <Typography variant="body2" color="textSecondary" align="center">
         <Link color="inherit" href="/privatumas">
           Privatumo politika
-        </Link>{' '}
-        |{' '}
+        </Link>
+        {' | '}
         <Link color="inherit" href="/naudojimas">
           Naudojimo sąlygos
+        </Link>
+        {' | '}
+        <Link color="inherit" href="/kontaktai">
+          Kontaktai
         </Link>
         {' | © '}
         <MuiLink color="inherit" href="https://www.ffff.lt/">

@@ -176,15 +176,31 @@ const Layout: React.FC = ({ children }) => {
                 Nustatymai
               </Link>
             )}
+            {!session && (
+              <Link
+                href="/kaina"
+                color="primary"
+                className={classes.toolbarLink}
+              >
+                Kaina
+              </Link>
+            )}
+            {!session && (
+              <Link
+                href="/kontaktai"
+                color="primary"
+                className={classes.toolbarLink}
+              >
+                Kontaktai
+              </Link>
+            )}
+
             <Link
-              href="/straipsniai/pakeitimai"
+              href="/pagalba"
               color="primary"
               className={classes.toolbarLink}
             >
-              Pakeitimai
-            </Link>
-            <Link href="/apie" color="primary" className={classes.toolbarLink}>
-              Apie
+              Pagalba
             </Link>
           </Toolbar>
         </Grid>

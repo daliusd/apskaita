@@ -7,6 +7,6 @@ export default function Apie({ article }) {
 }
 
 export async function getStaticProps() {
-  const article = await getArticleBySlug('apie');
+  const article = await getArticleBySlug('pagalba');
   return { props: { article } };
 }
