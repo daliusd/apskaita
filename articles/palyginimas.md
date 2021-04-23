@@ -25,37 +25,40 @@ apžvalgoje pasirodė gana silpnai. Taip gali būti, nes:
      suklysti dėl jų veikimo. Jeigu turite pastabų ar pataisymų,
      tiesiog parašykite man (pažadu atnaujinti straipsnį).
 
+**Pastaba #3**: ilgas turinys, galbūt norėsite tiesiog peržiūrėti
+apibendrinimą gale.
+
 Naudojami sutrumpinimai:
 
 * SF - sąskaita faktūra
 
-* IDV - individuali veikla
+* IV - individuali veikla
 
 * PVM - pridėtinės vertės mokestis
 
 ## Bendra apžvalga
 
 Aš bandžiau nagrinėti sistemas vertindamas kiek užtrunka padaryti
-tam tikrus dalykus, kokius ir kaip galima padaryti apskritai bei
-keletas kitų savybių. Pirmuosius žingsnius įrašiau ir galite
-peržiūrėti kiekvienos sistemos video (žemiau, video be garso).
+tam tikrus dalykus, kokius ir kaip galima padaryti apskritai, bei
+keletą kitų savybių. Pirmuosius žingsnius įrašiau ir galite
+peržiūrėti kiekvienos sistemos video.
 
 Haiku.lt video bus pridėtas vėliau.
 
-**Pastaba**: kur aktualu rezultatus surūšiavau nuo geriausio iki
+**Pastaba**: kur aktualu, rezultatus surūšiavau nuo geriausio iki
 blogiausio.
 
 ### Nauja sąskaita
 
-Pirmiausia vertinau kiek užtrunka sukurti visiškai naują sąskaitą
+Pirmiausia vertinau, kiek užtrunka sukurti visiškai naują sąskaitą
 faktūrą. Suradęs sistemoje mygtuką/nuorodą „Sukurti Sąskaitą
 Faktūrą“ (ar pan.) ir paspaudęs ją vertinau kiek reikia žingsnių
-norint sukurti SF. Žingsnis yra vienas vartotojo veiksmas, pvz.:
+norint sukurti SF. Žingsnis yra vienas vartotojo veiksmas, pvz.,
 paspausti ant laukelio ir įvesti tekstą, paspausti mygtuką ir t.t.
 
 Šioje kategorijoje „[haiku.lt](https://www.haiku.lt)“ pasirodė
 geriausiai. Kitose sistemose viskas užtrunka ilgiau, nes jose arba
-kai kurie laukai neužpildomi automatiškai arba reikia atskirai
+kai kurie laukai neužpildomi automatiškai, arba reikia atskirai
 sukurti pirkėją/klientą ir t.t.
 
 * [haiku.lt](https://www.haiku.lt) - 5 žingsniai
@@ -154,7 +157,7 @@ kuo daugiau laukų užpildytų automatiškai. Vėlgi
 ### SF redagavimas arba trynimas
 
 Sekantis gana svarbus dalykas ar galima redaguoti ir trinti SF. Iš
-esmės kol SF neišsiųsta klientui, ją turėtų būti galima redaguoti
+esmės, kol SF neišsiųsta klientui, ją turėtų būti galima redaguoti
 ir trinti. Beveik visos sistemos tą leidžia daryti. Čia galima
 išskirti dvi sistemas (vieną teigiamai, kitą neigiamai):
 
@@ -163,7 +166,8 @@ išskirti dvi sistemas (vieną teigiamai, kitą neigiamai):
   vietoje to.
 
 * i.APS - negalima redaguoti ar trinti SF. Galima tik anuliuoti
-  SF, tai yra bereikalingas darbo komplikavimas.
+  SF, tai yra bereikalingas darbo komplikavimas, nes kartais SF
+  visgi reikia pakeisti ar ištrinti (ypač, jei ji dar neišsiųsta).
 
 ### Sąskaitos faktūros paieška
 
@@ -192,7 +196,8 @@ labiausiai patiko [saskaita123.lt](https://saskaita123.lt) įgyvendinimas.
 
 * [b1.lt](https://www.b1.lt) - neįmanoma (arba neradau)
 
-* i.APS - nebetikrinau.
+* i.APS - nebetikrinau. Man pasirodė tiek daug minusų šioje
+  sistemoje dar iki šio kriterijaus, kad.. bala nematė 😃
 
 * Excel - priklauso nuo kartu naudojamų sistemų ir/ar metodų
 
@@ -218,7 +223,7 @@ apsaugotas 100%). Suklysti galima keliais būdais:
 
 Beje [invoice.lt](https://www.invoice.lt) šioje kategorijoje
 nusipelno paskutinės vietos, nes el. laiško netikrinimas kartu su
-tai kaip jie įgyvendino laiškų siuntimą uždirbo jiems
+tuo, kaip jie įgyvendino laiškų siuntimą, uždirbo jiems
 rekomendaciją „vengti“.
 
 * [itax.lt](https://www.itax.lt) - paskyra, Google arba Facebook.
@@ -231,7 +236,7 @@ rekomendaciją „vengti“.
 * [haiku.lt](https://www.haiku.lt) - Google
 
 * [cflow.lt](https://www.cflow.lt) - paskyra. Nereikalauja el.
-  pašto patikrinimo (nors atsiunčia pirmą el. laišką).  Reikalauja
+  pašto patikrinimo (nors atsiunčia pirmą el. laišką). Reikalauja
   perteklinių duomenų.
 
 * [saskaitos.lt](https://www.saskaitos.lt) - paskyra. Nereikalauja
@@ -251,7 +256,7 @@ rekomendaciją „vengti“.
   Nereikalauja el. pašto patikrinimo. Reikalauja perteklinių
   duomenų.
 
-### Naudojimas išmaniuoju
+### Naudojimas išmaniuoju telefonu
 
 Taip pat kartais tikrai svarbu ar sistemą galima naudoti
 išmaniuoju telefonu. Dauguma sistemų tam nėra pritaikytos,
@@ -286,9 +291,9 @@ situacija atrodo taip:
   ateityje šiek tiek kainuos kai kuriems vartotojams.
 
 * [saskaita123.lt](https://saskaita123.lt) -  nuo 4 € per mėnesį,
-  nors pilnavertei IDV gali prireikti plano už 6 € per mėnesį.
+  nors pilnavertei IV gali prireikti plano už 6 € per mėnesį.
 
-* [naujasaskaita.lt](https://naujasaskaita.lt) - 7.25 € planas IDV
+* [naujasaskaita.lt](https://naujasaskaita.lt) - 7.25 € planas IV
 
 * [cflow.lt](https://www.cflow.lt) - nuo 7.99 €, vienas mėnuo
   nemokamai. Galima gauti pigiau perkant metams.
@@ -329,7 +334,7 @@ automatiškai (taip irgi įmanoma). Čia geriausią paslaugą teikia
 
 * i.APS - netikrinau
 
-* Excel - išrašyti PVM sąskaitas faktūras taip įmanoma
+* Excel - išrašyti PVM sąskaitas faktūras taip pat įmanoma
 
 * Popierinis variantas - įmanoma, bet reikės rankomis apskaičiuoti
   PVM'ą.
@@ -360,9 +365,9 @@ nes galbūt laiškas išsiųstas tiesiai iš jūsų atrodo solidžiau.
 * [invoice.lt](https://www.invoice.lt) - laiškai siunčiami per
   [invoice.lt](https://www.invoice.lt) imituojant, kad siunčiami
   iš vartotojo el. pašto. Šis sprendimas man šiek tiek nepatiko,
-  nes [invoice.lt](https://www.invoice.lt) netikrina ar jums
-  tikrai priklauso el.  paštas, tai čia galima ir piktiems
-  tikslams panaudoti [invoice.lt](https://www.invoice.lt).
+  nes [invoice.lt](https://www.invoice.lt) netikrina, ar jums
+  tikrai priklauso el.  paštas, tai čia palikta galimybė panaudoti
+  [invoice.lt](https://www.invoice.lt) piktiems kėslams.
 
 * [saskaitos.lt](https://www.saskaitos.lt) - lyg ir yra, bet labai
   paslėpta ir man nepavyko šia funkcija pasinaudoti.
@@ -373,15 +378,15 @@ nes galbūt laiškas išsiųstas tiesiai iš jūsų atrodo solidžiau.
 
 ### Išlaidų / Sąnaudų valdymas
 
-Deklaruojant IDV VMI galima 30% pajamų nurašyti išlaidoms arba
+Deklaruojant IV VMI galima 30% pajamų nurašyti išlaidoms arba
 viską reikia pagrįsti juridinę galią turinčiais dokumentais. Tai
 reiškia, kad reikia kaupti dokumentus / jų nuotraukas ir kokios
 buvo turėtos išlaidos. Tam turėtų užtekti paprastos sistemos, kai
-vykdai IDV. Galbūt protingesnės sistemos reikia, jei esi PVM
+vykdai IV. Galbūt protingesnės sistemos reikia, jei esi PVM
 mokėtojas, bet aš šito dar neišsiaiškinau.
 
 * [haiku.lt](https://www.haiku.lt) - paprasta sistema, kurios
-  turėtų užtekti IDV.
+  turėtų užtekti IV.
 
 * [itax.lt](https://www.itax.lt) - galima valdyti sąnaudas. Šio
   funkcionalumo šioje sistemoje netestavau.
@@ -390,7 +395,7 @@ mokėtojas, bet aš šito dar neišsiaiškinau.
   Vėlgi įspūdis, kad prašo per daug duomenų.
 
 * [saskaita123.lt](https://saskaita123.lt) - galima valdyti
-  sąnaudas, IDV galbūt per sudėtinga sistema.
+  sąnaudas, IV galbūt per sudėtinga sistema.
 
 * i.APS - kažkas yra, bet jau netikrinau.
 
@@ -410,8 +415,8 @@ mokėtojas, bet aš šito dar neišsiaiškinau.
 ### Duomenų eksportavimas
 
 Dar vienas svarbus dalykas yra galimybė eksportuoti savo duomenis.
-Tai gali būti reikalinga, nes norite pereiti į kitą sistemą arba
-norite suformuoti kažkokią ataskaitą ar dar kokia priežastis.
+Tai gali būti reikalinga, jei norite pereiti į kitą sistemą,
+suformuoti kažkokią ataskaitą, ar dėl kitų priežasčių.
 
 * [haiku.lt](https://www.haiku.lt) - leidžia parsisiųsti visus duomenis.
 
@@ -429,7 +434,7 @@ norite suformuoti kažkokią ataskaitą ar dar kokia priežastis.
   eksportuoti į Excel failą.
 
 * [itax.lt](https://www.itax.lt) - Duomenis įmanoma eksportuoti,
-  nors norint tą padaryti reikia bent kažkokio plano (pvz.: jei
+  nors norint tą padaryti reikia bent kažkokio plano (pvz., jei
   bandomuoju laikotarpiu sukursite daugiau negu 10 sąskaitų, tai
   teks jas į kitą sistemą susikelti rankiniu būdu).
 
@@ -569,7 +574,7 @@ Geriausia įspūdį palikusi sistema. Iš pradžių užtrukau kol
 susigaudžiau, bet pradėjus naudoti sistemą ja naudotis tikrai
 paprasta.
 
-Rekomendacija: vienas iš geriausių variantų IDV veiklai
+Rekomendacija: vienas iš geriausių variantų IV
 
 ### [naujasaskaita.lt](https://naujasaskaita.lt)
 
@@ -595,11 +600,11 @@ Rekomendacija: jei tikrai to užtenka, naudokite
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zHXid7IJngA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-IDV visiškai netinkama sistema. Reklama sudarė geresnį įspūdi apie
+IV visiškai netinkama sistema. Reklama sudarė geresnį įspūdi apie
 sistemą, negu ji yra iš tikro (marketingo specialistą akivaizdžiai
 turi gerą).
 
-Rekomendacija: IDV nenaudokite
+Rekomendacija: IV nenaudokite
 
 ### i.APS
 
@@ -642,29 +647,29 @@ būdu. Tai turbūt pats neefektyviausias ir daugiausiai laiko
 reikalaujantis būdas, bet jeigu kažkas nori vesti apskaitą taip -
 neuždrausi gi.
 
-Rekomendacija: nenaudoti, nebent labai norisi
+Rekomendacija: nenaudoti, nebent labai (na, labai labai) norisi
 
 ### Entreprenerio sąskaita
 
 Toks dalykas dar neegzistuoja, bet tikrai padaryta nemažai
-pradinio darbo ir galima tikėtis, kad tai bus įgyvendinta ir pas
+pradinio darbo, ir galima tikėtis, kad tai bus įgyvendinta ir pas
 mus Lietuvoje. Pagrindinė idėja, kad bus galima turėti banke
-specialią sąskaitą į kurią pervedami pinigai bus užskaitomi kaip
-IDV pajamos, kurios bus automatiškai apmokestinamos.
+specialią sąskaitą, į kurią pervedami pinigai bus užskaitomi kaip
+IV pajamos, kurios bus automatiškai apmokestinamos.
 
 Pirmas šios sistemos minusas - turėsite sutikti su tuo, kad 30%
 pajamų bus paskirta išlaidoms, t.y. negalėsite išlaidų pagrįsti
 dokumentais.
 
-Nesu tikras kaip naudojant šią sistemą grąžinti pinigus, jei to
+Nesu tikras, kaip naudojant šią sistemą, grąžinti pinigus, jei to
 prireiktų (panašu, kad tai bus neįmanoma).
 
 Galiausiai SF tikriausiai vistiek norėsite išrašyti, nes kartais
-klientai SF prašo dėl įvairių priežasčių.
+klientai dėl įvairių priežasčių prašo SF.
 
 Apibendrinus, turbūt nemažai daliai žmonių ši paslauga bus
 visiškai netinkama, bet atskirais atvejais bus tikrai geras
-variantas (pvz.: tiems, kurie dviračiais vežioja Wolt maistą).
+variantas (pvz., tiems, kurie dviračiais vežioja Wolt maistą).
 
 ### Sistemos kurių netestavau
 
@@ -673,7 +678,7 @@ meta kažkokį baisų klaidos pranešimą. Kainos nepagrįstai didelės
 (11€ / mėn). Demo versija palieka įspūdį, kad sistema nebus gera,
 tai nusprendžiau negaišti laiko.
 
-paytraq.lt - per didelė kaina, kad būtų versta svarstyti IDV.
+paytraq.lt - per didelė kaina, kad būtų versta svarstyti IV.
 
 elsaskaita.lt - nei demo versija, nei registracija neveikia 🤷
 
@@ -682,23 +687,22 @@ elsaskaita.lt - nei demo versija, nei registracija neveikia 🤷
 Apibendrinus galiu rekomenduoti šias sistemas:
 
 * [haiku.lt](https://www.haiku.lt) - taip, sistema dar nėra
-  išbaigta ir kai kurio [funkcionalumo
+  išbaigta ir kai kurių [funkcijų
   trūksta](https://github.com/daliusd/apskaita/issues), bet jeigu
-  jums užtenka esamo funkcionalumo, tai, manau, puikus
-  pasirinkimas, kad ir koks subjektyvus būčiau. Net kai sistema
-  bus apmokestinta kainos ir kokybės santykis tikiuosi bus
-  geriausias rinkoje 😏
+  jums užtenka esamų, tai, manau, puikus pasirinkimas, kad ir koks
+  subjektyvus būčiau. Net kai sistema bus apmokestinta, kainos ir
+  kokybės santykis, tikiuosi, bus geriausias rinkoje 😏
 
 * [saskaita123.lt](https://saskaita123.lt) - manau, šiuo metu tai
-  vienas geresnių pasirinkimų IDV rinkoje.
+  vienas geresnių pasirinkimų IV rinkoje.
 
-* [itax.lt](https://www.itax.lt) - jeigu vykdote IDV ir esate PVM
+* [itax.lt](https://www.itax.lt) - jeigu vykdote IV ir esate PVM
   mokėtojas ši sistema taip pat gali būti verta svarstymo.
 
 ## Kitos nuorodos
 
 * „B1“ turi kitokį apskaitos sistemų palyginimą, bet ten nebūtinai
-  sistemos skirtos IDV: <https://www.b1.lt/palyginimas>
+  sistemos skirtos IV: <https://www.b1.lt/palyginimas>
 
 * 2018 [cflow.lt](https://www.cflow.lt) ir i.APS palyginimas
   [„VIRTUALI APSKAITA SAVARANKIŠKAI
