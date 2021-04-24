@@ -1,5 +1,6 @@
 import path from 'path';
-import fs from 'fs';
+import fsSync from 'fs';
+import fs from 'fs/promises';
 import PDFDocument from 'pdfkit';
 
 import { IInvoice } from '../db/db';
@@ -91,7 +92,7 @@ interface ITableLineItem {
   total: string;
 }
 
-export function generateInvoicePdf(
+export async function generateInvoicePdf(
   invoice: IInvoice,
   zeroes: number,
   logo: string | undefined,
@@ -99,8 +100,8 @@ export function generateInvoicePdf(
 ) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
-  if (!fs.existsSync(invoicesDir)) {
-    fs.mkdirSync(invoicesDir, { recursive: true });
+  if (!fsSync.existsSync(invoicesDir)) {
+    await fs.mkdir(invoicesDir, { recursive: true });
   }
 
   let seriesId = invoice.seriesId.toString();
@@ -118,7 +119,7 @@ export function generateInvoicePdf(
     bufferPages: true,
   });
 
-  doc.pipe(fs.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
+  doc.pipe(fsSync.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
   addFooter(doc, invoice.language);
@@ -127,16 +128,16 @@ export function generateInvoicePdf(
   doc.end();
 }
 
-export function deleteInvoicePdf(invoice: IInvoice) {
+export async function deleteInvoicePdf(invoice: IInvoice) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
-  if (!fs.existsSync(invoicesDir)) {
+  if (!fsSync.existsSync(invoicesDir)) {
     return true;
   }
 
   const pdfFileName = path.join(invoicesDir, invoice.pdfname);
-  if (fs.existsSync(pdfFileName)) {
-    fs.unlinkSync(pdfFileName);
+  if (fsSync.existsSync(pdfFileName)) {
+    await fs.unlink(pdfFileName);
   }
 
   return true;

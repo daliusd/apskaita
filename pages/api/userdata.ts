@@ -1,10 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs/promises';
 import { getSession } from 'next-auth/client';
+import { Database } from 'sqlite';
 import * as Sentry from '@sentry/node';
 
 import { init } from '../../utils/sentry';
+import { getInvoiceList, openDb } from '../../db/db';
+import { deleteInvoicePdf } from '../../utils/pdfinvoice';
 
 init();
 
@@ -24,9 +27,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           'Content-disposition': 'inline; filename=' + filename,
           'Content-type': 'application/vnd.sqlite3',
         })
-        .end(fs.readFileSync(filenameInFs));
+        .end(await fs.readFile(filenameInFs));
     } else if (req.method === 'DELETE') {
-      fs.unlinkSync(filenameInFs);
+      let db: Database;
+      try {
+        db = await openDb(session.user.email);
+        const invoices = await getInvoiceList(db, { limit: 10000 });
+        for (const invoice of invoices) {
+          await deleteInvoicePdf(invoice);
+        }
+      } finally {
+        if (db) {
+          await db.close();
+        }
+      }
+
+      await fs.unlink(filenameInFs);
       return res.status(200).json({ success: true });
     }
   } catch (ex) {

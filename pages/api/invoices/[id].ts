@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const invoice = await getInvoiceWithLineItems(db, invoiceId);
       if (invoice) {
-        deleteInvoicePdf(invoice);
+        await deleteInvoicePdf(invoice);
       }
 
       const success = await deleteInvoice(db, invoiceId);
