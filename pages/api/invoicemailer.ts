@@ -57,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .replace(/{{išrašė}}/g, invoice.issuer)
         .replace(/{{sfnr}}/g, invoiceNo);
 
-      if (invoice.email !== email) {
+      if (email && invoice.email !== email) {
         invoice.email = email;
         await updateInvoice(db, invoice.id, invoice);
       }
