@@ -41,9 +41,10 @@ Naudojami sutrumpinimai:
 Aš bandžiau nagrinėti sistemas vertindamas kiek užtrunka padaryti
 tam tikrus dalykus, kokius ir kaip galima padaryti apskritai, bei
 keletą kitų savybių. Pirmuosius žingsnius įrašiau ir galite
-peržiūrėti kiekvienos sistemos video.
+peržiūrėti kiekvienos sistemos video. Tuo tarpu čia galite
+peržiūrėti haiku.lt apžvalgą:
 
-Haiku.lt video bus pridėtas vėliau.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TOGE8P1ozsY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 **Pastaba**: kur aktualu, rezultatus surūšiavau nuo geriausio iki
 blogiausio.
