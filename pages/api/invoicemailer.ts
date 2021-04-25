@@ -9,6 +9,7 @@ import {
   changeInvoiceSentStatus,
   getInvoiceWithLineItems,
   getSetting,
+  updateInvoice,
 } from '../../db/db';
 
 import { defaultEmailSubject, defaultEmailTemplate } from '../../utils/email';
@@ -22,12 +23,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         db,
         parseInt(req.body.invoiceId),
       );
+      const email = req.body.email;
 
-      if (!invoice.email) {
+      if (!email && !invoice.email) {
         return res.json({
           success: false,
-          message:
-            'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',
+          message: 'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje.',
         });
       }
 
@@ -55,6 +56,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const text = template
         .replace(/{{išrašė}}/g, invoice.issuer)
         .replace(/{{sfnr}}/g, invoiceNo);
+
+      if (invoice.email !== email) {
+        invoice.email = email;
+        await updateInvoice(db, invoice.id, invoice);
+      }
 
       await sendEmail({
         accessToken: session.accessToken as string,

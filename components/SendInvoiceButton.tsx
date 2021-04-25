@@ -44,6 +44,7 @@ export default function SendInvoiceButton({
       },
       body: JSON.stringify({
         invoiceId,
+        email,
       }),
     });
 
@@ -106,7 +107,7 @@ export default function SendInvoiceButton({
         ) : (
           <Typography variant="body2" component="div">
             Jei norite išsiųsti sąskaitą faktūrą el. paštu nurodykite pirkėjo
-            el. paštą aukščiau ir išsaugokite sąskaitą faktūrą.
+            el. paštą aukščiau.
           </Typography>
         )}
       </Grid>
