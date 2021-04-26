@@ -8,8 +8,7 @@ Sukūrus sąskaitą faktūrą ją reikia kažkaip įteikti pirkėjui.
 Vienas iš būdų yra išsiųsti PDF failą el. paštu ir „Haiku“ čia
 gali padėti.
 
-*Pastaba*: Šiame straipsnyje aprašytas eksperimentinis
-funkcionalumas, kuris nėra pasiekiamas visiems vartotojams.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rQdHDfnsKFA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 „Haiku.lt“ išnaudoja Gmail galimybę siųsti el. laiškus iš jūsų
 Gmail paskyros. Kad galėtumėte tai padaryti, turite padaryti šiuo

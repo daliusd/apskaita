@@ -6,6 +6,8 @@ modified: '2021-04-02'
 
 Šiame straipsnyje apžvelgta kaip „Haiku.lt“ padeda sekti išlaidas.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wmvvpXOALOo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Vykdant individualią veiklą išlaidas galima valdyti dviem būdais:
 
 1. Priskirti 30% gautų (uždirbtų) pajamų išlaidoms. Šis būdas

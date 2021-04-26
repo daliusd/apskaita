@@ -8,6 +8,8 @@ Jūs galite parsisiųsti visus savo duomenis kaip SQLite duombazės
 failą. Šiame faile yra visa informacija kurią mes turime apie jus
 išskyrus sąskaitų faktūrų PDF failus.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JTxxsCOIpLg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 SQLite failą galima peržiūrėti įvairiais būdais
 
 * <https://sqliteonline.com/> - galite parsiųstą failą atsidaryti
