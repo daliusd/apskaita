@@ -7,12 +7,16 @@ import { IArticle } from '../db/articles';
 
 interface ArticleViewProps {
   article: IArticle;
+  showTitle?: boolean;
   showDate?: boolean;
+  showStructuredData?: boolean;
 }
 
 export default function ArticleView({
   article,
+  showTitle = true,
   showDate = true,
+  showStructuredData = true,
 }: ArticleViewProps) {
   if (!article?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -31,17 +35,21 @@ export default function ArticleView({
       <Head>
         <title>{article.meta.title} | Haiku.lt</title>
         <meta name="description" content={article.description} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredArticle),
-          }}
-        ></script>
+        {showStructuredData && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(structuredArticle),
+            }}
+          ></script>
+        )}
       </Head>
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4">{article.meta.title}</Typography>
+          {showTitle && (
+            <Typography variant="h4">{article.meta.title}</Typography>
+          )}
 
           {showDate && (
             <Typography variant="body1" color="textSecondary">
