@@ -63,7 +63,6 @@ const invoiceStrings = {
     sumInWords: 'Suma žodžiais:',
     total: 'Iš viso',
     invoiceIssuedBy: 'Sąskaitą išrašė',
-    footer: 'Haiku.lt - individualios veiklos apskaita',
   },
   en: {
     title: 'INVOICE',
@@ -79,7 +78,6 @@ const invoiceStrings = {
     sumInWords: 'Sum in words:',
     total: 'Total',
     invoiceIssuedBy: 'Invoice issued by',
-    footer: 'Haiku.lt',
   },
 };
 
@@ -122,7 +120,6 @@ export async function generateInvoicePdf(
   doc.pipe(fsSync.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
-  addFooter(doc, invoice.language);
   const y = generateHeader(doc, invoice, seriesId, logo, logoRatio);
   generateContent(doc, invoice, y);
   doc.end();
@@ -356,7 +353,6 @@ function getTableRowHeight(
 function validateOrAddPage(doc, y, height, language) {
   if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
-    addFooter(doc, language);
     return { pageAdded: true, y: PAGE_MARGIN };
   }
   return { pageAdded: false, y };
@@ -418,34 +414,4 @@ function drawLine(doc, y) {
 
 function formatPrice(cents) {
   return (cents / 100).toFixed(2).replace('.', ',');
-}
-
-function addFooter(doc: PDFKit.PDFDocument, language: string) {
-  const t = invoiceStrings[language];
-
-  doc.save();
-
-  const textWidth = doc
-    .font('Roboto-Light')
-    .fontSize(8)
-    .widthOfString(t.footer);
-
-  doc
-    .strokeColor('#aaaaaa')
-    .lineWidth(0.25 * PTPMM)
-    .dash(PTPMM, { space: PTPMM })
-    .moveTo(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN)
-    .lineTo(PAGE_MARGIN + textWidth, PAGE_HEIGHT - PAGE_MARGIN)
-    .stroke();
-
-  doc
-    .fillColor('#aaaaaa')
-    .font('Roboto-Light')
-    .fontSize(8)
-    .text(t.footer, PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN + PTPMM, {
-      width: CONTENT_WIDTH,
-      align: 'left',
-    });
-
-  doc.restore();
 }

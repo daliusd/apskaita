@@ -44,9 +44,12 @@ describe('Delete test', () => {
     await page.click('text="Trinti"');
     await page.click('text="Nutraukti"');
     await page.click('text="Trinti"');
-    await page.click('div[role="dialog"] >> text="Taip, trinti"');
 
-    await page.waitForNavigation({ url: 'http://localhost:3000/saskaitos' });
+    await Promise.all([
+      page.waitForNavigation({ url: 'http://localhost:3000/saskaitos' }),
+      page.click('div[role="dialog"] >> text="Taip, trinti"'),
+    ]);
+
     await page.waitForSelector(
       'text=Nerasta sąskaitų faktūrų pagal šiuos filtrus.',
     );
