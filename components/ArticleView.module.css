@@ -1,0 +1,4 @@
+.videoWrapper iframe {
+  width: min(100vw - 60px, 560px);
+  height: calc(min(100vw - 60px, 560px) / 1.777778);
+}

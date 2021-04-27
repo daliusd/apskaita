@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { IArticle } from '../db/articles';
+import styles from './ArticleView.module.css';
 
 interface ArticleViewProps {
   article: IArticle;
@@ -58,7 +59,10 @@ export default function ArticleView({
           )}
 
           <Typography variant="body1" component="div">
-            <div dangerouslySetInnerHTML={{ __html: article.content }} />
+            <div
+              className={styles.videoWrapper}
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
           </Typography>
         </Grid>
       </Grid>
