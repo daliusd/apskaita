@@ -1,7 +1,5 @@
-import { deleteUser, login } from './login';
-import { fillNewInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { fillNewInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -15,7 +13,7 @@ describe('Settings test', () => {
   it('should show errors if user tries to create wrong invoice', async () => {
     await login(page);
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 1,
       created: Date.UTC(2021, 0, 30),
@@ -28,10 +26,12 @@ describe('Settings test', () => {
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 1, price: 25 }],
     };
 
-    await page.click('text="Nauja sąskaita faktūra"');
-    await page.waitForNavigation({
-      url: 'http://localhost:3000/saskaitos/nauja',
-    });
+    await Promise.all([
+      page.click('text="Nauja sąskaita faktūra"'),
+      page.waitForNavigation({
+        url: 'http://localhost:3000/saskaitos/nauja',
+      }),
+    ]);
 
     await page.click('[aria-label="Sukurti"]');
     await page.waitForSelector('text="Nurodykite serijos pavadinimą."');

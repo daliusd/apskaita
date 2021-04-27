@@ -1,9 +1,6 @@
 module.exports = {
   preset: 'jest-playwright-preset',
-  transform: {
-    '^.+\\.ts$': 'ts-jest',
-  },
-  testMatch: ['<rootDir>/tests/*.test.ts'],
+  testMatch: ['<rootDir>/tests/*.test.js'],
   testTimeout: 120000,
   verbose: true,
 };

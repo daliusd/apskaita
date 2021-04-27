@@ -1,10 +1,6 @@
-import { Page } from 'playwright';
+const { validateInput, validateTextArea } = require('./utils');
 
-import { IInvoice } from '../db/db';
-
-import { validateTextArea, validateInput } from './utils';
-
-export async function fillNewInvoice(page: Page, invoice: IInvoice) {
+async function fillNewInvoice(page, invoice) {
   await page.click('input[aria-label="Serijos pavadinimas"]');
   await page.fill(
     'input[aria-label="Serijos pavadinimas"]',
@@ -84,7 +80,7 @@ export async function fillNewInvoice(page: Page, invoice: IInvoice) {
   }
 }
 
-export async function validateInvoice(page: Page, invoice: IInvoice) {
+async function validateInvoice(page, invoice) {
   await validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
 
   await validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
@@ -127,3 +123,8 @@ export async function validateInvoice(page: Page, invoice: IInvoice) {
     );
   }
 }
+
+module.exports = {
+  fillNewInvoice,
+  validateInvoice,
+};

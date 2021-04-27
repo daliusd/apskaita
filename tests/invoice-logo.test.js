@@ -1,8 +1,6 @@
-import { deleteUser, login } from './login';
-import { screenshotTest } from './utils';
-import { fillNewInvoice, validateInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { screenshotTest } = require('./utils');
+const { fillNewInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -13,12 +11,20 @@ describe('Settings test', () => {
     await deleteUser(page);
   });
 
-  it('should create invoice', async () => {
+  it('should create invoice with logo', async () => {
     await login(page);
 
-    const invoice: IInvoice = {
+    await page.goto('http://localhost:3000/nustatymai');
+    await page.waitForSelector('text="Pakeisti logo"');
+    await page.setInputFiles(
+      'label[aria-label="Pakeisti logo"] input',
+      './public/logo.png',
+    );
+    await page.waitForSelector('img[alt="logo"]');
+
+    const invoice = {
       seriesName: 'TEST',
-      seriesId: 0,
+      seriesId: 1,
       created: Date.UTC(2020, 0, 31),
       price: 50,
       buyer: 'Dalius',
@@ -29,30 +35,18 @@ describe('Settings test', () => {
       lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
     };
 
-    await page.click('text="Nauja sąskaita faktūra"');
-    await page.waitForNavigation({
-      url: 'http://localhost:3000/saskaitos/nauja',
-    });
-
+    await page.goto('http://localhost:3000/saskaitos/nauja');
     await fillNewInvoice(page, invoice);
-
     await page.click('[aria-label="Sukurti"]');
 
     await page.waitForNavigation();
-    expect(
-      page.url().startsWith('http://localhost:3000/saskaitos/id/'),
-    ).toBeTruthy();
-
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
-
-    invoice.seriesId = 1; // new series starts with 1
-    await validateInvoice(page, invoice);
 
     const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
     const href = await el.evaluate((e) => e.getAttribute('value'));
     await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 
-    await screenshotTest(page, 'invoice-simple');
+    await screenshotTest(page, 'invoice-logo');
   });
 });

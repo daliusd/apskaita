@@ -292,11 +292,11 @@ function generateContent(
     invoice.language,
   )} ${invoice.price % 100} ct`;
 
-  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords, invoice.language);
+  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
   y += 20 * PTPMM;
 
   if (invoice.extra) {
-    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra, invoice.language);
+    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra);
     y += 10 * PTPMM;
   }
 
@@ -306,7 +306,6 @@ function generateContent(
     'Roboto-Light',
     12,
     `${t.invoiceIssuedBy} ${invoice.issuer}`,
-    invoice.language,
   );
 }
 
@@ -316,14 +315,13 @@ function drawText(
   font: string,
   fontSize: number,
   text: string,
-  language: string,
 ) {
   const height = doc
     .font(font)
     .fontSize(fontSize)
     .heightOfString(text.normalize(), { width: CONTENT_WIDTH });
 
-  y = validateOrAddPage(doc, y, height, language).y;
+  y = validateOrAddPage(doc, y, height).y;
 
   doc
     .font(font)
@@ -350,7 +348,7 @@ function getTableRowHeight(
   return Math.max(...heights);
 }
 
-function validateOrAddPage(doc, y, height, language) {
+function validateOrAddPage(doc, y, height) {
   if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
     return { pageAdded: true, y: PAGE_MARGIN };
@@ -366,7 +364,7 @@ function drawTableRow(
   lineItem: ITableLineItem,
 ) {
   const height = getTableRowHeight(doc, font, lineItem);
-  const vres = validateOrAddPage(doc, y, height, language);
+  const vres = validateOrAddPage(doc, y, height);
   if (vres.pageAdded) {
     y = drawTableHeader(doc, vres.y, language);
   }

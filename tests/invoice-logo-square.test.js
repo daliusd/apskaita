@@ -1,8 +1,6 @@
-import { deleteUser, login } from './login';
-import { screenshotTest } from './utils';
-import { fillNewInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { screenshotTest } = require('./utils');
+const { fillNewInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -24,7 +22,7 @@ describe('Settings test', () => {
     );
     await page.waitForSelector('img[alt="logo"]');
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 1,
       created: Date.UTC(2020, 0, 31),

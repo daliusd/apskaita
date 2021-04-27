@@ -1,8 +1,9 @@
-import { deleteUser, login } from './login';
-import { fillNewInvoice, validateInvoice } from './invoices';
+const { deleteUser, login } = require('./login');
+const { fillNewInvoice, validateInvoice } = require('./invoices');
 
-import { IInvoice } from '../db/db';
-import { getMsSinceEpoch } from '../utils/date';
+function getMsSinceEpoch(date) {
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+}
 
 describe('Creating new invoice based on old', () => {
   beforeAll(async () => {
@@ -19,7 +20,7 @@ describe('Creating new invoice based on old', () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),

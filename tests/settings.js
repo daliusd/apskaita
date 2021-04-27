@@ -1,6 +1,4 @@
-import { Page } from 'playwright';
-
-export async function setSeller(page: Page, seller: string) {
+async function setSeller(page, seller) {
   await page.click('textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]');
   await page.fill(
     'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
@@ -9,7 +7,7 @@ export async function setSeller(page: Page, seller: string) {
   await page.click('[aria-label="Išsaugoti rekvizitus"]');
 }
 
-export async function setIssuer(page: Page, issuer: string) {
+async function setIssuer(page, issuer) {
   await page.click(
     'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
   );
@@ -20,7 +18,7 @@ export async function setIssuer(page: Page, issuer: string) {
   await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
 }
 
-export async function setExtra(page: Page, extra: string) {
+async function setExtra(page, extra) {
   await page.click(
     'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
   );
@@ -31,7 +29,7 @@ export async function setExtra(page: Page, extra: string) {
   await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 }
 
-export async function setZeroes(page: Page, zeroes: string) {
+async function setZeroes(page, zeroes) {
   await page.click(
     'input[aria-label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"]',
   );
@@ -43,3 +41,10 @@ export async function setZeroes(page: Page, zeroes: string) {
     'button[aria-label="Išsaugoti skaitmenų skaičių"] >> text="Išsaugoti"',
   );
 }
+
+module.exports = {
+  setSeller,
+  setIssuer,
+  setExtra,
+  setZeroes,
+};

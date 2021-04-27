@@ -1,8 +1,6 @@
-import { deleteUser, login } from './login';
-import { screenshotTest } from './utils';
-import { fillNewInvoice, validateInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { screenshotTest } = require('./utils');
+const { fillNewInvoice, validateInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -16,7 +14,7 @@ describe('Settings test', () => {
   it('should create invoice', async () => {
     await login(page);
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(2020, 0, 31),
@@ -29,16 +27,20 @@ describe('Settings test', () => {
       lineItems: [{ name: 'Therapy session', unit: 'h', amount: 2, price: 26 }],
     };
 
-    await page.click('text="Nauja sąskaita faktūra"');
-    await page.waitForNavigation({
-      url: 'http://localhost:3000/saskaitos/nauja',
-    });
+    await Promise.all([
+      page.click('text="Nauja sąskaita faktūra"'),
+      page.waitForNavigation({
+        url: 'http://localhost:3000/saskaitos/nauja',
+      }),
+    ]);
 
     await fillNewInvoice(page, invoice);
 
-    await page.click('[aria-label="Sukurti"]');
+    await Promise.all([
+      page.click('[aria-label="Sukurti"]'),
+      page.waitForNavigation(),
+    ]);
 
-    await page.waitForNavigation();
     expect(
       page.url().startsWith('http://localhost:3000/saskaitos/id/'),
     ).toBeTruthy();

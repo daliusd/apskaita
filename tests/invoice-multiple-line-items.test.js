@@ -1,8 +1,6 @@
-import { deleteUser, login } from './login';
-import { screenshotTest } from './utils';
-import { fillNewInvoice, validateInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { screenshotTest } = require('./utils');
+const { fillNewInvoice, validateInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -17,7 +15,7 @@ describe('Settings test', () => {
   it('should create invoice', async () => {
     await login(page);
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(2020, 0, 31),

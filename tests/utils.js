@@ -1,35 +1,26 @@
-import fs from 'fs';
-import pixelmatch from 'pixelmatch';
-import { PNG } from 'pngjs';
-import { Page } from 'playwright';
+const fs = require('fs');
+const pixelmatch = require('pixelmatch');
+const { PNG } = require('pngjs');
 
-export async function validateInput(
-  page: Page,
-  ariaLabel: string,
-  expectedValue: string,
-) {
+async function validateInput(page, ariaLabel, expectedValue) {
   await page.waitForSelector(`input[aria-label="${ariaLabel}"]`);
   const value = await page.$eval(
     `input[aria-label="${ariaLabel}"]`,
-    (el) => (el as HTMLInputElement).value,
+    (el) => el.value,
   );
   expect(value).toEqual(expectedValue);
 }
 
-export async function validateTextArea(
-  page: Page,
-  ariaLabel: string,
-  expectedValue: string,
-) {
+async function validateTextArea(page, ariaLabel, expectedValue) {
   await page.waitForSelector(`textarea[aria-label="${ariaLabel}"]`);
   const value = await page.$eval(
     `textarea[aria-label="${ariaLabel}"]`,
-    (el) => (el as HTMLTextAreaElement).value,
+    (el) => el.value,
   );
   expect(value).toEqual(expectedValue);
 }
 
-export async function screenshotTest(page: Page, testName: string) {
+async function screenshotTest(page, testName) {
   if (!fs.existsSync('./tests/images/golden')) {
     fs.mkdirSync('./tests/images/golden', { recursive: true });
   }
@@ -74,3 +65,9 @@ export async function screenshotTest(page: Page, testName: string) {
 
   expect(numDiffPixels).toEqual(0);
 }
+
+module.exports = {
+  validateInput,
+  validateTextArea,
+  screenshotTest,
+};

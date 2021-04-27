@@ -1,9 +1,8 @@
-import { Page } from 'playwright';
-import { Chance } from 'chance';
+const { Chance } = require('chance');
 
 const chance = Chance();
 
-export async function login(page: Page) {
+async function login(page) {
   await page.goto('http://localhost:3000/api/auth/signin');
 
   const email = chance.email({ domain: 'haiku.lt' });
@@ -20,10 +19,15 @@ export async function login(page: Page) {
   return email;
 }
 
-export async function deleteUser(page: Page) {
+async function deleteUser(page) {
   await page.evaluate(() => {
     return fetch('/api/userdata', {
       method: 'DELETE',
     });
   });
 }
+
+module.exports = {
+  login,
+  deleteUser,
+};

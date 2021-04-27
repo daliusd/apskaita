@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
-import { useDebounce, useLocalStorage } from 'react-recipes';
+import { useDebounce } from 'react-recipes';
 
 import { ILineItem } from '../db/db';
 import Link from '../src/Link';
@@ -35,7 +35,6 @@ interface IProps {
 }
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
-  const [experiments] = useLocalStorage('experiments', '');
   const [session] = useSession();
   const gmailSend =
     session && ((session as unknown) as { gmailSend: boolean }).gmailSend;

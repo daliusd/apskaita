@@ -1,7 +1,5 @@
-import { deleteUser, login } from './login';
-import { fillNewInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
+const { deleteUser, login } = require('./login');
+const { fillNewInvoice } = require('./invoices');
 
 describe('Delete test', () => {
   beforeAll(async () => {
@@ -16,7 +14,7 @@ describe('Delete test', () => {
     await login(page);
 
     const date = new Date();
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),

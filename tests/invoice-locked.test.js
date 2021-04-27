@@ -1,15 +1,11 @@
-import { Page } from 'playwright';
+const { deleteUser, login } = require('./login');
+const { fillNewInvoice } = require('./invoices');
 
-import { deleteUser, login } from './login';
-import { fillNewInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
-
-async function testIfDisabled(page: Page, ariaLabel: string) {
+async function testIfDisabled(page, ariaLabel) {
   await page.waitForSelector(`[aria-label="${ariaLabel}"]`);
   const disabled = await page.$eval(
     `[aria-label="${ariaLabel}"]`,
-    (el) => (el as HTMLInputElement).disabled,
+    (el) => el.disabled,
   );
   expect(disabled).toBeTruthy();
 }
@@ -26,7 +22,7 @@ describe('Paid test', () => {
   it('should mark invoice as paid', async () => {
     await login(page);
 
-    const invoice: IInvoice = {
+    const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
       created: Date.UTC(2020, 0, 31),

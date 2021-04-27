@@ -1,10 +1,6 @@
-import { deleteUser, login } from './login';
-import { screenshotTest } from './utils';
-import { fillNewInvoice, validateInvoice } from './invoices';
-
-import { IInvoice } from '../db/db';
-
-import { setZeroes } from './settings';
+const { deleteUser, login } = require('./login');
+const { screenshotTest } = require('./utils');
+const { fillNewInvoice, validateInvoice } = require('./invoices');
 
 describe('Settings test', () => {
   beforeAll(async () => {
@@ -18,27 +14,23 @@ describe('Settings test', () => {
   it('should create invoice', async () => {
     await login(page);
 
-    await page.click('text="Nustatymai"');
-    await page.waitForNavigation({ url: 'http://localhost:3000/nustatymai' });
-
-    await setZeroes(page, '6');
-
-    const invoice: IInvoice = {
-      seriesName: 'TRS',
-      seriesId: 69,
-      created: Date.UTC(2021, 1, 1),
+    const invoice = {
+      seriesName: 'TEST',
+      seriesId: 0,
+      created: Date.UTC(2020, 0, 31),
       price: 50,
-      buyer: 'Pūkuotukas',
-      seller: 'Triušis',
-      issuer: 'Triušis',
-      extra: 'Apmokėti morkų sėklomis',
+      buyer: 'Dalius',
+      seller: 'Jonas',
+      issuer: 'Jonas',
+      extra: 'Apmokėti per 10 dienų',
       language: 'lt',
-      lineItems: [
-        { name: 'Bičių medus', unit: 'vnt.', amount: 1, price: 12.34 },
-      ],
+      lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
     };
 
-    await page.goto('http://localhost:3000/saskaitos/nauja');
+    await page.click('text="Nauja sąskaita faktūra"');
+    await page.waitForNavigation({
+      url: 'http://localhost:3000/saskaitos/nauja',
+    });
 
     await fillNewInvoice(page, invoice);
 
@@ -50,6 +42,8 @@ describe('Settings test', () => {
     ).toBeTruthy();
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
+
+    invoice.seriesId = 1; // new series starts with 1
     await validateInvoice(page, invoice);
 
     const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
@@ -57,6 +51,6 @@ describe('Settings test', () => {
     await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 
-    await screenshotTest(page, 'invoice-zeroes');
+    await screenshotTest(page, 'invoice-simple');
   });
 });
