@@ -53,10 +53,8 @@ informaciją:
 
   Pavyzdžiui:
 
-  ```text
-  Vardenis Pavardenis
-  Invididualios veiklos vykdymo pažymos numeris: 981233
-  ```
+  *Vardenis Pavardenis*\
+  *Invididualios veiklos vykdymo pažymos numeris: 981233*
 
   „Haiku.lt“ išsaugos šią informaciją į nustatymus ir kitą kartą
   išrašant SF paims šią informaciją iš nustatymų.
