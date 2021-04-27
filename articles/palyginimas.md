@@ -349,7 +349,12 @@ galimi įvairūs variantai. Man labiausiai patikęs sprendimas
 nes galbūt laiškas išsiųstas tiesiai iš jūsų atrodo solidžiau.
 
 * [saskaita123.lt](https://saskaita123.lt) - laiškai siunčiami iš
-  noreply@saskaita123.lt.
+  noreply@saskaita123.lt. Galima sukonfigūruoti [SMTP
+  siuntimą](https://pagalba.saskaita123.lt/lt/article/smtp-nustatymai-jjvhqu/),
+  bet jei norėsite tai naudoti su Gmail, tai reikės naudoti "Allow
+  less secure apps" ir be to dar savo Gmail slaptažodį atskleisti
+  saskaita123.lt - ne kokia perspektyva ir ne koks pasiūlymas iš
+  jų pusės.
 
 * [haiku.lt](https://www.haiku.lt) - jeigu leidžiate, tai laiškai
   bus siunčiami tiesiai iš jūsų Gmail paskyros.
