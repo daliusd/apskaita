@@ -1,4 +1,4 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
@@ -6,6 +6,10 @@ import { IInvoice } from '../db/db';
 describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should show errors if user tries to create wrong invoice', async () => {

@@ -1,9 +1,13 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
 describe('English settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should use english settings', async () => {
@@ -69,13 +73,17 @@ describe('English settings test', () => {
 
     await page.click('text="Anglų kalbai"');
 
-    validateTextArea(page, 'Tavo rekvizitai sąskaitai faktūrai', 'selleren');
-    validateInput(
+    await validateTextArea(
+      page,
+      'Tavo rekvizitai sąskaitai faktūrai',
+      'selleren',
+    );
+    await validateInput(
       page,
       'Asmuo įprastai išrašantis sąskaitas faktūras',
       'issueren',
     );
-    validateTextArea(
+    await validateTextArea(
       page,
       'Papildoma informacija sąskaitoje faktūroje',
       'extraen',

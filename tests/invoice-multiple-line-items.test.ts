@@ -1,4 +1,4 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
@@ -8,6 +8,10 @@ describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
     await page.setViewportSize({ width: 960, height: 600 });
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should create invoice', async () => {

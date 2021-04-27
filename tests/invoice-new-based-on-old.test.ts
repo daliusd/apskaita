@@ -1,4 +1,4 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
@@ -7,6 +7,10 @@ import { getMsSinceEpoch } from '../utils/date';
 describe('Creating new invoice based on old', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should create invoice based on old one', async () => {

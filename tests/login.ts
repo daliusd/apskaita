@@ -19,3 +19,11 @@ export async function login(page: Page) {
 
   return email;
 }
+
+export async function deleteUser(page: Page) {
+  await page.evaluate(() => {
+    return fetch('/api/userdata', {
+      method: 'DELETE',
+    });
+  });
+}

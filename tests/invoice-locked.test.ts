@@ -1,6 +1,6 @@
 import { Page } from 'playwright';
 
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
 import { IInvoice } from '../db/db';
@@ -17,6 +17,10 @@ async function testIfDisabled(page: Page, ariaLabel: string) {
 describe('Paid test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should mark invoice as paid', async () => {

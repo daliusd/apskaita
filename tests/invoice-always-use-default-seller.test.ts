@@ -1,9 +1,13 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
 describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should create invoice', async () => {

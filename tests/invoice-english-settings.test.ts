@@ -1,9 +1,13 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
 describe('English settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should use english settings', async () => {
@@ -48,8 +52,8 @@ describe('English settings test', () => {
     await page.click('li[aria-label="en"]');
     await page.waitForTimeout(100);
 
-    validateTextArea(page, 'Pardavėjas', 'selleren');
-    validateInput(page, 'SF išrašė', 'issueren');
-    validateTextArea(page, 'Papildoma informacija', 'extraen');
+    await validateTextArea(page, 'Pardavėjas', 'selleren');
+    await validateInput(page, 'SF išrašė', 'issueren');
+    await validateTextArea(page, 'Papildoma informacija', 'extraen');
   });
 });

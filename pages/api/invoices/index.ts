@@ -59,6 +59,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         await setSetting(db, 'issuer' + lp, invoice.issuer);
       }
 
+      const savedExtra = await getSetting(db, 'extra' + lp);
+      if (invoice.extra && !savedExtra) {
+        await setSetting(db, 'extra' + lp, invoice.extra);
+      }
+
       invoice.pdfname = `${uuidv4()}.pdf`;
 
       const createResult = await createInvoice(db, invoice);

@@ -1,4 +1,4 @@
-import { login } from './login';
+import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
@@ -7,6 +7,10 @@ import { IInvoice } from '../db/db';
 describe('Settings test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
+  });
+
+  afterAll(async () => {
+    await deleteUser(page);
   });
 
   it('should create invoice', async () => {
