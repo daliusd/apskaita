@@ -34,6 +34,8 @@ Sistemos valdymas:
 
 * [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)
 
+* [Pajamų deklaravimas](/straipsniai/deklaravimas)
+
 Kita informacija:
 
 * [Kontaktai](/kontaktai)
