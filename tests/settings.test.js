@@ -24,6 +24,10 @@ describe('Settings test', () => {
 
     await page.goto('http://localhost:3000/nustatymai');
 
+    await page.waitForSelector(
+      '[aria-label="Papildoma informacija sąskaitoje faktūroje"] >> text="papildoma informacija"',
+    );
+
     await validateTextArea(
       page,
       'Tavo rekvizitai sąskaitai faktūrai',

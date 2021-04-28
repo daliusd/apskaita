@@ -73,6 +73,10 @@ describe('English settings test', () => {
 
     await page.click('text="Anglų kalbai"');
 
+    await page.waitForSelector(
+      '[aria-label="Papildoma informacija sąskaitoje faktūroje"] >> text="extraen"',
+    );
+
     await validateTextArea(
       page,
       'Tavo rekvizitai sąskaitai faktūrai',

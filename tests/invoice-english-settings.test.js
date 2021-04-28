@@ -50,8 +50,10 @@ describe('English settings test', () => {
 
     await page.click('div[aria-label="Kalba"]');
     await page.click('li[aria-label="en"]');
-    await page.waitForTimeout(100);
 
+    await page.waitForSelector(
+      '[aria-label="Papildoma informacija"] >> text=extraen',
+    );
     await validateTextArea(page, 'Pardavėjas', 'selleren');
     await validateInput(page, 'SF išrašė', 'issueren');
     await validateTextArea(page, 'Papildoma informacija', 'extraen');
