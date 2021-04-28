@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/client';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
 
@@ -63,6 +63,7 @@ export default function SellerInfoEdit({ language }: Props) {
             body: JSON.stringify({ value: seller }),
           });
           setSellerCurrent(seller);
+          mutate(settingApiUrl);
         }}
       >
         Išsaugoti rekvizitus

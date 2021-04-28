@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
 
@@ -61,6 +61,7 @@ export default function ExtraEdit({ language }: Props) {
             body: JSON.stringify({ value: extra }),
           });
           setExtraCurrent(extra);
+          mutate(settingApiUrl);
         }}
         aria-label="Išsaugoti papildomą informaciją"
       >

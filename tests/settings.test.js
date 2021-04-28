@@ -14,8 +14,10 @@ describe('Settings test', () => {
   it('should save settings', async () => {
     await login(page);
 
-    await page.click('text="Nustatymai"');
-    await page.waitForNavigation({ url: 'http://localhost:3000/nustatymai' });
+    await Promise.all([
+      page.click('text="Nustatymai"'),
+      page.waitForNavigation({ url: 'http://localhost:3000/nustatymai' }),
+    ]);
 
     await setSeller(page, 'mano rekvizitai');
     await setIssuer(page, 'vardenis pavardenis');

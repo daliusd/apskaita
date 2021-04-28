@@ -38,10 +38,12 @@ describe('Paid test', () => {
       ],
     };
 
-    await page.click('text="Nauja sąskaita faktūra"');
-    await page.waitForNavigation({
-      url: 'http://localhost:3000/saskaitos/nauja',
-    });
+    await Promise.all([
+      page.click('text="Nauja sąskaita faktūra"'),
+      page.waitForNavigation({
+        url: 'http://localhost:3000/saskaitos/nauja',
+      }),
+    ]);
 
     await fillNewInvoice(page, invoice);
 
