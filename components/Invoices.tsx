@@ -49,12 +49,20 @@ export default function Invoices(props: Props) {
 
   useEffect(() => {
     if (data && data.invoices) {
-      setSum(
-        data.invoices.map((e) => e.price).reduce((a, b) => a + b, 0) / 100,
-      );
-      const unpaid = data.invoices.filter((e) => !e.paid);
-      setCountUnpaid(unpaid.length);
-      setSumUnpaid(unpaid.map((e) => e.price).reduce((a, b) => a + b, 0) / 100);
+      let sum = 0;
+      let unpaid = 0;
+      let unpaidSum = 0;
+      for (const i of data.invoices) {
+        sum += i.price;
+        if (!i.paid) {
+          unpaid++;
+          unpaidSum += i.price;
+        }
+      }
+
+      setSum(sum / 100);
+      setCountUnpaid(unpaid);
+      setSumUnpaid(unpaidSum / 100);
     }
   }, [data]);
 
@@ -81,10 +89,11 @@ export default function Invoices(props: Props) {
   return (
     <>
       <Grid item xs={12}>
-        Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length},
-        kurių bendra suma {sum} €.{' '}
+        Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length}
+        {sum > 0 ? `, kurių bendra suma ${sum} €. ` : '.'}
         {countUnpaid > 0 &&
-          `Iš jų neapmokėtų:  ${countUnpaid}, kurių bendra suma ${sumUnpaid} €`}
+          `Iš jų neapmokėtų:  ${countUnpaid}` +
+            (sumUnpaid > 0 ? `, kurių bendra suma ${sumUnpaid} €.` : '.')}
         {data.invoices.length === 1000 &&
           ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visos sąskaitos faktūros.'}
       </Grid>
