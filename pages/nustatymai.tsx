@@ -81,6 +81,10 @@ export default function Apie() {
       <ContactAgreement />
 
       <Grid item xs={12}>
+        <Typography variant="h6" component="h1" noWrap>
+          Jūsų duomenys ir paskyra
+        </Typography>
+
         <Typography variant="body1" component="div">
           Jeigu norite galite parsisiųsti savo duomenis kaip SQLite duombazę.{' '}
           <Link href="/api/userdata">Parsisiųsti</Link>. Daugiau informacijos{' '}

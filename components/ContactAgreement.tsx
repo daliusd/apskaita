@@ -50,6 +50,11 @@ export default function ContactAgreement() {
   return (
     <>
       <Grid item xs={12}>
+        <Typography variant="h6" component="h1" noWrap>
+          Sutikimas dėl susisiekimo
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
         <Typography variant="body1" component="div">
           „Haiku.lt“ tobulinimui mums kartais gali reikėti jūsų nuomonės,
           informacijos kaip jūs naudojatės sistema arba ko jums trūksta iš jos.

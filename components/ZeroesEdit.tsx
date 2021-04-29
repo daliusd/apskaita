@@ -30,7 +30,7 @@ export default function ZeroesEdit() {
           'aria-label':
             'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
         }}
-        helperText="Jei skaitmenų skaičius mažesnis priekyje bus prirašyti nuliai. Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
+        helperText="Pavyzdžiui, jei įrašysite 6, tai jūsų serijos numeris atrodys kaip 000001. Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
         type="number"
         value={zeroes}
         onChange={(e) => {
