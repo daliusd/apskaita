@@ -1,6 +1,6 @@
 module.exports = {
   serverOptions: {
-    command: 'npm run dev -- -p 3000',
+    command: 'PORT=3000 npm start',
     port: 3000,
     usedPortAction: 'ignore',
   },
