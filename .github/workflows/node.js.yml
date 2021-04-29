@@ -26,6 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run lint
-    - run: npm run build
     - run: cp .env.test .env.local
+    - run: npm run build
     - run: npm run test
