@@ -31,7 +31,7 @@ export default function MyApp(props: AppProps) {
       value={{
         fetcher: (...url: string[]) =>
           fetch(url.join('')).then((res) => res.json()),
-        dedupingInterval: 500,
+        dedupingInterval: 0,
       }}
     >
       <Head>
