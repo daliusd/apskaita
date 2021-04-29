@@ -54,6 +54,13 @@ describe('Settings test', () => {
 
     const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
     const href = await el.evaluate((e) => e.getAttribute('value'));
+    expect(href).toMatch(
+      new RegExp(
+        `^http://localhost:3000/api/pdf/[0-9a-f-]*.pdf/${
+          invoice.seriesName
+        }${invoice.seriesId.toString().padStart(6, '0')}.pdf$`,
+      ),
+    );
     await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
     await page.waitForSelector('text=rendered');
 
