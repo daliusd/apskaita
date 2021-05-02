@@ -51,9 +51,9 @@
     "prepare": "husky install .config/husky"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/preset-env": "^7.14.0",
-    "@babel/preset-typescript": "^7.13.0",
+    "@babel/core": "7.14.0",
+    "@babel/preset-env": "7.14.0",
+    "@babel/preset-typescript": "7.13.0",
     "@types/chance": "1.1.1",
     "@types/jest": "26.0.23",
     "@types/multer": "1.4.5",
@@ -63,7 +63,7 @@
     "@types/pngjs": "6.0.0",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
-    "babel-jest": "^26.6.3",
+    "babel-jest": "26.6.3",
     "chance": "1.1.7",
     "eslint": "7.25.0",
     "eslint-config-prettier": "8.3.0",
