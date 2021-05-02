@@ -1,8 +1,9 @@
-const { Chance } = require('chance');
+import { Page } from 'playwright-core';
+import { Chance } from 'chance';
 
 const chance = Chance();
 
-async function login(page) {
+export async function login(page: Page) {
   await page.goto('http://localhost:3000/api/auth/signin');
 
   const email = chance.email({ domain: 'haiku.lt' });
@@ -19,15 +20,10 @@ async function login(page) {
   return email;
 }
 
-async function deleteUser(page) {
+export async function deleteUser(page: Page) {
   await page.evaluate(() => {
     return fetch('/api/userdata', {
       method: 'DELETE',
     });
   });
 }
-
-module.exports = {
-  login,
-  deleteUser,
-};

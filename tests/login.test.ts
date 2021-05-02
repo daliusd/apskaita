@@ -1,4 +1,4 @@
-const { deleteUser, login } = require('./login');
+import { deleteUser, login } from './login';
 
 describe('Login test', () => {
   beforeAll(async () => {

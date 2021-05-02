@@ -1,5 +1,5 @@
-const { deleteUser, login } = require('./login');
-const { fillNewInvoice } = require('./invoices');
+import { deleteUser, login } from './login';
+import { fillNewInvoice } from './invoices';
 
 async function testIfDisabled(page, ariaLabel) {
   await page.waitForSelector(`[aria-label="${ariaLabel}"]`);

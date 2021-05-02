@@ -1,7 +1,7 @@
-const { deleteUser, login } = require('./login');
-const { fillNewInvoice } = require('./invoices');
+import { deleteUser, login } from './login';
+import { fillNewInvoice } from './invoices';
 
-describe('Delete test', () => {
+describe('Paid test', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:3000');
   });
@@ -10,14 +10,13 @@ describe('Delete test', () => {
     await deleteUser(page);
   });
 
-  it('should delete invoice', async () => {
+  it('should mark invoice as paid', async () => {
     await login(page);
 
-    const date = new Date();
     const invoice = {
       seriesName: 'TEST',
       seriesId: 0,
-      created: Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      created: Date.UTC(2020, 0, 31),
       price: 50,
       buyer: 'Dalius',
       seller: 'Jonas',
@@ -43,17 +42,13 @@ describe('Delete test', () => {
 
     await page.waitForSelector('text="Sąskaita faktūra sukurta"');
 
-    await page.click('text="Trinti"');
-    await page.click('text="Nutraukti"');
-    await page.click('text="Trinti"');
+    await page.click('text="Išsiųsta"');
+    await page.waitForSelector('input[name="sent"]:checked');
 
-    await Promise.all([
-      page.waitForNavigation({ url: 'http://localhost:3000/saskaitos' }),
-      page.click('div[role="dialog"] >> text="Taip, trinti"'),
-    ]);
+    await page.click('text="Išsiųsta"');
+    await page.waitForSelector('input[name="sent"]:not(checked)');
 
-    await page.waitForSelector(
-      'text=Nerasta sąskaitų faktūrų pagal šiuos filtrus.',
-    );
+    await page.click('text="Išsiųsta"');
+    await page.waitForSelector('input[name="sent"]:checked');
   });
 });

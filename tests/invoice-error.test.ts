@@ -1,5 +1,5 @@
-const { deleteUser, login } = require('./login');
-const { fillNewInvoice } = require('./invoices');
+import { deleteUser, login } from './login';
+import { fillNewInvoice } from './invoices';
 
 describe('Settings test', () => {
   beforeAll(async () => {

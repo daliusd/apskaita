@@ -1,4 +1,4 @@
-const { validateInput, validateTextArea } = require('./utils');
+import { validateInput, validateTextArea } from './utils';
 
 async function fillNewInvoice(page, invoice) {
   await page.click('input[aria-label="Serijos pavadinimas"]');

@@ -1,5 +1,5 @@
-const { deleteUser, login } = require('./login');
-const { fillNewInvoice, validateInvoice } = require('./invoices');
+import { deleteUser, login } from './login';
+import { fillNewInvoice, validateInvoice } from './invoices';
 
 function getMsSinceEpoch(date) {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());

@@ -1,5 +1,5 @@
-const { deleteUser, login } = require('./login');
-const { validateInput, validateTextArea } = require('./utils');
+import { deleteUser, login } from './login';
+import { validateInput, validateTextArea } from './utils';
 
 describe('Settings test', () => {
   beforeAll(async () => {

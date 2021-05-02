@@ -1,7 +1,7 @@
-const { deleteUser, login } = require('./login');
-const { screenshotTest } = require('./utils');
-const { fillNewInvoice, validateInvoice } = require('./invoices');
-const { setZeroes } = require('./settings');
+import { deleteUser, login } from './login';
+import { screenshotTest } from './utils';
+import { fillNewInvoice, validateInvoice } from './invoices';
+import { setZeroes } from './settings';
 
 describe('Settings test', () => {
   beforeAll(async () => {
