@@ -46,7 +46,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest --config=jest.config.js",
     "test:e2e": "jest --config=jest.e2e.config.js",
-    "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext .ts,.tsx components/ && eslint --ext .ts,.tsx utils/ && eslint --ext js tests/",
+    "lint": "eslint --ext .ts,.tsx src/ && eslint --ext .ts,.tsx pages/ && eslint --ext .ts,.tsx components/ && eslint --ext .ts,.tsx utils/ && eslint --ext ts tests/",
     "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts",
     "prepare": "husky install .config/husky"
   },
