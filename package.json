@@ -14,7 +14,7 @@
     "@sentry/webpack-plugin": "1.15.1",
     "@types/number-to-words": "1.2.1",
     "@types/pdfkit": "0.11.0",
-    "@types/sharp": "0.28.1",
+    "@types/sharp": "0.28.2",
     "clsx": "latest",
     "date-fns": "2.21.3",
     "googleapis": "74.1.0",
