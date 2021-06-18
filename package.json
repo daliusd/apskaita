@@ -56,7 +56,7 @@
     "@babel/preset-typescript": "7.14.5",
     "@types/chance": "1.1.2",
     "@types/jest": "26.0.23",
-    "@types/multer": "1.4.5",
+    "@types/multer": "1.4.6",
     "@types/next-auth": "3.15.0",
     "@types/nodemailer": "6.4.2",
     "@types/pixelmatch": "5.2.3",
