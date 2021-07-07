@@ -17,7 +17,7 @@
     "@types/sharp": "0.28.4",
     "clsx": "latest",
     "date-fns": "2.22.1",
-    "googleapis": "80.1.0",
+    "googleapis": "80.2.0",
     "gray-matter": "4.0.3",
     "multer": "1.4.2",
     "next": "latest",
