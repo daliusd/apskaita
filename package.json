@@ -58,7 +58,7 @@
     "@types/jest": "26.0.24",
     "@types/multer": "1.4.7",
     "@types/next-auth": "3.15.0",
-    "@types/nodemailer": "6.4.2",
+    "@types/nodemailer": "6.4.3",
     "@types/pixelmatch": "5.2.3",
     "@types/pngjs": "6.0.0",
     "@typescript-eslint/eslint-plugin": "4.28.2",
