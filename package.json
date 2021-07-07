@@ -60,7 +60,7 @@
     "@types/next-auth": "3.15.0",
     "@types/nodemailer": "6.4.3",
     "@types/pixelmatch": "5.2.3",
-    "@types/pngjs": "6.0.0",
+    "@types/pngjs": "6.0.1",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.2",
     "babel-jest": "27.0.6",
