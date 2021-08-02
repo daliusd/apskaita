@@ -24,7 +24,7 @@
     "next-auth": "3.27.3",
     "nodemailer": "6.6.3",
     "number-to-words": "1.2.4",
-    "pdfkit": "0.12.1",
+    "pdfkit": "0.12.3",
     "react": "latest",
     "react-dom": "latest",
     "react-recipes": "1.1.1",
