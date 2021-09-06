@@ -51,7 +51,7 @@
     "prepare": "husky install .config/husky"
   },
   "devDependencies": {
-    "@babel/core": "7.15.4",
+    "@babel/core": "7.15.5",
     "@babel/preset-env": "7.15.4",
     "@babel/preset-typescript": "7.15.0",
     "@types/chance": "1.1.3",
