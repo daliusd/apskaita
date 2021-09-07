@@ -29,7 +29,7 @@
     "react-dom": "latest",
     "react-recipes": "1.1.1",
     "remark": "13.0.0",
-    "remark-html": "13.0.1",
+    "remark-html": "13.0.2",
     "sharp": "0.29.1",
     "sqlite": "4.0.23",
     "sqlite3": "5.0.2",
