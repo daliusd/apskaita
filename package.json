@@ -35,7 +35,7 @@
     "sqlite3": "5.0.2",
     "strip-markdown": "4.2.0",
     "swr": "1.0.1",
-    "ts-node": "10.2.1",
+    "ts-node": "10.3.0",
     "uuid": "8.3.2"
   },
   "scripts": {
