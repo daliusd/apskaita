@@ -76,7 +76,7 @@
     "jest": "27.3.1",
     "jest-environment-node": "27.3.1",
     "jest-playwright-preset": "1.7.0",
-    "lint-staged": "11.2.3",
+    "lint-staged": "11.2.4",
     "pixelmatch": "5.2.1",
     "playwright": "1.16.1",
     "pngjs": "6.0.0",
