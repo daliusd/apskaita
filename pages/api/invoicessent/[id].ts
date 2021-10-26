@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { init } from '../../../utils/sentry';
+// import { init } from '../../../utils/sentry';
 
-init();
+// init();
 
 import { changeInvoiceSentStatus } from '../../../db/db';
 

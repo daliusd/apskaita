@@ -6,7 +6,7 @@ import { createExpense, getExpenseList, IExpense } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 import { defaultOrFirst } from '../../../utils/query';
 
-import { init } from '../../../utils/sentry';
+// import { init } from '../../../utils/sentry';
 import {
   createFile,
   GDriveInfo,
@@ -14,7 +14,7 @@ import {
   getOrCreateFolder,
 } from '../../../utils/gdrive';
 
-init();
+// init();
 
 export const config = {
   api: {

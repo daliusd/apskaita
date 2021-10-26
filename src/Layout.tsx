@@ -10,7 +10,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import { useLocalStorage } from 'react-recipes';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 
 import Copyright from './Copyright';
 import Link from './Link';
@@ -46,20 +46,20 @@ const Layout: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (
-      ((session as unknown) as { error: string })?.error ===
+      (session as unknown as { error: string })?.error ===
       'RefreshAccessTokenError'
     ) {
       signIn(experiments.includes('exp') ? 'googleEx' : 'google');
     }
   }, [session, experiments]);
 
-  useEffect(() => {
-    if (session) {
-      Sentry.setUser({ email: session.user.email });
-    } else {
-      Sentry.setUser(null);
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session) {
+  //     Sentry.setUser({ email: session.user.email });
+  //   } else {
+  //     Sentry.setUser(null);
+  //   }
+  // }, [session]);
 
   const handleMessageClose = () => {
     dispatch({ type: 'HIDE_MESSAGE' });

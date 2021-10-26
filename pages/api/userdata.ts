@@ -3,13 +3,13 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getSession } from 'next-auth/client';
 import { Database } from 'sqlite';
-import * as Sentry from '@sentry/node';
+// import * as Sentry from '@sentry/node';
 
-import { init } from '../../utils/sentry';
+// import { init } from '../../utils/sentry';
 import { getInvoiceList, openDb } from '../../db/db';
 import { deleteInvoicePdf } from '../../utils/pdfinvoice';
 
-init();
+// init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
@@ -46,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json({ success: true });
     }
   } catch (ex) {
-    Sentry.captureException(ex);
+    // Sentry.captureException(ex);
     res.status(400).json({ success: false });
   }
 

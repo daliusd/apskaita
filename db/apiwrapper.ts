@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 import { Session } from 'next-auth';
-import * as Sentry from '@sentry/node';
+//import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 
 import { openDb } from './db';
@@ -28,8 +28,8 @@ export async function dbWrapper(
         console.log(err); // eslint-disable-line
       }
 
-      Sentry.setUser({ email: session.user.email });
-      Sentry.captureException(err);
+      // Sentry.setUser({ email: session.user.email });
+      // Sentry.captureException(err);
       res.status(500).json({ success: false });
       return;
     } finally {

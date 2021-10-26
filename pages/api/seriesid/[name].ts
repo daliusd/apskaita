@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { init } from '../../../utils/sentry';
+// import { init } from '../../../utils/sentry';
 import { getNextSeriesId } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 
-init();
+// init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {

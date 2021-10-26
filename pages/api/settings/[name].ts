@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { getSetting, setSetting } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
-import { init } from '../../../utils/sentry';
+// import { init } from '../../../utils/sentry';
 
-init();
+// init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {

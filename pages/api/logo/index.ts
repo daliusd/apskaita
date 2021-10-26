@@ -7,9 +7,9 @@ import { dbWrapper } from '../../../db/apiwrapper';
 
 import { uploadPromise } from '../../../utils/upload';
 
-import { init } from '../../../utils/sentry';
+// import { init } from '../../../utils/sentry';
 
-init();
+// init();
 
 export const config = {
   api: {

@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs';
-import * as Sentry from '@sentry/node';
+// import * as Sentry from '@sentry/node';
 
-import { init } from '../../../../utils/sentry';
+// import { init } from '../../../../utils/sentry';
 
-init();
+// init();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ),
         );
     } catch (ex) {
-      Sentry.captureException(ex);
+      // Sentry.captureException(ex);
       res.status(400).json({ success: false });
     }
   }
