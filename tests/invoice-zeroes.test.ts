@@ -1,18 +1,11 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 import { setZeroes } from './settings';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice', async () => {
+test.describe('Invoice zeroes test', () => {
+  test('should create invoice', async ({ page }) => {
     await login(page);
 
     await Promise.all([
@@ -57,5 +50,7 @@ describe('Settings test', () => {
     await page.waitForSelector('text=rendered');
 
     await screenshotTest(page, 'invoice-zeroes');
+
+    await deleteUser(page);
   });
 });

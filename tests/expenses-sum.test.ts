@@ -1,15 +1,8 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice', async () => {
+test.describe('Settings test', () => {
+  test('should create invoice', async ({ page }) => {
     await login(page);
 
     await page.goto('http://localhost:3000/');
@@ -32,5 +25,7 @@ describe('Settings test', () => {
     await page.click(
       'text=Rasta išlaidų įrašų pagal filtrus: 2. Šių išlaidų įrašų bendra suma 0.03 €.',
     );
+
+    await deleteUser(page);
   });
 });

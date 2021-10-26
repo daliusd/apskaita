@@ -1,17 +1,10 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice } from './invoices';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice with logo', async () => {
+test.describe('Settings test', () => {
+  test('should create invoice with logo', async ({ page }) => {
     await login(page);
 
     await page.goto('http://localhost:3000/nustatymai');
@@ -48,5 +41,7 @@ describe('Settings test', () => {
     await page.waitForSelector('text=rendered');
 
     await screenshotTest(page, 'invoice-logo-square');
+
+    await deleteUser(page);
   });
 });

@@ -1,16 +1,9 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
-describe('Delete test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should delete invoice', async () => {
+test.describe('Delete test', () => {
+  test('should delete invoice', async ({ page }) => {
     await login(page);
 
     const date = new Date();
@@ -55,5 +48,7 @@ describe('Delete test', () => {
     await page.waitForSelector(
       'text=Nerasta sąskaitų faktūrų pagal šiuos filtrus.',
     );
+
+    await deleteUser(page);
   });
 });

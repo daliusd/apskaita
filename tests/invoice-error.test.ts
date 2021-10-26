@@ -1,16 +1,11 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should show errors if user tries to create wrong invoice', async () => {
+test.describe('Settings test', () => {
+  test('should show errors if user tries to create wrong invoice', async ({
+    page,
+  }) => {
     await login(page);
 
     const invoice = {
@@ -71,5 +66,7 @@ describe('Settings test', () => {
     await page.fill('input[aria-label="Sąskaitos data"]', '2021-02-02');
 
     await page.click('text=/.*Data turi būti 2021-02-01 arba ankstesnė.*/');
+
+    await deleteUser(page);
   });
 });

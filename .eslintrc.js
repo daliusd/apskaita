@@ -10,12 +10,7 @@ module.exports = {
     es2021: true,
     'jest/globals': true,
   },
-  globals: {
-    page: true,
-    browser: true,
-    context: true,
-    jestPuppeteer: true,
-  },
+  globals: {},
 
   overrides: [
     {

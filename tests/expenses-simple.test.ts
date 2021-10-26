@@ -1,15 +1,8 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice', async () => {
+test.describe('Settings test', () => {
+  test('should create invoice', async ({ page }) => {
     await login(page);
 
     await page.goto('http://localhost:3000/');
@@ -38,5 +31,6 @@ describe('Settings test', () => {
     await page.waitForSelector(
       'text=Nerasta išlaidų įrašų pagal šiuos filtrus.',
     );
+    await deleteUser(page);
   });
 });

@@ -1,16 +1,9 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice', async () => {
+test.describe('Invoice. Always use default seller', () => {
+  test('should create invoice', async ({ page }) => {
     await login(page);
 
     await Promise.all([
@@ -65,5 +58,7 @@ describe('Settings test', () => {
     await validateTextArea(page, 'Pardavėjas', 'Mano rekvizitai');
     await validateInput(page, 'SF išrašė', 'Mikė Pūkuotukas');
     await validateTextArea(page, 'Papildoma informacija', 'Nekreipk dėmesio');
+
+    await deleteUser(page);
   });
 });

@@ -1,16 +1,9 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
-describe('English settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should use english settings', async () => {
+test.describe('English settings test', () => {
+  test('should use english settings', async ({ page }) => {
     await login(page);
 
     await Promise.all([
@@ -57,5 +50,7 @@ describe('English settings test', () => {
     await validateTextArea(page, 'Pardavėjas', 'selleren');
     await validateInput(page, 'SF išrašė', 'issueren');
     await validateTextArea(page, 'Papildoma informacija', 'extraen');
+
+    await deleteUser(page);
   });
 });

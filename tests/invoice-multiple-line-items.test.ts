@@ -1,18 +1,10 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-    await page.setViewportSize({ width: 960, height: 600 });
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice', async () => {
+test.describe('Settings test', () => {
+  test('should create invoice', async ({ page }) => {
     await login(page);
 
     const invoice = {
@@ -65,5 +57,7 @@ describe('Settings test', () => {
     await page.waitForSelector('text=rendered');
 
     await screenshotTest(page, 'invoice-multiple-line-items');
+
+    await deleteUser(page);
   });
 });

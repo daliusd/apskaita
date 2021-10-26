@@ -1,3 +1,4 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
@@ -10,16 +11,8 @@ async function testIfDisabled(page, ariaLabel) {
   expect(disabled).toBeTruthy();
 }
 
-describe('Paid test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should mark invoice as paid', async () => {
+test.describe('Paid test', () => {
+  test('should mark invoice as paid', async ({ page }) => {
     await login(page);
 
     const invoice = {
@@ -80,5 +73,7 @@ describe('Paid test', () => {
 
     await page.click('text="Užrakinta"');
     await page.waitForSelector('input[name="locked"]:not(checked)');
+
+    await deleteUser(page);
   });
 });

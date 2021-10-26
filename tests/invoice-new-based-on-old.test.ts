@@ -1,3 +1,4 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
@@ -5,16 +6,8 @@ function getMsSinceEpoch(date) {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-describe('Creating new invoice based on old', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should create invoice based on old one', async () => {
+test.describe('Creating new invoice based on old', () => {
+  test('should create invoice based on old one', async ({ page }) => {
     await login(page);
 
     const date = new Date();
@@ -68,5 +61,7 @@ describe('Creating new invoice based on old', () => {
     invoice.seriesId = 2; // cloned invoice should have next series id
     invoice.created = getMsSinceEpoch(new Date());
     await validateInvoice(page, invoice);
+
+    await deleteUser(page);
   });
 });

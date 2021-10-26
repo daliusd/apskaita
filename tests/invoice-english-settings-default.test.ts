@@ -1,16 +1,9 @@
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { validateInput, validateTextArea } from './utils';
 
-describe('English settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should use english settings', async () => {
+test.describe('English settings test', () => {
+  test('should use english settings', async ({ page }) => {
     await login(page);
 
     // set Lithuanian settings
@@ -92,5 +85,7 @@ describe('English settings test', () => {
       'Papildoma informacija sąskaitoje faktūroje',
       'extraen',
     );
+
+    await deleteUser(page);
   });
 });

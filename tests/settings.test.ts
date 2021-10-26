@@ -1,17 +1,10 @@
+import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { validateTextArea, validateInput } from './utils';
 import { setSeller, setIssuer, setExtra, setZeroes } from './settings';
 
-describe('Settings test', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:3000');
-  });
-
-  afterAll(async () => {
-    await deleteUser(page);
-  });
-
-  it('should save settings', async () => {
+test.describe('Settings test', () => {
+  test('should save settings', async ({ page }) => {
     await login(page);
 
     await Promise.all([
@@ -53,5 +46,7 @@ describe('Settings test', () => {
       'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
       '3',
     );
+
+    await deleteUser(page);
   });
 });
