@@ -71,7 +71,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}|pages/**/*.{ts,tsx}|tests/**/*.ts": [
-      "next lint --max-warnings 0"
+      "eslint"
     ]
   }
 }

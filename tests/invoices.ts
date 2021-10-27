@@ -1,6 +1,6 @@
 import { validateInput, validateTextArea } from './utils';
 
-async function fillNewInvoice(page, invoice) {
+export async function fillNewInvoice(page, invoice) {
   await page.click('input[aria-label="Serijos pavadinimas"]');
   await page.fill(
     'input[aria-label="Serijos pavadinimas"]',
@@ -80,7 +80,7 @@ async function fillNewInvoice(page, invoice) {
   }
 }
 
-async function validateInvoice(page, invoice) {
+export async function validateInvoice(page, invoice) {
   await validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
 
   await validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
@@ -123,8 +123,3 @@ async function validateInvoice(page, invoice) {
     );
   }
 }
-
-module.exports = {
-  fillNewInvoice,
-  validateInvoice,
-};
