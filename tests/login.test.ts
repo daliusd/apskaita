@@ -1,13 +1,11 @@
 import { test } from '@playwright/test';
 import { deleteUser, login } from './login';
 
-test.describe('Login test', () => {
-  test('should login', async ({ page }) => {
-    const email = await login(page);
+test('Should login', async ({ page }) => {
+  const email = await login(page);
 
-    await page.waitForSelector('text=Esi prisijungęs');
-    await page.waitForSelector(`text=${email}`);
+  await page.waitForSelector('text=Esi prisijungęs');
+  await page.waitForSelector(`text=${email}`);
 
-    await deleteUser(page);
-  });
+  await deleteUser(page);
 });
