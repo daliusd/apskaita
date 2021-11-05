@@ -6,15 +6,13 @@ import { createExpense, getExpenseList, IExpense } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 import { defaultOrFirst } from '../../../utils/query';
 
-// import { init } from '../../../utils/sentry';
 import {
   createFile,
   GDriveInfo,
   getDrive,
   getOrCreateFolder,
 } from '../../../utils/gdrive';
-
-// init();
+import { errorHandler } from '../../../utils/report-mailer';
 
 export const config = {
   api: {
@@ -22,7 +20,7 @@ export const config = {
   },
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
@@ -83,3 +81,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 };
+
+export default errorHandler(handler);

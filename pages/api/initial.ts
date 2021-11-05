@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// import { init } from '../../utils/sentry';
-//
-// init();
-
 import {
   getNextSeriesId,
   getUniqueSeriesNames,
@@ -13,8 +9,9 @@ import {
 
 import { dbWrapper } from '../../db/apiwrapper';
 import { defaultOrFirst } from '../../utils/query';
+import { errorHandler } from '../../utils/report-mailer';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db, session) => {
     const {
       query: { id, sourceId },
@@ -76,3 +73,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.json({ invoice });
   });
 };
+
+export default errorHandler(handler);

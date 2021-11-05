@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs';
-// import * as Sentry from '@sentry/node';
+import {
+  errorHandler,
+  sendReportMessage,
+} from '../../../../utils/report-mailer';
 
-// import { init } from '../../../../utils/sentry';
-
-// init();
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const {
@@ -28,10 +27,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ),
         );
     } catch (ex) {
-      // Sentry.captureException(ex);
+      await sendReportMessage(`haiku.lt server side pdf/id/name`, ex);
       res.status(400).json({ success: false });
     }
   }
 
   res.end();
 };
+
+export default errorHandler(handler);

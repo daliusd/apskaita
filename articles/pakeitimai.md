@@ -1,7 +1,7 @@
 ---
 title: 'Pakeitimai'
 date: '2021-04-02'
-modified: '2021-04-23'
+modified: '2021-11-05'
 ---
 
 Čia rasite kas yra pakeista sistemoje pagal datą (nuo naujausių
@@ -9,6 +9,10 @@ pakeitimų iki seniausių).
 
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
+
+## 2021-11-05
+
+* Saugumo atnaujinimas. Nebenaudojamas sentry klaidų sekimui.
 
 ## 2021-04-23
 

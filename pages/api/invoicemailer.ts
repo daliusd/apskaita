@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// import { init } from '../../utils/sentry';
-//
-// init();
-
 import {
   changeInvoiceLockedStatus,
   changeInvoiceSentStatus,
@@ -15,8 +11,9 @@ import {
 import { defaultEmailSubject, defaultEmailTemplate } from '../../utils/email';
 import { dbWrapper } from '../../db/apiwrapper';
 import { sendEmail } from '../../utils/gmail';
+import { errorHandler } from '../../utils/report-mailer';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return dbWrapper(req, res, async (db, session) => {
       const invoice = await getInvoiceWithLineItems(
@@ -79,3 +76,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 };
+
+export default errorHandler(handler);

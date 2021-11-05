@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 import { Session } from 'next-auth';
-//import * as Sentry from '@sentry/node';
 import { Database } from 'sqlite';
 
 import { openDb } from './db';
+import { sendReportMessage } from '../utils/report-mailer';
 
 interface DBCallback {
   (db: Database, session: Session): Promise<void>;
@@ -28,8 +28,8 @@ export async function dbWrapper(
         console.log(err); // eslint-disable-line
       }
 
-      // Sentry.setUser({ email: session.user.email });
-      // Sentry.captureException(err);
+      await sendReportMessage(`haiku.lt server side dbWrapper`, err);
+
       res.status(500).json({ success: false });
       return;
     } finally {

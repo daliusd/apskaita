@@ -3,18 +3,16 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getSession } from 'next-auth/client';
 import { Database } from 'sqlite';
-// import * as Sentry from '@sentry/node';
 
-// import { init } from '../../utils/sentry';
 import { getInvoiceList, openDb } from '../../db/db';
 import { deleteInvoicePdf } from '../../utils/pdfinvoice';
+import { errorHandler, sendReportMessage } from '../../utils/report-mailer';
 
-// init();
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   if (!session) {
-    return res.status(401);
+    res.status(401);
+    return;
   }
 
   const filename = session.user.email + '.db';
@@ -22,12 +20,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     if (req.method === 'GET') {
-      return res
+      res
         .writeHead(200, {
           'Content-disposition': 'inline; filename=' + filename,
           'Content-type': 'application/vnd.sqlite3',
         })
         .end(await fs.readFile(filenameInFs));
+      return;
     } else if (req.method === 'DELETE') {
       let db: Database;
       try {
@@ -43,12 +42,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       await fs.unlink(filenameInFs);
-      return res.status(200).json({ success: true });
+      res.status(200).json({ success: true });
+      return;
     }
   } catch (ex) {
-    // Sentry.captureException(ex);
+    await sendReportMessage(`haiku.lt server side userdata`, ex);
     res.status(400).json({ success: false });
   }
 
   res.end();
 };
+
+export default errorHandler(handler);

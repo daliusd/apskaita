@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 
-// import { init } from '../../../utils/sentry';
-
-// init();
-
 import {
   createInvoice,
   getInvoiceList,
@@ -15,8 +11,9 @@ import {
 
 import { dbWrapper } from '../../../db/apiwrapper';
 import { defaultOrFirst } from '../../../utils/query';
+import { errorHandler } from '../../../utils/report-mailer';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
@@ -71,3 +68,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 };
+
+export default errorHandler(handler);

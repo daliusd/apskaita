@@ -2,11 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { getSetting, setSetting } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
-// import { init } from '../../../utils/sentry';
+import { errorHandler } from '../../../utils/report-mailer';
 
-// init();
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
@@ -34,3 +32,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 };
+
+export default errorHandler(handler);

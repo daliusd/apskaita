@@ -2,11 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { validSeriesNumber } from '../../../../db/db';
 import { dbWrapper } from '../../../../db/apiwrapper';
-// import { init } from '../../../../utils/sentry';
+import { errorHandler } from '../../../../utils/report-mailer';
 
-// init();
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {
     const {
       query: { name, id, invoiceId },
@@ -23,3 +21,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({ valid });
   });
 };
+
+export default errorHandler(handler);

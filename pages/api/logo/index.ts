@@ -6,10 +6,7 @@ import { setSetting } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 
 import { uploadPromise } from '../../../utils/upload';
-
-// import { init } from '../../../utils/sentry';
-
-// init();
+import { errorHandler } from '../../../utils/report-mailer';
 
 export const config = {
   api: {
@@ -17,7 +14,7 @@ export const config = {
   },
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db) => {
     const upload = await uploadPromise('logo', req);
     const file = upload.files['logo'][0];
@@ -50,3 +47,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({ success: true });
   });
 };
+
+export default errorHandler(handler);

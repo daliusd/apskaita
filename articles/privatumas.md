@@ -24,10 +24,6 @@ renkame ir ką vėliau darome su tai duomenimis.
   Mes daugiau nieko negalime daryti jūsų Gmail paskyroje, nes mes
   neprašome daugiau jokių teisių.
 
-* Klaidų sekimui mes naudojame Sentry, o tai reiškia, kad įvykus
-  klaidai šiek tiek informacijos apie jus gali būti išsiųsta į
-  Sentry serverius.
-
 * Tam kad apsaugotumėme surinktus duomenis imamės šių priemonių:
 
   * Atnaujiname serverio programinę įrangą kiek įmanoma dažniau.

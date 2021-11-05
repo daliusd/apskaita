@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// import { init } from '../../../utils/sentry';
-
-// init();
-
 import {
   updateInvoice,
   deleteInvoice,
@@ -13,8 +9,9 @@ import { defaultOrFirst } from '../../../utils/query';
 import { deleteInvoicePdf } from '../../../utils/pdfinvoice';
 
 import { dbWrapper } from '../../../db/apiwrapper';
+import { errorHandler } from '../../../utils/report-mailer';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'PUT') {
     return dbWrapper(req, res, async (db) => {
       const {
@@ -45,3 +42,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 };
+
+export default errorHandler(handler);

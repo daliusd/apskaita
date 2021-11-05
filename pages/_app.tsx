@@ -11,8 +11,8 @@ import ltLocale from 'date-fns/locale/lt';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
 import Store from '../src/Store';
-// import { init } from '../utils/sentry';
-// init();
+import { init } from '../utils/error-handler';
+init();
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;

@@ -10,11 +10,11 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import { useLocalStorage } from 'react-recipes';
-// import * as Sentry from '@sentry/browser';
 
 import Copyright from './Copyright';
 import Link from './Link';
 import { Context, IContext } from '../src/Store';
+import { setUser } from '../utils/error-handler';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -53,13 +53,13 @@ const Layout: React.FC = ({ children }) => {
     }
   }, [session, experiments]);
 
-  // useEffect(() => {
-  //   if (session) {
-  //     Sentry.setUser({ email: session.user.email });
-  //   } else {
-  //     Sentry.setUser(null);
-  //   }
-  // }, [session]);
+  useEffect(() => {
+    if (session) {
+      setUser(session.user.email);
+    } else {
+      setUser(null);
+    }
+  }, [session]);
 
   const handleMessageClose = () => {
     dispatch({ type: 'HIDE_MESSAGE' });
