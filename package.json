@@ -28,7 +28,7 @@
     "sharp": "0.29.2",
     "sqlite": "4.0.23",
     "sqlite3": "5.0.2",
-    "stacktrace-js": "^2.0.2",
+    "stacktrace-js": "2.0.2",
     "strip-markdown": "5.0.0",
     "swr": "1.0.1",
     "ts-node": "10.4.0",
