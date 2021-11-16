@@ -16,16 +16,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const fileName = typeof id === 'string' ? id : id[0];
       const downloadName = typeof name === 'string' ? name : name[0];
 
+      const fullFileName = path.join(
+        process.env.USER_DATA_PATH,
+        'invoices',
+        fileName,
+      );
+
+      if (!fs.existsSync(fullFileName)) {
+        await sendReportMessage(
+          `haiku.lt server side pdf/id/name file not found`,
+          new Error(`File ${fullFileName} not found`),
+        );
+        res.status(404).json({
+          success: false,
+          message: 'Failas nerastas',
+        });
+        return;
+      }
+
       res
         .writeHead(200, {
           'Content-disposition': 'inline; filename=' + downloadName,
           'Content-type': 'application/pdf',
         })
-        .end(
-          fs.readFileSync(
-            path.join(process.env.USER_DATA_PATH, 'invoices', fileName),
-          ),
-        );
+        .end(fs.readFileSync(fullFileName));
     } catch (ex) {
       await sendReportMessage(`haiku.lt server side pdf/id/name`, ex);
       res.status(400).json({ success: false });
