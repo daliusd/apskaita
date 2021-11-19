@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import ErrorPage from 'next/error';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -20,7 +19,11 @@ export default function ArticleView({
   showStructuredData = true,
 }: ArticleViewProps) {
   if (!article?.slug) {
-    return <ErrorPage statusCode={404} />;
+    return (
+      <Typography variant="body1" component="div" align="center">
+        Straipsnis nerastas :-(
+      </Typography>
+    );
   }
 
   const structuredArticle = {
