@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { ILineItem } from '../db/db';
 
 type Severity = 'error' | 'success' | 'info';
 
@@ -10,4 +11,76 @@ export const messageTextState = atom({
 export const messageSeverityState = atom({
   key: 'messageSeverity',
   default: 'success' as Severity,
+});
+
+export const languageState = atom({
+  key: 'language',
+  default: 'lt',
+});
+
+export const seriesNameState = atom({
+  key: 'seriesName',
+  default: '',
+});
+
+export const seriesIdState = atom({
+  key: 'seriesId',
+  default: '',
+});
+
+export const invoiceDateState = atom({
+  key: 'invoiceDate',
+  default: new Date(),
+});
+
+export const sellerState = atom({
+  key: 'seller',
+  default: '',
+});
+
+export const buyerState = atom({
+  key: 'buyer',
+  default: '',
+});
+
+export const emailState = atom({
+  key: 'email',
+  default: '',
+});
+
+export const issuerState = atom({
+  key: 'issuer',
+  default: '',
+});
+
+export const extraState = atom({
+  key: 'extra',
+  default: '',
+});
+
+export const pdfnameState = atom({
+  key: 'pdfname',
+  default: '',
+});
+
+export const paidState = atom({
+  key: 'paid',
+  default: false,
+});
+
+export const lockedState = atom({
+  key: 'locked',
+  default: false,
+});
+
+export const sentState = atom({
+  key: 'sent',
+  default: false,
+});
+
+export const lineItemsState = atom({
+  key: 'lineItems',
+  default: [
+    { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
+  ] as ILineItem[],
 });

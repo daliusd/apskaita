@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
@@ -8,7 +9,6 @@ import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
-import { ILineItem } from '../db/db';
 import Link from '../src/Link';
 import LineItemEdit from '../components/LineItemEdit';
 import LanguageSelect from '../components/LanguageSelect';
@@ -28,6 +28,22 @@ import InvoiceEditSent from './InvoiceEditSent';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
+import {
+  seriesNameState,
+  seriesIdState,
+  invoiceDateState,
+  sellerState,
+  buyerState,
+  emailState,
+  issuerState,
+  extraState,
+  pdfnameState,
+  paidState,
+  lockedState,
+  sentState,
+  lineItemsState,
+  languageState,
+} from '../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -37,9 +53,9 @@ interface IProps {
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [session] = useSession();
   const gmailSend =
-    session && ((session as unknown) as { gmailSend: boolean }).gmailSend;
+    session && (session as unknown as { gmailSend: boolean }).gmailSend;
 
-  const [language, setLanguage] = useState('lt');
+  const [language, setLanguage] = useRecoilState(languageState);
   const [languageAfterChange, setLanguageAfterChange] = useState(null);
 
   const { data: initialData, error } = useSWR(
@@ -47,21 +63,19 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       (invoiceId ? '?id=' + invoiceId : '') +
       (sourceId ? '?sourceId=' + sourceId : ''),
   );
-  const [seriesName, setSeriesName] = useState('');
-  const [seriesId, setSeriesId] = useState('');
-  const [invoiceDate, setInvoiceDate] = useState(new Date());
-  const [seller, setSeller] = useState('');
-  const [buyer, setBuyer] = useState('');
-  const [email, setEmail] = useState('');
-  const [issuer, setIssuer] = useState('');
-  const [extra, setExtra] = useState('');
-  const [pdfname, setPdfname] = useState('');
-  const [paid, setPaid] = useState(false);
-  const [locked, setLocked] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [lineItems, setLineItems] = useState<ILineItem[]>([
-    { id: 0, name: '', unit: 'vnt.', amount: 1, price: 0 },
-  ]);
+  const [seriesName, setSeriesName] = useRecoilState(seriesNameState);
+  const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
+  const [invoiceDate, setInvoiceDate] = useRecoilState(invoiceDateState);
+  const [seller, setSeller] = useRecoilState(sellerState);
+  const [buyer, setBuyer] = useRecoilState(buyerState);
+  const [email, setEmail] = useRecoilState(emailState);
+  const [issuer, setIssuer] = useRecoilState(issuerState);
+  const [extra, setExtra] = useRecoilState(extraState);
+  const [pdfname, setPdfname] = useRecoilState(pdfnameState);
+  const [paid, setPaid] = useRecoilState(paidState);
+  const [locked, setLocked] = useRecoilState(lockedState);
+  const [sent, setSent] = useRecoilState(sentState);
+  const [lineItems, setLineItems] = useRecoilState(lineItemsState);
 
   useEffect(() => {
     if (initialData && initialData.invoice) {
@@ -81,9 +95,29 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       setSent(invoice.sent === 1);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
+      } else {
+        setInvoiceDate(new Date());
       }
+    } else {
+      setLineItems([]);
     }
-  }, [initialData]);
+  }, [
+    initialData,
+    setLanguage,
+    setBuyer,
+    setEmail,
+    setExtra,
+    setInvoiceDate,
+    setIssuer,
+    setLineItems,
+    setLocked,
+    setPaid,
+    setPdfname,
+    setSeller,
+    setSent,
+    setSeriesId,
+    setSeriesName,
+  ]);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
 
@@ -102,7 +136,13 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     } else if (seriesIdResp.data) {
       setSeriesId(seriesIdResp.data.seriesId);
     }
-  }, [seriesIdResp.data, debouncedSeriesName, initialData, invoiceId]);
+  }, [
+    seriesIdResp.data,
+    debouncedSeriesName,
+    initialData,
+    invoiceId,
+    setSeriesId,
+  ]);
 
   const debouncedSeriesId = useDebounce(seriesId, 500);
   const { data: validSeriesNumberData } = useSWR(
@@ -133,7 +173,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     if (sellerData && sellerData.value) {
       setSeller(sellerData.value);
     }
-  }, [sellerData]);
+  }, [sellerData, setSeller]);
 
   const { data: issuerData } = useSWR(
     languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
@@ -142,7 +182,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     if (issuerData && issuerData.value) {
       setIssuer(issuerData.value);
     }
-  }, [issuerData]);
+  }, [issuerData, setIssuer]);
 
   const { data: extraData } = useSWR(
     languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
@@ -151,7 +191,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     if (extraData && extraData.value) {
       setExtra(extraData.value);
     }
-  }, [extraData]);
+  }, [extraData, setExtra]);
 
   if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
   if (!initialData) return <LinearProgress />;

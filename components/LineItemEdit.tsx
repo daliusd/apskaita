@@ -49,17 +49,19 @@ export default function LineItemEdit({
           onInputChange={(_e, newValue) => {
             let newPrice = lineItem.price;
             newValue = cleanUpString(newValue);
-            if (data && newValue !== lineItem.name) {
-              const existingItems = data.lineItemsNames.filter(
-                (i) => i.name === newValue,
-              );
-              if (existingItems.length > 0) {
-                newPrice = existingItems[0].price;
-                setPrice((newPrice / 100).toString());
+            if (newValue !== lineItem.name) {
+              if (data) {
+                const existingItems = data.lineItemsNames.filter(
+                  (i) => i.name === newValue,
+                );
+                if (existingItems.length > 0) {
+                  newPrice = existingItems[0].price;
+                  setPrice((newPrice / 100).toString());
+                }
               }
-            }
 
-            onChange({ ...lineItem, name: newValue, price: newPrice });
+              onChange({ ...lineItem, name: newValue, price: newPrice });
+            }
           }}
           freeSolo
           renderInput={(params) => (
