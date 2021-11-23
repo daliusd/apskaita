@@ -10,8 +10,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import ltLocale from 'date-fns/locale/lt';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
-import Store from '../src/Store';
 import { init } from '../utils/error-handler';
+import { RecoilRoot } from 'recoil';
 init();
 
 export default function MyApp(props: AppProps) {
@@ -45,11 +45,11 @@ export default function MyApp(props: AppProps) {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <Provider session={pageProps.session}>
-            <Store>
+            <RecoilRoot>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            </Store>
+            </RecoilRoot>
           </Provider>
         </ThemeProvider>
       </MuiPickersUtilsProvider>

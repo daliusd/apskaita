@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -13,8 +14,8 @@ import { useLocalStorage } from 'react-recipes';
 
 import Copyright from './Copyright';
 import Link from './Link';
-import { Context, IContext } from '../src/Store';
 import { setUser } from '../utils/error-handler';
+import { messageSeverityState, messageTextState } from './atoms';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
 const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
   const [session, loading] = useSession();
-  const { state, dispatch } = useContext<IContext>(Context);
+  const [messageText, setMessageText] = useRecoilState(messageTextState);
+  const [messageSeverity] = useRecoilState(messageSeverityState);
   const [experiments] = useLocalStorage('experiments', '');
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const Layout: React.FC = ({ children }) => {
   }, [session]);
 
   const handleMessageClose = () => {
-    dispatch({ type: 'HIDE_MESSAGE' });
+    setMessageText('');
   };
 
   return (
@@ -215,16 +217,16 @@ const Layout: React.FC = ({ children }) => {
       </Grid>
 
       <Snackbar
-        open={!!state.messageText}
+        open={!!messageText}
         autoHideDuration={6000}
         onClose={handleMessageClose}
       >
         <Alert
           onClose={handleMessageClose}
-          severity={state.messageSeverity}
+          severity={messageSeverity}
           closeText="Uždaryti"
         >
-          {state.messageText}
+          {messageText}
         </Alert>
       </Snackbar>
     </Container>

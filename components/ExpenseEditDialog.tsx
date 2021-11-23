@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -13,8 +14,8 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useSession } from 'next-auth/client';
 
 import { getMsSinceEpoch } from '../utils/date';
-import { IContext, Context } from '../src/Store';
 import { IExpense } from '../db/db';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 export interface ExpenseEditDialogProps {
   expense?: IExpense;
@@ -34,12 +35,12 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
   const [price, setPrice] = useState(expense ? expense.price.toString() : '0');
   const [file, setFile] = useState<File>(null);
   const [inProgress, setInProgress] = useState(false);
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   const { onClose, onChange } = props;
 
-  const gdrive =
-    session && ((session as unknown) as { gdrive: boolean }).gdrive;
+  const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
 
   const handleClose = () => {
     onClose();
@@ -52,7 +53,7 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
   const handleCreateExpense = async () => {
     setInProgress(true);
 
-    let resp;
+    let resp: Response;
     if (expense) {
       const newExpense = {
         description,
@@ -84,20 +85,19 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
 
     setInProgress(false);
     if (!resp.ok || !(await resp.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: expense
+      setMessageText(
+        expense
           ? 'Nepavyko pakeisti išlaidų įrašo'
           : 'Nepavyko pridėti išlaidų įrašo.',
-        severity: 'error',
-      });
+      );
+      setMessageSeverity('error');
       return;
     }
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: expense ? 'Išlaidų įrašas pakeistas' : 'Išlaidos įrašas pridėtas.',
-      severity: 'success',
-    });
+
+    setMessageText(
+      expense ? 'Išlaidų įrašas pakeistas' : 'Išlaidos įrašas pridėtas.',
+    );
+    setMessageSeverity('success');
 
     handleClose();
     onChange();

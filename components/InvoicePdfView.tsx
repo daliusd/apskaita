@@ -1,11 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { useCopyClipboard } from 'react-recipes';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface IProps {
   seriesName: string;
@@ -19,18 +20,16 @@ export default function InvoicePdfView({
   pdfname,
 }: IProps) {
   const router = useRouter();
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [isCopied, setIsCopied] = useCopyClipboard();
 
   useEffect(() => {
     if (isCopied) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Nuoroda nukopijuota.',
-        severity: 'success',
-      });
+      setMessageText('Nuoroda nukopijuota.');
+      setMessageSeverity('success');
     }
-  }, [isCopied, dispatch]);
+  }, [isCopied, setMessageText, setMessageSeverity]);
 
   if (!pdfname) {
     return null;

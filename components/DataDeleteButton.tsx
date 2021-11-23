@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { signOut } from 'next-auth/client';
 
 import Button from '@material-ui/core/Button';
@@ -13,10 +14,11 @@ import Typography from '@material-ui/core/Typography';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 export default function DataDeleteButton() {
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
@@ -26,19 +28,13 @@ export default function DataDeleteButton() {
     });
 
     if (!response.ok || !(await response.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Klaida trinant paskyrą.',
-        severity: 'error',
-      });
+      setMessageText('Klaida trinant paskyrą.');
+      setMessageSeverity('error');
       return;
     }
 
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: 'Jūsų paskyra ištrinta.',
-      severity: 'info',
-    });
+    setMessageText('Jūsų paskyra ištrinta.');
+    setMessageSeverity('info');
     signOut();
   };
 

@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -10,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useRouter } from 'next/router';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -22,7 +23,8 @@ export default function InvoiceEditDeleteButton({
   disabled,
 }: IProps) {
   const router = useRouter();
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (!invoiceId) return null;
@@ -33,20 +35,14 @@ export default function InvoiceEditDeleteButton({
     });
 
     if (!response.ok || !(await response.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Klaida trinant sąskaitą faktūrą.',
-        severity: 'error',
-      });
+      setMessageText('Klaida trinant sąskaitą faktūrą.');
+      setMessageSeverity('error');
       return;
     }
 
     router.replace(`/saskaitos`);
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: 'Sąskaita faktūra ištrinta.',
-      severity: 'info',
-    });
+    setMessageText('Sąskaita faktūra ištrinta.');
+    setMessageSeverity('info');
   };
 
   return (

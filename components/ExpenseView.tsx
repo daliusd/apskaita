@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -15,7 +16,7 @@ import ExpenseEditDialog from './ExpenseEditDialog';
 import { IExpense } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface Props {
   expense: IExpense;
@@ -31,7 +32,8 @@ const useStyles = makeStyles({
 export default function ExpenseView(props: Props) {
   const { expense } = props;
   const classes = useStyles();
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -40,19 +42,13 @@ export default function ExpenseView(props: Props) {
     });
 
     if (!response.ok || !(await response.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Klaida trinant išlaidų įrašą.',
-        severity: 'error',
-      });
+      setMessageText('Klaida trinant išlaidų įrašą.');
+      setMessageSeverity('error');
       return;
     }
 
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: 'Išlaidų įrašas ištrintas.',
-      severity: 'info',
-    });
+    setMessageText('Išlaidų įrašas ištrintas.');
+    setMessageSeverity('info');
     props.onChange();
   };
 

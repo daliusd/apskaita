@@ -1,6 +1,9 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: 'tests',
+  use: {
+    headless: true,
+  },
   webServer: {
     command: 'PORT=3000 npm start',
     port: 3000,

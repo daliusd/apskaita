@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import useSWR, { mutate } from 'swr';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 export default function ContactAgreement() {
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [enabled, setEnabled] = useState(false);
 
   const { data: contactAgreementData } = useSWR(
@@ -38,11 +40,8 @@ export default function ContactAgreement() {
     await mutate('/api/settings/contactagreement');
 
     if (!response.ok || !(await response.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Įvyko klaida duodant sutikimą susisiekti.',
-        severity: 'error',
-      });
+      setMessageText('Įvyko klaida duodant sutikimą susisiekti.');
+      setMessageSeverity('error');
       return;
     }
   };

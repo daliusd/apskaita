@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import Link from '../src/Link';
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -19,19 +20,18 @@ export default function SendInvoiceButton({
   onSent,
   disabled,
 }: IProps) {
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [sending, setSending] = useState(false);
 
   if (!invoiceId) return null;
 
   const handleClick = async () => {
     if (!email) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text:
-          'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',
-        severity: 'error',
-      });
+      setMessageText(
+        'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',
+      );
+      setMessageSeverity('error');
       return;
     }
 
@@ -51,29 +51,22 @@ export default function SendInvoiceButton({
     setSending(false);
 
     if (!response.ok) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
-        severity: 'error',
-      });
+      setMessageText('Klaida siunčiant sąskaitą faktūrą el. paštu.');
+      setMessageSeverity('error');
       return;
     }
 
     const message = await response.json();
     if (!message.success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
-        severity: 'error',
-      });
+      setMessageText(
+        message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
+      );
+      setMessageSeverity('error');
       return;
     }
 
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: 'Sąskaita faktūra išsiusta.',
-      severity: 'success',
-    });
+    setMessageText('Sąskaita faktūra išsiusta.');
+    setMessageText('success');
 
     onSent();
   };

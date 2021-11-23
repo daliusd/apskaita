@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
@@ -7,10 +8,11 @@ import ImageIcon from '@material-ui/icons/Image';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useSWR, { mutate } from 'swr';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 export default function ZeroesEdit() {
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   const { data, error } = useSWR('/api/settings/logo');
 
@@ -26,19 +28,13 @@ export default function ZeroesEdit() {
     });
 
     if (!resp.ok || !(await resp.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Nepavyko pakeisti logo.',
-        severity: 'error',
-      });
+      setMessageText('Nepavyko pakeisti logo.');
+      setMessageSeverity('error');
       return;
     }
 
-    dispatch({
-      type: 'SET_MESSAGE',
-      text: 'Logo pakeistas.',
-      severity: 'success',
-    });
+    setMessageText('Logo pakeistas.');
+    setMessageSeverity('success');
 
     await mutate('/api/settings/logo');
   };

@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -16,7 +17,8 @@ export default function InvoiceEditLocked({
   locked,
   setLocked,
 }: IProps) {
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   if (!invoiceId) return null;
 
@@ -32,11 +34,8 @@ export default function InvoiceEditLocked({
     });
 
     if (!response.ok || !(await response.json()).success) {
-      dispatch({
-        type: 'SET_MESSAGE',
-        text: 'Įvyko klaida užrakinant/atrakinant sąskaitą.',
-        severity: 'error',
-      });
+      setMessageText('Įvyko klaida užrakinant/atrakinant sąskaitą.');
+      setMessageSeverity('error');
       return;
     }
 

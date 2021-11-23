@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
@@ -7,7 +8,7 @@ import { useRouter } from 'next/router';
 import { IInvoice, ILineItem } from '../db/db';
 import { getMsSinceEpoch } from '../utils/date';
 
-import { IContext, Context } from '../src/Store';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -37,7 +38,8 @@ export default function InvoiceEditChangeButton({
   lineItems,
 }: IProps) {
   const router = useRouter();
-  const { dispatch } = useContext<IContext>(Context);
+  const [, setMessageText] = useRecoilState(messageTextState);
+  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   return (
     <Button
@@ -48,84 +50,57 @@ export default function InvoiceEditChangeButton({
       startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
       onClick={async () => {
         if (!seriesName) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite serijos pavadinimą.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite serijos pavadinimą.');
+          setMessageSeverity('error');
           return;
         }
 
         const created = getMsSinceEpoch(invoiceDate);
         if (!created) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite sąskaitos datą.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite sąskaitos datą.');
+          setMessageSeverity('error');
           return;
         }
 
         if (!seller) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite pardavėjo duomenis.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite pardavėjo duomenis.');
+          setMessageSeverity('error');
           return;
         }
 
         if (!buyer) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite pirkėjo duomenis.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite pirkėjo duomenis.');
+          setMessageSeverity('error');
           return;
         }
 
         if (!issuer) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite kas išrašė sąskaitą faktūrą.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite kas išrašė sąskaitą faktūrą.');
+          setMessageSeverity('error');
           return;
         }
 
         if (lineItems.some((li) => !li.name)) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite paslaugų ar prekių pavadinimus.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite paslaugų ar prekių pavadinimus.');
+          setMessageSeverity('error');
           return;
         }
 
         if (lineItems.some((li) => !li.unit)) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite paslaugų ar prekių matą.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite paslaugų ar prekių matą.');
+          setMessageSeverity('error');
           return;
         }
 
         if (lineItems.some((li) => li.amount <= 0)) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite teisingus paslaugų ar prekių kiekius.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite teisingus paslaugų ar prekių kiekius.');
+          setMessageSeverity('error');
           return;
         }
 
         if (lineItems.some((li) => !li.price)) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Nurodykite paslaugų ar prekių kainas.',
-            severity: 'error',
-          });
+          setMessageText('Nurodykite paslaugų ar prekių kainas.');
+          setMessageSeverity('error');
           return;
         }
 
@@ -145,7 +120,7 @@ export default function InvoiceEditChangeButton({
           lineItems,
         };
 
-        let response;
+        let response: Response;
         if (invoiceId) {
           response = await fetch('/api/invoices/' + invoiceId, {
             method: 'PUT',
@@ -170,21 +145,15 @@ export default function InvoiceEditChangeButton({
             : 'Klaida kuriant sąskaitą faktūrą.';
 
         if (!response.ok) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: getEditError(),
-            severity: 'error',
-          });
+          setMessageText(getEditError());
+          setMessageSeverity('error');
           return;
         }
 
         const responseJson = await response.json();
         if (!responseJson.success) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: getEditError(),
-            severity: 'error',
-          });
+          setMessageText(getEditError());
+          setMessageSeverity('error');
           return;
         }
 
@@ -204,26 +173,17 @@ export default function InvoiceEditChangeButton({
         }
 
         if (!responsePdf.ok || !(await responsePdf.json()).success) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Klaida generuojant sąskaitos faktūros PDF failą',
-            severity: 'error',
-          });
+          setMessageText('Klaida generuojant sąskaitos faktūros PDF failą');
+          setMessageSeverity('error');
           return;
         }
 
         if (!invoiceId) {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Sąskaita faktūra sukurta',
-            severity: 'success',
-          });
+          setMessageText('Sąskaita faktūra sukurta');
+          setMessageSeverity('success');
         } else {
-          dispatch({
-            type: 'SET_MESSAGE',
-            text: 'Sąskaitos faktūros pakeitimai išsaugoti',
-            severity: 'success',
-          });
+          setMessageText('Sąskaitos faktūros pakeitimai išsaugoti');
+          setMessageSeverity('success');
         }
       }}
     >
