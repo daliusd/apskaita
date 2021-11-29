@@ -44,6 +44,7 @@ import {
   sentState,
   lineItemsState,
   languageState,
+  initialInvoiceState,
 } from '../src/atoms';
 
 interface IProps {
@@ -64,6 +65,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       (invoiceId ? '?id=' + invoiceId : '') +
       (sourceId ? '?sourceId=' + sourceId : ''),
   );
+  const [, setInitialInvoice] = useRecoilState(initialInvoiceState);
   const [, setInvoiceId] = useRecoilState(invoiceIdState);
   const [seriesName, setSeriesName] = useRecoilState(seriesNameState);
   const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
@@ -82,6 +84,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   useEffect(() => {
     if (initialData && initialData.invoice) {
       const { invoice } = initialData;
+      setInitialInvoice(invoice);
       setInvoiceId(invoice.id);
       setSeriesName(invoice.seriesName);
       setSeriesId(invoice.seriesId);
@@ -106,6 +109,8 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     }
   }, [
     initialData,
+    setInitialInvoice,
+    setInvoiceId,
     setLanguage,
     setBuyer,
     setEmail,
@@ -123,29 +128,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   ]);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
-
-  const seriesIdResp = useSWR(
-    debouncedSeriesName ? `/api/seriesid/${debouncedSeriesName}` : null,
-  );
-
-  useEffect(() => {
-    if (
-      invoiceId &&
-      initialData &&
-      initialData.invoice &&
-      debouncedSeriesName === initialData.invoice.seriesName
-    ) {
-      setSeriesId(initialData.invoice.seriesId);
-    } else if (seriesIdResp.data) {
-      setSeriesId(seriesIdResp.data.seriesId);
-    }
-  }, [
-    seriesIdResp.data,
-    debouncedSeriesName,
-    initialData,
-    invoiceId,
-    setSeriesId,
-  ]);
 
   const debouncedSeriesId = useDebounce(seriesId, 500);
 
@@ -222,9 +204,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={6}>
-        <SeriesIdInput
-          disabled={(!seriesIdResp.data && !seriesIdResp.error) || locked}
-        />
+        <SeriesIdInput />
       </Grid>
 
       <Grid item xs={6}>

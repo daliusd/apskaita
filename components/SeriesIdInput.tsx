@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useRecoilState } from 'recoil';
 import { useDebounce } from 'react-recipes';
 import useSWR from 'swr';
 
-import { invoiceIdState, seriesIdState, seriesNameState } from '../src/atoms';
+import {
+  initialInvoiceState,
+  invoiceIdState,
+  lockedState,
+  seriesIdState,
+  seriesNameState,
+} from '../src/atoms';
 
-interface IProps {
-  disabled: boolean;
-}
-
-export default function SeriesIdInput({ disabled }: IProps) {
+export default function SeriesIdInput() {
+  const [initialInvoice] = useRecoilState(initialInvoiceState);
   const [invoiceId] = useRecoilState(invoiceIdState);
   const [seriesName] = useRecoilState(seriesNameState);
+  const [locked] = useRecoilState(lockedState);
   const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
@@ -27,6 +31,28 @@ export default function SeriesIdInput({ disabled }: IProps) {
 
   const valid = validSeriesNumberData ? validSeriesNumberData.valid : true;
 
+  const seriesIdResp = useSWR(
+    debouncedSeriesName ? `/api/seriesid/${debouncedSeriesName}` : null,
+  );
+
+  useEffect(() => {
+    if (
+      invoiceId &&
+      initialInvoice &&
+      debouncedSeriesName === initialInvoice.seriesName
+    ) {
+      setSeriesId(initialInvoice.seriesId.toString());
+    } else if (seriesIdResp.data) {
+      setSeriesId(seriesIdResp.data.seriesId);
+    }
+  }, [
+    seriesIdResp.data,
+    debouncedSeriesName,
+    initialInvoice,
+    invoiceId,
+    setSeriesId,
+  ]);
+
   return (
     <TextField
       type="number"
@@ -36,7 +62,7 @@ export default function SeriesIdInput({ disabled }: IProps) {
       onChange={(e) => {
         setSeriesId(e.target.value);
       }}
-      disabled={disabled}
+      disabled={(!seriesIdResp.data && !seriesIdResp.error) || locked}
       fullWidth
       error={!valid || !seriesId}
       helperText={

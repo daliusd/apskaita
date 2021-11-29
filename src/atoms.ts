@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { ILineItem } from '../db/db';
+import { IInvoice, ILineItem } from '../db/db';
 
 type Severity = 'error' | 'success' | 'info';
 
@@ -11,6 +11,11 @@ export const messageTextState = atom({
 export const messageSeverityState = atom({
   key: 'messageSeverity',
   default: 'success' as Severity,
+});
+
+export const initialInvoiceState = atom({
+  key: 'initialInvoice',
+  default: undefined as IInvoice,
 });
 
 export const invoiceIdState = atom({
