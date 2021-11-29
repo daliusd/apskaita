@@ -13,6 +13,11 @@ export const messageSeverityState = atom({
   default: 'success' as Severity,
 });
 
+export const invoiceIdState = atom({
+  key: 'invoiceId',
+  default: undefined as undefined | string,
+});
+
 export const languageState = atom({
   key: 'language',
   default: 'lt',

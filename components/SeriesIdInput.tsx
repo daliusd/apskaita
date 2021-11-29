@@ -1,19 +1,32 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useRecoilState } from 'recoil';
+import { useDebounce } from 'react-recipes';
+import useSWR from 'swr';
+
+import { invoiceIdState, seriesIdState, seriesNameState } from '../src/atoms';
 
 interface IProps {
-  seriesId: string;
-  onChange: (value: string) => void;
-  valid: boolean;
   disabled: boolean;
 }
 
-export default function SeriesIdInput({
-  seriesId,
-  onChange,
-  valid,
-  disabled,
-}: IProps) {
+export default function SeriesIdInput({ disabled }: IProps) {
+  const [invoiceId] = useRecoilState(invoiceIdState);
+  const [seriesName] = useRecoilState(seriesNameState);
+  const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
+
+  const debouncedSeriesName = useDebounce(seriesName, 500);
+  const debouncedSeriesId = useDebounce(seriesId, 500);
+
+  const { data: validSeriesNumberData } = useSWR(
+    debouncedSeriesName && debouncedSeriesId
+      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}` +
+          (invoiceId ? '?invoiceId=' + invoiceId : '')
+      : null,
+  );
+
+  const valid = validSeriesNumberData ? validSeriesNumberData.valid : true;
+
   return (
     <TextField
       type="number"
@@ -21,7 +34,7 @@ export default function SeriesIdInput({
       label="Serijos numeris"
       value={seriesId}
       onChange={(e) => {
-        onChange(e.target.value);
+        setSeriesId(e.target.value);
       }}
       disabled={disabled}
       fullWidth

@@ -29,6 +29,7 @@ import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
 import {
+  invoiceIdState,
   seriesNameState,
   seriesIdState,
   invoiceDateState,
@@ -63,6 +64,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       (invoiceId ? '?id=' + invoiceId : '') +
       (sourceId ? '?sourceId=' + sourceId : ''),
   );
+  const [, setInvoiceId] = useRecoilState(invoiceIdState);
   const [seriesName, setSeriesName] = useRecoilState(seriesNameState);
   const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
   const [invoiceDate, setInvoiceDate] = useRecoilState(invoiceDateState);
@@ -80,6 +82,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   useEffect(() => {
     if (initialData && initialData.invoice) {
       const { invoice } = initialData;
+      setInvoiceId(invoice.id);
       setSeriesName(invoice.seriesName);
       setSeriesId(invoice.seriesId);
       setSeller(invoice.seller);
@@ -145,12 +148,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   ]);
 
   const debouncedSeriesId = useDebounce(seriesId, 500);
-  const { data: validSeriesNumberData } = useSWR(
-    debouncedSeriesName && debouncedSeriesId
-      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}` +
-          (invoiceId ? '?invoiceId=' + invoiceId : '')
-      : null,
-  );
 
   const debouncedInvoiceDate = useDebounce(invoiceDate, 500);
   const { data: validInvoiceDate } = useSWR(
@@ -226,9 +223,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       <Grid item xs={6}>
         <SeriesIdInput
-          seriesId={seriesId}
-          onChange={setSeriesId}
-          valid={validSeriesNumberData ? validSeriesNumberData.valid : true}
           disabled={(!seriesIdResp.data && !seriesIdResp.error) || locked}
         />
       </Grid>
