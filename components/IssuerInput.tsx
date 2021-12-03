@@ -9,7 +9,7 @@ interface IProps {
   disabled: boolean;
 }
 
-export default function SellerInput({ issuer, onChange, disabled }: IProps) {
+export default function IssuerInput({ issuer, onChange, disabled }: IProps) {
   return (
     <TextField
       label="Sąskaitą faktūrą išrašė"

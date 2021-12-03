@@ -28,6 +28,11 @@ export const languageState = atom({
   default: 'lt',
 });
 
+export const languageAfterChangeState = atom({
+  key: 'languageAfterChange',
+  default: null as null | string,
+});
+
 export const seriesNameState = atom({
   key: 'seriesName',
   default: '',

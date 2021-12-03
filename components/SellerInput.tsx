@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useRecoilState } from 'recoil';
+import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
+import {
+  languageAfterChangeState,
+  lockedState,
+  sellerState,
+} from '../src/atoms';
 
-interface IProps {
-  seller: string;
-  onChange: (b: string) => void;
-  disabled: boolean;
-}
+export default function SellerInput() {
+  const [seller, setSeller] = useRecoilState(sellerState);
+  const [locked] = useRecoilState(lockedState);
+  const [languageAfterChange] = useRecoilState(languageAfterChangeState);
 
-export default function SellerInput({ seller, onChange, disabled }: IProps) {
+  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
+
+  const { data: sellerData } = useSWR(
+    languageAfterChange && `/api/settings/seller${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (sellerData && sellerData.value) {
+      setSeller(sellerData.value);
+    }
+  }, [sellerData, setSeller]);
+
+  const disabled = locked || (languageAfterChange && !sellerData);
+
   return (
     <TextField
       label="Pardavėjas"
       inputProps={{ 'aria-label': 'Pardavėjas' }}
       value={seller}
       onChange={(e) => {
-        onChange(cleanUpString(e.target.value));
+        setSeller(cleanUpString(e.target.value));
       }}
       fullWidth
       multiline

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -44,6 +44,7 @@ import {
   lineItemsState,
   languageState,
   initialInvoiceState,
+  languageAfterChangeState,
 } from '../src/atoms';
 
 interface IProps {
@@ -57,7 +58,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     session && (session as unknown as { gmailSend: boolean }).gmailSend;
 
   const [language, setLanguage] = useRecoilState(languageState);
-  const [languageAfterChange, setLanguageAfterChange] = useState(null);
+  const [languageAfterChange, setLanguageAfterChange] = useRecoilState(
+    languageAfterChangeState,
+  );
 
   const { data: initialData, error } = useSWR(
     '/api/initial' +
@@ -102,6 +105,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       } else {
         setInvoiceDate(new Date());
+        setLanguageAfterChange(null);
       }
     } else {
       setLineItems([]);
@@ -124,18 +128,10 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     setSent,
     setSeriesId,
     setSeriesName,
+    setLanguageAfterChange,
   ]);
 
   const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
-
-  const { data: sellerData } = useSWR(
-    languageAfterChange && `/api/settings/seller${languageSettingPlus}`,
-  );
-  useEffect(() => {
-    if (sellerData && sellerData.value) {
-      setSeller(sellerData.value);
-    }
-  }, [sellerData, setSeller]);
 
   const { data: issuerData } = useSWR(
     languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
@@ -201,11 +197,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <SellerInput
-          seller={seller}
-          onChange={setSeller}
-          disabled={locked || (languageAfterChange && !sellerData)}
-        />
+        <SellerInput />
       </Grid>
 
       <Grid item xs={12}>
