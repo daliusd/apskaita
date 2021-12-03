@@ -12,7 +12,6 @@ import { useDebounce } from 'react-recipes';
 import Link from '../src/Link';
 import LineItemEdit from '../components/LineItemEdit';
 import LanguageSelect from '../components/LanguageSelect';
-import SeriesNameInput from '../components/SeriesNameInput';
 import SeriesIdInput from '../components/SeriesIdInput';
 import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
@@ -25,6 +24,7 @@ import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
 import InvoiceEditSent from './InvoiceEditSent';
+import InvoiceEditSeriesName from './InvoiceEditSeriesName';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
 import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
@@ -195,12 +195,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={6}>
-        <SeriesNameInput
-          seriesName={seriesName}
-          onChange={setSeriesName}
-          disabled={locked}
-          valid={seriesName.length > 0}
-        />
+        <InvoiceEditSeriesName />
       </Grid>
 
       <Grid item xs={6}>
