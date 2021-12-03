@@ -133,15 +133,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
   const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
 
-  const { data: issuerData } = useSWR(
-    languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
-  );
-  useEffect(() => {
-    if (issuerData && issuerData.value) {
-      setIssuer(issuerData.value);
-    }
-  }, [issuerData, setIssuer]);
-
   const { data: extraData } = useSWR(
     languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
   );
@@ -220,11 +211,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       )}
 
       <Grid item xs={12}>
-        <IssuerInput
-          issuer={issuer}
-          onChange={setIssuer}
-          disabled={locked || (languageAfterChange && !issuerData)}
-        />
+        <IssuerInput />
       </Grid>
 
       <Grid item xs={12}>

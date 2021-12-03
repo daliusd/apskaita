@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useRecoilState } from 'recoil';
+import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
+import {
+  languageAfterChangeState,
+  lockedState,
+  issuerState,
+} from '../src/atoms';
 
-interface IProps {
-  issuer: string;
-  onChange: (b: string) => void;
-  disabled: boolean;
-}
+export default function IssuerInput() {
+  const [issuer, setIssuer] = useRecoilState(issuerState);
+  const [locked] = useRecoilState(lockedState);
+  const [languageAfterChange] = useRecoilState(languageAfterChangeState);
 
-export default function IssuerInput({ issuer, onChange, disabled }: IProps) {
+  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
+
+  const { data: issuerData } = useSWR(
+    languageAfterChange && `/api/settings/issuer${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (issuerData && issuerData.value) {
+      setIssuer(issuerData.value);
+    }
+  }, [issuerData, setIssuer]);
+
+  const disabled = locked || (languageAfterChange && !issuerData);
+
   return (
     <TextField
       label="Sąskaitą faktūrą išrašė"
@@ -17,7 +35,7 @@ export default function IssuerInput({ issuer, onChange, disabled }: IProps) {
       value={issuer}
       disabled={disabled}
       onChange={(e) => {
-        onChange(cleanUpString(e.target.value));
+        setIssuer(cleanUpString(e.target.value));
       }}
       fullWidth
     />
