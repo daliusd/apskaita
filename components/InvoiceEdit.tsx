@@ -7,19 +7,18 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
 
 import Link from '../src/Link';
 import LineItemEdit from '../components/LineItemEdit';
 import LanguageSelect from '../components/LanguageSelect';
 import SeriesIdInput from '../components/SeriesIdInput';
-import InvoiceDateInput from '../components/InvoiceDateInput';
 import BuyerInput from '../components/BuyerInput';
 import EmailInput from '../components/EmailInput';
 import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
 import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
+import InvoiceEditDate from './InvoiceEditDate';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
 import InvoiceEditPaid from './InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
@@ -27,7 +26,7 @@ import InvoiceEditSent from './InvoiceEditSent';
 import InvoiceEditSeriesName from './InvoiceEditSeriesName';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
-import { getDateFromMsSinceEpoch, getMsSinceEpoch } from '../utils/date';
+import { getDateFromMsSinceEpoch } from '../utils/date';
 import {
   invoiceIdState,
   seriesNameState,
@@ -127,22 +126,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     setSeriesName,
   ]);
 
-  const debouncedSeriesName = useDebounce(seriesName, 500);
-
-  const debouncedSeriesId = useDebounce(seriesId, 500);
-
-  const debouncedInvoiceDate = useDebounce(invoiceDate, 500);
-  const { data: validInvoiceDate } = useSWR(
-    debouncedSeriesName &&
-      debouncedSeriesId &&
-      debouncedInvoiceDate &&
-      getMsSinceEpoch(debouncedInvoiceDate)
-      ? `/api/validcreateddate/${debouncedSeriesName}/${debouncedSeriesId}/${getMsSinceEpoch(
-          debouncedInvoiceDate,
-        )}` + (invoiceId ? '?invoiceId=' + invoiceId : '')
-      : null,
-  );
-
   const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
 
   const { data: sellerData } = useSWR(
@@ -203,12 +186,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={6}>
-        <InvoiceDateInput
-          date={invoiceDate}
-          onChange={setInvoiceDate}
-          validInvoiceDate={validInvoiceDate}
-          disabled={locked}
-        />
+        <InvoiceEditDate />
       </Grid>
 
       <Grid item xs={6}>
