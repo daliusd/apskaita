@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useRecoilState } from 'recoil';
+import useSWR from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
+import {
+  languageAfterChangeState,
+  lockedState,
+  extraState,
+} from '../src/atoms';
 
-interface IProps {
-  extra: string;
-  onChange: (b: string) => void;
-  disabled: boolean;
-}
+export default function ExtraInput() {
+  const [extra, setExtra] = useRecoilState(extraState);
+  const [locked] = useRecoilState(lockedState);
+  const [languageAfterChange] = useRecoilState(languageAfterChangeState);
 
-export default function ExtraInput({ extra, onChange, disabled }: IProps) {
+  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
+
+  const { data: extraData } = useSWR(
+    languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
+  );
+  useEffect(() => {
+    if (extraData && extraData.value) {
+      setExtra(extraData.value);
+    }
+  }, [extraData, setExtra]);
+
+  const disabled = locked || (languageAfterChange && !extraData);
+
   return (
     <TextField
       label="Papildoma informacija sąskaitoje faktūroje"
       inputProps={{ 'aria-label': 'Papildoma informacija' }}
       value={extra}
       onChange={(e) => {
-        onChange(cleanUpString(e.target.value));
+        setExtra(cleanUpString(e.target.value));
       }}
       fullWidth
       multiline

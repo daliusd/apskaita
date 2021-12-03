@@ -105,10 +105,10 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       } else {
         setInvoiceDate(new Date());
-        setLanguageAfterChange(null);
       }
     } else {
       setLineItems([]);
+      setLanguageAfterChange(null);
     }
   }, [
     initialData,
@@ -130,17 +130,6 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     setSeriesName,
     setLanguageAfterChange,
   ]);
-
-  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
-
-  const { data: extraData } = useSWR(
-    languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
-  );
-  useEffect(() => {
-    if (extraData && extraData.value) {
-      setExtra(extraData.value);
-    }
-  }, [extraData, setExtra]);
 
   if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
   if (!initialData) return <LinearProgress />;
@@ -215,11 +204,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <ExtraInput
-          extra={extra}
-          onChange={setExtra}
-          disabled={locked || (languageAfterChange && !extraData)}
-        />
+        <ExtraInput />
       </Grid>
 
       <Grid item xs={12}>
