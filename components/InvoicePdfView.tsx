@@ -6,19 +6,19 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { useCopyClipboard } from 'react-recipes';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import {
+  messageSeverityState,
+  messageTextState,
+  pdfnameState,
+  seriesIdState,
+  seriesNameState,
+} from '../src/atoms';
 
-interface IProps {
-  seriesName: string;
-  seriesId: string;
-  pdfname: string;
-}
+export default function InvoicePdfView() {
+  const [seriesName] = useRecoilState(seriesNameState);
+  const [seriesId] = useRecoilState(seriesIdState);
+  const [pdfname] = useRecoilState(pdfnameState);
 
-export default function InvoicePdfView({
-  seriesName,
-  seriesId,
-  pdfname,
-}: IProps) {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);

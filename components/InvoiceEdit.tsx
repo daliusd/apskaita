@@ -247,11 +247,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         <InvoiceEditChangeButton />
       </Grid>
 
-      <InvoicePdfView
-        seriesName={seriesName}
-        seriesId={seriesId}
-        pdfname={pdfname}
-      />
+      <InvoicePdfView />
 
       {!!invoiceId && (
         <Grid item xs={12}>
