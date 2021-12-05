@@ -21,7 +21,7 @@ interface IProps {
 export default function SendInvoiceButton() {
   const [invoiceId] = useRecoilState(invoiceIdState);
   const [email] = useRecoilState(emailState);
-  const [, setSent] = useRecoilState(sentState);
+  const [sent, setSent] = useRecoilState(sentState);
   const [, setLocked] = useRecoilState(lockedState);
 
   const [, setMessageText] = useRecoilState(messageTextState);
