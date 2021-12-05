@@ -57,10 +57,8 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const gmailSend =
     session && (session as unknown as { gmailSend: boolean }).gmailSend;
 
-  const [language, setLanguage] = useRecoilState(languageState);
-  const [languageAfterChange, setLanguageAfterChange] = useRecoilState(
-    languageAfterChangeState,
-  );
+  const [, setLanguage] = useRecoilState(languageState);
+  const [, setLanguageAfterChange] = useRecoilState(languageAfterChangeState);
 
   const { data: initialData, error } = useSWR(
     '/api/initial' +
@@ -69,18 +67,18 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   );
   const [, setInitialInvoice] = useRecoilState(initialInvoiceState);
   const [, setInvoiceId] = useRecoilState(invoiceIdState);
-  const [seriesName, setSeriesName] = useRecoilState(seriesNameState);
-  const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
-  const [invoiceDate, setInvoiceDate] = useRecoilState(invoiceDateState);
-  const [seller, setSeller] = useRecoilState(sellerState);
-  const [buyer, setBuyer] = useRecoilState(buyerState);
-  const [email, setEmail] = useRecoilState(emailState);
-  const [issuer, setIssuer] = useRecoilState(issuerState);
-  const [extra, setExtra] = useRecoilState(extraState);
-  const [pdfname, setPdfname] = useRecoilState(pdfnameState);
-  const [paid, setPaid] = useRecoilState(paidState);
+  const [, setSeriesName] = useRecoilState(seriesNameState);
+  const [, setSeriesId] = useRecoilState(seriesIdState);
+  const [, setInvoiceDate] = useRecoilState(invoiceDateState);
+  const [, setSeller] = useRecoilState(sellerState);
+  const [, setBuyer] = useRecoilState(buyerState);
+  const [, setEmail] = useRecoilState(emailState);
+  const [, setIssuer] = useRecoilState(issuerState);
+  const [, setExtra] = useRecoilState(extraState);
+  const [, setPdfname] = useRecoilState(pdfnameState);
+  const [, setPaid] = useRecoilState(paidState);
   const [locked, setLocked] = useRecoilState(lockedState);
-  const [sent, setSent] = useRecoilState(sentState);
+  const [, setSent] = useRecoilState(sentState);
   const [lineItems, setLineItems] = useRecoilState(lineItemsState);
 
   useEffect(() => {
