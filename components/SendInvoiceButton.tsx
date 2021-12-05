@@ -5,24 +5,30 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import Link from '../src/Link';
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import {
+  emailState,
+  invoiceIdState,
+  lockedState,
+  messageSeverityState,
+  messageTextState,
+  sentState,
+} from '../src/atoms';
 
 interface IProps {
-  invoiceId?: string;
-  email: string;
-  onSent: () => void;
   disabled: boolean;
 }
 
-export default function SendInvoiceButton({
-  invoiceId,
-  email,
-  onSent,
-  disabled,
-}: IProps) {
+export default function SendInvoiceButton() {
+  const [invoiceId] = useRecoilState(invoiceIdState);
+  const [email] = useRecoilState(emailState);
+  const [, setSent] = useRecoilState(sentState);
+  const [, setLocked] = useRecoilState(lockedState);
+
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [sending, setSending] = useState(false);
+
+  const disabled = !email || sent;
 
   if (!invoiceId) return null;
 
@@ -68,7 +74,8 @@ export default function SendInvoiceButton({
     setMessageText('Sąskaita faktūra išsiusta.');
     setMessageText('success');
 
-    onSent();
+    setSent(true);
+    setLocked(true);
   };
 
   return (

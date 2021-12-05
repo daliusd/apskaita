@@ -265,17 +265,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
         </Grid>
       )}
 
-      {gmailSend && (
-        <SendInvoiceButton
-          invoiceId={invoiceId}
-          email={email}
-          onSent={() => {
-            setSent(true);
-            setLocked(true);
-          }}
-          disabled={!email || sent}
-        />
-      )}
+      {gmailSend && <SendInvoiceButton />}
 
       <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
     </Grid>
