@@ -12,7 +12,6 @@ import Link from '../src/Link';
 import LineItemEdit from '../components/LineItemEdit';
 import LanguageSelect from '../components/LanguageSelect';
 import SeriesIdInput from '../components/SeriesIdInput';
-import BuyerInput from '../components/BuyerInput';
 import EmailInput from '../components/EmailInput';
 import SellerInput from '../components/SellerInput';
 import IssuerInput from '../components/IssuerInput';
@@ -46,6 +45,7 @@ import {
   initialInvoiceState,
   languageAfterChangeState,
 } from '../src/atoms';
+import InvoiceEditBuyer from './InvoiceEditBuyer';
 
 interface IProps {
   invoiceId?: string;
@@ -174,16 +174,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <BuyerInput
-          buyer={buyer}
-          onChange={(buyerInfo) => {
-            setBuyer(buyerInfo.buyer);
-            if (!email) {
-              setEmail(buyerInfo.email);
-            }
-          }}
-          disabled={locked}
-        />
+        <InvoiceEditBuyer />
       </Grid>
 
       {gmailSend && (
