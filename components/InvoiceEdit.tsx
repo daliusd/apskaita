@@ -19,9 +19,9 @@ import ExtraInput from '../components/ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import InvoiceEditDate from './InvoiceEditDate';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
-import InvoiceEditPaid from './InvoiceEditPaid';
-import InvoiceEditLocked from './InvoiceEditLocked';
-import InvoiceEditSent from './InvoiceEditSent';
+import InvoiceEditEditPaid from './InvoiceEditEditPaid';
+import InvoiceEditEditLocked from './InvoiceEditEditLocked';
+import InvoiceEditEditSent from './InvoiceEditEditSent';
 import InvoiceEditSeriesName from './InvoiceEditSeriesName';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
@@ -259,9 +259,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       {!!invoiceId !== null && (
         <Grid item xs={12}>
-          <InvoiceEditPaid />
-          <InvoiceEditLocked />
-          <InvoiceEditSent />
+          <InvoiceEditEditPaid />
+          <InvoiceEditEditLocked />
+          <InvoiceEditEditSent />
         </Grid>
       )}
 

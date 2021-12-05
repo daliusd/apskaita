@@ -3,16 +3,15 @@ import { useRecoilState } from 'recoil';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import {
-  invoiceIdState,
-  messageSeverityState,
-  messageTextState,
-  paidState,
-} from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../src/atoms';
 
-export default function InvoiceEditPaid() {
-  const [invoiceId] = useRecoilState(invoiceIdState);
-  const [paid, setPaid] = useRecoilState(paidState);
+interface IProps {
+  invoiceId?: string;
+  paid: boolean;
+  setPaid: (v: boolean) => void;
+}
+
+export default function InvoiceEditPaid({ invoiceId, paid, setPaid }: IProps) {
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
