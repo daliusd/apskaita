@@ -4,15 +4,16 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import {
+  invoiceIdState,
+  messageSeverityState,
+  messageTextState,
+  sentState,
+} from '../src/atoms';
 
-interface IProps {
-  invoiceId?: string;
-  sent: boolean;
-  setSent: (v: boolean) => void;
-}
-
-export default function InvoiceEditSent({ invoiceId, sent, setSent }: IProps) {
+export default function InvoiceEditSent() {
+  const [invoiceId] = useRecoilState(invoiceIdState);
+  const [sent, setSent] = useRecoilState(sentState);
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 

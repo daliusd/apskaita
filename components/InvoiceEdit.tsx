@@ -259,21 +259,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       {!!invoiceId !== null && (
         <Grid item xs={12}>
-          <InvoiceEditPaid
-            invoiceId={invoiceId}
-            paid={paid}
-            setPaid={setPaid}
-          />
-          <InvoiceEditLocked
-            invoiceId={invoiceId}
-            locked={locked}
-            setLocked={setLocked}
-          />
-          <InvoiceEditSent
-            invoiceId={invoiceId}
-            sent={sent}
-            setSent={setSent}
-          />
+          <InvoiceEditPaid />
+          <InvoiceEditLocked />
+          <InvoiceEditSent />
         </Grid>
       )}
 
