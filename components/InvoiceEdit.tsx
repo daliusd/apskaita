@@ -166,14 +166,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={6}>
-        <LanguageSelect
-          language={language}
-          onChange={(l) => {
-            setLanguage(l);
-            setLanguageAfterChange(l);
-          }}
-          disabled={locked}
-        />
+        <LanguageSelect />
       </Grid>
 
       <Grid item xs={12}>
