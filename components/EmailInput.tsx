@@ -1,22 +1,22 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useRecoilState } from 'recoil';
 
-interface IProps {
-  email: string;
-  onChange: (value: string) => void;
-  disabled: boolean;
-}
+import { emailState, lockedState } from '../src/atoms';
 
-export default function EmailInput({ email, onChange, disabled }: IProps) {
+export default function EmailInput() {
+  const [email, setEmail] = useRecoilState(emailState);
+  const [locked] = useRecoilState(lockedState);
+
   return (
     <TextField
       inputProps={{ 'aria-label': 'Pirkėjo el. pašto adresas' }}
       label="Pirkėjo el. pašto adresas"
       value={email}
       onChange={(e) => {
-        onChange(e.target.value);
+        setEmail(e.target.value);
       }}
-      disabled={disabled}
+      disabled={locked}
       fullWidth
     />
   );

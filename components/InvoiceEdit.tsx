@@ -179,7 +179,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       {gmailSend && (
         <Grid item xs={12}>
-          <EmailInput email={email} onChange={setEmail} disabled={locked} />
+          <EmailInput />
         </Grid>
       )}
 
@@ -244,19 +244,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <InvoiceEditChangeButton
-          invoiceId={invoiceId}
-          seriesName={seriesName}
-          seriesId={seriesId}
-          invoiceDate={invoiceDate}
-          seller={seller}
-          buyer={buyer}
-          email={email}
-          issuer={issuer}
-          extra={extra}
-          language={language}
-          lineItems={lineItems}
-        />
+        <InvoiceEditChangeButton />
       </Grid>
 
       <InvoicePdfView
