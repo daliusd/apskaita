@@ -10,7 +10,7 @@ import useSWR, { mutate } from 'swr';
 
 import { messageSeverityState, messageTextState } from '../src/atoms';
 
-export default function ZeroesEdit() {
+export default function LogoEdit() {
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 

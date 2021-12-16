@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
-import { cleanUpString } from '../utils/textutils';
+import { cleanUpString } from '../../utils/textutils';
 
 interface IProps {
   seriesName: string;

@@ -1,16 +1,16 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-import { invoiceIdState, lockedState } from '../src/atoms';
+import { invoiceIdState, lockedState } from '../../src/atoms';
 
-import InvoiceEditLocked from './InvoiceEditLocked';
+import InvoiceLockedCheckbox from '../inputs/InvoiceLockedCheckbox';
 
-export default function InvoiceEditEditLocked() {
+export default function InvoiceEditLocked() {
   const [invoiceId] = useRecoilState(invoiceIdState);
   const [locked, setLocked] = useRecoilState(lockedState);
 
   return (
-    <InvoiceEditLocked
+    <InvoiceLockedCheckbox
       invoiceId={invoiceId}
       locked={locked}
       setLocked={setLocked}

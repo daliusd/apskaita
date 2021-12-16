@@ -11,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useRouter } from 'next/router';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface IProps {
   invoiceId?: string;

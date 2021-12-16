@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import SeriesNameInput from '../components/SeriesNameInput';
+import SeriesNameInput from '../inputs/SeriesNameInput';
 
-import { lockedState, seriesNameState } from '../src/atoms';
+import { lockedState, seriesNameState } from '../../src/atoms';
 
 export default function InvoiceEditSeriesName() {
   const [seriesName, setSeriesName] = useRecoilState(seriesNameState);

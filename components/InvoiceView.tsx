@@ -14,9 +14,9 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { IInvoice } from '../db/db';
 import { getDateString } from '../utils/date';
 import Link from '../src/Link';
-import InvoiceEditPaid from './InvoiceEditPaid';
-import InvoiceEditLocked from './InvoiceEditLocked';
-import InvoiceEditSent from './InvoiceEditSent';
+import InvoicePaidCheckbox from './inputs/InvoicePaidCheckbox';
+import InvoiceLockedCheckbox from './inputs/InvoiceLockedCheckbox';
+import InvoiceSentCheckbox from './inputs/InvoiceSentCheckbox';
 
 interface Props {
   invoice: IInvoice;
@@ -77,7 +77,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <InvoiceEditPaid
+            <InvoicePaidCheckbox
               invoiceId={invoice.id.toString()}
               paid={paid}
               setPaid={(v) => {
@@ -85,7 +85,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
                 onChange();
               }}
             />
-            <InvoiceEditLocked
+            <InvoiceLockedCheckbox
               invoiceId={invoice.id.toString()}
               locked={locked}
               setLocked={(v) => {
@@ -93,7 +93,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
                 onChange();
               }}
             />
-            <InvoiceEditSent
+            <InvoiceSentCheckbox
               invoiceId={invoice.id.toString()}
               sent={sent}
               setSent={(v) => {

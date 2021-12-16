@@ -12,7 +12,7 @@ import {
   pdfnameState,
   seriesIdState,
   seriesNameState,
-} from '../src/atoms';
+} from '../../src/atoms';
 
 export default function InvoicePdfView() {
   const [seriesName] = useRecoilState(seriesNameState);

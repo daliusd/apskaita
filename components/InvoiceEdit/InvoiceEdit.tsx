@@ -8,24 +8,24 @@ import AddIcon from '@material-ui/icons/Add';
 import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
 
-import Link from '../src/Link';
-import LineItemEdit from '../components/LineItemEdit';
-import LanguageSelect from '../components/LanguageSelect';
-import SeriesIdInput from '../components/SeriesIdInput';
-import EmailInput from '../components/EmailInput';
-import SellerInput from '../components/SellerInput';
-import IssuerInput from '../components/IssuerInput';
-import ExtraInput from '../components/ExtraInput';
+import Link from '../../src/Link';
+import LineItemEdit from './LineItemEdit';
+import LanguageSelect from './LanguageSelect';
+import SeriesIdInput from './SeriesIdInput';
+import BuyerEmailInput from '../inputs/BuyerEmailInput';
+import SellerInput from './SellerInput';
+import IssuerInput from './IssuerInput';
+import ExtraInput from './ExtraInput';
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
 import InvoiceEditDate from './InvoiceEditDate';
 import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
-import InvoiceEditEditPaid from './InvoiceEditEditPaid';
-import InvoiceEditEditLocked from './InvoiceEditEditLocked';
-import InvoiceEditEditSent from './InvoiceEditEditSent';
+import InvoiceEditPaid from '../inputs/InvoiceEditPaid';
+import InvoiceEditLocked from './InvoiceEditLocked';
+import InvoiceEditSent from './InvoiceEditSent';
 import InvoiceEditSeriesName from './InvoiceEditSeriesName';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
-import { getDateFromMsSinceEpoch } from '../utils/date';
+import { getDateFromMsSinceEpoch } from '../../utils/date';
 import {
   invoiceIdState,
   seriesNameState,
@@ -44,7 +44,7 @@ import {
   languageState,
   initialInvoiceState,
   languageAfterChangeState,
-} from '../src/atoms';
+} from '../../src/atoms';
 import InvoiceEditBuyer from './InvoiceEditBuyer';
 
 interface IProps {
@@ -177,7 +177,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       {gmailSend && (
         <Grid item xs={12}>
-          <EmailInput />
+          <BuyerEmailInput />
         </Grid>
       )}
 
@@ -257,9 +257,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
       {!!invoiceId !== null && (
         <Grid item xs={12}>
-          <InvoiceEditEditPaid />
-          <InvoiceEditEditLocked />
-          <InvoiceEditEditSent />
+          <InvoiceEditPaid />
+          <InvoiceEditLocked />
+          <InvoiceEditSent />
         </Grid>
       )}
 

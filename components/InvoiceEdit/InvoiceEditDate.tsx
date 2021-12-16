@@ -10,9 +10,9 @@ import {
   lockedState,
   seriesIdState,
   seriesNameState,
-} from '../src/atoms';
-import { getMsSinceEpoch } from '../utils/date';
-import InvoiceDateInput from '../components/InvoiceDateInput';
+} from '../../src/atoms';
+import { getMsSinceEpoch } from '../../utils/date';
+import InvoiceDateInput from '../inputs/InvoiceDateInput';
 
 export default function InvoiceEditDate() {
   const [invoiceId] = useRecoilState(invoiceIdState);

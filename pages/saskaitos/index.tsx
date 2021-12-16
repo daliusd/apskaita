@@ -14,8 +14,8 @@ import { useRouter } from 'next/router';
 import { useDebounce } from 'react-recipes';
 
 import Invoices from '../../components/Invoices';
-import BuyerInput from '../../components/BuyerInput';
-import SeriesNameInput from '../../components/SeriesNameInput';
+import BuyerInput from '../../components/inputs/BuyerInput';
+import SeriesNameInput from '../../components/inputs/SeriesNameInput';
 import { getMsSinceEpoch } from '../../utils/date';
 
 export default function Index() {

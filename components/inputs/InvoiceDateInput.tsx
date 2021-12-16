@@ -1,7 +1,7 @@
 import React from 'react';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import { getDateString } from '../utils/date';
+import { getDateString } from '../../utils/date';
 
 interface IProps {
   date: Date;

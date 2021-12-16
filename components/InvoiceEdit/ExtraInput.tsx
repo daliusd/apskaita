@@ -3,12 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
-import { cleanUpString } from '../utils/textutils';
+import { cleanUpString } from '../../utils/textutils';
 import {
   languageAfterChangeState,
   lockedState,
   extraState,
-} from '../src/atoms';
+} from '../../src/atoms';
 
 export default function ExtraInput() {
   const [extra, setExtra] = useRecoilState(extraState);

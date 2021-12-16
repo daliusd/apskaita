@@ -2,9 +2,9 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useRecoilState } from 'recoil';
 
-import { emailState, lockedState } from '../src/atoms';
+import { emailState, lockedState } from '../../src/atoms';
 
-export default function EmailInput() {
+export default function BuyerEmailInput() {
   const [email, setEmail] = useRecoilState(emailState);
   const [locked] = useRecoilState(lockedState);
 

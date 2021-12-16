@@ -8,8 +8,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
-import { ILineItem } from '../db/db';
-import { cleanUpString } from '../utils/textutils';
+import { ILineItem } from '../../db/db';
+import { cleanUpString } from '../../utils/textutils';
 
 interface Props {
   lineItem: ILineItem;

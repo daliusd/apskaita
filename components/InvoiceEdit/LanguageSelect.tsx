@@ -9,7 +9,7 @@ import {
   languageState,
   languageAfterChangeState,
   lockedState,
-} from '../src/atoms';
+} from '../../src/atoms';
 
 export default function LanguageSelect() {
   const [language, setLanguage] = useRecoilState(languageState);

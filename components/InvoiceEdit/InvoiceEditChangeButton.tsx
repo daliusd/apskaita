@@ -5,8 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import { useRouter } from 'next/router';
 
-import { IInvoice } from '../db/db';
-import { getMsSinceEpoch } from '../utils/date';
+import { IInvoice } from '../../db/db';
+import { getMsSinceEpoch } from '../../utils/date';
 
 import {
   buyerState,
@@ -22,7 +22,7 @@ import {
   sellerState,
   seriesIdState,
   seriesNameState,
-} from '../src/atoms';
+} from '../../src/atoms';
 
 export default function InvoiceEditChangeButton() {
   const [invoiceId] = useRecoilState(invoiceIdState);
