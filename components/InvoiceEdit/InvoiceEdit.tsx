@@ -1,30 +1,12 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-import { useSession } from 'next-auth/client';
 import useSWR from 'swr';
 
-import Link from '../../src/Link';
-import LineItemEdit from './LineItemEdit';
-import LanguageSelect from './LanguageSelect';
-import SeriesIdInput from './SeriesIdInput';
-import BuyerEmailInput from '../inputs/BuyerEmailInput';
-import SellerInput from './SellerInput';
-import IssuerInput from './IssuerInput';
-import ExtraInput from './ExtraInput';
-import InvoiceEditChangeButton from './InvoiceEditChangeButton';
-import InvoiceEditDate from './InvoiceEditDate';
-import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
-import InvoiceEditPaid from '../inputs/InvoiceEditPaid';
-import InvoiceEditLocked from './InvoiceEditLocked';
-import InvoiceEditSent from './InvoiceEditSent';
-import InvoiceEditSeriesName from './InvoiceEditSeriesName';
-import SendInvoiceButton from './SendInvoiceButton';
-import InvoicePdfView from './InvoicePdfView';
+import InvoiceEditMain from './InvoiceEditMain';
+import InvoiceEditItems from './InvoiceEditItems';
+import InvoiceEditControls from './InvoiceEditControls';
 import { getDateFromMsSinceEpoch } from '../../utils/date';
 import {
   invoiceIdState,
@@ -45,7 +27,6 @@ import {
   initialInvoiceState,
   languageAfterChangeState,
 } from '../../src/atoms';
-import InvoiceEditBuyer from './InvoiceEditBuyer';
 
 interface IProps {
   invoiceId?: string;
@@ -53,10 +34,6 @@ interface IProps {
 }
 
 export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
-  const [session] = useSession();
-  const gmailSend =
-    session && (session as unknown as { gmailSend: boolean }).gmailSend;
-
   const [, setLanguage] = useRecoilState(languageState);
   const [, setLanguageAfterChange] = useRecoilState(languageAfterChangeState);
 
@@ -77,9 +54,9 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   const [, setExtra] = useRecoilState(extraState);
   const [, setPdfname] = useRecoilState(pdfnameState);
   const [, setPaid] = useRecoilState(paidState);
-  const [locked, setLocked] = useRecoilState(lockedState);
+  const [, setLocked] = useRecoilState(lockedState);
   const [, setSent] = useRecoilState(sentState);
-  const [lineItems, setLineItems] = useRecoilState(lineItemsState);
+  const [, setLineItems] = useRecoilState(lineItemsState);
 
   useEffect(() => {
     if (initialData && initialData.invoice) {
@@ -135,137 +112,11 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">
-          {invoiceId ? 'Keisti sąskaitą faktūrą' : 'Sukurti sąskaitą faktūrą'}
-        </Typography>
-      </Grid>
+      <InvoiceEditMain />
 
-      <Grid item xs={12}>
-        <Typography variant="body2" component="div">
-          Pagalbinės informacijos apie sąskaitų faktūrų sukūrimą, keitimą ir
-          kitą funkcionalumą galite rasti šiame straipsnyje{' '}
-          <Link href="/straipsniai/saskaitos-fakturos">
-            „Sąskaitų faktūrų išrašymas ir redagavimas“
-          </Link>
-        </Typography>
-      </Grid>
+      <InvoiceEditItems />
 
-      <Grid item xs={6}>
-        <InvoiceEditSeriesName />
-      </Grid>
-
-      <Grid item xs={6}>
-        <SeriesIdInput />
-      </Grid>
-
-      <Grid item xs={6}>
-        <InvoiceEditDate />
-      </Grid>
-
-      <Grid item xs={6}>
-        <LanguageSelect />
-      </Grid>
-
-      <Grid item xs={12}>
-        <SellerInput />
-      </Grid>
-
-      <Grid item xs={12}>
-        <InvoiceEditBuyer />
-      </Grid>
-
-      {gmailSend && (
-        <Grid item xs={12}>
-          <BuyerEmailInput />
-        </Grid>
-      )}
-
-      <Grid item xs={12}>
-        <IssuerInput />
-      </Grid>
-
-      <Grid item xs={12}>
-        <ExtraInput />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Typography variant="h6">Paslaugos ar prekės</Typography>
-      </Grid>
-
-      {lineItems.map((g, idx) => {
-        return (
-          <LineItemEdit
-            key={g.id}
-            idx={idx}
-            lineItem={g}
-            deleteEnabled={lineItems.length > 1}
-            onDelete={() => {
-              setLineItems(lineItems.filter((gt) => gt.id != g.id));
-            }}
-            onChange={(gn) => {
-              setLineItems(
-                lineItems.map((g) => {
-                  if (gn.id != g.id) {
-                    return g;
-                  }
-                  return gn;
-                }),
-              );
-            }}
-            disabled={locked}
-          />
-        );
-      })}
-
-      <Grid item xs={12}>
-        <Button
-          color="primary"
-          startIcon={<AddIcon />}
-          aria-label="Pridėti paslaugą ar prekę"
-          disabled={locked}
-          onClick={() => {
-            setLineItems([
-              ...lineItems,
-              {
-                id: Math.max(...lineItems.map((g) => g.id)) + 1,
-                name: '',
-                unit: 'vnt.',
-                amount: 1,
-                price: 0,
-              },
-            ]);
-          }}
-        >
-          Pridėti paslaugą ar prekę
-        </Button>
-      </Grid>
-
-      <Grid item xs={12}>
-        <InvoiceEditChangeButton />
-      </Grid>
-
-      <InvoicePdfView />
-
-      {!!invoiceId && (
-        <Grid item xs={12}>
-          <Typography variant="body1" color="textSecondary" component="p">
-            Ši sąskaita faktūra yra:
-          </Typography>
-        </Grid>
-      )}
-
-      {!!invoiceId !== null && (
-        <Grid item xs={12}>
-          <InvoiceEditPaid />
-          <InvoiceEditLocked />
-          <InvoiceEditSent />
-        </Grid>
-      )}
-
-      {gmailSend && <SendInvoiceButton />}
-
-      <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
+      <InvoiceEditControls />
     </Grid>
   );
 }
