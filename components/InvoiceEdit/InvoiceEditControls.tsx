@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { useSession } from 'next-auth/client';
 
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
-import InvoiceEditDeleteButton from './InvoiceEditDeleteButton';
+import InvoiceDeleteButton from '../inputs/InvoiceDeleteButton';
 import InvoiceEditPaid from '../inputs/InvoiceEditPaid';
 import InvoiceEditLocked from './InvoiceEditLocked';
 import InvoiceEditSent from './InvoiceEditSent';
@@ -46,7 +46,7 @@ export default function InvoiceEditControls() {
 
       {gmailSend && <SendInvoiceButton />}
 
-      <InvoiceEditDeleteButton invoiceId={invoiceId} disabled={locked} />
+      <InvoiceDeleteButton invoiceId={invoiceId} disabled={locked} />
     </Grid>
   );
 }

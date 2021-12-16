@@ -18,7 +18,7 @@ interface IProps {
   disabled: boolean;
 }
 
-export default function InvoiceEditDeleteButton({
+export default function InvoiceDeleteButton({
   invoiceId,
   disabled,
 }: IProps) {
