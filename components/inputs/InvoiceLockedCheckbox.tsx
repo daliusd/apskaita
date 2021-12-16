@@ -4,7 +4,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -12,7 +12,7 @@ interface IProps {
   setLocked: (v: boolean) => void;
 }
 
-export default function InvoiceEditLocked({
+export default function InvoiceLockedCheckbox({
   invoiceId,
   locked,
   setLocked,

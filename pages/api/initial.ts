@@ -55,6 +55,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({
         invoice: {
           ...invoice,
+          id: undefined,
           seriesId,
           created: undefined,
           pdfname: '',

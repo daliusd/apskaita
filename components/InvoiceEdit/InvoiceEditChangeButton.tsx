@@ -5,38 +5,38 @@ import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import { useRouter } from 'next/router';
 
-import { IInvoice, ILineItem } from '../db/db';
-import { getMsSinceEpoch } from '../utils/date';
+import { IInvoice } from '../../db/db';
+import { getMsSinceEpoch } from '../../utils/date';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import {
+  buyerState,
+  emailState,
+  extraState,
+  invoiceDateState,
+  invoiceIdState,
+  issuerState,
+  languageState,
+  lineItemsState,
+  messageSeverityState,
+  messageTextState,
+  sellerState,
+  seriesIdState,
+  seriesNameState,
+} from '../../src/atoms';
 
-interface IProps {
-  invoiceId?: string;
-  seriesName: string;
-  seriesId: string;
-  invoiceDate: Date;
-  seller: string;
-  buyer: string;
-  email: string;
-  issuer: string;
-  extra: string;
-  language: string;
-  lineItems: ILineItem[];
-}
+export default function InvoiceEditChangeButton() {
+  const [invoiceId] = useRecoilState(invoiceIdState);
+  const [seriesName] = useRecoilState(seriesNameState);
+  const [seriesId] = useRecoilState(seriesIdState);
+  const [invoiceDate] = useRecoilState(invoiceDateState);
+  const [seller] = useRecoilState(sellerState);
+  const [buyer] = useRecoilState(buyerState);
+  const [email] = useRecoilState(emailState);
+  const [issuer] = useRecoilState(issuerState);
+  const [extra] = useRecoilState(extraState);
+  const [language] = useRecoilState(languageState);
+  const [lineItems] = useRecoilState(lineItemsState);
 
-export default function InvoiceEditChangeButton({
-  invoiceId,
-  seriesName,
-  seriesId,
-  invoiceDate,
-  seller,
-  buyer,
-  email,
-  issuer,
-  extra,
-  language,
-  lineItems,
-}: IProps) {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);

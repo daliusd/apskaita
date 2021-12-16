@@ -11,17 +11,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useRouter } from 'next/router';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface IProps {
   invoiceId?: string;
   disabled: boolean;
 }
 
-export default function InvoiceEditDeleteButton({
-  invoiceId,
-  disabled,
-}: IProps) {
+export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
@@ -46,7 +43,7 @@ export default function InvoiceEditDeleteButton({
   };
 
   return (
-    <Grid container item xs={12} justify="flex-end">
+    <Grid container item xs={12} justifyContent="flex-end">
       <Button
         variant="contained"
         color="secondary"

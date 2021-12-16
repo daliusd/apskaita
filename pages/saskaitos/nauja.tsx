@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
-import InvoiceEdit from '../../components/InvoiceEdit';
+import InvoiceEdit from '../../components/InvoiceEdit/InvoiceEdit';
 
 import { defaultOrFirst } from '../../utils/query';
 
