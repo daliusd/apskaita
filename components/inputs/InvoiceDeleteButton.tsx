@@ -18,10 +18,7 @@ interface IProps {
   disabled: boolean;
 }
 
-export default function InvoiceDeleteButton({
-  invoiceId,
-  disabled,
-}: IProps) {
+export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
@@ -46,7 +43,7 @@ export default function InvoiceDeleteButton({
   };
 
   return (
-    <Grid container item xs={12} justify="flex-end">
+    <Grid container item xs={12} justifyContent="flex-end">
       <Button
         variant="contained"
         color="secondary"

@@ -63,7 +63,7 @@ export default function InvoicePdfView() {
           Atidaryti PDF failą
         </Button>
       </Grid>
-      <Grid container item xs={6} justify="flex-end">
+      <Grid container item xs={6} justifyContent="flex-end">
         <Button
           variant="contained"
           color="primary"
