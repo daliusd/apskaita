@@ -31,7 +31,7 @@
     "sqlite3": "5.0.2",
     "stacktrace-js": "2.0.2",
     "strip-markdown": "5.0.0",
-    "swr": "1.2.1",
+    "swr": "1.2.2",
     "ts-node": "10.5.0",
     "uuid": "8.3.2"
   },
