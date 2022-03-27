@@ -1,15 +1,11 @@
-import NextAuth from 'next-auth';
-import Providers, { OAuthConfig } from 'next-auth/providers';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { OAuthConfig } from 'next-auth/providers';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { Database } from 'sqlite';
 import { openDb } from '../../../db/db';
 
-const GOOGLE_AUTHORIZATION_URL =
-  'https://accounts.google.com/o/oauth2/v2/auth?' +
-  new URLSearchParams({
-    prompt: 'consent',
-    access_type: 'offline',
-    response_type: 'code',
-  });
+const GOOGLE_AUTHORIZATION_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 
 async function refreshAccessToken(token) {
   try {
@@ -59,12 +55,20 @@ const googleExProvider: OAuthConfig<{
   name: 'Google Experimental',
   type: 'oauth',
   version: '2.0',
-  scope:
-    'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
-  params: { grant_type: 'authorization_code' },
+  authorization: {
+    url: GOOGLE_AUTHORIZATION_URL,
+    params: {
+      scope:
+        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
+      grant_type: 'authorization_code',
+      prompt: 'consent',
+      access_type: 'offline',
+      response_type: 'code',
+    },
+  },
   accessTokenUrl: 'https://accounts.google.com/o/oauth2/token',
   requestTokenUrl: 'https://accounts.google.com/o/oauth2/auth',
-  authorizationUrl: GOOGLE_AUTHORIZATION_URL,
+
   profileUrl: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
   async profile(profile) {
     return {
@@ -78,17 +82,24 @@ const googleExProvider: OAuthConfig<{
   clientSecret: process.env.GOOGLE_SECRET,
 };
 
-const options = {
+const options: NextAuthOptions = {
   providers: [
-    Providers.Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      authorizationUrl: GOOGLE_AUTHORIZATION_URL,
-      scope:
-        'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
+      authorization: {
+        url: GOOGLE_AUTHORIZATION_URL,
+        params: {
+          scope:
+            'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/gmail.send',
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     }),
     googleExProvider,
-    Providers.Credentials({
+    CredentialsProvider({
       name: 'Credentials',
       credentials: {
         username: { label: 'Username', type: 'text' },
@@ -118,7 +129,7 @@ const options = {
   secret: process.env.SECRET,
 
   session: {
-    jwt: true,
+    strategy: 'jwt',
   },
 
   pages: {
@@ -126,7 +137,7 @@ const options = {
   },
 
   callbacks: {
-    async signIn(user) {
+    async signIn({ user }) {
       let db: Database;
       try {
         db = await openDb(user.email);
@@ -136,17 +147,18 @@ const options = {
 
       return true;
     },
-    async jwt(token, user, account) {
+    async jwt({ token, user, account }) {
       // Initial sign in
-      if (account && user && account.accessToken) {
+      if (account && user && account.access_token) {
         return {
-          accessToken: account.accessToken,
-          accessTokenExpires: Date.now() + account.expires_in * 1000,
+          accessToken: account.access_token,
+          accessTokenExpires:
+            Date.now() + (account.expires_in as number) * 1000,
           refreshToken: account.refresh_token,
-          gdrive: account.scope.includes(
+          gdrive: account.scope?.includes(
             'https://www.googleapis.com/auth/drive.file',
           ),
-          gmailSend: account.scope.includes(
+          gmailSend: account.scope?.includes(
             'https://www.googleapis.com/auth/gmail.send',
           ),
           user,
@@ -164,7 +176,7 @@ const options = {
       // Access token has expired, try to update it
       return refreshAccessToken(token);
     },
-    async session(session, token) {
+    async session({ session, token }) {
       if (token) {
         session.user = token.user !== undefined ? token.user : session.user;
         session.accessToken = token.accessToken;
@@ -175,7 +187,7 @@ const options = {
 
       return session;
     },
-    async redirect(url, baseUrl) {
+    async redirect({ baseUrl }) {
       return baseUrl;
     },
   },

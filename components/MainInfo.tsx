@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Invoices from '../components/Invoices';
 
 export default function MainInfo() {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const onClickCreateInvoice = () => {

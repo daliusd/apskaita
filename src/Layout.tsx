@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useLocalStorage } from 'react-recipes';
 
 import Copyright from './Copyright';
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
   const [messageText, setMessageText] = useRecoilState(messageTextState);
   const [messageSeverity] = useRecoilState(messageSeverityState);
   const [experiments] = useLocalStorage('experiments', '');
@@ -87,7 +87,7 @@ const Layout: React.FC = ({ children }) => {
                 />
               </Link>
             </Typography>
-            {!loading && !session && (
+            {status !== 'loading' && !session && (
               <Button
                 className={classes.google}
                 startIcon={

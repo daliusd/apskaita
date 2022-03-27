@@ -9,7 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'react-recipes';
 
@@ -19,7 +19,7 @@ import SeriesNameInput from '../../components/inputs/SeriesNameInput';
 import { getMsSinceEpoch } from '../../utils/date';
 
 export default function Index() {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const [minDate, setMinDate] = useState(() => {

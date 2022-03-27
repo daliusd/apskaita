@@ -11,7 +11,7 @@ import { CircularProgress } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
 import { IExpense } from '../db/db';
@@ -25,7 +25,7 @@ export interface ExpenseEditDialogProps {
 
 export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
   const { expense } = props;
-  const [session] = useSession();
+  const { data: session } = useSession();
   const [description, setDescription] = useState(
     expense ? expense.description : '',
   );

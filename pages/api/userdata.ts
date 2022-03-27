@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs/promises';
-import { getSession } from 'next-auth/client';
+import { getSession } from 'next-auth/react';
 import { Database } from 'sqlite';
 
 import { getInvoiceList, openDb } from '../../db/db';

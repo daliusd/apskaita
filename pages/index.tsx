@@ -1,13 +1,13 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import ArticleView from '../components/ArticleView';
 import { getArticleBySlug } from '../db/articles';
 
 const MainInfo = dynamic(() => import('../components/MainInfo'));
 
 export default function Index({ article }) {
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   if (!session) {
     return (

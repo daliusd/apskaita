@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import useSWR, { mutate } from 'swr';
 
 import { cleanUpString } from '../utils/textutils';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function IssuerEdit({ language }: Props) {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const [issuerCurrent, setIssuerCurrent] = useState<string | undefined>(
     undefined,
   );

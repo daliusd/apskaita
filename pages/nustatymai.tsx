@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 
 import SellerInfoEdit from '../components/SellerInfoEdit';
 import IssuerEdit from '../components/IssuerEdit';
@@ -17,9 +17,9 @@ import DataDeleteButton from '../components/DataDeleteButton';
 import Link from '../src/Link';
 
 export default function Apie() {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const gmailSend =
-    session && ((session as unknown) as { gmailSend: boolean }).gmailSend;
+    session && (session as unknown as { gmailSend: boolean }).gmailSend;
 
   const [tab, setTab] = useState(0);
   const [language, setLanguage] = useState('lt');

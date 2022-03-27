@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 
 import Link from '../../src/Link';
 import LanguageSelect from './LanguageSelect';
@@ -17,7 +17,7 @@ import InvoiceEditBuyer from './InvoiceEditBuyer';
 import { invoiceIdState } from '../../src/atoms';
 
 export default function InvoiceEditMain() {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const gmailSend =
     session && (session as unknown as { gmailSend: boolean }).gmailSend;
   const [invoiceId] = useRecoilState(invoiceIdState);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { signOut } from 'next-auth/client';
+import { signOut } from 'next-auth/react';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';

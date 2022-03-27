@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import { csrfToken } from 'next-auth/client';
+import { getCsrfToken } from 'next-auth/react';
 
 export default function SignOut({ csrfToken }) {
   return (
@@ -27,6 +27,6 @@ export default function SignOut({ csrfToken }) {
 
 SignOut.getInitialProps = async (context) => {
   return {
-    csrfToken: await csrfToken(context),
+    csrfToken: await getCsrfToken(context),
   };
 };

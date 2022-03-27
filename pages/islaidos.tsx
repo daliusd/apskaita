@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography, TextField } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-recipes';
 import Link from '../src/Link';
 import { mutate } from 'swr';
@@ -12,7 +12,7 @@ import ExpenseCreate from '../components/ExpenseCreate';
 import { getMsSinceEpoch } from '../utils/date';
 
 export default function Index() {
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   const [description, setDescription] = useState('');
   const [minDate, setMinDate] = useState(() => {
@@ -53,8 +53,7 @@ export default function Index() {
     return null;
   }
 
-  const gdrive =
-    session && ((session as unknown) as { gdrive: boolean }).gdrive;
+  const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
 
   return (
     <Grid container spacing={2}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SWRConfig } from 'swr';
 import Head from 'next/head';
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type { AppProps /*, AppContext */ } from 'next/app';
@@ -44,13 +44,13 @@ export default function MyApp(props: AppProps) {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Provider session={pageProps.session}>
+          <SessionProvider session={pageProps.session}>
             <RecoilRoot>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
             </RecoilRoot>
-          </Provider>
+          </SessionProvider>
         </ThemeProvider>
       </MuiPickersUtilsProvider>
     </SWRConfig>

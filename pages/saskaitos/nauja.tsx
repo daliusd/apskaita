@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import InvoiceEdit from '../../components/InvoiceEdit/InvoiceEdit';
@@ -7,7 +7,7 @@ import InvoiceEdit from '../../components/InvoiceEdit/InvoiceEdit';
 import { defaultOrFirst } from '../../utils/query';
 
 export default function InvoiceNew() {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const { sourceId } = router.query;
