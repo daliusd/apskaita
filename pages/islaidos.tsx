@@ -7,8 +7,8 @@ import { useDebounce } from 'react-recipes';
 import Link from '../src/Link';
 import { mutate } from 'swr';
 
-import Expenses from '../components/Expenses';
-import ExpenseCreate from '../components/ExpenseCreate';
+import Expenses from '../components/expenses/Expenses';
+import ExpenseCreate from '../components/expenses/ExpenseCreate';
 import { getMsSinceEpoch } from '../utils/date';
 
 export default function Index() {

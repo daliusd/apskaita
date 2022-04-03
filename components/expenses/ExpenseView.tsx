@@ -13,10 +13,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 import ExpenseEditDialog from './ExpenseEditDialog';
-import { IExpense } from '../db/db';
-import { getDateString } from '../utils/date';
-import Link from '../src/Link';
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { IExpense } from '../../db/db';
+import { getDateString } from '../../utils/date';
+import Link from '../../src/Link';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface Props {
   expense: IExpense;
