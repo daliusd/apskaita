@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
-import { defaultEmailSubject } from '../utils/email';
+import { defaultEmailSubject } from '../../utils/email';
 
 interface Props {
   language: string;

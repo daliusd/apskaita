@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR, { mutate } from 'swr';
 
-import { cleanUpString } from '../utils/textutils';
+import { cleanUpString } from '../../utils/textutils';
 
 interface Props {
   language: string;

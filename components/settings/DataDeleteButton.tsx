@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 export default function DataDeleteButton() {
   const [, setMessageText] = useRecoilState(messageTextState);

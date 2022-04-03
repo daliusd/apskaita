@@ -4,8 +4,8 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import useSWR from 'swr';
 
-import Link from '../src/Link';
-import { defaultEmailTemplate } from '../utils/email';
+import Link from '../../src/Link';
+import { defaultEmailTemplate } from '../../utils/email';
 
 interface Props {
   language: string;
