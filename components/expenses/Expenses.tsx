@@ -3,7 +3,7 @@ import { Grid, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import useSWR, { mutate } from 'swr';
 
-import { IExpense } from '../db/db';
+import { IExpense } from '../../db/db';
 import ExpenseView from './ExpenseView';
 
 interface Props {

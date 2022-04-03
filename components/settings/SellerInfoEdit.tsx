@@ -5,28 +5,30 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useSession } from 'next-auth/react';
 import useSWR, { mutate } from 'swr';
 
-import { cleanUpString } from '../utils/textutils';
+import { cleanUpString } from '../../utils/textutils';
 
 interface Props {
   language: string;
 }
 
-export default function IssuerEdit({ language }: Props) {
+export default function SellerInfoEdit({ language }: Props) {
   const { data: session } = useSession();
-  const [issuerCurrent, setIssuerCurrent] = useState<string | undefined>(
+  const [sellerCurrent, setSellerCurrent] = useState<string | undefined>(
     undefined,
   );
-  const [issuer, setIssuer] = useState(session.user.name);
+  const [seller, setSeller] = useState(
+    `${session.user.name}\n${session.user.email}`,
+  );
   const [enabled, setEnabled] = useState(false);
 
-  const settingApiUrl = `/api/settings/issuer${language === 'lt' ? '' : '_en'}`;
+  const settingApiUrl = `/api/settings/seller${language === 'lt' ? '' : '_en'}`;
 
   const { data } = useSWR(settingApiUrl);
 
   useEffect(() => {
     if (data && data.value) {
-      setIssuer(data.value);
-      setIssuerCurrent(data.value);
+      setSeller(data.value);
+      setSellerCurrent(data.value);
     }
     setEnabled(true);
   }, [data]);
@@ -35,36 +37,36 @@ export default function IssuerEdit({ language }: Props) {
     <>
       <TextField
         disabled={!enabled}
-        label="Asmuo įprastai išrašantis sąskaitas faktūras"
-        inputProps={{
-          'aria-label': 'Asmuo įprastai išrašantis sąskaitas faktūras',
-        }}
-        value={issuer}
+        label="Tavo rekvizitai sąskaitai faktūrai"
+        inputProps={{ 'aria-label': 'Tavo rekvizitai sąskaitai faktūrai' }}
+        value={seller}
         onChange={(e) => {
-          setIssuer(cleanUpString(e.target.value));
+          setSeller(cleanUpString(e.target.value));
         }}
         fullWidth
+        multiline
+        rows={4}
         variant="outlined"
       />
 
       <Button
         color="primary"
         startIcon={<EditIcon />}
-        disabled={issuer === issuerCurrent}
-        aria-label="Išsaugoti asmenį išrašantį sąskaitas"
+        disabled={seller === sellerCurrent}
+        aria-label="Išsaugoti rekvizitus"
         onClick={async () => {
           await fetch(settingApiUrl, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ value: issuer }),
+            body: JSON.stringify({ value: seller }),
           });
-          setIssuerCurrent(issuer);
+          setSellerCurrent(seller);
           mutate(settingApiUrl);
         }}
       >
-        Išsaugoti
+        Išsaugoti rekvizitus
       </Button>
     </>
   );

@@ -8,7 +8,7 @@ interface ExpenseCreateProps {
   onCreate: () => void;
 }
 
-export default function Index({ onCreate }: ExpenseCreateProps) {
+export default function ExpenseCreate({ onCreate }: ExpenseCreateProps) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

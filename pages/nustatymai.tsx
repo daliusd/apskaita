@@ -5,15 +5,15 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useSession } from 'next-auth/react';
 
-import SellerInfoEdit from '../components/SellerInfoEdit';
-import IssuerEdit from '../components/IssuerEdit';
-import ExtraEdit from '../components/ExtraEdit';
-import EmailTemplateEdit from '../components/EmailTemplateEdit';
-import EmailSubjectEdit from '../components/EmailSubjectEdit';
-import ZeroesEdit from '../components/ZeroesEdit';
-import LogoEdit from '../components/LogoEdit';
-import ContactAgreement from '../components/ContactAgreement';
-import DataDeleteButton from '../components/DataDeleteButton';
+import SellerInfoEdit from '../components/settings/SellerInfoEdit';
+import IssuerEdit from '../components/settings/IssuerEdit';
+import ExtraEdit from '../components/settings/ExtraEdit';
+import EmailTemplateEdit from '../components/settings/EmailTemplateEdit';
+import EmailSubjectEdit from '../components/settings/EmailSubjectEdit';
+import ZeroesEdit from '../components/settings/ZeroesEdit';
+import LogoEdit from '../components/settings/LogoEdit';
+import ContactAgreement from '../components/settings/ContactAgreement';
+import DataDeleteButton from '../components/settings/DataDeleteButton';
 import Link from '../src/Link';
 
 export default function Apie() {

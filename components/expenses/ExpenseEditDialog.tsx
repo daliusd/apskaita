@@ -13,9 +13,9 @@ import CloudUpload from '@material-ui/icons/CloudUpload';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useSession } from 'next-auth/react';
 
-import { getMsSinceEpoch } from '../utils/date';
-import { IExpense } from '../db/db';
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { getMsSinceEpoch } from '../../utils/date';
+import { IExpense } from '../../db/db';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 export interface ExpenseEditDialogProps {
   expense?: IExpense;

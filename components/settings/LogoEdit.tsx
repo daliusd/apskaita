@@ -8,7 +8,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useSWR, { mutate } from 'swr';
 
-import { messageSeverityState, messageTextState } from '../src/atoms';
+import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 export default function LogoEdit() {
   const [, setMessageText] = useRecoilState(messageTextState);
