@@ -48,8 +48,8 @@
     "prepare": "husky install .config/husky"
   },
   "devDependencies": {
-    "@babel/core": "7.17.9",
-    "@babel/preset-env": "7.16.11",
+    "@babel/core": "7.17.10",
+    "@babel/preset-env": "7.17.10",
     "@babel/preset-typescript": "7.16.7",
     "@playwright/test": "1.21.1",
     "@types/chance": "1.1.3",
