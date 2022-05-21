@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout: React.FC = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const classes = useStyles();
   const { data: session, status } = useSession();
   const [messageText, setMessageText] = useRecoilState(messageTextState);

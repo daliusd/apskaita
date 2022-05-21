@@ -1,10 +1,10 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
-  timeout: 120000,
   testDir: 'tests',
-  use: {
-    headless: true,
+  expect: {
+    timeout: 10000,
   },
+  retries: 3,
   webServer: {
     command: 'PORT=3000 npm start',
     port: 3000,
