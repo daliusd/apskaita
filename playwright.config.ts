@@ -6,7 +6,7 @@ const config: PlaywrightTestConfig = {
   },
   retries: 3,
   webServer: {
-    command: 'PORT=3000 npm start',
+    command: 'PORT=3000 yarn start-with-port',
     port: 3000,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,

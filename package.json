@@ -38,7 +38,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
+    "start-with-port": "next start -p $PORT",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "jest --config=jest.config.js",
