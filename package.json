@@ -40,7 +40,7 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "jest --config=jest.config.js",
     "test:e2e": "playwright test",
     "lint": "next lint",
