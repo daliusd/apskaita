@@ -4,16 +4,17 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useSession } from 'next-auth/react';
 
-import Link from '../../src/Link';
-import LanguageSelect from './LanguageSelect';
-import SeriesIdInput from './SeriesIdInput';
 import BuyerEmailInput from '../inputs/BuyerEmailInput';
-import SellerInput from './SellerInput';
-import IssuerInput from './IssuerInput';
 import ExtraInput from './ExtraInput';
+import InvoiceEditBuyer from './InvoiceEditBuyer';
 import InvoiceEditDate from './InvoiceEditDate';
 import InvoiceEditSeriesName from './InvoiceEditSeriesName';
-import InvoiceEditBuyer from './InvoiceEditBuyer';
+import InvoiceEditType from './InvoiceEditType';
+import IssuerInput from './IssuerInput';
+import LanguageSelect from './LanguageSelect';
+import Link from '../../src/Link';
+import SellerInput from './SellerInput';
+import SeriesIdInput from './SeriesIdInput';
 import { invoiceIdState } from '../../src/atoms';
 
 export default function InvoiceEditMain() {
@@ -38,6 +39,10 @@ export default function InvoiceEditMain() {
             „Sąskaitų faktūrų išrašymas ir redagavimas“
           </Link>
         </Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <InvoiceEditType />
       </Grid>
 
       <Grid item xs={6}>

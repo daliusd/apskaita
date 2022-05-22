@@ -38,7 +38,7 @@ export default function SellerInput() {
       }}
       fullWidth
       multiline
-      rows={4}
+      minRows={4}
       variant="outlined"
       disabled={disabled}
     />

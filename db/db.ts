@@ -376,7 +376,7 @@ export async function deleteInvoice(db: Database, invoiceId: number) {
 
 export async function getUniqueSeriesNames(db: Database, start: string) {
   const result = await db.all(
-    'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? ORDER BY seriesName LIMIT 10',
+    'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? AND seriesName <> "@" ORDER BY seriesName LIMIT 10',
     start + '%',
   );
   return result.map((item) => item.seriesName);
