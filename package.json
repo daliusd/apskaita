@@ -26,7 +26,7 @@
     "recoil": "0.7.2",
     "remark": "14.0.2",
     "remark-html": "15.0.1",
-    "sharp": "0.30.4",
+    "sharp": "0.30.5",
     "sqlite": "4.1.1",
     "sqlite3": "5.0.8",
     "stacktrace-js": "2.0.2",
