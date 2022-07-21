@@ -74,5 +74,6 @@
     "src/**/*.{ts,tsx}|pages/**/*.{ts,tsx}|tests/**/*.ts": [
       "eslint"
     ]
-  }
+  },
+  "packageManager": "yarn@3.2.1"
 }

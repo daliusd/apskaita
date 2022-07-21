@@ -21,3 +21,6 @@ yarn-error.log*
 
 /tests/images/current
 /tests/images/diff
+
+# yarn
+/.yarn/cache
