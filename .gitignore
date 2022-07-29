@@ -23,4 +23,9 @@ yarn-error.log*
 /tests/images/diff
 
 # yarn
-/.yarn/cache
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
