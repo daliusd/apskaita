@@ -4,7 +4,7 @@ import NextLink, { LinkProps } from 'next/link';
 import MuiLink, { LinkProps as MuiLinkProps } from '@material-ui/core/Link';
 
 const NextComposedWithRef = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  (props, ref) => {
+  function NextComposedWithRef(props, ref) {
     const { href, prefetch, as, ...other } = props;
     return (
       <NextLink href={href} prefetch={prefetch} as={as}>
