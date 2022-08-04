@@ -54,37 +54,39 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
     setInProgress(true);
 
     let resp: Response;
-    if (expense) {
-      const newExpense = {
-        description,
-        created: getMsSinceEpoch(date).toString(),
-        price: price,
-      };
+    try {
+      if (expense) {
+        const newExpense = {
+          description,
+          created: getMsSinceEpoch(date).toString(),
+          price: price,
+        };
 
-      resp = await fetch('/api/expenses/' + expense.id, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newExpense),
-      });
-    } else {
-      const data = new FormData();
-      data.append('description', description);
-      data.append('price', price);
-      data.append('created', getMsSinceEpoch(date).toString());
-      if (file !== null) {
-        data.append('file', file);
+        resp = await fetch('/api/expenses/' + expense.id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newExpense),
+        });
+      } else {
+        const data = new FormData();
+        data.append('description', description);
+        data.append('price', price);
+        data.append('created', getMsSinceEpoch(date).toString());
+        if (file !== null) {
+          data.append('file', file);
+        }
+
+        resp = await fetch('/api/expenses', {
+          method: 'POST',
+          body: data,
+        });
       }
-
-      resp = await fetch('/api/expenses', {
-        method: 'POST',
-        body: data,
-      });
-    }
+    } catch {}
 
     setInProgress(false);
-    if (!resp.ok || !(await resp.json()).success) {
+    if (!resp || !resp.ok || !(await resp.json()).success) {
       setMessageText(
         expense
           ? 'Nepavyko pakeisti išlaidų įrašo'

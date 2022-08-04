@@ -53,15 +53,17 @@ export default function ExtraEdit({ language }: Props) {
         startIcon={<EditIcon />}
         disabled={extra === extraCurrent}
         onClick={async () => {
-          await fetch(settingApiUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: extra }),
-          });
-          setExtraCurrent(extra);
-          mutate(settingApiUrl);
+          try {
+            await fetch(settingApiUrl, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: extra }),
+            });
+            setExtraCurrent(extra);
+            mutate(settingApiUrl);
+          } catch {}
         }}
         aria-label="Išsaugoti papildomą informaciją"
       >

@@ -25,15 +25,18 @@ export default function InvoiceLockedCheckbox({
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const locked = event.target.checked;
 
-    const response = await fetch('/api/invoiceslocked/' + invoiceId, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ locked }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/invoiceslocked/' + invoiceId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ locked }),
+      });
+    } catch {}
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText('Įvyko klaida užrakinant/atrakinant sąskaitą.');
       setMessageSeverity('error');
       return;

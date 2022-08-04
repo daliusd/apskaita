@@ -45,14 +45,16 @@ export default function ZeroesEdit() {
         startIcon={<EditIcon />}
         disabled={zeroes === zeroesCurrent}
         onClick={async () => {
-          await fetch('/api/settings/zeroes', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: zeroes }),
-          });
-          setZeroesCurrent(zeroes);
+          try {
+            await fetch('/api/settings/zeroes', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: zeroes }),
+            });
+            setZeroesCurrent(zeroes);
+          } catch {}
         }}
         aria-label="Išsaugoti skaitmenų skaičių"
       >

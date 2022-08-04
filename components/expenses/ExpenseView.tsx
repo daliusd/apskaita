@@ -37,11 +37,14 @@ export default function ExpenseView(props: Props) {
   const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
   const handleDelete = async () => {
-    const response = await fetch('/api/expenses/' + expense.id, {
-      method: 'DELETE',
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/expenses/' + expense.id, {
+        method: 'DELETE',
+      });
+    } catch {}
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText('Klaida trinant išlaidų įrašą.');
       setMessageSeverity('error');
       return;

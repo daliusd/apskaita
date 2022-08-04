@@ -22,12 +22,15 @@ export default function LogoEdit() {
 
     event.target.value = null; // reset
 
-    const resp = await fetch('/api/logo', {
-      method: 'POST',
-      body: data,
-    });
+    let resp: Response;
+    try {
+      resp = await fetch('/api/logo', {
+        method: 'POST',
+        body: data,
+      });
+    } catch {}
 
-    if (!resp.ok || !(await resp.json()).success) {
+    if (!resp || !resp.ok || !(await resp.json()).success) {
       setMessageText('Nepavyko pakeisti logo.');
       setMessageSeverity('error');
       return;
@@ -40,15 +43,17 @@ export default function LogoEdit() {
   };
 
   const handleDelete = async () => {
-    await fetch('/api/settings/logo', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ value: '' }),
-    });
+    try {
+      await fetch('/api/settings/logo', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ value: '' }),
+      });
 
-    await mutate('/api/settings/logo');
+      await mutate('/api/settings/logo');
+    } catch {}
   };
 
   const loaded = data || error;

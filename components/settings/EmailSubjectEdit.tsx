@@ -54,14 +54,16 @@ export default function EmailSubjectEdit({ language }: Props) {
         startIcon={<EditIcon />}
         disabled={emailSubject === emailSubjectCurrent}
         onClick={async () => {
-          await fetch(settingApiUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: emailSubject }),
-          });
-          setEmailSubjectCurrent(emailSubject);
+          try {
+            await fetch(settingApiUrl, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: emailSubject }),
+            });
+            setEmailSubjectCurrent(emailSubject);
+          } catch {}
         }}
         aria-label="Išsaugoti siunčiamo laiško temą"
       >

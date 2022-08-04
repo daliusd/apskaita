@@ -68,14 +68,16 @@ export default function EmailTemplateEdit({ language }: Props) {
         startIcon={<EditIcon />}
         disabled={emailTemplate === emailTemplateCurrent}
         onClick={async () => {
-          await fetch(settingApiUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: emailTemplate }),
-          });
-          setEmailTemplateCurrent(emailTemplate);
+          try {
+            await fetch(settingApiUrl, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: emailTemplate }),
+            });
+            setEmailTemplateCurrent(emailTemplate);
+          } catch {}
         }}
         aria-label="Išsaugoti siunčiamo laiško šabloną"
       >

@@ -29,17 +29,20 @@ export default function ContactAgreement() {
   ) => {
     const checked = event.target.checked;
 
-    const response = await fetch('/api/settings/contactagreement', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ value: checked ? '1' : '0' }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/settings/contactagreement', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ value: checked ? '1' : '0' }),
+      });
+    } catch {}
 
     await mutate('/api/settings/contactagreement');
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText('Įvyko klaida duodant sutikimą susisiekti.');
       setMessageSeverity('error');
       return;

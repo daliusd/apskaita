@@ -17,19 +17,21 @@ async function reportError(error: Error) {
     } catch {}
   }
 
-  fetch('/api/report', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      subject: `haiku.lt client side (${user})`,
-      error: {
-        message: error?.message || 'There is no error message.',
-        stack: stringifiedStack || error?.stack || 'There is no error stack.',
+  try {
+    fetch('/api/report', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    }),
-  });
+      body: JSON.stringify({
+        subject: `haiku.lt client side (${user})`,
+        error: {
+          message: error?.message || 'There is no error message.',
+          stack: stringifiedStack || error?.stack || 'There is no error stack.',
+        },
+      }),
+    });
+  } catch {} // we can't do anything here. If network is down it is down.
 }
 
 export function init() {

@@ -27,11 +27,14 @@ export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   if (!invoiceId) return null;
 
   const handleDelete = async () => {
-    const response = await fetch('/api/invoices/' + invoiceId, {
-      method: 'DELETE',
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/invoices/' + invoiceId, {
+        method: 'DELETE',
+      });
+    } catch {}
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText('Klaida trinant sąskaitą faktūrą.');
       setMessageSeverity('error');
       return;

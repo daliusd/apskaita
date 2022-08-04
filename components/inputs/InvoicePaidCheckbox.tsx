@@ -11,7 +11,11 @@ interface IProps {
   setPaid: (v: boolean) => void;
 }
 
-export default function InvoicePaidCheckbox({ invoiceId, paid, setPaid }: IProps) {
+export default function InvoicePaidCheckbox({
+  invoiceId,
+  paid,
+  setPaid,
+}: IProps) {
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
@@ -20,15 +24,18 @@ export default function InvoicePaidCheckbox({ invoiceId, paid, setPaid }: IProps
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const paid = event.target.checked;
 
-    const response = await fetch('/api/invoicespaid/' + invoiceId, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ paid }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/invoicespaid/' + invoiceId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ paid }),
+      });
+    } catch {}
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText('Įvyko klaida keičiant apmokėjimo būseną.');
       setMessageSeverity('error');
       return;
