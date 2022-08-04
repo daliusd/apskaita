@@ -46,7 +46,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
   } catch (ex) {
-    await sendReportMessage(`haiku.lt server side userdata`, ex);
+    await sendReportMessage(
+      `haiku.lt server side (${session?.user?.email}) userdata`,
+      ex,
+    );
     res.status(400).json({ success: false });
   }
 
