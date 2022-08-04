@@ -6,10 +6,16 @@ export function setUser(userName: string) {
   user = userName;
 }
 
-async function reportError(error) {
-  const stackframes = await StackTrace.fromError(error);
+async function reportError(error: Error) {
+  let stringifiedStack = '';
 
-  const stringifiedStack = stackframes.map((sf) => sf.toString()).join('\n');
+  if (error !== null) {
+    try {
+      const stackframes = await StackTrace.fromError(error);
+
+      stringifiedStack = stackframes.map((sf) => sf.toString()).join('\n');
+    } catch {}
+  }
 
   fetch('/api/report', {
     method: 'POST',
@@ -19,8 +25,8 @@ async function reportError(error) {
     body: JSON.stringify({
       subject: `haiku.lt client side (${user})`,
       error: {
-        message: error.message,
-        stack: stringifiedStack,
+        message: error?.message || 'There is no error message.',
+        stack: stringifiedStack || error?.stack || 'There is no error stack.',
       },
     }),
   });
