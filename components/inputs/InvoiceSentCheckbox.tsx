@@ -12,7 +12,11 @@ interface IProps {
   setSent: (v: boolean) => void;
 }
 
-export default function InvoiceSentCheckbox({ invoiceId, sent, setSent }: IProps) {
+export default function InvoiceSentCheckbox({
+  invoiceId,
+  sent,
+  setSent,
+}: IProps) {
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
@@ -21,15 +25,18 @@ export default function InvoiceSentCheckbox({ invoiceId, sent, setSent }: IProps
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const sent = event.target.checked;
 
-    const response = await fetch('/api/invoicessent/' + invoiceId, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ sent }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/invoicessent/' + invoiceId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sent }),
+      });
+    } catch {}
 
-    if (!response.ok || !(await response.json()).success) {
+    if (!response || !response.ok || !(await response.json()).success) {
       setMessageText(
         'Įvyko klaida pažymint sąskaitą kaip išsiųstą/neišsiųstą.',
       );

@@ -53,15 +53,17 @@ export default function IssuerEdit({ language }: Props) {
         disabled={issuer === issuerCurrent}
         aria-label="Išsaugoti asmenį išrašantį sąskaitas"
         onClick={async () => {
-          await fetch(settingApiUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: issuer }),
-          });
-          setIssuerCurrent(issuer);
-          mutate(settingApiUrl);
+          try {
+            await fetch(settingApiUrl, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: issuer }),
+            });
+            setIssuerCurrent(issuer);
+            mutate(settingApiUrl);
+          } catch {}
         }}
       >
         Išsaugoti

@@ -55,15 +55,17 @@ export default function SellerInfoEdit({ language }: Props) {
         disabled={seller === sellerCurrent}
         aria-label="Išsaugoti rekvizitus"
         onClick={async () => {
-          await fetch(settingApiUrl, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: seller }),
-          });
-          setSellerCurrent(seller);
-          mutate(settingApiUrl);
+          try {
+            await fetch(settingApiUrl, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ value: seller }),
+            });
+            setSellerCurrent(seller);
+            mutate(settingApiUrl);
+          } catch {}
         }}
       >
         Išsaugoti rekvizitus

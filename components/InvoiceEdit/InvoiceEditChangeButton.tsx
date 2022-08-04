@@ -121,30 +121,32 @@ export default function InvoiceEditChangeButton() {
         };
 
         let response: Response;
-        if (invoiceId) {
-          response = await fetch('/api/invoices/' + invoiceId, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(invoice),
-          });
-        } else {
-          response = await fetch('/api/invoices', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(invoice),
-          });
-        }
+        try {
+          if (invoiceId) {
+            response = await fetch('/api/invoices/' + invoiceId, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(invoice),
+            });
+          } else {
+            response = await fetch('/api/invoices', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(invoice),
+            });
+          }
+        } catch {}
 
         const getEditError = () =>
           invoiceId
             ? 'Klaida kečiant sąskaitą faktūrą.'
             : 'Klaida kuriant sąskaitą faktūrą.';
 
-        if (!response.ok) {
+        if (!response || !response.ok) {
           setMessageText(getEditError());
           setMessageSeverity('error');
           return;
@@ -157,25 +159,32 @@ export default function InvoiceEditChangeButton() {
           return;
         }
 
-        const responsePdf = await fetch(
-          '/api/invoicespdf/' + (invoiceId || responseJson.invoiceId),
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
+        let responsePdf: Response;
+        try {
+          responsePdf = await fetch(
+            '/api/invoicespdf/' + (invoiceId || responseJson.invoiceId),
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({}),
             },
-            body: JSON.stringify({}),
-          },
-        );
+          );
+        } catch {}
 
-        if (!invoiceId) {
-          router.push(`/saskaitos/id/${responseJson.invoiceId}`);
-        }
-
-        if (!responsePdf.ok || !(await responsePdf.json()).success) {
+        if (
+          !responsePdf ||
+          !responsePdf.ok ||
+          !(await responsePdf.json()).success
+        ) {
           setMessageText('Klaida generuojant sąskaitos faktūros PDF failą');
           setMessageSeverity('error');
           return;
+        }
+
+        if (!invoiceId) {
+          router.push(`/saskaitos/id/${responseJson.invoiceId}`);
         }
 
         if (!invoiceId) {

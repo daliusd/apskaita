@@ -43,20 +43,23 @@ export default function SendInvoiceButton() {
 
     setSending(true);
 
-    const response = await fetch('/api/invoicemailer', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        invoiceId,
-        email,
-      }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/invoicemailer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          invoiceId,
+          email,
+        }),
+      });
+    } catch {}
 
     setSending(false);
 
-    if (!response.ok) {
+    if (!response || !response.ok) {
       setMessageText('Klaida siunčiant sąskaitą faktūrą el. paštu.');
       setMessageSeverity('error');
       return;
