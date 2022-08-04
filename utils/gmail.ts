@@ -1,5 +1,5 @@
 import path from 'path';
-import { google } from 'googleapis';
+import { auth, gmail } from '@googleapis/gmail';
 const MailComposer = require('nodemailer/lib/mail-composer'); // eslint-disable-line
 
 export async function sendEmail({
@@ -11,7 +11,7 @@ export async function sendEmail({
   pdfname,
   filename,
 }) {
-  const oAuth2Client = new google.auth.OAuth2(
+  const oAuth2Client = new auth.OAuth2(
     process.env.GOOGLE_ID,
     process.env.GOOGLE_SECRET,
   );
@@ -19,7 +19,7 @@ export async function sendEmail({
   oAuth2Client.setCredentials({
     access_token: accessToken,
   });
-  const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
+  const gmailInstance = gmail({ version: 'v1', auth: oAuth2Client });
 
   const mail = new MailComposer({
     from,
@@ -36,12 +36,13 @@ export async function sendEmail({
 
   const raw = (await mail.compile().build()).toString('base64');
 
-  const sendresp = await gmail.users.messages.send({
+  const sendresp = await gmailInstance.users.messages.send({
     userId: 'me',
     requestBody: {
       raw,
     },
   });
+
   if (sendresp.status !== 200) {
     throw new Error(sendresp.statusText);
   }

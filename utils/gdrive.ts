@@ -1,14 +1,14 @@
-import { google } from 'googleapis';
+import { auth, drive as driveCreator, drive_v3 } from '@googleapis/drive';
 import { Readable } from 'stream';
 
 export interface GDriveInfo {
-  id: string | null;
-  webViewLink: string | null;
-  webContentLink: string | null;
+  id?: string | null;
+  webViewLink?: string | null;
+  webContentLink?: string | null;
 }
 
 export function getDrive(accessToken: string) {
-  const oAuth2Client = new google.auth.OAuth2(
+  const oAuth2Client = new auth.OAuth2(
     process.env.GOOGLE_ID,
     process.env.GOOGLE_SECRET,
   );
@@ -16,10 +16,14 @@ export function getDrive(accessToken: string) {
   oAuth2Client.setCredentials({
     access_token: accessToken,
   });
-  return google.drive({ version: 'v3', auth: oAuth2Client });
+  return driveCreator({ version: 'v3', auth: oAuth2Client });
 }
 
-export async function getOrCreateFolder(drive, name: string, parent?: string) {
+export async function getOrCreateFolder(
+  drive: drive_v3.Drive,
+  name: string,
+  parent?: string,
+) {
   const listResp = await drive.files.list({
     q:
       `mimeType='application/vnd.google-apps.folder' and name = '${name}' and trashed = false` +
@@ -38,14 +42,14 @@ export async function getOrCreateFolder(drive, name: string, parent?: string) {
   };
 
   const respCreate = await drive.files.create({
-    resource: fileMetadata,
+    requestBody: fileMetadata,
     fields: 'id',
   });
   return respCreate.data.id;
 }
 
 export async function createFile(
-  drive,
+  drive: drive_v3.Drive,
   file: Express.Multer.File,
   createdDate: Date,
   description: string,
@@ -63,7 +67,7 @@ export async function createFile(
   };
 
   const resp = await drive.files.create({
-    resource: fileMetadata,
+    requestBody: fileMetadata,
     media: media,
     fields: 'id,webContentLink,webViewLink',
   });
@@ -71,7 +75,7 @@ export async function createFile(
   return resp.data;
 }
 
-export async function deleteFile(drive, fileId: string) {
+export async function deleteFile(drive: drive_v3.Drive, fileId: string) {
   await drive.files.delete({
     fileId,
   });

@@ -72,7 +72,7 @@ export default function SendInvoiceButton() {
     }
 
     setMessageText('Sąskaita faktūra išsiusta.');
-    setMessageText('success');
+    setMessageSeverity('success');
 
     setSent(true);
     setLocked(true);
