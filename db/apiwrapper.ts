@@ -28,7 +28,10 @@ export async function dbWrapper(
         console.log(err); // eslint-disable-line
       }
 
-      await sendReportMessage(`haiku.lt server side dbWrapper`, err);
+      await sendReportMessage(
+        `haiku.lt server side (${session?.user?.email}) dbWrapper`,
+        err,
+      );
 
       res.status(500).json({ success: false });
       return;
