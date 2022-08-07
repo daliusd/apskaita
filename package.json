@@ -12,7 +12,7 @@
     "@material-ui/pickers": "3.3.10",
     "@types/number-to-words": "1.2.1",
     "@types/pdfkit": "0.12.6",
-    "@types/sharp": "0.30.4",
+    "@types/sharp": "0.30.5",
     "date-fns": "2.29.1",
     "googleapis-common": "^6.0.0",
     "gray-matter": "4.0.3",

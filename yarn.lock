@@ -3026,12 +3026,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sharp@npm:0.30.4":
-  version: 0.30.4
-  resolution: "@types/sharp@npm:0.30.4"
+"@types/sharp@npm:0.30.5":
+  version: 0.30.5
+  resolution: "@types/sharp@npm:0.30.5"
   dependencies:
     "@types/node": "*"
-  checksum: 3ebeaf55aa5ed2826a5bb4f13982a64b35691b6f38c4fd9d536ee7aed4d7e6b39529ae290f19343c5d8334419d69e147a28c214ca61adaed35ebf3ceea7cdf17
+  checksum: 8aa458d4c4187ae9a69894904832ecfe7533e0c405d1a7971a9984b0996eb6eb2ced103854b71199cf8df1350540bb4d3625c671a1946bd417b2bf4405c7292a
   languageName: node
   linkType: hard
 
@@ -7908,7 +7908,7 @@ __metadata:
     "@types/nodemailer": 6.4.5
     "@types/number-to-words": 1.2.1
     "@types/pdfkit": 0.12.6
-    "@types/sharp": 0.30.4
+    "@types/sharp": 0.30.5
     babel-jest: 28.1.3
     chance: 1.1.8
     date-fns: 2.29.1
