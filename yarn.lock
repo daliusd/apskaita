@@ -5260,7 +5260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gaxios@npm:^5.0.0":
+"gaxios@npm:^5.0.0, gaxios@npm:^5.0.1":
   version: 5.0.1
   resolution: "gaxios@npm:5.0.1"
   dependencies:
@@ -5484,17 +5484,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:6.0.0":
-  version: 6.0.0
-  resolution: "googleapis-common@npm:6.0.0"
+"googleapis-common@npm:6.0.1":
+  version: 6.0.1
+  resolution: "googleapis-common@npm:6.0.1"
   dependencies:
     extend: ^3.0.2
-    gaxios: ^4.0.0
+    gaxios: ^5.0.1
     google-auth-library: ^8.0.2
     qs: ^6.7.0
     url-template: ^2.0.8
     uuid: ^8.0.0
-  checksum: a6c697ac0c829f7bdfcfe32f5fb16fbf7b864cc173257c09eff6e4893f3bd56064904f7b6843d4c8ff074b128609c6cc2ac7490aaf9ed70cab417dc2fb54236b
+  checksum: 46bfdd4673006075e3349500e312f2267f1d2830434d76b7b20d8de3ebfb9c5a3f525cc88b6e89f5d8f5f8f3ff9fcee90e4667dac45306cddb05d0f70b97b999
   languageName: node
   linkType: hard
 
@@ -7915,7 +7915,7 @@ __metadata:
     eslint: 7.32.0
     eslint-config-next: 12.2.5
     eslint-config-prettier: 8.5.0
-    googleapis-common: 6.0.0
+    googleapis-common: 6.0.1
     gray-matter: 4.0.3
     husky: 8.0.1
     jest: 28.1.3
