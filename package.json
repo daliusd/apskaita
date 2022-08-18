@@ -13,7 +13,7 @@
     "@types/number-to-words": "1.2.1",
     "@types/pdfkit": "0.12.6",
     "@types/sharp": "0.30.5",
-    "date-fns": "2.29.1",
+    "date-fns": "2.29.2",
     "googleapis-common": "6.0.1",
     "gray-matter": "4.0.3",
     "multer": "1.4.4",
