@@ -61,5 +61,7 @@ test('Invoice. Should create invoice based on old one', async ({ page }) => {
   invoice.created = getMsSinceEpoch(new Date());
   await validateInvoice(page, invoice);
 
+  await page.waitForSelector('[aria-label="Sukurti"]');
+
   await deleteUser(page);
 });
