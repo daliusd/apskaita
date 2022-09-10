@@ -5657,17 +5657,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:6.0.2":
-  version: 6.0.2
-  resolution: "googleapis-common@npm:6.0.2"
+"googleapis-common@npm:6.0.3":
+  version: 6.0.3
+  resolution: "googleapis-common@npm:6.0.3"
   dependencies:
     extend: ^3.0.2
     gaxios: ^5.0.1
     google-auth-library: ^8.0.2
     qs: ^6.7.0
     url-template: ^2.0.8
-    uuid: ^8.0.0
-  checksum: 8c4b58acabb31261b8d45ece93fd64f778673261e5f88736646712081de9986c180e0c55612d894971e227ac3d85ffe0538e5a4dfe2c1ab8327f834f4ba822e7
+    uuid: ^9.0.0
+  checksum: 72b3f2f4018d96d6e5bcc08096c693e393ba1ae59be243ac409e8876d941f918aad556a62d828709956552a5940295360674b9681b7871a1b3be54ea8a588f3f
   languageName: node
   linkType: hard
 
@@ -8127,7 +8127,7 @@ __metadata:
     eslint: 7.32.0
     eslint-config-next: 12.2.5
     eslint-config-prettier: 8.5.0
-    googleapis-common: 6.0.2
+    googleapis-common: 6.0.3
     gray-matter: 4.0.3
     husky: 8.0.1
     jest: 29.0.2
@@ -10545,6 +10545,15 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 
