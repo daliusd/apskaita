@@ -18,17 +18,17 @@ export async function sendReportMessage(subject, error, req) {
 
   let text = '';
   try {
-    text += 'Method:\n\n' + req.method + '\n\n';
+    text += 'Method: ' + req.method + '\n\n';
   }
   catch {}
 
   try {
-    text += 'Query:\n\n' + req.query + '\n\n';
+    text += 'Query:\n\n' + JSON.stringify(req.query, null, 2) + '\n\n';
   }
   catch {}
 
   try {
-    text += 'Body:\n\n' + req.body + '\n\n';
+    text += 'Body:\n\n' + JSON.stringify(req.body, null, 2) + '\n\n';
   }
   catch {}
 
