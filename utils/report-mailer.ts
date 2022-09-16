@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export async function sendReportMessage(subject, error) {
+export async function sendReportMessage(subject, error, req) {
   if (!process.env.SMTP_HOST) {
     throw Error('SMTP not configured.');
   }
@@ -16,11 +16,32 @@ export async function sendReportMessage(subject, error) {
     },
   });
 
+  let text = '';
+  try {
+    text += 'Method:\n\n' + req.method + '\n\n';
+  }
+  catch {}
+
+  try {
+    text += 'Query:\n\n' + req.query + '\n\n';
+  }
+  catch {}
+
+  try {
+    text += 'Body:\n\n' + req.body + '\n\n';
+  }
+  catch {}
+
+  try {
+    text += 'Error:\n\n' + error.stack + '\n\n';
+  }
+  catch {}
+
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to: process.env.SMTP_USER,
     subject: `${subject}: ${error.message}`,
-    text: error.stack,
+    text,
   });
 }
 
@@ -31,7 +52,7 @@ export function errorHandler(
     try {
       await handler(req, res);
     } catch (err) {
-      await sendReportMessage(`haiku.lt server side`, err);
+      await sendReportMessage(`haiku.lt server side`, err, req);
       throw err;
     }
   };
