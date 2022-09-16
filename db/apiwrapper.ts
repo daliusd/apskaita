@@ -31,6 +31,7 @@ export async function dbWrapper(
       await sendReportMessage(
         `haiku.lt server side (${session?.user?.email}) dbWrapper`,
         err,
+        req,
       );
 
       res.status(500).json({ success: false });

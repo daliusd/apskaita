@@ -49,6 +49,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await sendReportMessage(
       `haiku.lt server side (${session?.user?.email}) userdata`,
       ex,
+      req,
     );
     res.status(400).json({ success: false });
   }

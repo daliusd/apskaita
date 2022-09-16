@@ -26,6 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await sendReportMessage(
           `haiku.lt server side pdf/id/name file not found`,
           new Error(`File ${fullFileName} not found`),
+          req,
         );
         res.status(404).json({
           success: false,
@@ -41,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .end(fs.readFileSync(fullFileName));
     } catch (ex) {
-      await sendReportMessage(`haiku.lt server side pdf/id/name`, ex);
+      await sendReportMessage(`haiku.lt server side pdf/id/name`, ex, req);
       res.status(400).json({ success: false });
     }
   }

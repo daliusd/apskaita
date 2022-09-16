@@ -6,7 +6,7 @@ const reportHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { subject, error } = req.body;
 
-    await sendReportMessage(subject, error);
+    await sendReportMessage(subject, error, req);
 
     res.json({ success: true });
   }
