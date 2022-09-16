@@ -1,7 +1,7 @@
 import React from 'react';
 import { SWRConfig } from 'swr';
 import Head from 'next/head';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, SessionProviderProps } from 'next-auth/react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type { AppProps /*, AppContext */ } from 'next/app';
@@ -14,7 +14,7 @@ import { init } from '../utils/error-handler';
 import { RecoilRoot } from 'recoil';
 init();
 
-export default function MyApp(props: AppProps) {
+export default function MyApp(props: AppProps<SessionProviderProps>) {
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
