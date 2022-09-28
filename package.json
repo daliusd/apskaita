@@ -19,7 +19,7 @@
     "multer": "1.4.4",
     "next": "12.3.1",
     "next-auth": "4.12.2",
-    "nodemailer": "6.7.8",
+    "nodemailer": "6.8.0",
     "number-to-words": "1.2.4",
     "pdfkit": "0.13.0",
     "react": "17.0.2",
