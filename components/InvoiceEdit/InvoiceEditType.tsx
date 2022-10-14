@@ -15,7 +15,9 @@ export default function InvoiceEditType() {
 
   const onChange = (value) => {
     if (value === 'invoice') {
-      setSeriesName(initialInvoice.seriesName);
+      setSeriesName(
+        initialInvoice.seriesName === '@' ? '' : initialInvoice.seriesName,
+      );
     } else if (value === 'proforma') {
       setSeriesName('@');
     }
