@@ -179,10 +179,10 @@ const options: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user = token.user !== undefined ? token.user : session.user;
-        session.accessToken = token.accessToken;
-        session.gdrive = token.gdrive;
-        session.gmailSend = token.gmailSend;
-        session.error = token.error;
+        (session as any).accessToken = token.accessToken;
+        (session as any).gdrive = token.gdrive;
+        (session as any).gmailSend = token.gmailSend;
+        (session as any).error = token.error;
       }
 
       return session;

@@ -60,7 +60,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       await sendEmail({
-        accessToken: session.accessToken as string,
+        accessToken: (session as any).accessToken as string,
         from: session.user.email,
         to: invoice.email,
         subject,

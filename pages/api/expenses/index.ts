@@ -47,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       };
 
       if (upload.files['file']) {
-        const drive = getDrive(session.accessToken as string);
+        const drive = getDrive((session as any).accessToken as string);
 
         const createdDate = new Date(parseInt(upload.body.created));
         const year = createdDate.getFullYear().toString();

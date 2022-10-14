@@ -31,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const expense = await getExpense(db, expenseId);
       if (expense && expense.gdriveId) {
-        const drive = getDrive(session.accessToken as string);
+        const drive = getDrive((session as any).accessToken as string);
         await deleteFile(drive, expense.gdriveId);
       }
 
