@@ -4095,10 +4095,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chance@npm:1.1.8":
-  version: 1.1.8
-  resolution: "chance@npm:1.1.8"
-  checksum: e733f51e1094d7b0343a9e79f38599086442e6284fc2789cf9e072c71a0070874a1b340f9fffe4e66260899733f768cf113434be466ecb0016e3afcb60add3ee
+"chance@npm:1.1.9":
+  version: 1.1.9
+  resolution: "chance@npm:1.1.9"
+  checksum: 57d09fd404ffb87f5e106705c28c38a77cb0a6d96f3828d63052947a12d62d65f40a100d74b123bea3d5ebce3b53333a93d3b81783c64d8473788a0ce6b6e8db
   languageName: node
   linkType: hard
 
@@ -8242,7 +8242,7 @@ __metadata:
     "@types/pdfkit": 0.12.7
     "@types/sharp": 0.31.0
     babel-jest: 29.2.0
-    chance: 1.1.8
+    chance: 1.1.9
     date-fns: 2.29.3
     eslint: 7.32.0
     eslint-config-next: 12.3.1
