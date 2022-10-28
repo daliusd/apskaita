@@ -2100,12 +2100,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/drive@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@googleapis/drive@npm:3.0.1"
+"@googleapis/drive@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@googleapis/drive@npm:4.0.0"
   dependencies:
-    googleapis-common: ^5.0.1
-  checksum: 9c73cc564fbaa9756e722bf4ab80cbeba2d2eadd97c1d46767ca10866e90fa2eec34736bd3835f988157de2aea2616f162f64739efb00e8f70c5a393059c3312
+    googleapis-common: ^6.0.3
+  checksum: 9eb6501eae32ab70e3e8c0a70f71e1aeccef546bc1199fbe8c5f2dc24dfc92ce33a87e0b81200efeccde21b13231f9753de198d4c86557d2c5936811c747544a
   languageName: node
   linkType: hard
 
@@ -5781,7 +5781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:6.0.3":
+"googleapis-common@npm:6.0.3, googleapis-common@npm:^6.0.3":
   version: 6.0.3
   resolution: "googleapis-common@npm:6.0.3"
   dependencies:
@@ -8241,7 +8241,7 @@ __metadata:
     "@babel/preset-env": 7.19.4
     "@babel/preset-typescript": 7.18.6
     "@date-io/date-fns": 1.3.13
-    "@googleapis/drive": 3.0.1
+    "@googleapis/drive": 4.0.0
     "@googleapis/gmail": 0.3.4
     "@material-ui/core": latest
     "@material-ui/icons": 4.11.3
