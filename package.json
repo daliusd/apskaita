@@ -11,7 +11,7 @@
     "@material-ui/lab": "4.0.0-alpha.61",
     "@material-ui/pickers": "3.3.10",
     "@types/number-to-words": "1.2.1",
-    "@types/pdfkit": "0.12.7",
+    "@types/pdfkit": "0.12.8",
     "@types/sharp": "0.31.0",
     "date-fns": "2.29.3",
     "googleapis-common": "6.0.3",
