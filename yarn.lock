@@ -4909,7 +4909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:13.0.2":
+"eslint-config-next@npm:latest":
   version: 13.0.2
   resolution: "eslint-config-next@npm:13.0.2"
   dependencies:
@@ -8171,7 +8171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:13.0.2":
+"next@npm:latest":
   version: 13.0.2
   resolution: "next@npm:13.0.2"
   dependencies:
@@ -8266,7 +8266,7 @@ __metadata:
     chance: 1.1.9
     date-fns: 2.29.3
     eslint: 7.32.0
-    eslint-config-next: 13.0.2
+    eslint-config-next: latest
     eslint-config-prettier: 8.5.0
     googleapis-common: 6.0.3
     gray-matter: 4.0.3
@@ -8275,15 +8275,15 @@ __metadata:
     jest-environment-node: 29.2.2
     lint-staged: 13.0.3
     multer: 1.4.4
-    next: 13.0.2
+    next: latest
     next-auth: 4.15.1
     nodemailer: 6.8.0
     number-to-words: 1.2.4
     pdfkit: 0.13.0
     playwright: 1.27.1
     prettier: 2.7.1
-    react: 17.0.2
-    react-dom: 17.0.2
+    react: latest
+    react-dom: latest
     react-recipes: 1.4.0
     recoil: 0.7.6
     remark: 14.0.2
@@ -9091,16 +9091,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react-dom@npm:17.0.2"
+"react-dom@npm:latest":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-    scheduler: ^0.20.2
+    scheduler: ^0.23.0
   peerDependencies:
-    react: 17.0.2
-  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+    react: ^18.2.0
+  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
   languageName: node
   linkType: hard
 
@@ -9150,13 +9149,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
+"react@npm:latest":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
   languageName: node
   linkType: hard
 
@@ -9555,13 +9553,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.20.2":
-  version: 0.20.2
-  resolution: "scheduler@npm:0.20.2"
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 
