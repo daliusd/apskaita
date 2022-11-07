@@ -8032,9 +8032,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-auth@npm:4.16.3":
-  version: 4.16.3
-  resolution: "next-auth@npm:4.16.3"
+"next-auth@npm:4.16.4":
+  version: 4.16.4
+  resolution: "next-auth@npm:4.16.4"
   dependencies:
     "@babel/runtime": ^7.16.3
     "@panva/hkdf": ^1.0.1
@@ -8053,7 +8053,7 @@ __metadata:
   peerDependenciesMeta:
     nodemailer:
       optional: true
-  checksum: c04ead29cd36b90a46499f31f13ede5b33738e2791aaf6d59336fa5e076b083ef836a0e1f2780bb61c507ff6923d56bd753a299395bda8d993e81170f085131c
+  checksum: 13f739e39ab3b786653737ebf877c9ae9442bf36eeaa20940754fd9dee0444e7c30250e3b7b8b52737005ff069a64a77ac0083a44290f266149c5f1493bf06d8
   languageName: node
   linkType: hard
 
@@ -8162,7 +8162,7 @@ __metadata:
     lint-staged: 13.0.3
     multer: 1.4.4
     next: latest
-    next-auth: 4.16.3
+    next-auth: 4.16.4
     nodemailer: 6.8.0
     number-to-words: 1.2.4
     pdfkit: 0.13.0
