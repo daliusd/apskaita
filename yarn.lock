@@ -8239,7 +8239,7 @@ __metadata:
     remark-html: 15.0.1
     sharp: 0.31.2
     sqlite: 4.1.2
-    sqlite3: 5.1.2
+    sqlite3: 5.1.3
     stacktrace-js: 2.0.2
     strip-markdown: 5.0.0
     swr: 1.3.0
@@ -9767,9 +9767,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sqlite3@npm:5.1.2":
-  version: 5.1.2
-  resolution: "sqlite3@npm:5.1.2"
+"sqlite3@npm:5.1.3":
+  version: 5.1.3
+  resolution: "sqlite3@npm:5.1.3"
   dependencies:
     "@mapbox/node-pre-gyp": ^1.0.0
     node-addon-api: ^4.2.0
@@ -9783,7 +9783,7 @@ __metadata:
   peerDependenciesMeta:
     node-gyp:
       optional: true
-  checksum: 5ed90068f27853c4fef9d01c2e18706b7f51351220cbcd34488772a8ee5438097a16955e7a9d462da81c93fdf1ed3c8cdb085b23ddda02fc863b48e6acc0ee6e
+  checksum: bb909e27173ac12245b408026b802c928081b7646b02b715d85cbf71f8a08bfc1c8cb25945852a30d6e3bc585e0ad2241967397cedcdac0deae8dad869b135e9
   languageName: node
   linkType: hard
 
