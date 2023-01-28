@@ -18,7 +18,7 @@
     "gray-matter": "4.0.3",
     "multer": "1.4.4",
     "next": "latest",
-    "next-auth": "4.18.10",
+    "next-auth": "4.19.0",
     "nodemailer": "6.9.1",
     "number-to-words": "1.2.4",
     "pdfkit": "0.13.0",
