@@ -133,6 +133,7 @@ interface GetInvoiceListParams {
   minDate?: number;
   maxDate?: number;
   seriesName?: string;
+  invoiceType?: string;
   buyer?: string;
   paid?: number;
 }
@@ -159,9 +160,17 @@ export async function getInvoiceList(
     args.push(params.maxDate);
   }
 
-  if (params.seriesName !== undefined) {
-    whereConditions.push('seriesName LIKE ?');
-    args.push(params.seriesName + '%');
+  if (params.invoiceType === 'proforma') {
+    whereConditions.push("seriesName = '@'");
+  } else {
+    if (params.invoiceType === 'simple') {
+      whereConditions.push("seriesName <> '@'");
+    }
+
+    if (params.seriesName !== undefined) {
+      whereConditions.push('seriesName LIKE ?');
+      args.push(params.seriesName + '%');
+    }
   }
 
   if (params.buyer !== undefined) {

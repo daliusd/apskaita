@@ -31,6 +31,7 @@ export default function Index() {
   const [buyer, setBuyer] = useState('');
   const [seriesName, setSeriesName] = useState('');
   const [paid, setPaid] = React.useState('all');
+  const [invoiceType, setInvoiceType] = React.useState('all');
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
   const debouncedBuyer = useDebounce(buyer, 500);
@@ -102,12 +103,39 @@ export default function Index() {
       </Grid>
 
       <Grid item xs={12}>
-        <SeriesNameInput
-          seriesName={seriesName}
-          onChange={setSeriesName}
-          disabled={false}
-        />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Sąskaitos tipas</FormLabel>
+          <RadioGroup
+            aria-label="Apmokėjimas"
+            name="invoiceType"
+            value={invoiceType}
+            onChange={(e) => setInvoiceType(e.target.value)}
+            row
+          >
+            <FormControlLabel value="all" control={<Radio />} label="Visos" />
+            <FormControlLabel
+              value="simple"
+              control={<Radio />}
+              label="Paprastos"
+            />
+            <FormControlLabel
+              value="proforma"
+              control={<Radio />}
+              label="Išankstinės"
+            />
+          </RadioGroup>
+        </FormControl>
       </Grid>
+
+      {(invoiceType === 'all' || invoiceType === 'simple') && (
+        <Grid item xs={12}>
+          <SeriesNameInput
+            seriesName={seriesName}
+            onChange={setSeriesName}
+            disabled={false}
+          />
+        </Grid>
+      )}
 
       <Grid item xs={12}>
         <BuyerInput
@@ -152,9 +180,10 @@ export default function Index() {
       <Invoices
         minDate={getMsSinceEpoch(minDate)}
         maxDate={getMsSinceEpoch(maxDate)}
-        seriesName={debouncedSeriesName}
+        seriesName={invoiceType === 'proforma' ? '@' : debouncedSeriesName}
         buyer={debouncedBuyer}
         paid={paid === 'paid' ? true : paid === 'unpaid' ? false : undefined}
+        invoiceType={invoiceType}
       />
     </Grid>
   );

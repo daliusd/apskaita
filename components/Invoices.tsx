@@ -13,10 +13,20 @@ interface Props {
   paid?: boolean;
   limit?: number;
   offset?: number;
+  invoiceType?: string;
 }
 
 export default function Invoices(props: Props) {
-  const { minDate, maxDate, seriesName, buyer, paid, limit, offset } = props;
+  const {
+    minDate,
+    maxDate,
+    seriesName,
+    invoiceType,
+    buyer,
+    paid,
+    limit,
+    offset,
+  } = props;
   const args: Record<string, string> = {};
 
   if (minDate) {
@@ -24,6 +34,9 @@ export default function Invoices(props: Props) {
   }
   if (maxDate) {
     args.maxDate = maxDate.toString();
+  }
+  if (invoiceType) {
+    args.invoiceType = invoiceType;
   }
   if (seriesName) {
     args.seriesName = seriesName;
