@@ -8761,7 +8761,7 @@ __metadata:
     prettier: 2.8.4
     react: latest
     react-dom: latest
-    react-recipes: 1.4.0
+    react-recipes: 1.5.0
     recoil: 0.7.6
     remark: 14.0.2
     remark-html: 15.0.2
@@ -9641,13 +9641,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-recipes@npm:1.4.0":
-  version: 1.4.0
-  resolution: "react-recipes@npm:1.4.0"
+"react-recipes@npm:1.5.0":
+  version: 1.5.0
+  resolution: "react-recipes@npm:1.5.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0
-    react-dom: ^16.8.0 || ^17.0.0
-  checksum: dd47f58c773fd03fb503d1dffa2567e86b4f6a06c08882e256be8c8e909d45c14a6e3a925b4874e15d2b22563873b3d6e893d7da8e3ebe758cd671c760cacaa0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 885f63c2cac887f3e32fcac7528141caae6110e01eada4fab7d374841639af6904a6d810c8c3caaf469bbaf9c72281e77f0d8cb0ba0465927419ca5773ed66f6
   languageName: node
   linkType: hard
 
