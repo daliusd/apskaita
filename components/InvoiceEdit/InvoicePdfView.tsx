@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import { useCopyClipboard } from 'react-recipes';
 
 import {
@@ -45,6 +45,7 @@ export default function InvoicePdfView() {
     <>
       <Grid item xs={12}>
         <TextField
+          variant="standard"
           label="PDF nuoroda"
           inputProps={{ 'aria-label': 'PDF nuoroda' }}
           value={fullUrl}

@@ -2,16 +2,17 @@ import React from 'react';
 import { SWRConfig } from 'swr';
 import Head from 'next/head';
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import type { AppProps /*, AppContext */ } from 'next/app';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import ltLocale from 'date-fns/locale/lt';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import theme from '../src/theme';
 import Layout from '../src/Layout';
 import { init } from '../utils/error-handler';
 import { RecoilRoot } from 'recoil';
+import { lt } from 'date-fns/locale';
+
 init();
 
 export default function MyApp(props: AppProps<SessionProviderProps>) {
@@ -40,7 +41,7 @@ export default function MyApp(props: AppProps<SessionProviderProps>) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ltLocale}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
@@ -52,7 +53,7 @@ export default function MyApp(props: AppProps<SessionProviderProps>) {
             </RecoilRoot>
           </SessionProvider>
         </ThemeProvider>
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </SWRConfig>
   );
 }

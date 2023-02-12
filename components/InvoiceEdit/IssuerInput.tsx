@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
@@ -30,6 +30,7 @@ export default function IssuerInput() {
 
   return (
     <TextField
+      variant="standard"
       label="Sąskaitą faktūrą išrašė"
       inputProps={{ 'aria-label': 'SF išrašė' }}
       value={issuer}

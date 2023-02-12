@@ -1,6 +1,6 @@
 import React from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
@@ -47,7 +47,7 @@ export default function BuyerInput({
           inputProps={{ 'aria-label': 'Pirkėjas', ...params.inputProps }}
           multiline
           rows={rows}
-          variant={rows > 1 ? 'outlined' : undefined}
+          variant={rows > 1 ? 'outlined' : 'standard'}
         />
       )}
     />

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import ClearIcon from '@material-ui/icons/Clear';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import InputAdornment from '@mui/material/InputAdornment';
+import Autocomplete from '@mui/material/Autocomplete';
+import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
@@ -66,6 +66,7 @@ export default function LineItemEdit({
           freeSolo
           renderInput={(params) => (
             <TextField
+              variant="standard"
               {...params}
               label="Paslaugos ar prekės pavadinimas"
               inputProps={{
@@ -89,6 +90,7 @@ export default function LineItemEdit({
           freeSolo
           renderInput={(params) => (
             <TextField
+              variant="standard"
               {...params}
               label="Matas"
               inputProps={{ 'aria-label': 'Matas' + lid, ...params.inputProps }}
@@ -99,6 +101,7 @@ export default function LineItemEdit({
 
       <Grid item xs={3}>
         <TextField
+          variant="standard"
           type="number"
           label="Kiekis"
           inputProps={{ 'aria-label': 'Kiekis' + lid }}
@@ -117,6 +120,7 @@ export default function LineItemEdit({
 
       <Grid item xs={3}>
         <TextField
+          variant="standard"
           type="number"
           label="Kaina"
           inputProps={{ 'aria-label': 'Kaina' + lid }}
@@ -147,6 +151,7 @@ export default function LineItemEdit({
 
       <Grid item xs={3}>
         <TextField
+          variant="standard"
           type="number"
           label="Viso"
           disabled

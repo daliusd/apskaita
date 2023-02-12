@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { useSession } from 'next-auth/react';
 
 import SellerInfoEdit from '../components/settings/SellerInfoEdit';

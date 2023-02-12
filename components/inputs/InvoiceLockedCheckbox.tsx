@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import { messageSeverityState, messageTextState } from '../../src/atoms';
 
@@ -46,7 +46,7 @@ export default function InvoiceLockedCheckbox({
   };
 
   return (
-    <FormControl>
+    <FormControl variant="standard">
       <FormControlLabel
         control={
           <Checkbox

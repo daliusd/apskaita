@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import AddIcon from '@material-ui/icons/Add';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import { TextField, Typography } from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { DatePicker } from '@mui/x-date-pickers';
+import AddIcon from '@mui/icons-material/Add';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'react-recipes';
@@ -63,31 +63,41 @@ export default function Index() {
       </Grid>
 
       <Grid item xs={6}>
-        <KeyboardDatePicker
+        <DatePicker
           label="Minimali data"
-          autoOk={true}
-          inputProps={{ 'aria-label': 'Maksimali data' }}
           value={minDate}
           onChange={setMinDate}
-          format="yyyy-MM-dd"
-          fullWidth
-          invalidDateMessage={'Neteisingas datos formatas'}
-          okLabel="Gerai"
-          cancelLabel="Nutraukti"
+          inputFormat="yyyy-MM-dd"
+          renderInput={(params) => (
+            <TextField
+              fullWidth
+              {...params}
+              inputProps={{
+                'aria-label': 'Minimali data',
+                ...params.inputProps,
+              }}
+              variant="standard"
+            />
+          )}
         />
       </Grid>
       <Grid item xs={6}>
-        <KeyboardDatePicker
+        <DatePicker
           label="Maksimali data"
-          autoOk={true}
-          inputProps={{ 'aria-label': 'Maksimali data' }}
           value={maxDate}
           onChange={setMaxDate}
-          format="yyyy-MM-dd"
-          fullWidth
-          invalidDateMessage={'Neteisingas datos formatas'}
-          okLabel="Gerai"
-          cancelLabel="Nutraukti"
+          inputFormat="yyyy-MM-dd"
+          renderInput={(params) => (
+            <TextField
+              fullWidth
+              {...params}
+              inputProps={{
+                'aria-label': 'Maksimali data',
+                ...params.inputProps,
+              }}
+              variant="standard"
+            />
+          )}
         />
       </Grid>
 
@@ -109,7 +119,7 @@ export default function Index() {
       </Grid>
 
       <Grid item xs={12}>
-        <FormControl component="fieldset">
+        <FormControl variant="standard" component="fieldset">
           <FormLabel component="legend">Apmokėjimas</FormLabel>
           <RadioGroup
             aria-label="Apmokėjimas"

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import { useDebounce } from 'react-recipes';
 import useSWR from 'swr';
@@ -55,6 +55,7 @@ export default function SeriesIdInput() {
 
   return (
     <TextField
+      variant="standard"
       type="number"
       inputProps={{ 'aria-label': 'Serijos numeris' }}
       label="Serijos numeris"

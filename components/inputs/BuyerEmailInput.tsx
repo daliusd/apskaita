@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 
 import { emailState, lockedState } from '../../src/atoms';
@@ -10,6 +10,7 @@ export default function BuyerEmailInput() {
 
   return (
     <TextField
+      variant="standard"
       inputProps={{ 'aria-label': 'Pirkėjo el. pašto adresas' }}
       label="Pirkėjo el. pašto adresas"
       value={email}

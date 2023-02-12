@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import SvgIcon from '@mui/material/SvgIcon';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useLocalStorage } from 'react-recipes';
 
@@ -21,26 +20,7 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    justifyContent: 'space-between',
-  },
-  toolbarTitle: {},
-  toolbarSecondary: {
-    justifyContent: 'space-between',
-    overflowX: 'auto',
-  },
-  toolbarLink: {
-    padding: theme.spacing(1),
-  },
-  google: {
-    textTransform: 'none',
-  },
-}));
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const classes = useStyles();
   const { data: session, status } = useSession();
   const [messageText, setMessageText] = useRecoilState(messageTextState);
   const [messageSeverity] = useRecoilState(messageSeverityState);
@@ -71,13 +51,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <Container maxWidth="sm">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Toolbar className={classes.toolbar} disableGutters={true}>
-            <Typography
-              variant="h4"
-              component="h1"
-              noWrap
-              className={classes.toolbarTitle}
-            >
+          <Toolbar
+            sx={{
+              borderBottom: `1px solid #eeeeee`,
+              justifyContent: 'space-between',
+            }}
+            disableGutters={true}
+          >
+            <Typography variant="h4" component="h1" noWrap>
               <Link href="/" color="secondary">
                 <img
                   src="/haikulogo.svg"
@@ -89,7 +70,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </Typography>
             {status !== 'loading' && !session && (
               <Button
-                className={classes.google}
+                sx={{
+                  textTransform: 'none',
+                }}
                 startIcon={
                   <SvgIcon viewBox="0 0 46 46">
                     <g
@@ -133,7 +116,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             )}
             {session && (
               <Button
-                className={classes.google}
+                sx={{
+                  textTransform: 'none',
+                }}
                 onClick={() => {
                   signOut();
                 }}
@@ -147,61 +132,43 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Toolbar className={classes.toolbarSecondary} disableGutters={true}>
-            <Link href="/" color="primary" className={classes.toolbarLink}>
+          <Toolbar
+            sx={{
+              justifyContent: 'space-between',
+              overflowX: 'auto',
+            }}
+            disableGutters={true}
+          >
+            <Link href="/" color="primary" sx={{ padding: 1 }}>
               Pagrindinis
             </Link>
             {session && (
-              <Link
-                href="/saskaitos"
-                color="primary"
-                className={classes.toolbarLink}
-              >
+              <Link href="/saskaitos" color="primary" sx={{ padding: 1 }}>
                 Sąskaitos
               </Link>
             )}
             {session && (
-              <Link
-                href="/islaidos"
-                color="primary"
-                className={classes.toolbarLink}
-              >
+              <Link href="/islaidos" color="primary" sx={{ padding: 1 }}>
                 Išlaidos
               </Link>
             )}
             {session && (
-              <Link
-                href="/nustatymai"
-                color="primary"
-                className={classes.toolbarLink}
-              >
+              <Link href="/nustatymai" color="primary" sx={{ padding: 1 }}>
                 Nustatymai
               </Link>
             )}
             {!session && (
-              <Link
-                href="/kaina"
-                color="primary"
-                className={classes.toolbarLink}
-              >
+              <Link href="/kaina" color="primary" sx={{ padding: 1 }}>
                 Kaina
               </Link>
             )}
             {!session && (
-              <Link
-                href="/kontaktai"
-                color="primary"
-                className={classes.toolbarLink}
-              >
+              <Link href="/kontaktai" color="primary" sx={{ padding: 1 }}>
                 Kontaktai
               </Link>
             )}
 
-            <Link
-              href="/pagalba"
-              color="primary"
-              className={classes.toolbarLink}
-            >
+            <Link href="/pagalba" color="primary" sx={{ padding: 1 }}>
               Pagalba
             </Link>
           </Toolbar>
@@ -221,13 +188,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         autoHideDuration={6000}
         onClose={handleMessageClose}
       >
-        <Alert
-          onClose={handleMessageClose}
-          severity={messageSeverity}
-          closeText="Uždaryti"
-        >
-          {messageText}
-        </Alert>
+        <div>
+          <Alert
+            onClose={handleMessageClose}
+            severity={messageSeverity}
+            closeText="Uždaryti"
+          >
+            {messageText}
+          </Alert>
+        </div>
       </Snackbar>
     </Container>
   );

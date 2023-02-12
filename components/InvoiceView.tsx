@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-import EditIcon from '@material-ui/icons/Edit';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import EditIcon from '@mui/icons-material/Edit';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 import { IInvoice } from '../db/db';
 import { getDateString } from '../utils/date';
@@ -23,14 +22,7 @@ interface Props {
   onChange: () => void;
 }
 
-const useStyles = makeStyles({
-  root: {
-    marginBottom: 12,
-  },
-});
-
 export default function InvoiceView({ invoice, onChange }: Props) {
-  const classes = useStyles();
   const router = useRouter();
   const [paid, setPaid] = useState(invoice.paid === 1);
   const [locked, setLocked] = useState(invoice.locked === 1);
@@ -53,7 +45,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
   };
 
   return (
-    <Card className={classes.root} elevation={3}>
+    <Card sx={{ marginBottom: '12px' }} elevation={3}>
       <CardContent>
         <Grid container spacing={1}>
           <Grid item xs={12}>

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Typography, TextField } from '@material-ui/core';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import Grid from '@mui/material/Grid';
+import { Typography, TextField } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-recipes';
 import Link from '../src/Link';
@@ -81,6 +81,7 @@ export default function Index() {
 
       <Grid item xs={12}>
         <TextField
+          variant="standard"
           inputProps={{ 'aria-label': 'Išlaidų aprašymas ar jo dalis' }}
           label="Išlaidų aprašymas ar jo dalis"
           value={description}
@@ -91,31 +92,41 @@ export default function Index() {
         />
       </Grid>
       <Grid item xs={6}>
-        <KeyboardDatePicker
+        <DatePicker
           label="Minimali data"
-          autoOk={true}
-          inputProps={{ 'aria-label': 'Maksimali data' }}
           value={minDate}
           onChange={setMinDate}
-          format="yyyy-MM-dd"
-          fullWidth
-          invalidDateMessage={'Neteisingas datos formatas'}
-          okLabel="Gerai"
-          cancelLabel="Nutraukti"
+          inputFormat="yyyy-MM-dd"
+          renderInput={(params) => (
+            <TextField
+              fullWidth
+              {...params}
+              inputProps={{
+                'aria-label': 'Minimali data',
+                ...params.inputProps,
+              }}
+              variant="standard"
+            />
+          )}
         />
       </Grid>
       <Grid item xs={6}>
-        <KeyboardDatePicker
+        <DatePicker
           label="Maksimali data"
-          autoOk={true}
-          inputProps={{ 'aria-label': 'Maksimali data' }}
           value={maxDate}
           onChange={setMaxDate}
-          format="yyyy-MM-dd"
-          fullWidth
-          invalidDateMessage={'Neteisingas datos formatas'}
-          okLabel="Gerai"
-          cancelLabel="Nutraukti"
+          inputFormat="yyyy-MM-dd"
+          renderInput={(params) => (
+            <TextField
+              fullWidth
+              {...params}
+              inputProps={{
+                'aria-label': 'Maksimali data',
+                ...params.inputProps,
+              }}
+              variant="standard"
+            />
+          )}
         />
       </Grid>
 

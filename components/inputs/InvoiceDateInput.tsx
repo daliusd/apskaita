@@ -1,7 +1,8 @@
 import React from 'react';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 
 import { getDateString } from '../../utils/date';
+import TextField from '@mui/material/TextField';
 
 interface IProps {
   date: Date;
@@ -21,34 +22,43 @@ export default function InvoiceDateInput({
   disabled,
 }: IProps) {
   return (
-    <KeyboardDatePicker
+    <DatePicker
       label="Sąskaitos data"
-      autoOk={true}
-      inputProps={{ 'aria-label': 'Sąskaitos data' }}
       value={date}
       onChange={onChange}
-      format="yyyy-MM-dd"
-      fullWidth
-      invalidDateMessage={'Neteisingas datos formatas'}
-      error={validInvoiceDate ? !validInvoiceDate.success : !date.getTime()}
+      inputFormat="yyyy-MM-dd"
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            inputProps={{
+              'aria-label': 'Sąskaitos data',
+              ...params.inputProps,
+            }}
+            error={
+              validInvoiceDate ? !validInvoiceDate.success : !date.getTime()
+            }
+            fullWidth
+            variant="standard"
+            helperText={
+              validInvoiceDate
+                ? validInvoiceDate.minValidDate
+                  ? `Data turi būti ${getDateString(
+                      validInvoiceDate.minValidDate,
+                    )} arba vėlesnė`
+                  : validInvoiceDate.maxValidDate
+                  ? `Data turi būti ${getDateString(
+                      validInvoiceDate.maxValidDate,
+                    )} arba ankstesnė`
+                  : ''
+                : !date.getTime()
+                ? 'Data yra būtina'
+                : ''
+            }
+          />
+        );
+      }}
       disabled={disabled}
-      helperText={
-        validInvoiceDate
-          ? validInvoiceDate.minValidDate
-            ? `Data turi būti ${getDateString(
-                validInvoiceDate.minValidDate,
-              )} arba vėlesnė`
-            : validInvoiceDate.maxValidDate
-            ? `Data turi būti ${getDateString(
-                validInvoiceDate.maxValidDate,
-              )} arba ankstesnė`
-            : ''
-          : !date.getTime()
-          ? 'Data yra būtina'
-          : ''
-      }
-      okLabel="Gerai"
-      cancelLabel="Nutraukti"
     />
   );
 }

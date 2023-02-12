@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
 
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 
 import { messageSeverityState, messageTextState } from '../../src/atoms';

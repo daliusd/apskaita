@@ -1,8 +1,8 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import { useRecoilState } from 'recoil';
 
 import {
@@ -17,9 +17,10 @@ export default function LanguageSelect() {
   const [locked] = useRecoilState(lockedState);
 
   return (
-    <FormControl fullWidth aria-label="Kalba">
+    <FormControl variant="standard" fullWidth aria-label="Kalba">
       <InputLabel id="language-selector">Kalba</InputLabel>
       <Select
+        variant="standard"
         labelId="language-selector"
         value={language}
         onChange={(e) => {

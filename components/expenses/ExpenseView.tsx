@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Pageview from '@material-ui/icons/Pageview';
-import CloudDownload from '@material-ui/icons/CloudDownload';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Pageview from '@mui/icons-material/Pageview';
+import CloudDownload from '@mui/icons-material/CloudDownload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import ExpenseEditDialog from './ExpenseEditDialog';
 import { IExpense } from '../../db/db';
@@ -23,15 +22,8 @@ interface Props {
   onChange: () => void;
 }
 
-const useStyles = makeStyles({
-  root: {
-    marginBottom: 12,
-  },
-});
-
 export default function ExpenseView(props: Props) {
   const { expense } = props;
-  const classes = useStyles();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [expenseEditOpen, setExpenseEditOpen] = useState(false);
@@ -56,7 +48,7 @@ export default function ExpenseView(props: Props) {
   };
 
   return (
-    <Card className={classes.root} elevation={3}>
+    <Card sx={{ marginBottom: '12px' }} elevation={3}>
       <CardContent>
         <Grid container>
           <Grid item xs={12}>

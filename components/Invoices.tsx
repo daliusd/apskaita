@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress } from '@mui/material';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';

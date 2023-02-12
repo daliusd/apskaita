@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Box from '@material-ui/core/Box';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { CircularProgress } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import CloudUpload from '@material-ui/icons/CloudUpload';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import { CircularProgress } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import CloudUpload from '@mui/icons-material/CloudUpload';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../../utils/date';
@@ -118,6 +118,7 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              variant="standard"
               inputProps={{ 'aria-label': 'Išlaidų aprašymas' }}
               label="Išlaidų aprašymas"
               value={description}
@@ -129,22 +130,28 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
           </Grid>
 
           <Grid item xs={12}>
-            <KeyboardDatePicker
+            <DatePicker
               label="Išlaidų data"
-              autoOk={true}
-              inputProps={{ 'aria-label': 'Išlaidų data' }}
               value={date}
               onChange={setDate}
-              format="yyyy-MM-dd"
-              fullWidth
-              invalidDateMessage={'Neteisingas datos formatas'}
-              okLabel="Gerai"
-              cancelLabel="Nutraukti"
+              inputFormat="yyyy-MM-dd"
+              renderInput={(params) => (
+                <TextField
+                  fullWidth
+                  {...params}
+                  inputProps={{
+                    'aria-label': 'Išlaidų data',
+                    ...params.inputProps,
+                  }}
+                  variant="standard"
+                />
+              )}
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
+              variant="standard"
               type="number"
               label="Išlaidų suma"
               value={price}

@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { signOut } from 'next-auth/react';
 
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
 
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { messageSeverityState, messageTextState } from '../../src/atoms';
 

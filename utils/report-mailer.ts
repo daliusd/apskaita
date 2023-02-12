@@ -19,23 +19,19 @@ export async function sendReportMessage(subject, error, req) {
   let text = '';
   try {
     text += 'Method: ' + req.method + '\n\n';
-  }
-  catch {}
+  } catch {}
 
   try {
     text += 'Query:\n\n' + JSON.stringify(req.query, null, 2) + '\n\n';
-  }
-  catch {}
+  } catch {}
 
   try {
     text += 'Body:\n\n' + JSON.stringify(req.body, null, 2) + '\n\n';
-  }
-  catch {}
+  } catch {}
 
   try {
     text += 'Error:\n\n' + error.stack + '\n\n';
-  }
-  catch {}
+  } catch {}
 
   await transporter.sendMail({
     from: process.env.SMTP_USER,

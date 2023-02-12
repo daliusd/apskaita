@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import MuiLink from '@material-ui/core/Link';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import MuiLink from '@mui/material/Link';
 
 import Link from './Link';
 
@@ -21,7 +21,7 @@ export default function Copyright() {
           Kontaktai
         </Link>
         {' | © '}
-        <MuiLink color="inherit" href="https://www.ffff.lt/">
+        <MuiLink color="inherit" href="https://www.ffff.lt/" underline="hover">
           Dalius Dobravolskas
         </MuiLink>{' '}
         {new Date().getFullYear()}

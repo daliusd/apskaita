@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import SaveIcon from '@material-ui/icons/Save';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
 import { useRouter } from 'next/router';
 
 import { IInvoice } from '../../db/db';

@@ -1,6 +1,6 @@
 import React from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import useSWR from 'swr';
 import { useDebounce } from 'react-recipes';
 
@@ -44,6 +44,7 @@ export default function SeriesNameInput({
       freeSolo
       renderInput={(params) => (
         <TextField
+          variant="standard"
           {...params}
           label="Serijos pavadinimas"
           inputProps={{

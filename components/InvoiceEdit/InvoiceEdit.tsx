@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@mui/material/LinearProgress';
+import Grid from '@mui/material/Grid';
 import useSWR from 'swr';
 
 import InvoiceEditMain from './InvoiceEditMain';
