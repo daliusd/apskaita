@@ -1,13 +1,17 @@
 import { validateInput, validateTextArea } from './utils';
 
 export async function fillNewInvoice(page, invoice) {
-  await page.click('input[aria-label="Serijos pavadinimas"]');
-  await page.fill(
-    'input[aria-label="Serijos pavadinimas"]',
-    invoice.seriesName,
-  );
-  await page.press('input[aria-label="Serijos pavadinimas"]', 'Escape');
-  await page.waitForTimeout(500); // give time for debounce to kick in
+  if (invoice.seriesName === '@') {
+    await page.click('text="Išankstinė"');
+  } else {
+    await page.click('input[aria-label="Serijos pavadinimas"]');
+    await page.fill(
+      'input[aria-label="Serijos pavadinimas"]',
+      invoice.seriesName,
+    );
+    await page.press('input[aria-label="Serijos pavadinimas"]', 'Escape');
+    await page.waitForTimeout(500); // give time for debounce to kick in
+  }
 
   if (invoice.seriesId > 0) {
     await page.click('input[aria-label="Serijos numeris"]');
@@ -81,7 +85,9 @@ export async function fillNewInvoice(page, invoice) {
 }
 
 export async function validateInvoice(page, invoice) {
-  await validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
+  if (invoice.seriesName !== '@') {
+    await validateInput(page, 'Serijos pavadinimas', invoice.seriesName);
+  }
 
   await validateInput(page, 'Serijos numeris', invoice.seriesId.toString());
 
