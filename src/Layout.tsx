@@ -60,6 +60,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           >
             <Typography variant="h4" component="h1" noWrap>
               <Link href="/" color="secondary">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/haikulogo.svg"
                   alt="Haiku.lt"

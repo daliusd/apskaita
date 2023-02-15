@@ -5,13 +5,13 @@
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
     "@emotion/react": "^11.10.5",
+    "@emotion/server": "latest",
     "@emotion/styled": "^11.10.5",
     "@googleapis/drive": "4.0.2",
     "@googleapis/gmail": "1.1.1",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.119",
     "@mui/material": "^5.11.8",
-    "@mui/styles": "^5.11.7",
     "@mui/system": "^5.11.8",
     "@mui/x-date-pickers": "^5.0.18",
     "@next/font": "^13.1.6",
@@ -51,7 +51,7 @@
     "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "jest --config=jest.config.js",
     "test:e2e": "playwright test",
-    "test:docker": "docker run -it --rm --ipc=host -v \"${PWD}:/var/app/\" mcr.microsoft.com/playwright:focal /bin/bash -c 'cd /var/app; yarn; yarn playwright test'",
+    "test:docker": "DOCKER_HOST=\"unix://$HOME/.colima/docker.sock\" docker run -it --rm --ipc=host -v \"${PWD}:/var/app/\" mcr.microsoft.com/playwright:focal /bin/bash -c 'cd /var/app; yarn; yarn playwright test'",
     "lint": "next lint",
     "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts",
     "prepare": "husky install .config/husky"

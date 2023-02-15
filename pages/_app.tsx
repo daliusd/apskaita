@@ -1,22 +1,32 @@
-import React from 'react';
-import { SWRConfig } from 'swr';
-import Head from 'next/head';
-import { SessionProvider, SessionProviderProps } from 'next-auth/react';
-import { ThemeProvider } from '@mui/material/styles';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
-import type { AppProps /*, AppContext */ } from 'next/app';
+import { ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import theme from '../src/theme';
-import Layout from '../src/Layout';
-import { init } from '../utils/error-handler';
-import { RecoilRoot } from 'recoil';
 import { lt } from 'date-fns/locale';
+import { SessionProvider, SessionProviderProps } from 'next-auth/react';
+import type { AppProps /*, AppContext */ } from 'next/app';
+import Head from 'next/head';
+import React from 'react';
+import { RecoilRoot } from 'recoil';
+import { SWRConfig } from 'swr';
+
+import createEmotionCache from '../src/createEmotionCache';
+import Layout from '../src/Layout';
+import theme from '../src/theme';
+import { init } from '../utils/error-handler';
 
 init();
 
-export default function MyApp(props: AppProps<SessionProviderProps>) {
-  const { Component, pageProps } = props;
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
+
+interface MyAppProps extends AppProps<SessionProviderProps> {
+  emotionCache?: EmotionCache;
+}
+
+export default function MyApp(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -34,26 +44,28 @@ export default function MyApp(props: AppProps<SessionProviderProps>) {
         dedupingInterval: 0,
       }}
     >
-      <Head>
-        <title>Haiku.lt</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <SessionProvider session={pageProps.session}>
-            <RecoilRoot>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </RecoilRoot>
-          </SessionProvider>
-        </ThemeProvider>
-      </LocalizationProvider>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>Haiku.lt</title>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <SessionProvider session={pageProps.session}>
+              <RecoilRoot>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </RecoilRoot>
+            </SessionProvider>
+          </ThemeProvider>
+        </LocalizationProvider>
+      </CacheProvider>
     </SWRConfig>
   );
 }

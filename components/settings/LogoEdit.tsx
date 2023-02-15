@@ -76,6 +76,7 @@ export default function LogoEdit() {
         <>
           {data && data.value && (
             <Grid item xs={12}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.value} alt="logo" />
             </Grid>
           )}
