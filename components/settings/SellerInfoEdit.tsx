@@ -45,7 +45,7 @@ export default function SellerInfoEdit({ language }: Props) {
         }}
         fullWidth
         multiline
-        rows={4}
+        minRows={4}
         variant="outlined"
       />
 

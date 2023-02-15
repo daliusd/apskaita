@@ -17,13 +17,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
-        query: { limit, offset, minDate, maxDate, seriesName, buyer, paid },
+        query: {
+          limit,
+          offset,
+          minDate,
+          maxDate,
+          seriesName,
+          buyer,
+          paid,
+          invoiceType,
+        },
       } = req;
 
       const invoices = await getInvoiceList(db, {
         minDate: minDate && parseInt(defaultOrFirst(minDate), 10),
         maxDate: maxDate && parseInt(defaultOrFirst(maxDate), 10),
         seriesName: seriesName && defaultOrFirst(seriesName),
+        invoiceType: invoiceType && defaultOrFirst(invoiceType),
         buyer: buyer && defaultOrFirst(buyer),
         paid: paid && parseInt(defaultOrFirst(paid), 10),
         limit: limit ? parseInt(defaultOrFirst(limit), 10) : 1000,

@@ -44,7 +44,7 @@ export default function ExtraEdit({ language }: Props) {
         }}
         fullWidth
         multiline
-        rows={2}
+        minRows={2}
         variant="outlined"
       />
 

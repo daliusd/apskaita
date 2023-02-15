@@ -119,6 +119,36 @@ describe('database tests', () => {
       expect(invoices[0].buyer).toEqual(invoice.buyer);
     });
 
+    it('creates proforma invoice', async () => {
+      const invoice: IInvoice = {
+        seriesName: '@',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+      let invoices = await getInvoiceList(db, { invoiceType: 'proforma' });
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].id).toEqual(invoiceId);
+      expect(invoices[0].seriesName).toEqual(invoice.seriesName);
+      expect(invoices[0].seriesId).toEqual(invoice.seriesId);
+      expect(invoices[0].created).toEqual(invoice.created);
+      expect(invoices[0].price).toEqual(invoice.price);
+      expect(invoices[0].buyer).toEqual(invoice.buyer);
+
+      invoices = await getInvoiceList(db, { invoiceType: 'simple' });
+      expect(invoices).toHaveLength(0);
+
+      invoices = await getInvoiceList(db, {});
+      expect(invoices).toHaveLength(1);
+    });
+
     it('returns invoices on the same date sorted by series number', async () => {
       const invoice: IInvoice = {
         seriesName: 'DD',
@@ -694,6 +724,28 @@ describe('database tests', () => {
       uniqueSerieNames = await getUniqueSeriesNames(db, 'E');
       expect(uniqueSerieNames).toHaveLength(1);
       expect(uniqueSerieNames).toEqual(['EA']);
+    });
+
+    it('does not return special names with unique series names', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      await createInvoice(db, invoice);
+      invoice.seriesName = '@';
+      await createInvoice(db, invoice);
+
+      let uniqueSerieNames = await getUniqueSeriesNames(db, '');
+      expect(uniqueSerieNames).toHaveLength(1);
+      expect(uniqueSerieNames).toEqual(['DD']);
     });
 
     it('gets unique buyers', async () => {

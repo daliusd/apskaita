@@ -51,6 +51,7 @@ const FIELDS_INFO: { name: string; size: number; align: string }[] = [
 const invoiceStrings = {
   lt: {
     title: 'SĄSKAITA - FAKTŪRA',
+    proforma_title: 'IŠANKSTINĖ SĄSKAITA FAKTŪRA',
     serie: 'Serija',
     no: 'Nr',
     seller: `Pardavėjas:`,
@@ -66,6 +67,7 @@ const invoiceStrings = {
   },
   en: {
     title: 'INVOICE',
+    proforma_title: 'PROFORMA INVOICE',
     serie: 'Serie',
     no: 'No',
     seller: `Seller:`,
@@ -110,7 +112,10 @@ export async function generateInvoicePdf(
   const doc = new PDFDocument({
     size: [PAGE_WIDTH, PAGE_HEIGHT],
     info: {
-      Title: `Sąskaita - faktūra Serija ${invoice.seriesName} Nr. ${seriesId}`,
+      Title:
+        invoice.seriesName === '@'
+          ? `Išankstinė sąskaita faktūra Nr. ${seriesId}`
+          : `Sąskaita - faktūra Serija ${invoice.seriesName} Nr. ${seriesId}`,
       Author: `${invoice.issuer} (per haiku.lt)`,
     },
     margin: 0,
@@ -160,16 +165,23 @@ function generateHeader(
   doc
     .font('Roboto-Medium')
     .fontSize(14)
-    .text(t.title, PAGE_MARGIN, PAGE_MARGIN, {
-      width: CONTENT_WIDTH,
-      align: 'center',
-    });
+    .text(
+      invoice.seriesName === '@' ? t.proforma_title : t.title,
+      PAGE_MARGIN,
+      PAGE_MARGIN,
+      {
+        width: CONTENT_WIDTH,
+        align: 'center',
+      },
+    );
 
   doc
     .font('Roboto-Medium')
     .fontSize(12)
     .text(
-      `${t.serie} ${invoice.seriesName.normalize()} ${t.no}. ${seriesId}`,
+      invoice.seriesName === '@'
+        ? `${t.no}. ${seriesId}`
+        : `${t.serie} ${invoice.seriesName.normalize()} ${t.no}. ${seriesId}`,
       PAGE_MARGIN,
       PAGE_MARGIN + 8 * PTPMM,
       {

@@ -59,7 +59,7 @@ export default function EmailTemplateEdit({ language }: Props) {
         }}
         fullWidth
         multiline
-        rows={8}
+        minRows={8}
         variant="outlined"
       />
 
