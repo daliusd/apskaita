@@ -34,10 +34,11 @@ export default function ArticleView({
     dateModified: article.meta.modified + 'T08:00:00+00:00',
   };
 
+  const title = `${article.meta.title} | Haiku.lt`;
   return (
     <>
       <Head>
-        <title>{article.meta.title} | Haiku.lt</title>
+        <title>{title}</title>
         <meta name="description" content={article.description} />
         {showStructuredData && (
           <script
