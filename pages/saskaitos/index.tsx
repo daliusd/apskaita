@@ -114,9 +114,9 @@ export default function Index() {
           >
             <FormControlLabel value="all" control={<Radio />} label="Visos" />
             <FormControlLabel
-              value="simple"
+              value="standard"
               control={<Radio />}
-              label="Paprastos"
+              label="Standartinės"
             />
             <FormControlLabel
               value="proforma"
@@ -127,15 +127,13 @@ export default function Index() {
         </FormControl>
       </Grid>
 
-      {(invoiceType === 'all' || invoiceType === 'simple') && (
-        <Grid item xs={12}>
-          <SeriesNameInput
-            seriesName={seriesName}
-            onChange={setSeriesName}
-            disabled={false}
-          />
-        </Grid>
-      )}
+      <Grid item xs={12}>
+        <SeriesNameInput
+          seriesName={seriesName}
+          onChange={setSeriesName}
+          disabled={false}
+        />
+      </Grid>
 
       <Grid item xs={12}>
         <BuyerInput
@@ -180,7 +178,7 @@ export default function Index() {
       <Invoices
         minDate={getMsSinceEpoch(minDate)}
         maxDate={getMsSinceEpoch(maxDate)}
-        seriesName={invoiceType === 'proforma' ? '@' : debouncedSeriesName}
+        seriesName={debouncedSeriesName}
         buyer={debouncedBuyer}
         paid={paid === 'paid' ? true : paid === 'unpaid' ? false : undefined}
         invoiceType={invoiceType}

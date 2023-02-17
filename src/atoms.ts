@@ -33,6 +33,11 @@ export const languageAfterChangeState = atom({
   default: null as null | string,
 });
 
+export const invoiceTypeState = atom({
+  key: 'invoiceType',
+  default: '',
+});
+
 export const seriesNameState = atom({
   key: 'seriesName',
   default: '',

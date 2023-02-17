@@ -13,6 +13,7 @@ export interface ILineItem {
 
 export interface IInvoice {
   readonly id?: number;
+  invoiceType?: string;
   seriesName: string;
   seriesId: number;
   created: number;
@@ -27,6 +28,7 @@ export interface IInvoice {
   locked?: number;
   email?: string;
   sent?: number;
+  flags?: number;
   lineItems: ILineItem[];
 }
 
@@ -96,7 +98,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, email, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, email, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -109,6 +111,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.language,
     invoice.paid || 0,
     invoice.email || '',
+    invoice.invoiceType === 'proforma' ? 1 : 0,
   );
 
   const invoiceId = result.lastID;
@@ -146,7 +149,7 @@ export async function getInvoiceList(
   const args = [];
 
   let query =
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent FROM Invoice';
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent, flags FROM Invoice';
 
   const whereConditions = [];
 
@@ -160,17 +163,15 @@ export async function getInvoiceList(
     args.push(params.maxDate);
   }
 
-  if (params.invoiceType === 'proforma') {
-    whereConditions.push("seriesName = '@'");
-  } else {
-    if (params.invoiceType === 'simple') {
-      whereConditions.push("seriesName <> '@'");
-    }
+  if (params.invoiceType === 'standard') {
+    whereConditions.push('flags = 0');
+  } else if (params.invoiceType === 'proforma') {
+    whereConditions.push('flags = 1');
+  }
 
-    if (params.seriesName !== undefined) {
-      whereConditions.push('seriesName LIKE ?');
-      args.push(params.seriesName + '%');
-    }
+  if (params.seriesName !== undefined) {
+    whereConditions.push('seriesName LIKE ?');
+    args.push(params.seriesName + '%');
   }
 
   if (params.buyer !== undefined) {
@@ -193,12 +194,15 @@ export async function getInvoiceList(
   args.push(offset);
 
   const result = await db.all<IInvoice[]>(query, ...args);
+  result.map((r) =>
+    r.flags === 0 ? (r.invoiceType = 'standard') : (r.invoiceType = 'proforma'),
+  );
   return result;
 }
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email, flags FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -206,6 +210,7 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
     return undefined;
   }
 
+  result.invoiceType = result.flags === 1 ? 'proforma' : 'standard';
   result.lineItems = await db.all<ILineItem[]>(
     'SELECT id, name, unit, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
@@ -310,7 +315,7 @@ export async function updateInvoice(
   }
 
   await db.run(
-    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ?, email = ? WHERE id = ?',
+    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ?, email = ?, flags = ? WHERE id = ?',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -321,6 +326,7 @@ export async function updateInvoice(
     invoice.extra,
     invoice.language,
     invoice.email || '',
+    invoice.invoiceType === 'proforma' ? 1 : 0,
     invoiceId,
   );
 

@@ -7,7 +7,8 @@ test('Invoice. Should create simple proforma invoice', async ({ page }) => {
   await login(page);
 
   const invoice = {
-    seriesName: '@',
+    invoiceType: 'proforma',
+    seriesName: 'ZZ',
     seriesId: 0,
     created: Date.UTC(2020, 0, 31),
     price: 50,

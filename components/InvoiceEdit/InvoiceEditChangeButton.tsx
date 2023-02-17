@@ -14,6 +14,7 @@ import {
   extraState,
   invoiceDateState,
   invoiceIdState,
+  invoiceTypeState,
   issuerState,
   languageState,
   lineItemsState,
@@ -26,6 +27,7 @@ import {
 
 export default function InvoiceEditChangeButton() {
   const [invoiceId] = useRecoilState(invoiceIdState);
+  const [invoiceType] = useRecoilState(invoiceTypeState);
   const [seriesName] = useRecoilState(seriesNameState);
   const [seriesId] = useRecoilState(seriesIdState);
   const [invoiceDate] = useRecoilState(invoiceDateState);
@@ -105,6 +107,7 @@ export default function InvoiceEditChangeButton() {
         }
 
         const invoice: IInvoice = {
+          invoiceType,
           seriesName,
           seriesId: parseInt(seriesId, 10),
           created,

@@ -26,6 +26,7 @@ import {
   languageState,
   initialInvoiceState,
   languageAfterChangeState,
+  invoiceTypeState,
 } from '../../src/atoms';
 
 interface IProps {
@@ -44,6 +45,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
   );
   const [, setInitialInvoice] = useRecoilState(initialInvoiceState);
   const [, setInvoiceId] = useRecoilState(invoiceIdState);
+  const [, setInvoiceType] = useRecoilState(invoiceTypeState);
   const [, setSeriesName] = useRecoilState(seriesNameState);
   const [, setSeriesId] = useRecoilState(seriesIdState);
   const [, setInvoiceDate] = useRecoilState(invoiceDateState);
@@ -63,6 +65,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
       const { invoice } = initialData;
       setInitialInvoice(invoice);
       setInvoiceId(invoice.id);
+      setInvoiceType(invoice.invoiceType);
       setSeriesName(invoice.seriesName);
       setSeriesId(invoice.seriesId);
       setSeller(invoice.seller);
@@ -102,6 +105,7 @@ export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
     setSeller,
     setSent,
     setSeriesId,
+    setInvoiceType,
     setSeriesName,
     setLanguageAfterChange,
   ]);

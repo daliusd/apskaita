@@ -121,7 +121,7 @@ describe('database tests', () => {
 
     it('creates proforma invoice', async () => {
       const invoice: IInvoice = {
-        seriesName: '@',
+        seriesName: 'ZZ',
         seriesId: 1,
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
@@ -130,6 +130,7 @@ describe('database tests', () => {
         issuer: 'Issuer',
         extra: 'Extra',
         language: 'lt',
+        invoiceType: 'proforma',
         lineItems: [],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -142,7 +143,7 @@ describe('database tests', () => {
       expect(invoices[0].price).toEqual(invoice.price);
       expect(invoices[0].buyer).toEqual(invoice.buyer);
 
-      invoices = await getInvoiceList(db, { invoiceType: 'simple' });
+      invoices = await getInvoiceList(db, { invoiceType: 'standard' });
       expect(invoices).toHaveLength(0);
 
       invoices = await getInvoiceList(db, {});
@@ -724,28 +725,6 @@ describe('database tests', () => {
       uniqueSerieNames = await getUniqueSeriesNames(db, 'E');
       expect(uniqueSerieNames).toHaveLength(1);
       expect(uniqueSerieNames).toEqual(['EA']);
-    });
-
-    it('does not return special names with unique series names', async () => {
-      const invoice: IInvoice = {
-        seriesName: 'DD',
-        seriesId: 1,
-        created: new Date(2020, 0, 31).getTime(),
-        price: 100,
-        buyer: 'Buyer',
-        seller: 'Seller',
-        issuer: 'Issuer',
-        extra: 'Extra',
-        language: 'lt',
-        lineItems: [],
-      };
-      await createInvoice(db, invoice);
-      invoice.seriesName = '@';
-      await createInvoice(db, invoice);
-
-      let uniqueSerieNames = await getUniqueSeriesNames(db, '');
-      expect(uniqueSerieNames).toHaveLength(1);
-      expect(uniqueSerieNames).toEqual(['DD']);
     });
 
     it('gets unique buyers', async () => {

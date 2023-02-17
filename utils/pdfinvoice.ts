@@ -113,9 +113,9 @@ export async function generateInvoicePdf(
     size: [PAGE_WIDTH, PAGE_HEIGHT],
     info: {
       Title:
-        invoice.seriesName === '@'
-          ? `Išankstinė sąskaita faktūra Nr. ${seriesId}`
-          : `Sąskaita - faktūra Serija ${invoice.seriesName} Nr. ${seriesId}`,
+        invoice.invoiceType === 'proforma'
+          ? `Išankstinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
+          : `Sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`,
       Author: `${invoice.issuer} (per haiku.lt)`,
     },
     margin: 0,
@@ -166,7 +166,7 @@ function generateHeader(
     .font('Roboto-Medium')
     .fontSize(14)
     .text(
-      invoice.seriesName === '@' ? t.proforma_title : t.title,
+      invoice.invoiceType === 'proforma' ? t.proforma_title : t.title,
       PAGE_MARGIN,
       PAGE_MARGIN,
       {
@@ -179,9 +179,7 @@ function generateHeader(
     .font('Roboto-Medium')
     .fontSize(12)
     .text(
-      invoice.seriesName === '@'
-        ? `${t.no}. ${seriesId}`
-        : `${t.serie} ${invoice.seriesName.normalize()} ${t.no}. ${seriesId}`,
+      `${t.serie} ${invoice.seriesName.normalize()} ${t.no}. ${seriesId}`,
       PAGE_MARGIN,
       PAGE_MARGIN + 8 * PTPMM,
       {

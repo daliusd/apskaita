@@ -54,10 +54,11 @@ export default function InvoiceView({ invoice, onChange }: Props) {
               component="h1"
               onClick={() => openInvoice(invoice)}
             >
-              {invoice.seriesName === '@'
-                ? 'Išankstinė sąskaita faktūra'
-                : invoice.seriesName}
-              /{invoice.seriesId} ({getDateString(invoice.created)})
+              {invoice.invoiceType === 'proforma'
+                ? 'Išankstinė'
+                : 'Standartinė'}{' '}
+              SF {invoice.seriesName}/{invoice.seriesId} (
+              {getDateString(invoice.created)})
             </Typography>
           </Grid>
           <Grid item xs={12}>

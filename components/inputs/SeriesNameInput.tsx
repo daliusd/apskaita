@@ -31,18 +31,6 @@ export default function SeriesNameInput({
 
   const options = seriesNamesData ? seriesNamesData.seriesNames : [];
 
-  if (seriesName === '@') {
-    return (
-      <TextField
-        inputProps={{ 'aria-label': 'Serijos pavadinimas' }}
-        InputProps={{ readOnly: true }}
-        label="Serijos pavadinimas"
-        value={'Išankstinė'}
-        fullWidth
-      />
-    );
-  }
-
   return (
     <Autocomplete
       options={options}
