@@ -8,6 +8,9 @@ export default function BuyerEmailInput() {
   const [email, setEmail] = useRecoilState(emailState);
   const [locked] = useRecoilState(lockedState);
 
+  const looksLikeEmail = email.indexOf('@') !== -1;
+  const error = email.length > 0 && !looksLikeEmail;
+
   return (
     <TextField
       variant="standard"
@@ -18,6 +21,8 @@ export default function BuyerEmailInput() {
         setEmail(e.target.value);
       }}
       disabled={locked}
+      error={error}
+      helperText={error ? 'čia turi būti įvestas el. pašto adresas' : ''}
       fullWidth
     />
   );
