@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { TextField, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -68,18 +68,16 @@ export default function Index() {
           label="Minimali data"
           value={minDate}
           onChange={setMinDate}
-          inputFormat="yyyy-MM-dd"
-          renderInput={(params) => (
-            <TextField
-              fullWidth
-              {...params}
-              inputProps={{
+          format="yyyy-MM-dd"
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              inputProps: {
                 'aria-label': 'Minimali data',
-                ...params.inputProps,
-              }}
-              variant="standard"
-            />
-          )}
+              },
+              variant: 'standard',
+            },
+          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -87,18 +85,16 @@ export default function Index() {
           label="Maksimali data"
           value={maxDate}
           onChange={setMaxDate}
-          inputFormat="yyyy-MM-dd"
-          renderInput={(params) => (
-            <TextField
-              fullWidth
-              {...params}
-              inputProps={{
+          format="yyyy-MM-dd"
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              inputProps: {
                 'aria-label': 'Maksimali data',
-                ...params.inputProps,
-              }}
-              variant="standard"
-            />
-          )}
+              },
+              variant: 'standard',
+            },
+          }}
         />
       </Grid>
 

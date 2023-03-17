@@ -1,12 +1,17 @@
 import { expect } from '@playwright/test';
 
-export async function validateInput(page, ariaLabel, expectedValue) {
+export async function validateInput(
+  page,
+  ariaLabel,
+  expectedValue,
+  filter = undefined,
+) {
   await page.waitForSelector(`input[aria-label="${ariaLabel}"]`);
   const value = await page.$eval(
     `input[aria-label="${ariaLabel}"]`,
     (el) => el.value,
   );
-  expect(value).toEqual(expectedValue);
+  expect(filter ? filter(value) : value).toEqual(expectedValue);
 }
 
 export async function validateTextArea(page, ariaLabel, expectedValue) {

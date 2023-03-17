@@ -2,7 +2,6 @@ import React from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import { getDateString } from '../../utils/date';
-import TextField from '@mui/material/TextField';
 
 interface IProps {
   date: Date;
@@ -26,37 +25,31 @@ export default function InvoiceDateInput({
       label="Sąskaitos data"
       value={date}
       onChange={onChange}
-      inputFormat="yyyy-MM-dd"
-      renderInput={(params) => {
-        return (
-          <TextField
-            {...params}
-            inputProps={{
-              'aria-label': 'Sąskaitos data',
-              ...params.inputProps,
-            }}
-            error={
-              validInvoiceDate ? !validInvoiceDate.success : !date.getTime()
-            }
-            fullWidth
-            variant="standard"
-            helperText={
-              validInvoiceDate
-                ? validInvoiceDate.minValidDate
-                  ? `Data turi būti ${getDateString(
-                      validInvoiceDate.minValidDate,
-                    )} arba vėlesnė`
-                  : validInvoiceDate.maxValidDate
-                  ? `Data turi būti ${getDateString(
-                      validInvoiceDate.maxValidDate,
-                    )} arba ankstesnė`
-                  : ''
-                : !date.getTime()
-                ? 'Data yra būtina'
-                : ''
-            }
-          />
-        );
+      format="yyyy-MM-dd"
+      slotProps={{
+        textField: {
+          fullWidth: true,
+          inputProps: {
+            'aria-label': 'Sąskaitos data',
+          },
+          variant: 'standard',
+          error: validInvoiceDate
+            ? !validInvoiceDate.success
+            : !date || !date.getTime(),
+          helperText: validInvoiceDate
+            ? validInvoiceDate.minValidDate
+              ? `Data turi būti ${getDateString(
+                  validInvoiceDate.minValidDate,
+                )} arba vėlesnė`
+              : validInvoiceDate.maxValidDate
+              ? `Data turi būti ${getDateString(
+                  validInvoiceDate.maxValidDate,
+                )} arba ankstesnė`
+              : ''
+            : !date || !date.getTime()
+            ? 'Data yra būtina'
+            : '',
+        },
       }}
       disabled={disabled}
     />

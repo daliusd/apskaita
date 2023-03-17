@@ -58,11 +58,17 @@ test('Invoice. Should show errors if user tries to create wrong invoice', async 
   await page.waitForSelector('text=/.*Serijos numeris negali būti tu.*/');
 
   await page.fill('input[aria-label="Serijos numeris"]', '2');
-  await page.fill('input[aria-label="Sąskaitos data"]', '2021-01-29');
+  await page.click('input[aria-label="Sąskaitos data"]', {
+    position: { x: 5, y: 5 },
+  });
+  await page.type('input[aria-label="Sąskaitos data"]', '2021-01-29');
 
   await page.click('text=/.*Data turi būti 2021-01-30 arba vėlesnė.*/');
 
-  await page.fill('input[aria-label="Sąskaitos data"]', '2021-02-02');
+  await page.click('input[aria-label="Sąskaitos data"]', {
+    position: { x: 5, y: 5 },
+  });
+  await page.type('input[aria-label="Sąskaitos data"]', '2021-02-02');
 
   await page.click('text=/.*Data turi būti 2021-02-01 arba ankstesnė.*/');
 
