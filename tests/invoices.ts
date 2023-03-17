@@ -21,8 +21,10 @@ export async function fillNewInvoice(page, invoice) {
     );
   }
 
-  await page.click('input[aria-label="Sąskaitos data"]');
-  await page.fill(
+  await page.click('input[aria-label="Sąskaitos data"]', {
+    position: { x: 5, y: 5 },
+  });
+  await page.type(
     'input[aria-label="Sąskaitos data"]',
     new Date(invoice.created).toISOString().slice(0, 10),
   );
@@ -91,6 +93,7 @@ export async function validateInvoice(page, invoice) {
     page,
     'Sąskaitos data',
     new Date(invoice.created).toISOString().slice(0, 10),
+    (a) => a.replace(/[^0-9-]*/g, ''),
   );
 
   await validateTextArea(page, 'Pardavėjas', invoice.seller);

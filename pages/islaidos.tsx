@@ -97,7 +97,7 @@ export default function Index() {
           value={minDate}
           onChange={setMinDate}
           format="yyyy-MM-dd"
-          componentsProps={{
+          slotProps={{
             textField: {
               fullWidth: true,
               inputProps: {
@@ -114,7 +114,7 @@ export default function Index() {
           value={maxDate}
           onChange={setMaxDate}
           format="yyyy-MM-dd"
-          componentsProps={{
+          slotProps={{
             textField: {
               fullWidth: true,
               inputProps: {

@@ -135,7 +135,7 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
               value={date}
               onChange={setDate}
               format="yyyy-MM-dd"
-              componentsProps={{
+              slotProps={{
                 textField: {
                   fullWidth: true,
                   inputProps: {

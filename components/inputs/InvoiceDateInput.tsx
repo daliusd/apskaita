@@ -2,7 +2,6 @@ import React from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import { getDateString } from '../../utils/date';
-import TextField from '@mui/material/TextField';
 
 interface IProps {
   date: Date;
@@ -27,14 +26,16 @@ export default function InvoiceDateInput({
       value={date}
       onChange={onChange}
       format="yyyy-MM-dd"
-      componentsProps={{
+      slotProps={{
         textField: {
           fullWidth: true,
           inputProps: {
             'aria-label': 'Sąskaitos data',
           },
           variant: 'standard',
-          error: validInvoiceDate ? !validInvoiceDate.success : !date.getTime(),
+          error: validInvoiceDate
+            ? !validInvoiceDate.success
+            : !date || !date.getTime(),
           helperText: validInvoiceDate
             ? validInvoiceDate.minValidDate
               ? `Data turi būti ${getDateString(
@@ -45,7 +46,7 @@ export default function InvoiceDateInput({
                   validInvoiceDate.maxValidDate,
                 )} arba ankstesnė`
               : ''
-            : !date.getTime()
+            : !date || !date.getTime()
             ? 'Data yra būtina'
             : '',
         },

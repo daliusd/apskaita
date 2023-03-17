@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { TextField, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -69,7 +69,7 @@ export default function Index() {
           value={minDate}
           onChange={setMinDate}
           format="yyyy-MM-dd"
-          componentsProps={{
+          slotProps={{
             textField: {
               fullWidth: true,
               inputProps: {
@@ -86,7 +86,7 @@ export default function Index() {
           value={maxDate}
           onChange={setMaxDate}
           format="yyyy-MM-dd"
-          componentsProps={{
+          slotProps={{
             textField: {
               fullWidth: true,
               inputProps: {
