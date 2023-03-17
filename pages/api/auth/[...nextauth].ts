@@ -168,7 +168,7 @@ const options: NextAuthOptions = {
       // Return previous token if the access token has not expired yet
       if (
         token.accessTokenExpires === undefined ||
-        Date.now() < token.accessTokenExpires
+        Date.now() < (token.accessTokenExpires as number)
       ) {
         return token;
       }
