@@ -134,18 +134,16 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
               label="Išlaidų data"
               value={date}
               onChange={setDate}
-              inputFormat="yyyy-MM-dd"
-              renderInput={(params) => (
-                <TextField
-                  fullWidth
-                  {...params}
-                  inputProps={{
+              format="yyyy-MM-dd"
+              componentsProps={{
+                textField: {
+                  fullWidth: true,
+                  inputProps: {
                     'aria-label': 'Išlaidų data',
-                    ...params.inputProps,
-                  }}
-                  variant="standard"
-                />
-              )}
+                  },
+                  variant: 'standard',
+                },
+              }}
             />
           </Grid>
 

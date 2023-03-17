@@ -96,18 +96,16 @@ export default function Index() {
           label="Minimali data"
           value={minDate}
           onChange={setMinDate}
-          inputFormat="yyyy-MM-dd"
-          renderInput={(params) => (
-            <TextField
-              fullWidth
-              {...params}
-              inputProps={{
+          format="yyyy-MM-dd"
+          componentsProps={{
+            textField: {
+              fullWidth: true,
+              inputProps: {
                 'aria-label': 'Minimali data',
-                ...params.inputProps,
-              }}
-              variant="standard"
-            />
-          )}
+              },
+              variant: 'standard',
+            },
+          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -115,18 +113,16 @@ export default function Index() {
           label="Maksimali data"
           value={maxDate}
           onChange={setMaxDate}
-          inputFormat="yyyy-MM-dd"
-          renderInput={(params) => (
-            <TextField
-              fullWidth
-              {...params}
-              inputProps={{
+          format="yyyy-MM-dd"
+          componentsProps={{
+            textField: {
+              fullWidth: true,
+              inputProps: {
                 'aria-label': 'Maksimali data',
-                ...params.inputProps,
-              }}
-              variant="standard"
-            />
-          )}
+              },
+              variant: 'standard',
+            },
+          }}
         />
       </Grid>
 
