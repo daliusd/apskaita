@@ -3522,12 +3522,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:0.12.8":
-  version: 0.12.8
-  resolution: "@types/pdfkit@npm:0.12.8"
+"@types/pdfkit@npm:0.12.9":
+  version: 0.12.9
+  resolution: "@types/pdfkit@npm:0.12.9"
   dependencies:
     "@types/node": "*"
-  checksum: 62c39c3bc7d3c144d403d82aec401fd0a3237506c8e5594dd04ad4f70be81ca8bda63256f3f308dbebb044d05673010429e527ff52682a7d51dfd4d7320dac3c
+  checksum: 7a97d6457547a45c5ca331b75aa9a38d0b330e3e5118aa8c07b139f5d7b62757b8bd1ff132d806140883550d547e9e663e62aa3fdcf408de8340d4481e869357
   languageName: node
   linkType: hard
 
@@ -8627,7 +8627,7 @@ __metadata:
     "@types/node": ^18.13.0
     "@types/nodemailer": 6.4.7
     "@types/number-to-words": 1.2.1
-    "@types/pdfkit": 0.12.8
+    "@types/pdfkit": 0.12.9
     "@types/sharp": 0.31.1
     babel-jest: 29.5.0
     chance: 1.1.11
