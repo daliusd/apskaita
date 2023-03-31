@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function sendReportMessage(subject, error, req) {
   if (!process.env.SMTP_HOST) {
+    console.error(error.message);
+    console.error(error.stack);
     throw Error('SMTP not configured.');
   }
 
