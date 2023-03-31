@@ -389,11 +389,24 @@ export async function deleteInvoice(db: Database, invoiceId: number) {
   return true;
 }
 
-export async function getUniqueSeriesNames(db: Database, start: string) {
-  const result = await db.all(
-    'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? AND seriesName <> "@" ORDER BY seriesName LIMIT 10',
-    start + '%',
-  );
+export async function getUniqueSeriesNames(
+  db: Database,
+  start: string,
+  invoiceType?: string,
+) {
+  let result;
+  if (invoiceType) {
+    result = await db.all(
+      'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? AND seriesName <> "@" AND flags & 3 = ? ORDER BY seriesName LIMIT 10',
+      start + '%',
+      invoiceType === 'proforma' ? 1 : 0,
+    );
+  } else {
+    result = await db.all(
+      'SELECT DISTINCT seriesName FROM Invoice WHERE seriesName LIKE ? AND seriesName <> "@" ORDER BY seriesName LIMIT 10',
+      start + '%',
+    );
+  }
   return result.map((item) => item.seriesName);
 }
 

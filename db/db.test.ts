@@ -751,6 +751,35 @@ describe('database tests', () => {
       expect(uniqueSerieNames).toEqual(['EA']);
     });
 
+    it('gets unique serie names (taking type into account)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      await createInvoice(db, invoice);
+      invoice.seriesName = 'DA';
+      await createInvoice(db, invoice);
+      invoice.invoiceType = 'proforma';
+      invoice.seriesName = 'DP';
+      await createInvoice(db, invoice);
+
+      let uniqueSerieNames = await getUniqueSeriesNames(db, '', 'standard');
+      expect(uniqueSerieNames).toHaveLength(2);
+      expect(uniqueSerieNames).toEqual(['DA', 'DD']);
+
+      uniqueSerieNames = await getUniqueSeriesNames(db, '', 'proforma');
+      expect(uniqueSerieNames).toHaveLength(1);
+      expect(uniqueSerieNames).toEqual(['DP']);
+    });
+
     it('gets unique buyers', async () => {
       const invoice: IInvoice = {
         seriesName: 'DD',

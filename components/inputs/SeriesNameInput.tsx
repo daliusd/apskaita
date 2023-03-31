@@ -7,6 +7,7 @@ import { cleanUpString } from '../../utils/textutils';
 
 interface IProps {
   seriesName: string;
+  invoiceType: string;
   onChange: (value: string) => void;
   disabled: boolean;
   valid?: boolean;
@@ -18,6 +19,7 @@ function cleanSerialNumber(str: string) {
 
 export default function SeriesNameInput({
   seriesName,
+  invoiceType,
   onChange,
   disabled,
   valid,
@@ -25,7 +27,8 @@ export default function SeriesNameInput({
   const debouncedSeriesName = useDebounce(seriesName, 500);
 
   const { data: seriesNamesData } = useSWR(
-    `/api/uniqueseriesnames/${debouncedSeriesName}`,
+    `/api/uniqueseriesnames/${debouncedSeriesName}` +
+      (invoiceType !== 'all' ? `?invoiceType=${invoiceType}` : ''),
   );
 
   const options = seriesNamesData ? seriesNamesData.seriesNames : [];

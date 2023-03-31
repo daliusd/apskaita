@@ -32,16 +32,25 @@ import {
 interface IProps {
   invoiceId?: string;
   sourceId?: string;
+  invoiceType?: string;
 }
 
-export default function InvoiceEdit({ invoiceId, sourceId }: IProps) {
+export default function InvoiceEdit({
+  invoiceId,
+  sourceId,
+  invoiceType,
+}: IProps) {
   const [, setLanguage] = useRecoilState(languageState);
   const [, setLanguageAfterChange] = useRecoilState(languageAfterChangeState);
 
   const { data: initialData, error } = useSWR(
     '/api/initial' +
       (invoiceId ? '?id=' + invoiceId : '') +
-      (sourceId ? '?sourceId=' + sourceId : ''),
+      (sourceId
+        ? '?sourceId=' +
+          sourceId +
+          (invoiceType ? '&invoiceType=' + invoiceType : '')
+        : ''),
   );
   const [, setInitialInvoice] = useRecoilState(initialInvoiceState);
   const [, setInvoiceId] = useRecoilState(invoiceIdState);

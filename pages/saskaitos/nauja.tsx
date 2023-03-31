@@ -9,11 +9,16 @@ export default function InvoiceNew() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { sourceId } = router.query;
+  const { sourceId, invoiceType } = router.query;
 
   if (!session) {
     return null;
   }
 
-  return <InvoiceEdit sourceId={defaultOrFirst(sourceId)} />;
+  return (
+    <InvoiceEdit
+      sourceId={defaultOrFirst(sourceId)}
+      invoiceType={defaultOrFirst(invoiceType)}
+    />
+  );
 }

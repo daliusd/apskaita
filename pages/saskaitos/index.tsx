@@ -128,6 +128,7 @@ export default function Index() {
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={false}
+          invoiceType={invoiceType}
         />
       </Grid>
 

@@ -14,11 +14,15 @@ import { errorHandler } from '../../utils/report-mailer';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return dbWrapper(req, res, async (db, session) => {
     const {
-      query: { id, sourceId },
+      query: { id, sourceId, invoiceType },
     } = req;
 
     if (!id && !sourceId) {
-      const seriesNames = await getUniqueSeriesNames(db, '');
+      const seriesNames = await getUniqueSeriesNames(
+        db,
+        '',
+        defaultOrFirst(invoiceType),
+      );
       const seriesId = await getNextSeriesId(db, seriesNames[0] || '');
       const seller =
         (await getSetting(db, 'seller')) ||

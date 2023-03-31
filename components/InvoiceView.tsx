@@ -127,7 +127,9 @@ export default function InvoiceView({ invoice, onChange }: Props) {
               </Button>
             </Link>
 
-            <Link href={`/saskaitos/nauja?sourceId=${invoice.id}`}>
+            <Link
+              href={`/saskaitos/nauja?sourceId=${invoice.id}&invoiceType=${invoice.invoiceType}`}
+            >
               <Button
                 aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
                 color="primary"
