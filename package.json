@@ -14,7 +14,6 @@
     "@mui/material": "^5.11.8",
     "@mui/system": "^5.11.8",
     "@mui/x-date-pickers": "^6.0.0",
-    "@next/font": "^13.2.4",
     "@types/number-to-words": "1.2.1",
     "@types/pdfkit": "0.12.9",
     "@types/sharp": "0.31.1",
