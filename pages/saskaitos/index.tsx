@@ -102,7 +102,7 @@ export default function Index() {
         <FormControl component="fieldset">
           <FormLabel component="legend">Sąskaitos tipas</FormLabel>
           <RadioGroup
-            aria-label="Apmokėjimas"
+            aria-label="Sąskaitos tipas"
             name="invoiceType"
             value={invoiceType}
             onChange={(e) => setInvoiceType(e.target.value)}
