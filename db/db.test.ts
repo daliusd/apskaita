@@ -21,6 +21,7 @@ import {
   changeInvoicePaidStatus,
   changeInvoiceLockedStatus,
   changeInvoiceSentStatus,
+  getSeriesNameByType,
 } from './db';
 
 describe('database tests', () => {
@@ -148,6 +149,29 @@ describe('database tests', () => {
 
       invoices = await getInvoiceList(db, {});
       expect(invoices).toHaveLength(1);
+    });
+
+    it('returns proper series name by type', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'ZZ',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        invoiceType: 'standard',
+        lineItems: [],
+      };
+      await createInvoice(db, invoice);
+      invoice.invoiceType = 'proforma';
+      invoice.seriesName = 'AA';
+      await createInvoice(db, invoice);
+
+      expect(await getSeriesNameByType(db, 'standard')).toBe('ZZ');
+      expect(await getSeriesNameByType(db, 'proforma')).toBe('AA');
     });
 
     it('returns invoices on the same date sorted by series number', async () => {

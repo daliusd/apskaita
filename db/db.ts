@@ -397,6 +397,15 @@ export async function getUniqueSeriesNames(db: Database, start: string) {
   return result.map((item) => item.seriesName);
 }
 
+export async function getSeriesNameByType(db: Database, invoiceType: string) {
+  const result = await db.get<IInvoice>(
+    'SELECT seriesName FROM Invoice WHERE flags & 3 = ? ORDER BY created DESC LIMIT 1',
+    invoiceType === 'proforma' ? 1 : 0,
+  );
+
+  return result?.seriesName || '';
+}
+
 export async function getUniqueBuyers(db: Database, start: string) {
   const result = await db.all(
     'SELECT i1.buyer, (SELECT i2.email FROM Invoice i2 WHERE i2.buyer = i1.buyer ORDER BY i2.id DESC LIMIT 1) as email FROM Invoice i1 WHERE i1.buyer LIKE ? GROUP BY i1.buyer ORDER BY i1.buyer LIMIT 10',
