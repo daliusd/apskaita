@@ -47,7 +47,6 @@ export default function BuyerInput({
           multiline
           rows={rows}
           variant={rows > 1 ? 'outlined' : 'standard'}
-          minRows={rows}
         />
       )}
     />
