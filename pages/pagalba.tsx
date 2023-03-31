@@ -1,4 +1,3 @@
-import React from 'react';
 import ArticleView from '../components/ArticleView';
 import { getArticleBySlug } from '../db/articles';
 

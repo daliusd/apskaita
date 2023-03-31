@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRecoilState } from 'recoil';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';

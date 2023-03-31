@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
@@ -30,8 +30,8 @@ export default function Index() {
   const [maxDate, setMaxDate] = useState(() => new Date());
   const [buyer, setBuyer] = useState('');
   const [seriesName, setSeriesName] = useState('');
-  const [paid, setPaid] = React.useState('all');
-  const [invoiceType, setInvoiceType] = React.useState('all');
+  const [paid, setPaid] = useState('all');
+  const [invoiceType, setInvoiceType] = useState('all');
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
   const debouncedBuyer = useDebounce(buyer, 500);

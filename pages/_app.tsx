@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
@@ -7,7 +8,6 @@ import { lt } from 'date-fns/locale';
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';
 import type { AppProps /*, AppContext */ } from 'next/app';
 import Head from 'next/head';
-import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { SWRConfig } from 'swr';
 
@@ -28,7 +28,7 @@ interface MyAppProps extends AppProps<SessionProviderProps> {
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {

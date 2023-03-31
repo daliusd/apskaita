@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';

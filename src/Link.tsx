@@ -1,4 +1,3 @@
-import React from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 

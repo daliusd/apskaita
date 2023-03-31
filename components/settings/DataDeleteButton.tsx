@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { signOut } from 'next-auth/react';
 

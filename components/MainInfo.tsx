@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from '../src/Link';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';

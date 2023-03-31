@@ -1,4 +1,3 @@
-import React from 'react';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 import ArticleView from '../components/ArticleView';

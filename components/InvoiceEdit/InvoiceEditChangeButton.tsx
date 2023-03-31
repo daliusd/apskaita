@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRecoilState } from 'recoil';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRecoilState } from 'recoil';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';

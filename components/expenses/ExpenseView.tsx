@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, CircularProgress } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import useSWR, { mutate } from 'swr';

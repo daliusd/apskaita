@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import LinearProgress from '@mui/material/LinearProgress';
 import Grid from '@mui/material/Grid';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
