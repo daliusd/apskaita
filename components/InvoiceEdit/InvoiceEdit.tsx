@@ -87,7 +87,7 @@ export default function InvoiceEdit({
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
       setAlreadyPaid(invoice.alreadyPaid || 0);
-      setVat(invoice.vat || 0);
+      setVat(invoice.vat || 21);
       setLanguage(invoice.language);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
