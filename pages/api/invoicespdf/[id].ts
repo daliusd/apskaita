@@ -21,8 +21,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       const zeroes = await getSetting(db, 'zeroes');
       const logo = await getSetting(db, 'logo');
+      const vatpayer = await getSetting(db, 'vatpayer');
       const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
-      await generateInvoicePdf(invoice, zeroes, logo, logo_ratio);
+      await generateInvoicePdf(
+        invoice,
+        zeroes,
+        logo,
+        logo_ratio,
+        vatpayer === '1',
+      );
 
       return res.json({ success: true });
     });

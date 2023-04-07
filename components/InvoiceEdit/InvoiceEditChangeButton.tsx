@@ -8,6 +8,7 @@ import { IInvoice } from '../../db/db';
 import { getMsSinceEpoch } from '../../utils/date';
 
 import {
+  alreadyPaidState,
   buyerState,
   emailState,
   extraState,
@@ -22,6 +23,7 @@ import {
   sellerState,
   seriesIdState,
   seriesNameState,
+  vatState,
 } from '../../src/atoms';
 
 export default function InvoiceEditChangeButton() {
@@ -37,6 +39,8 @@ export default function InvoiceEditChangeButton() {
   const [extra] = useRecoilState(extraState);
   const [language] = useRecoilState(languageState);
   const [lineItems] = useRecoilState(lineItemsState);
+  const [alreadyPaid] = useRecoilState(alreadyPaidState);
+  const [vat] = useRecoilState(vatState);
 
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
@@ -120,6 +124,8 @@ export default function InvoiceEditChangeButton() {
           extra,
           language,
           lineItems,
+          alreadyPaid,
+          vat,
         };
 
         let response: Response;

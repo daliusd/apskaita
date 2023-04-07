@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import SeriesNameInput from '../inputs/SeriesNameInput';
 import useSWR from 'swr';
+import { useDebounce } from 'react-recipes';
 
 import {
   initialInvoiceState,
+  invoiceIdState,
   invoiceTypeState,
   lockedState,
   seriesNameState,
@@ -12,11 +14,24 @@ import {
 
 export default function InvoiceEditSeriesName() {
   const [initialInvoice] = useRecoilState(initialInvoiceState);
+  const [invoiceId] = useRecoilState(invoiceIdState);
   const [seriesName, setSeriesName] = useRecoilState(seriesNameState);
   const [invoiceType] = useRecoilState(invoiceTypeState);
   const [locked] = useRecoilState(lockedState);
 
   const seriesNameResp = useSWR(`/api/seriesname/${invoiceType}`);
+
+  const debouncedQuery = useDebounce(
+    seriesName && invoiceType
+      ? `/api/validseriesname/${seriesName}/${invoiceType}` +
+          (invoiceId ? '?invoiceId=' + invoiceId : '')
+      : null,
+    500,
+  );
+
+  const { data: validSeriesNumberData } = useSWR(debouncedQuery);
+
+  const valid = validSeriesNumberData?.valid ?? true;
 
   useEffect(() => {
     if (initialInvoice && invoiceType === initialInvoice.seriesName) {
@@ -32,7 +47,7 @@ export default function InvoiceEditSeriesName() {
       invoiceType={invoiceType}
       onChange={setSeriesName}
       disabled={locked}
-      valid={seriesName.length > 0}
+      valid={valid && seriesName.length > 0}
     />
   );
 }

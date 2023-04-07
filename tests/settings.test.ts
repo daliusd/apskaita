@@ -8,7 +8,7 @@ test('Should save settings', async ({ page }) => {
 
   await Promise.all([
     page.click('text="Nustatymai"'),
-    page.waitForNavigation({ url: 'http://localhost:3000/nustatymai' }),
+    page.waitForURL('http://localhost:3000/nustatymai'),
   ]);
 
   await setSeller(page, 'mano rekvizitai');

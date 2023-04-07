@@ -20,14 +20,15 @@ export default function SeriesIdInput() {
   const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
 
   const debouncedSeriesName = useDebounce(seriesName, 500);
-  const debouncedSeriesId = useDebounce(seriesId, 500);
-
-  const { data: validSeriesNumberData } = useSWR(
-    debouncedSeriesName && debouncedSeriesId
-      ? `/api/validseriesnumber/${debouncedSeriesName}/${debouncedSeriesId}` +
+  const debouncedQuery = useDebounce(
+    debouncedSeriesName && seriesId
+      ? `/api/validseriesnumber/${debouncedSeriesName}/${seriesId}` +
           (invoiceId ? '?invoiceId=' + invoiceId : '')
       : null,
+    500,
   );
+
+  const { data: validSeriesNumberData } = useSWR(debouncedQuery);
 
   const valid = validSeriesNumberData ? validSeriesNumberData.valid : true;
 

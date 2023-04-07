@@ -3,7 +3,9 @@ import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice, validateInvoice } from './invoices';
 
-test('Invoice. Should create simple invoice', async ({ page }) => {
+test('Invoice. Should create invoice with already paid sum', async ({
+  page,
+}) => {
   await login(page);
 
   const invoice = {
@@ -16,6 +18,7 @@ test('Invoice. Should create simple invoice', async ({ page }) => {
     issuer: 'Jonas',
     extra: 'Apmokėti per 10 dienų',
     language: 'lt',
+    alreadyPaid: 1700,
     lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
   };
 
@@ -38,7 +41,7 @@ test('Invoice. Should create simple invoice', async ({ page }) => {
   await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
   await page.waitForSelector('text=rendered');
 
-  await screenshotTest(page, 'invoice-simple');
+  await screenshotTest(page, 'invoice-already-paid');
 
   await deleteUser(page);
 });

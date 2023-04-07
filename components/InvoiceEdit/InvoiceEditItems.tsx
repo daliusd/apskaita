@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 
 import LineItemEdit from './LineItemEdit';
+import InvoiceEditItemsCalc from './InvoiceEditItemsCalc';
 
 import { lineItemsState, lockedState } from '../../src/atoms';
 
@@ -13,7 +14,7 @@ export default function InvoiceEditItems() {
   const [locked] = useRecoilState(lockedState);
 
   return (
-    <>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">Paslaugos ar prekės</Typography>
       </Grid>
@@ -65,6 +66,8 @@ export default function InvoiceEditItems() {
           Pridėti paslaugą ar prekę
         </Button>
       </Grid>
-    </>
+
+      <InvoiceEditItemsCalc />
+    </Grid>
   );
 }

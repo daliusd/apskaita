@@ -78,6 +78,16 @@ export const extraState = atom({
   default: '',
 });
 
+export const alreadyPaidState = atom({
+  key: 'alreadyPaid',
+  default: 0,
+});
+
+export const vatState = atom({
+  key: 'vatState',
+  default: 0,
+});
+
 export const pdfnameState = atom({
   key: 'pdfname',
   default: '',

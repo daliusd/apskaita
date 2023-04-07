@@ -54,7 +54,13 @@ export default function SeriesNameInput({
             ...params.inputProps,
           }}
           error={valid === false}
-          helperText={valid === false ? 'Įveskite serijos pavadinimą' : ''}
+          helperText={
+            valid === false
+              ? seriesName.length === 0
+                ? 'Įveskite serijos pavadinimą'
+                : 'Serijos pavadinimas naudojamas kito tipo sąskaitoms faktūroms'
+              : ''
+          }
         />
       )}
       disabled={disabled}

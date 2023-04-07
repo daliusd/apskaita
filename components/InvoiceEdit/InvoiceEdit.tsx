@@ -27,6 +27,8 @@ import {
   initialInvoiceState,
   languageAfterChangeState,
   invoiceTypeState,
+  alreadyPaidState,
+  vatState,
 } from '../../src/atoms';
 
 interface IProps {
@@ -63,6 +65,8 @@ export default function InvoiceEdit({
   const [, setEmail] = useRecoilState(emailState);
   const [, setIssuer] = useRecoilState(issuerState);
   const [, setExtra] = useRecoilState(extraState);
+  const [, setAlreadyPaid] = useRecoilState(alreadyPaidState);
+  const [, setVat] = useRecoilState(vatState);
   const [, setPdfname] = useRecoilState(pdfnameState);
   const [, setPaid] = useRecoilState(paidState);
   const [, setLocked] = useRecoilState(lockedState);
@@ -82,6 +86,8 @@ export default function InvoiceEdit({
       setEmail(invoice.email);
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
+      setAlreadyPaid(invoice.alreadyPaid || 0);
+      setVat(invoice.vat || 0);
       setLanguage(invoice.language);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
@@ -105,6 +111,8 @@ export default function InvoiceEdit({
     setBuyer,
     setEmail,
     setExtra,
+    setAlreadyPaid,
+    setVat,
     setInvoiceDate,
     setIssuer,
     setLineItems,
@@ -124,12 +132,18 @@ export default function InvoiceEdit({
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
 
   return (
-    <Grid container spacing={2}>
-      <InvoiceEditMain />
+    <Grid container spacing={8}>
+      <Grid item xs={12}>
+        <InvoiceEditMain />
+      </Grid>
 
-      <InvoiceEditItems />
+      <Grid item xs={12}>
+        <InvoiceEditItems />
+      </Grid>
 
-      <InvoiceEditControls />
+      <Grid item xs={12}>
+        <InvoiceEditControls />
+      </Grid>
     </Grid>
   );
 }

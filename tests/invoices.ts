@@ -84,6 +84,19 @@ export async function fillNewInvoice(page, invoice) {
       invoice.lineItems[i].price.toString(),
     );
   }
+
+  if (invoice.alreadyPaid > 0) {
+    await page.click('input[aria-label="Jau apmokėta"]');
+    await page.fill(
+      'input[aria-label="Jau apmokėta"]',
+      (invoice.alreadyPaid / 100).toString(),
+    );
+  }
+
+  if (invoice.vat > 0) {
+    await page.click('input[aria-label="PVM"]');
+    await page.fill('input[aria-label="PVM"]', invoice.vat.toString());
+  }
 }
 
 export async function validateInvoice(page, invoice) {
@@ -126,5 +139,17 @@ export async function validateInvoice(page, invoice) {
       `Kaina${pid}`,
       invoice.lineItems[i].price.toString(),
     );
+  }
+
+  if (invoice.alreadyPaid) {
+    await validateInput(
+      page,
+      'Jau apmokėta',
+      (invoice.alreadyPaid / 100).toString(),
+    );
+  }
+
+  if (invoice.vat > 0) {
+    await validateInput(page, 'PVM', invoice.vat.toString());
   }
 }

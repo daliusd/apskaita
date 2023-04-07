@@ -15,7 +15,13 @@ const LOGO_WIDTH = 50 * PTPMM;
 
 // 210 - 40 = 170
 // 10 + 80 + 20 + 20 + 20 + 20 = 170
-const FIELDS_INFO: { name: string; size: number; align: string }[] = [
+interface IFieldInfo {
+  name: string;
+  size: number;
+  align: string;
+}
+
+const FIELDS_INFO: IFieldInfo[] = [
   {
     name: 'id',
     size: 10 * PTPMM,
@@ -48,9 +54,43 @@ const FIELDS_INFO: { name: string; size: number; align: string }[] = [
   },
 ];
 
+const FIELDS_INFO_FINAL: IFieldInfo[] = [
+  {
+    name: 'id',
+    size: 10 * PTPMM,
+    align: 'left',
+  },
+  {
+    name: 'name',
+    size: 80 * PTPMM,
+    align: 'left',
+  },
+  {
+    name: 'unit',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'amount',
+    size: 0 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'price',
+    size: 40 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'total',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+];
+
 const invoiceStrings = {
   lt: {
     title: 'SĄSKAITA - FAKTŪRA',
+    title_vat: 'PVM SĄSKAITA - FAKTŪRA',
     proforma_title: 'IŠANKSTINĖ SĄSKAITA FAKTŪRA',
     serie: 'Serija',
     no: 'Nr',
@@ -63,10 +103,15 @@ const invoiceStrings = {
     lineItemSum: 'Suma (€)',
     sumInWords: 'Suma žodžiais:',
     total: 'Iš viso',
+    total_without_vat: 'Iš viso be PVM',
+    vat: 'PVM ({val}%)',
+    alreadyPaid: 'Sumokėta',
+    sumToPay: 'Mokėti',
     invoiceIssuedBy: 'Sąskaitą išrašė',
   },
   en: {
     title: 'INVOICE',
+    title_vat: 'VAT INVOICE',
     proforma_title: 'PROFORMA INVOICE',
     serie: 'Serie',
     no: 'No',
@@ -79,6 +124,10 @@ const invoiceStrings = {
     lineItemSum: 'Sum (€)',
     sumInWords: 'Sum in words:',
     total: 'Total',
+    total_without_vat: 'Total without VAT',
+    vat: 'VAT ({val}%)',
+    alreadyPaid: 'Paid',
+    sumToPay: 'Sum to pay',
     invoiceIssuedBy: 'Invoice issued by',
   },
 };
@@ -97,6 +146,7 @@ export async function generateInvoicePdf(
   zeroes: number,
   logo: string | undefined,
   logoRatio: number,
+  vatpayer: boolean,
 ) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
 
@@ -125,8 +175,8 @@ export async function generateInvoicePdf(
   doc.pipe(fsSync.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
-  const y = generateHeader(doc, invoice, seriesId, logo, logoRatio);
-  generateContent(doc, invoice, y);
+  const y = generateHeader(doc, invoice, seriesId, logo, logoRatio, vatpayer);
+  generateContent(doc, invoice, y, vatpayer);
   doc.end();
 }
 
@@ -151,6 +201,7 @@ function generateHeader(
   seriesId: string,
   logo: string | undefined,
   logoRatio: number,
+  vatpayer: boolean,
 ) {
   let logoHeightAdd = 0;
   if (logo) {
@@ -166,7 +217,11 @@ function generateHeader(
     .font('Roboto-Medium')
     .fontSize(14)
     .text(
-      invoice.invoiceType === 'proforma' ? t.proforma_title : t.title,
+      invoice.invoiceType === 'proforma'
+        ? t.proforma_title
+        : vatpayer
+        ? t.title_vat
+        : t.title,
       PAGE_MARGIN,
       PAGE_MARGIN,
       {
@@ -263,6 +318,7 @@ function generateContent(
   doc: PDFKit.PDFDocument,
   invoice: IInvoice,
   startY: number,
+  vatpayer: boolean,
 ) {
   const t = invoiceStrings[invoice.language];
 
@@ -286,14 +342,93 @@ function generateContent(
   drawLine(doc, y);
   y += 2 * PTPMM;
 
-  y = drawTableRow(doc, y, 'Roboto-Medium', invoice.language, {
-    id: '',
-    name: '',
-    unit: '',
-    price: t.total,
-    amount: '',
-    total: formatPrice(invoice.price),
-  });
+  if (vatpayer) {
+    const total_without_vat = Math.round(
+      invoice.price / (1.0 + invoice.vat / 100),
+    );
+
+    y = drawTableRow(
+      doc,
+      y,
+      'Roboto-Medium',
+      invoice.language,
+      {
+        id: '',
+        name: '',
+        unit: '',
+        price: t.total_without_vat,
+        amount: '',
+        total: formatPrice(total_without_vat),
+      },
+      FIELDS_INFO_FINAL,
+    );
+
+    y = drawTableRow(
+      doc,
+      y,
+      'Roboto-Medium',
+      invoice.language,
+      {
+        id: '',
+        name: '',
+        unit: '',
+        price: t.vat.replace('{val}', invoice.vat),
+        amount: '',
+        total: formatPrice(invoice.price - total_without_vat),
+      },
+      FIELDS_INFO_FINAL,
+    );
+  }
+
+  y = drawTableRow(
+    doc,
+    y,
+    'Roboto-Medium',
+    invoice.language,
+    {
+      id: '',
+      name: '',
+      unit: '',
+      price: t.total,
+      amount: '',
+      total: formatPrice(invoice.price),
+    },
+    FIELDS_INFO_FINAL,
+  );
+
+  if (invoice.alreadyPaid > 0) {
+    y = drawTableRow(
+      doc,
+      y,
+      'Roboto-Medium',
+      invoice.language,
+      {
+        id: '',
+        name: '',
+        unit: '',
+        price: t.alreadyPaid,
+        amount: '',
+        total: formatPrice(invoice.alreadyPaid),
+      },
+      FIELDS_INFO_FINAL,
+    );
+
+    y = drawTableRow(
+      doc,
+      y,
+      'Roboto-Medium',
+      invoice.language,
+      {
+        id: '',
+        name: '',
+        unit: '',
+        price: t.sumToPay,
+        amount: '',
+        total: formatPrice(invoice.price - invoice.alreadyPaid),
+      },
+      FIELDS_INFO_FINAL,
+    );
+  }
 
   y += 10 * PTPMM;
 
@@ -344,9 +479,10 @@ function getTableRowHeight(
   doc: PDFKit.PDFDocument,
   font: string,
   lineItem: ITableLineItem,
+  fields_info: IFieldInfo[],
 ) {
   const heights = [];
-  for (const field of FIELDS_INFO) {
+  for (const field of fields_info) {
     heights.push(
       doc
         .font(font)
@@ -372,15 +508,16 @@ function drawTableRow(
   font: string,
   language: string,
   lineItem: ITableLineItem,
+  fields_info = FIELDS_INFO,
 ) {
-  const height = getTableRowHeight(doc, font, lineItem);
+  const height = getTableRowHeight(doc, font, lineItem, fields_info);
   const vres = validateOrAddPage(doc, y, height);
   if (vres.pageAdded) {
     y = drawTableHeader(doc, vres.y, language);
   }
 
   let x = PAGE_MARGIN;
-  for (const field of FIELDS_INFO) {
+  for (const field of fields_info) {
     doc.font(font).fontSize(10).text(lineItem[field.name].normalize(), x, y, {
       width: field.size,
       align: field.align,

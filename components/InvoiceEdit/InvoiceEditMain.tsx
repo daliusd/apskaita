@@ -24,7 +24,7 @@ export default function InvoiceEditMain() {
   const [invoiceId] = useRecoilState(invoiceIdState);
 
   return (
-    <>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">
           {invoiceId ? 'Keisti sąskaitą faktūrą' : 'Sukurti sąskaitą faktūrą'}
@@ -82,6 +82,6 @@ export default function InvoiceEditMain() {
       <Grid item xs={12}>
         <ExtraInput />
       </Grid>
-    </>
+    </Grid>
   );
 }

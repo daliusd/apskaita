@@ -29,6 +29,8 @@ export interface IInvoice {
   email?: string;
   sent?: number;
   flags?: number;
+  alreadyPaid?: number;
+  vat?: number;
   lineItems: ILineItem[];
 }
 
@@ -98,7 +100,7 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
   }
 
   const result = await db.run(
-    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, email, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    'INSERT INTO Invoice(seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, language, paid, email, flags, alreadyPaid, vat) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -112,6 +114,8 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.paid || 0,
     invoice.email || '',
     invoice.invoiceType === 'proforma' ? 1 : 0,
+    invoice.alreadyPaid || 0,
+    invoice.vat || 0,
   );
 
   const invoiceId = result.lastID;
@@ -202,7 +206,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email, flags FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email, flags, alreadyPaid, vat FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -228,6 +232,28 @@ export async function getNextSeriesId(db: Database, seriesName: string) {
   ).maxSeriesId;
 
   return maxSeriesId + 1;
+}
+
+export async function validSeriesName(
+  db: Database,
+  seriesName: string,
+  invoiceType: string,
+  excludeInvoiceId?: number,
+) {
+  const result = await db.get<{ flags: number }>(
+    `SELECT flags FROM Invoice WHERE seriesName = ? ${
+      excludeInvoiceId ? ' AND id != ?' : ''
+    } ORDER BY id DESC LIMIT 1`,
+    seriesName,
+    excludeInvoiceId,
+  );
+
+  return (
+    !result ||
+    (invoiceType === 'proforma'
+      ? (result.flags & 3) === 1
+      : (result.flags & 3) !== 1)
+  );
 }
 
 export async function validSeriesNumber(
@@ -315,7 +341,7 @@ export async function updateInvoice(
   }
 
   await db.run(
-    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ?, email = ?, flags = ? WHERE id = ?',
+    'UPDATE Invoice SET seriesName = ?, seriesId = ?, created = ?, price = ?, buyer = ?, seller = ?, issuer = ?, extra = ?, language = ?, email = ?, flags = ?, alreadyPaid = ?, vat = ? WHERE id = ?',
     invoice.seriesName,
     invoice.seriesId,
     invoice.created,
@@ -327,6 +353,8 @@ export async function updateInvoice(
     invoice.language,
     invoice.email || '',
     invoice.invoiceType === 'proforma' ? 1 : 0,
+    invoice.alreadyPaid || 0,
+    invoice.vat || 0,
     invoiceId,
   );
 

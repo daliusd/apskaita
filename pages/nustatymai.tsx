@@ -14,6 +14,7 @@ import ZeroesEdit from '../components/settings/ZeroesEdit';
 import LogoEdit from '../components/settings/LogoEdit';
 import ContactAgreement from '../components/settings/ContactAgreement';
 import DataDeleteButton from '../components/settings/DataDeleteButton';
+import VATPayer from '../components/settings/VATPayer';
 import Link from '../src/Link';
 
 export default function Apie() {
@@ -77,6 +78,8 @@ export default function Apie() {
       <Grid item xs={12}>
         <LogoEdit />
       </Grid>
+
+      <VATPayer />
 
       <ContactAgreement />
 

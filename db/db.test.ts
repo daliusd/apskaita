@@ -10,6 +10,7 @@ import {
   getInvoiceList,
   getInvoiceWithLineItems,
   getNextSeriesId,
+  validSeriesName,
   validSeriesNumber,
   validCreatedDate,
   updateInvoice,
@@ -318,6 +319,77 @@ describe('database tests', () => {
       await createInvoice(db, invoice);
       const seriesId = await getNextSeriesId(db, 'ZZ');
       expect(seriesId).toEqual(124);
+    });
+
+    it('Validates series name', async () => {
+      expect(await validSeriesName(db, 'VSN', 'proforma')).toBeTruthy();
+    });
+
+    it('Validates serie name for matching name', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'VSN',
+        invoiceType: 'standard',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+
+      await createInvoice(db, invoice);
+
+      expect(await validSeriesName(db, 'VSN', 'standard')).toBeTruthy();
+      expect(await validSeriesName(db, 'VSN', 'proforma')).toBeFalsy();
+    });
+
+    it('Validates serie name for matching name (proforma case)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'VSN',
+        invoiceType: 'proforma',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+
+      await createInvoice(db, invoice);
+
+      expect(await validSeriesName(db, 'VSN', 'standard')).toBeFalsy();
+      expect(await validSeriesName(db, 'VSN', 'proforma')).toBeTruthy();
+    });
+
+    it('Validates serie name for matching name excluding existing invoice id', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'VSN',
+        invoiceType: 'standard',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+
+      let resp = await createInvoice(db, invoice);
+
+      expect(
+        await validSeriesName(db, 'VSN', 'standard', resp.invoiceId),
+      ).toBeTruthy();
+      expect(
+        await validSeriesName(db, 'VSN', 'proforma', resp.invoiceId),
+      ).toBeTruthy();
     });
 
     it('Validates serie number', async () => {
