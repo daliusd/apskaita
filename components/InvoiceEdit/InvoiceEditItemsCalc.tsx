@@ -33,12 +33,20 @@ export default function InvoiceEditItems() {
 
   const total_without_vat = Math.round(total / (1.0 + vat / 100));
 
-  if (total === 0) return null;
-
   return (
     <>
       <Grid container item xs={12} justifyContent="flex-end">
-        <Typography variant="body1">Iš viso: {total / 100}€</Typography>
+        <TextField
+          variant="standard"
+          type="number"
+          label="Iš viso"
+          inputProps={{ 'aria-label': 'Iš viso' }}
+          value={total / 100}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            readOnly: true,
+          }}
+        />
       </Grid>
 
       {vatpayerData?.value === '1' && (
@@ -66,14 +74,30 @@ export default function InvoiceEditItems() {
       {vatpayerData?.value === '1' && vat > 0 && (
         <>
           <Grid container item xs={12} justifyContent="flex-end">
-            <Typography variant="body1">
-              Iš viso be PVM: {total_without_vat / 100}€
-            </Typography>
+            <TextField
+              variant="standard"
+              type="number"
+              label="Iš viso be PVM"
+              inputProps={{ 'aria-label': 'Iš viso be PVM' }}
+              value={total_without_vat / 100}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                readOnly: true,
+              }}
+            />
           </Grid>
           <Grid container item xs={12} justifyContent="flex-end">
-            <Typography variant="body1">
-              PVM: {(total - total_without_vat) / 100}€
-            </Typography>
+            <TextField
+              variant="standard"
+              type="number"
+              label="PVM"
+              inputProps={{ 'aria-label': 'PVM' }}
+              value={(total - total_without_vat) / 100}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+                readOnly: true,
+              }}
+            />
           </Grid>
         </>
       )}
