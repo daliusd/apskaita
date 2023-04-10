@@ -119,6 +119,11 @@ export default function Index() {
               control={<Radio />}
               label="Išankstinės"
             />
+            <FormControlLabel
+              value="credit"
+              control={<Radio />}
+              label="Kreditinės"
+            />
           </RadioGroup>
         </FormControl>
       </Grid>

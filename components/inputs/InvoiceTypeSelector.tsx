@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 
-type IInvoiceType = 'standard' | 'proforma';
+type IInvoiceType = 'standard' | 'proforma' | 'credit';
 
 interface IProps {
   invoiceType: IInvoiceType;
@@ -37,6 +37,12 @@ export default function InvoiceTypeSelector({
           value="proforma"
           control={<Radio />}
           label="Išankstinė"
+          disabled={disabled}
+        />
+        <FormControlLabel
+          value="credit"
+          control={<Radio />}
+          label="Kreditinė"
           disabled={disabled}
         />
       </RadioGroup>

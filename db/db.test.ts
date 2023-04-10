@@ -152,6 +152,40 @@ describe('database tests', () => {
       expect(invoices).toHaveLength(1);
     });
 
+    it('creates credit invoice', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'ZZ',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        invoiceType: 'credit',
+        lineItems: [],
+      };
+      const { invoiceId } = await createInvoice(db, invoice);
+      let invoices = await getInvoiceList(db, { invoiceType: 'credit' });
+      expect(invoices).toHaveLength(1);
+      expect(invoices[0].id).toEqual(invoiceId);
+      expect(invoices[0].seriesName).toEqual(invoice.seriesName);
+      expect(invoices[0].seriesId).toEqual(invoice.seriesId);
+      expect(invoices[0].created).toEqual(invoice.created);
+      expect(invoices[0].price).toEqual(invoice.price);
+      expect(invoices[0].buyer).toEqual(invoice.buyer);
+
+      invoices = await getInvoiceList(db, { invoiceType: 'standard' });
+      expect(invoices).toHaveLength(0);
+
+      invoices = await getInvoiceList(db, { invoiceType: 'proforma' });
+      expect(invoices).toHaveLength(0);
+
+      invoices = await getInvoiceList(db, {});
+      expect(invoices).toHaveLength(1);
+    });
+
     it('returns proper series name by type', async () => {
       const invoice: IInvoice = {
         seriesName: 'ZZ',
@@ -173,6 +207,7 @@ describe('database tests', () => {
 
       expect(await getSeriesNameByType(db, 'standard')).toBe('ZZ');
       expect(await getSeriesNameByType(db, 'proforma')).toBe('AA');
+      expect(await getSeriesNameByType(db, 'credit')).toBe('ZZ');
     });
 
     it('returns invoices on the same date sorted by series number', async () => {
@@ -323,6 +358,7 @@ describe('database tests', () => {
 
     it('Validates series name', async () => {
       expect(await validSeriesName(db, 'VSN', 'proforma')).toBeTruthy();
+      expect(await validSeriesName(db, 'VSN', 'credit')).toBeTruthy();
     });
 
     it('Validates serie name for matching name', async () => {
@@ -344,6 +380,7 @@ describe('database tests', () => {
 
       expect(await validSeriesName(db, 'VSN', 'standard')).toBeTruthy();
       expect(await validSeriesName(db, 'VSN', 'proforma')).toBeFalsy();
+      expect(await validSeriesName(db, 'VSN', 'credit')).toBeTruthy();
     });
 
     it('Validates serie name for matching name (proforma case)', async () => {
@@ -365,6 +402,7 @@ describe('database tests', () => {
 
       expect(await validSeriesName(db, 'VSN', 'standard')).toBeFalsy();
       expect(await validSeriesName(db, 'VSN', 'proforma')).toBeTruthy();
+      expect(await validSeriesName(db, 'VSN', 'credit')).toBeFalsy();
     });
 
     it('Validates serie name for matching name excluding existing invoice id', async () => {
@@ -389,6 +427,9 @@ describe('database tests', () => {
       ).toBeTruthy();
       expect(
         await validSeriesName(db, 'VSN', 'proforma', resp.invoiceId),
+      ).toBeTruthy();
+      expect(
+        await validSeriesName(db, 'VSN', 'credit', resp.invoiceId),
       ).toBeTruthy();
     });
 
@@ -850,6 +891,10 @@ describe('database tests', () => {
       uniqueSerieNames = await getUniqueSeriesNames(db, '', 'proforma');
       expect(uniqueSerieNames).toHaveLength(1);
       expect(uniqueSerieNames).toEqual(['DP']);
+
+      uniqueSerieNames = await getUniqueSeriesNames(db, '', 'credit');
+      expect(uniqueSerieNames).toHaveLength(2);
+      expect(uniqueSerieNames).toEqual(['DA', 'DD']);
     });
 
     it('gets unique buyers', async () => {

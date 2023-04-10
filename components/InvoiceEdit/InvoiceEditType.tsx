@@ -13,7 +13,13 @@ export default function InvoiceEditType() {
 
   return (
     <InvoiceTypeSelector
-      invoiceType={invoiceType === 'proforma' ? 'proforma' : 'standard'}
+      invoiceType={
+        invoiceType === 'proforma'
+          ? 'proforma'
+          : invoiceType === 'credit'
+          ? 'credit'
+          : 'standard'
+      }
       onChange={onChange}
       disabled={locked}
     />

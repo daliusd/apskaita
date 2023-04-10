@@ -56,6 +56,8 @@ export default function InvoiceView({ invoice, onChange }: Props) {
             >
               {invoice.invoiceType === 'proforma'
                 ? 'Išankstinė'
+                : invoice.invoiceType === 'credit'
+                ? 'Kreditinė'
                 : 'Standartinė'}{' '}
               SF {invoice.seriesName}/{invoice.seriesId} (
               {getDateString(invoice.created)})

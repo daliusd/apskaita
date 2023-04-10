@@ -92,6 +92,7 @@ const invoiceStrings = {
     title: 'SĄSKAITA - FAKTŪRA',
     title_vat: 'PVM SĄSKAITA - FAKTŪRA',
     proforma_title: 'IŠANKSTINĖ SĄSKAITA FAKTŪRA',
+    credit_title: 'KREDITINĖ SĄSKAITA FAKTŪRA',
     serie: 'Serija',
     no: 'Nr',
     seller: `Pardavėjas:`,
@@ -113,6 +114,7 @@ const invoiceStrings = {
     title: 'INVOICE',
     title_vat: 'VAT INVOICE',
     proforma_title: 'PROFORMA INVOICE',
+    credit_title: 'CREDIT INVOICE',
     serie: 'Serie',
     no: 'No',
     seller: `Seller:`,
@@ -165,6 +167,8 @@ export async function generateInvoicePdf(
       Title:
         invoice.invoiceType === 'proforma'
           ? `Išankstinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
+          : invoice.invoiceType === 'credit'
+          ? `Kreditinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
           : `Sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`,
       Author: `${invoice.issuer} (per haiku.lt)`,
     },
@@ -219,6 +223,8 @@ function generateHeader(
     .text(
       invoice.invoiceType === 'proforma'
         ? t.proforma_title
+        : invoice.invoiceType === 'credit'
+        ? t.credit_title
         : vatpayer
         ? t.title_vat
         : t.title,

@@ -66,10 +66,19 @@ export default function Invoices(props: Props) {
       let unpaid = 0;
       let unpaidSum = 0;
       for (const i of data.invoices) {
-        sum += i.price;
+        if (i.invoiceType === 'credit') {
+          sum -= i.price;
+        } else {
+          sum += i.price;
+        }
+
         if (!i.paid) {
           unpaid++;
-          unpaidSum += i.price;
+          if (i.invoiceType === 'credit') {
+            unpaidSum -= i.price;
+          } else {
+            unpaidSum += i.price;
+          }
         }
       }
 
@@ -103,10 +112,10 @@ export default function Invoices(props: Props) {
     <>
       <Grid item xs={12}>
         Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length}
-        {sum > 0 ? `, kurių bendra suma ${sum} €. ` : '.'}
+        {`, kurių bendra suma ${sum} €. `}
         {countUnpaid > 0 &&
           `Iš jų neapmokėtų:  ${countUnpaid}` +
-            (sumUnpaid > 0 ? `, kurių bendra suma ${sumUnpaid} €.` : '.')}
+            `, kurių bendra suma ${sumUnpaid} €.`}
         {data.invoices.length === 1000 &&
           ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visos sąskaitos faktūros.'}
       </Grid>

@@ -113,7 +113,11 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.language,
     invoice.paid || 0,
     invoice.email || '',
-    invoice.invoiceType === 'proforma' ? 1 : 0,
+    invoice.invoiceType === 'proforma'
+      ? 1
+      : invoice.invoiceType === 'credit'
+      ? 2
+      : 0,
     invoice.alreadyPaid || 0,
     invoice.vat || 0,
   );
@@ -171,6 +175,8 @@ export async function getInvoiceList(
     whereConditions.push('flags = 0');
   } else if (params.invoiceType === 'proforma') {
     whereConditions.push('flags = 1');
+  } else if (params.invoiceType === 'credit') {
+    whereConditions.push('flags = 2');
   }
 
   if (params.seriesName !== undefined) {
@@ -199,7 +205,11 @@ export async function getInvoiceList(
 
   const result = await db.all<IInvoice[]>(query, ...args);
   result.map((r) =>
-    r.flags === 0 ? (r.invoiceType = 'standard') : (r.invoiceType = 'proforma'),
+    r.flags === 0
+      ? (r.invoiceType = 'standard')
+      : r.flags === 1
+      ? (r.invoiceType = 'proforma')
+      : (r.invoiceType = 'credit'),
   );
   return result;
 }
@@ -214,7 +224,12 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
     return undefined;
   }
 
-  result.invoiceType = result.flags === 1 ? 'proforma' : 'standard';
+  result.invoiceType =
+    result.flags === 1
+      ? 'proforma'
+      : result.flags === 2
+      ? 'credit'
+      : 'standard';
   result.lineItems = await db.all<ILineItem[]>(
     'SELECT id, name, unit, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
@@ -352,7 +367,11 @@ export async function updateInvoice(
     invoice.extra,
     invoice.language,
     invoice.email || '',
-    invoice.invoiceType === 'proforma' ? 1 : 0,
+    invoice.invoiceType === 'proforma'
+      ? 1
+      : invoice.invoiceType === 'credit'
+      ? 2
+      : 0,
     invoice.alreadyPaid || 0,
     invoice.vat || 0,
     invoiceId,

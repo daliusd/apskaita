@@ -3,6 +3,8 @@ import { validateInput, validateTextArea } from './utils';
 export async function fillNewInvoice(page, invoice) {
   if (invoice.invoiceType === 'proforma') {
     await page.click('text="Išankstinė"');
+  } else if (invoice.invoiceType === 'credit') {
+    await page.click('text="Kreditinė"');
   }
 
   await page.click('input[aria-label="Serijos pavadinimas"]');
