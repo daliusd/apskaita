@@ -10,7 +10,6 @@
     "@googleapis/drive": "5.0.2",
     "@googleapis/gmail": "1.2.0",
     "@mui/icons-material": "^5.11.0",
-    "@mui/lab": "^5.0.0-alpha.119",
     "@mui/material": "^5.11.8",
     "@mui/system": "^5.11.8",
     "@mui/x-date-pickers": "^6.0.0",
