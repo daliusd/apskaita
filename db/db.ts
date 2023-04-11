@@ -9,6 +9,7 @@ export interface ILineItem {
   unit: string;
   amount: number;
   price: number;
+  vat?: number;
 }
 
 export interface IInvoice {
@@ -126,12 +127,13 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, unit, amount, price) VALUES(?, ?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat) VALUES(?, ?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
       lineItem.unit,
       lineItem.amount,
       lineItem.price,
+      lineItem.vat || 0,
     );
   }
 
@@ -231,7 +233,7 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
       ? 'credit'
       : 'standard';
   result.lineItems = await db.all<ILineItem[]>(
-    'SELECT id, name, unit, amount, price FROM LineItem WHERE invoiceId = ? ORDER BY id',
+    'SELECT id, name, unit, amount, price, vat FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
   );
 
@@ -381,12 +383,13 @@ export async function updateInvoice(
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, unit, amount, price) VALUES(?, ?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat) VALUES(?, ?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
       lineItem.unit,
       lineItem.amount,
       lineItem.price,
+      lineItem.vat || 0,
     );
   }
 

@@ -28,7 +28,6 @@ import {
   languageAfterChangeState,
   invoiceTypeState,
   alreadyPaidState,
-  vatState,
 } from '../../src/atoms';
 
 interface IProps {
@@ -66,7 +65,6 @@ export default function InvoiceEdit({
   const [, setIssuer] = useRecoilState(issuerState);
   const [, setExtra] = useRecoilState(extraState);
   const [, setAlreadyPaid] = useRecoilState(alreadyPaidState);
-  const [, setVat] = useRecoilState(vatState);
   const [, setPdfname] = useRecoilState(pdfnameState);
   const [, setPaid] = useRecoilState(paidState);
   const [, setLocked] = useRecoilState(lockedState);
@@ -87,7 +85,6 @@ export default function InvoiceEdit({
       setIssuer(invoice.issuer);
       setExtra(invoice.extra);
       setAlreadyPaid(invoice.alreadyPaid || 0);
-      setVat(invoice.vat || 21);
       setLanguage(invoice.language);
       setPdfname(invoice.pdfname);
       setLineItems(invoice.lineItems);
@@ -112,7 +109,6 @@ export default function InvoiceEdit({
     setEmail,
     setExtra,
     setAlreadyPaid,
-    setVat,
     setInvoiceDate,
     setIssuer,
     setLineItems,

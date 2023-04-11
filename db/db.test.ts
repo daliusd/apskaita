@@ -251,8 +251,8 @@ describe('database tests', () => {
         language: 'lt',
         email: 'dalius@haiku.lt',
         lineItems: [
-          { name: 'test', unit: 'vnt.', amount: 1, price: 100 },
-          { name: 'test2', unit: 'vnt.', amount: 2, price: 200 },
+          { name: 'test', unit: 'vnt.', amount: 1, price: 100, vat: 21 },
+          { name: 'test2', unit: 'vnt.', amount: 2, price: 200, vat: 9 },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -273,11 +273,13 @@ describe('database tests', () => {
       expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(100);
+      expect(retInvoice.lineItems[0].vat).toEqual(21);
 
       expect(retInvoice.lineItems[1].name).toEqual('test2');
       expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(2);
       expect(retInvoice.lineItems[1].price).toEqual(200);
+      expect(retInvoice.lineItems[1].vat).toEqual(9);
     });
 
     it('returns undefined if there is no invoice', async () => {
@@ -598,8 +600,8 @@ describe('database tests', () => {
       invoice.language = 'en';
       invoice.email = 'dalius@haiku.lt';
       invoice.lineItems = [
-        { name: 'test3', unit: 'vnt.', amount: 1, price: 20 },
-        { name: 'test4', unit: 'vnt.', amount: 3, price: 60 },
+        { name: 'test3', unit: 'vnt.', amount: 1, price: 20, vat: 21 },
+        { name: 'test4', unit: 'vnt.', amount: 3, price: 60, vat: 9 },
       ];
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -627,11 +629,13 @@ describe('database tests', () => {
       expect(retInvoice.lineItems[0].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(20);
+      expect(retInvoice.lineItems[0].vat).toEqual(21);
 
       expect(retInvoice.lineItems[1].name).toEqual('test4');
       expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(3);
       expect(retInvoice.lineItems[1].price).toEqual(60);
+      expect(retInvoice.lineItems[1].vat).toEqual(9);
     });
 
     it('does not update invoice if there is invoice with same serie number', async () => {

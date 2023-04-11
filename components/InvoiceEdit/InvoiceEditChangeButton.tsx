@@ -23,7 +23,6 @@ import {
   sellerState,
   seriesIdState,
   seriesNameState,
-  vatState,
 } from '../../src/atoms';
 
 export default function InvoiceEditChangeButton() {
@@ -40,7 +39,6 @@ export default function InvoiceEditChangeButton() {
   const [language] = useRecoilState(languageState);
   const [lineItems] = useRecoilState(lineItemsState);
   const [alreadyPaid] = useRecoilState(alreadyPaidState);
-  const [vat] = useRecoilState(vatState);
 
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
@@ -125,7 +123,13 @@ export default function InvoiceEditChangeButton() {
           language,
           lineItems,
           alreadyPaid,
-          vat,
+          vat: lineItems
+            .map(
+              (g) =>
+                g.price * g.amount -
+                Math.round((g.price * g.amount) / (1.0 + g.vat / 100)),
+            )
+            .reduce((a, b) => a + b),
         };
 
         let response: Response;

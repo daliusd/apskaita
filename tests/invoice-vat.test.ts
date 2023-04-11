@@ -25,8 +25,10 @@ test('Invoice. Should create VAT invoice', async ({ page }) => {
     issuer: 'Jonas',
     extra: 'Apmokėti per 10 dienų',
     language: 'lt',
-    lineItems: [{ name: 'Konsultacija', unit: 'val.', amount: 2, price: 25 }],
-    vat: 21,
+    lineItems: [
+      { name: 'Konsultacija', unit: 'val.', amount: 2, price: 25, vat: 21 },
+      { name: 'Knyga', unit: 'vnt.', amount: 3, price: 25, vat: 9 },
+    ],
   };
 
   await fillNewInvoice(page, invoice);

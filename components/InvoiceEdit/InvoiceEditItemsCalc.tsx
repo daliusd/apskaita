@@ -6,32 +6,21 @@ import Typography from '@mui/material/Typography';
 import { InputAdornment } from '@mui/material';
 import useSWR from 'swr';
 
-import { alreadyPaidState, lineItemsState, vatState } from '../../src/atoms';
+import { alreadyPaidState, lineItemsState } from '../../src/atoms';
 
 export default function InvoiceEditItems() {
   const [lineItems] = useRecoilState(lineItemsState);
   const [alreadyPaid, setAlreadyPaid] = useRecoilState(alreadyPaidState);
   const [alreadyPaidInner, setAlreadyPaidInner] = useState('0');
 
-  const [vat, setVat] = useRecoilState(vatState);
-  const [vatInner, setVatInner] = useState('0');
-
-  const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
-
   useEffect(() => {
     setAlreadyPaidInner((alreadyPaid / 100).toString());
   }, [alreadyPaid]);
-
-  useEffect(() => {
-    setVatInner(vat.toString());
-  }, [vat]);
 
   const total = useMemo(
     () => lineItems.map((i) => i.price * i.amount).reduce((p, c) => p + c, 0),
     [lineItems],
   );
-
-  const total_without_vat = Math.round(total / (1.0 + vat / 100));
 
   return (
     <>
@@ -49,58 +38,6 @@ export default function InvoiceEditItems() {
         />
       </Grid>
 
-      {vatpayerData?.value === '1' && (
-        <Grid container item xs={12} justifyContent="flex-end">
-          <TextField
-            variant="standard"
-            type="number"
-            label="PVM"
-            inputProps={{ 'aria-label': 'PVM' }}
-            value={vatInner}
-            onChange={(e) => {
-              setVatInner(e.target.value);
-              if (!isNaN(parseFloat(e.target.value))) {
-                const val = parseFloat(e.target.value);
-                setVat(val);
-                setVatInner(val.toString());
-              }
-            }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-          />
-        </Grid>
-      )}
-      {vatpayerData?.value === '1' && vat > 0 && (
-        <>
-          <Grid container item xs={12} justifyContent="flex-end">
-            <TextField
-              variant="standard"
-              type="number"
-              label="Iš viso be PVM"
-              inputProps={{ 'aria-label': 'Iš viso be PVM' }}
-              value={total_without_vat / 100}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">€</InputAdornment>,
-                readOnly: true,
-              }}
-            />
-          </Grid>
-          <Grid container item xs={12} justifyContent="flex-end">
-            <TextField
-              variant="standard"
-              type="number"
-              label="PVM"
-              inputProps={{ 'aria-label': 'PVM' }}
-              value={(total - total_without_vat) / 100}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">€</InputAdornment>,
-                readOnly: true,
-              }}
-            />
-          </Grid>
-        </>
-      )}
       <Grid container item xs={12} justifyContent="flex-end">
         <TextField
           variant="standard"

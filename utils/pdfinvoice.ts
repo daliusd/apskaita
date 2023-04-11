@@ -54,6 +54,49 @@ const FIELDS_INFO: IFieldInfo[] = [
   },
 ];
 
+const FIELDS_INFO_WITH_VAT: IFieldInfo[] = [
+  {
+    name: 'id',
+    size: 10 * PTPMM,
+    align: 'left',
+  },
+  {
+    name: 'name',
+    size: 60 * PTPMM,
+    align: 'left',
+  },
+  {
+    name: 'unit',
+    size: 10 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'amount',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'price',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'vat',
+    size: 10 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'vat_sum',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+  {
+    name: 'total',
+    size: 20 * PTPMM,
+    align: 'right',
+  },
+];
+
 const FIELDS_INFO_FINAL: IFieldInfo[] = [
   {
     name: 'id',
@@ -101,11 +144,13 @@ const invoiceStrings = {
     lineItemUnit: 'Mato vnt.',
     lineItemPrice: 'Kaina (€)',
     lineItemAmount: 'Kiekis',
+    lineItemVat: 'PVM (%)',
+    lineItemVatSum: 'PVM suma (€)',
     lineItemSum: 'Suma (€)',
     sumInWords: 'Suma žodžiais:',
     total: 'Iš viso',
     total_without_vat: 'Iš viso be PVM',
-    vat: 'PVM ({val}%)',
+    vat: 'PVM',
     alreadyPaid: 'Sumokėta',
     sumToPay: 'Mokėti',
     invoiceIssuedBy: 'Sąskaitą išrašė',
@@ -121,13 +166,15 @@ const invoiceStrings = {
     buyer: `Buyer:`,
     lineItemName: 'Service or item name',
     lineItemUnit: 'Unit',
+    lineItemVat: 'VAT (%)',
+    lineItemVatSum: 'VAT sum (€))',
     lineItemPrice: 'Price (€)',
     lineItemAmount: 'Amount',
     lineItemSum: 'Sum (€)',
     sumInWords: 'Sum in words:',
     total: 'Total',
     total_without_vat: 'Total without VAT',
-    vat: 'VAT ({val}%)',
+    vat: 'VAT',
     alreadyPaid: 'Paid',
     sumToPay: 'Sum to pay',
     invoiceIssuedBy: 'Invoice issued by',
@@ -141,6 +188,8 @@ interface ITableLineItem {
   price: string;
   amount: string;
   total: string;
+  vat?: string;
+  vat_sum?: string;
 }
 
 export async function generateInvoicePdf(
@@ -330,28 +379,39 @@ function generateContent(
 
   let y = startY;
 
-  y = drawTableHeader(doc, y, invoice.language);
+  y = drawTableHeader(doc, y, invoice.language, vatpayer);
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const lineItem = invoice.lineItems[i];
 
-    y = drawTableRow(doc, y, 'Roboto-Light', invoice.language, {
-      id: (i + 1).toString(),
-      name: lineItem.name,
-      unit: lineItem.unit,
-      price: formatPrice(lineItem.price),
-      amount: lineItem.amount.toString(),
-      total: formatPrice(lineItem.price * lineItem.amount),
-    });
+    const total = lineItem.price * lineItem.amount;
+    y = drawTableRow(
+      doc,
+      y,
+      'Roboto-Light',
+      invoice.language,
+      {
+        id: (i + 1).toString(),
+        name: lineItem.name,
+        unit: lineItem.unit,
+        price: formatPrice(lineItem.price),
+        amount: lineItem.amount.toString(),
+        total: formatPrice(total),
+        vat: lineItem.vat.toString(),
+        vat_sum: formatPrice(
+          total - Math.round(total / (1.0 + lineItem.vat / 100)),
+        ),
+      },
+      vatpayer ? FIELDS_INFO_WITH_VAT : FIELDS_INFO,
+      vatpayer,
+    );
   }
 
   drawLine(doc, y);
   y += 2 * PTPMM;
 
   if (vatpayer) {
-    const total_without_vat = Math.round(
-      invoice.price / (1.0 + invoice.vat / 100),
-    );
+    const total_without_vat = invoice.price - invoice.vat;
 
     y = drawTableRow(
       doc,
@@ -367,6 +427,7 @@ function generateContent(
         total: formatPrice(total_without_vat),
       },
       FIELDS_INFO_FINAL,
+      vatpayer,
     );
 
     y = drawTableRow(
@@ -378,11 +439,12 @@ function generateContent(
         id: '',
         name: '',
         unit: '',
-        price: t.vat.replace('{val}', invoice.vat),
+        price: t.vat,
         amount: '',
-        total: formatPrice(invoice.price - total_without_vat),
+        total: formatPrice(invoice.vat),
       },
       FIELDS_INFO_FINAL,
+      vatpayer,
     );
   }
 
@@ -400,6 +462,7 @@ function generateContent(
       total: formatPrice(invoice.price),
     },
     FIELDS_INFO_FINAL,
+    vatpayer,
   );
 
   if (invoice.alreadyPaid > 0) {
@@ -417,6 +480,7 @@ function generateContent(
         total: formatPrice(invoice.alreadyPaid),
       },
       FIELDS_INFO_FINAL,
+      vatpayer,
     );
 
     y = drawTableRow(
@@ -433,6 +497,7 @@ function generateContent(
         total: formatPrice(invoice.price - invoice.alreadyPaid),
       },
       FIELDS_INFO_FINAL,
+      vatpayer,
     );
   }
 
@@ -514,12 +579,13 @@ function drawTableRow(
   font: string,
   language: string,
   lineItem: ITableLineItem,
-  fields_info = FIELDS_INFO,
+  fields_info: IFieldInfo[],
+  vatpayer: boolean,
 ) {
   const height = getTableRowHeight(doc, font, lineItem, fields_info);
   const vres = validateOrAddPage(doc, y, height);
   if (vres.pageAdded) {
-    y = drawTableHeader(doc, vres.y, language);
+    y = drawTableHeader(doc, vres.y, language, vatpayer);
   }
 
   let x = PAGE_MARGIN;
@@ -536,17 +602,32 @@ function drawTableRow(
   return y;
 }
 
-function drawTableHeader(doc: PDFKit.PDFDocument, y: number, language: string) {
+function drawTableHeader(
+  doc: PDFKit.PDFDocument,
+  y: number,
+  language: string,
+  vatpayer: boolean,
+) {
   const t = invoiceStrings[language];
 
-  y = drawTableRow(doc, y, 'Roboto-Medium', language, {
-    id: t.no,
-    name: t.lineItemName,
-    unit: t.lineItemUnit,
-    price: t.lineItemPrice,
-    amount: t.lineItemAmount,
-    total: t.lineItemSum,
-  });
+  y = drawTableRow(
+    doc,
+    y,
+    'Roboto-Medium',
+    language,
+    {
+      id: t.no,
+      name: t.lineItemName,
+      unit: t.lineItemUnit,
+      price: t.lineItemPrice,
+      amount: t.lineItemAmount,
+      vat: t.lineItemVat,
+      vat_sum: t.lineItemVatSum,
+      total: t.lineItemSum,
+    },
+    vatpayer ? FIELDS_INFO_WITH_VAT : FIELDS_INFO,
+    vatpayer,
+  );
 
   drawLine(doc, y);
   y += 2 * PTPMM;

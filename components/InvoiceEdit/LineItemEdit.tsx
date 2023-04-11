@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -32,6 +32,19 @@ export default function LineItemEdit({
   const [price, setPrice] = useState(
     lineItem.price === 0 ? '' : (lineItem.price / 100).toString(),
   );
+  const [vat, setVat] = useState((lineItem.vat || 0).toString());
+
+  const sum = useMemo(() => {
+    return lineItem.price * lineItem.amount;
+  }, [lineItem.price, lineItem.amount]);
+
+  const sum_without_vat = useMemo(() => {
+    const vatn = parseFloat(vat);
+    return !isNaN(vatn) ? Math.round(sum / (1.0 + vatn / 100)) : sum;
+  }, [sum, vat]);
+
+  const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
+  const isVatPayer = vatpayerData?.value === '1';
 
   const debouncedLineItemName = useDebounce(lineItem.name, 500);
   const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
@@ -131,8 +144,8 @@ export default function LineItemEdit({
             if (price <= 0) {
               price = 1;
               setPrice('0.01');
-            } else if (price > 100000000) {
-              price = 100000000;
+            } else if (price > 100_000_000) {
+              price = 100_000_000;
               setPrice((price / 100).toString());
             } else {
               setPrice(e.target.value);
@@ -155,17 +168,62 @@ export default function LineItemEdit({
           type="number"
           label="Viso"
           disabled
-          value={
-            !isNaN(parseFloat(price)) && !isNaN(parseInt(amount, 10))
-              ? parseFloat(price) * parseInt(amount, 10)
-              : '-'
-          }
+          value={sum / 100}
           fullWidth
           InputProps={{
             endAdornment: <InputAdornment position="end">€</InputAdornment>,
           }}
         />
       </Grid>
+
+      {isVatPayer && (
+        <>
+          <Grid item xs={3}>
+            <TextField
+              variant="standard"
+              type="number"
+              label="PVM proc"
+              inputProps={{ 'aria-label': 'PVMproc' + lid }}
+              value={vat}
+              disabled={disabled}
+              onChange={(e) => {
+                setVat(e.target.value);
+                onChange({
+                  ...lineItem,
+                  vat: parseInt(e.target.value, 10) || 0,
+                });
+              }}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              variant="standard"
+              type="number"
+              label="PVM suma"
+              disabled
+              value={(sum - sum_without_vat) / 100}
+              fullWidth
+              InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              variant="standard"
+              type="number"
+              label="Viso be PVM"
+              disabled
+              value={sum_without_vat / 100}
+              fullWidth
+              InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+              }}
+            />
+          </Grid>
+        </>
+      )}
 
       {deleteEnabled && (
         <Grid item xs={3}>
