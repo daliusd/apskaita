@@ -159,7 +159,7 @@ export async function getInvoiceList(
   const args = [];
 
   let query =
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent, flags FROM Invoice';
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent, flags, vat FROM Invoice';
 
   const whereConditions = [];
 

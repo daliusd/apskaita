@@ -59,17 +59,24 @@ export default function Invoices(props: Props) {
   const [sum, setSum] = useState(0);
   const [countUnpaid, setCountUnpaid] = useState(0);
   const [sumUnpaid, setSumUnpaid] = useState(0);
+  const [vatToPay, setVatToPay] = useState(0);
+
+  const { data: vatPayerData } = useSWR('/api/settings/vatpayer');
+  const isVatPayer = vatPayerData && vatPayerData.value === '1' ? true : false;
 
   useEffect(() => {
     if (data && data.invoices) {
       let sum = 0;
+      let vatsum = 0;
       let unpaid = 0;
       let unpaidSum = 0;
       for (const i of data.invoices) {
         if (i.invoiceType === 'credit') {
           sum -= i.price;
+          vatsum -= i.vat;
         } else {
           sum += i.price;
+          vatsum += i.vat;
         }
 
         if (!i.paid) {
@@ -85,6 +92,7 @@ export default function Invoices(props: Props) {
       setSum(sum / 100);
       setCountUnpaid(unpaid);
       setSumUnpaid(unpaidSum / 100);
+      setVatToPay(vatsum / 100);
     }
   }, [data]);
 
@@ -116,6 +124,7 @@ export default function Invoices(props: Props) {
         {countUnpaid > 0 &&
           `Iš jų neapmokėtų:  ${countUnpaid}` +
             `, kurių bendra suma ${sumUnpaid} €.`}
+        {isVatPayer && ` PVM suma ${vatToPay} €.`}
         {data.invoices.length === 1000 &&
           ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visos sąskaitos faktūros.'}
       </Grid>
