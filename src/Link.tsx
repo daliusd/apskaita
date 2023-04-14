@@ -8,8 +8,8 @@ export default function Link(props: LinkProps & MuiLinkProps) {
     <MuiLink
       component={NextLink}
       className={className}
-      {...other}
       underline="hover"
+      {...other}
     />
   );
 }

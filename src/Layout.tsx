@@ -15,6 +15,7 @@ import Copyright from './Copyright';
 import Link from './Link';
 import { setUser } from '../utils/error-handler';
 import { messageSeverityState, messageTextState } from './atoms';
+import MenuToolbar from './MenuToolbar';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -133,46 +134,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Toolbar
-            sx={{
-              justifyContent: 'space-between',
-              overflowX: 'auto',
-            }}
-            disableGutters={true}
-          >
-            <Link href="/" color="primary" sx={{ padding: 1 }}>
-              Pagrindinis
-            </Link>
-            {session && (
-              <Link href="/saskaitos" color="primary" sx={{ padding: 1 }}>
-                Sąskaitos
-              </Link>
-            )}
-            {session && (
-              <Link href="/islaidos" color="primary" sx={{ padding: 1 }}>
-                Išlaidos
-              </Link>
-            )}
-            {session && (
-              <Link href="/nustatymai" color="primary" sx={{ padding: 1 }}>
-                Nustatymai
-              </Link>
-            )}
-            {!session && (
-              <Link href="/kaina" color="primary" sx={{ padding: 1 }}>
-                Kaina
-              </Link>
-            )}
-            {!session && (
-              <Link href="/kontaktai" color="primary" sx={{ padding: 1 }}>
-                Kontaktai
-              </Link>
-            )}
-
-            <Link href="/pagalba" color="primary" sx={{ padding: 1 }}>
-              Pagalba
-            </Link>
-          </Toolbar>
+          <MenuToolbar />
         </Grid>
 
         <Grid item xs={12}>
