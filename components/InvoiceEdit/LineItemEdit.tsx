@@ -40,8 +40,11 @@ export default function LineItemEdit({
 
   const sum_without_vat = useMemo(() => {
     const vatn = parseFloat(vat);
-    return !isNaN(vatn) ? Math.round(sum / (1.0 + vatn / 100)) : sum;
-  }, [sum, vat]);
+    return !isNaN(vatn)
+      ? Math.round(lineItem.price / (1.0 + lineItem.price / 100)) *
+          lineItem.amount
+      : sum;
+  }, [lineItem.amount, lineItem.price, sum, vat]);
 
   const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';

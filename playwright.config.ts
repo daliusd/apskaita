@@ -4,7 +4,7 @@ const config: PlaywrightTestConfig = {
   expect: {
     timeout: 10000,
   },
-  retries: 3,
+  retries: 1,
   webServer: {
     command: 'PORT=3000 yarn start-with-port',
     port: 3000,

@@ -143,6 +143,7 @@ const invoiceStrings = {
     lineItemName: 'Paslaugos ar prekės pavadinimas',
     lineItemUnit: 'Mato vnt.',
     lineItemPrice: 'Kaina (€)',
+    lineItemPriceWithoutVAT: 'Kaina be PVM (€)',
     lineItemAmount: 'Kiekis',
     lineItemVat: 'PVM (%)',
     lineItemVatSum: 'PVM suma (€)',
@@ -169,6 +170,7 @@ const invoiceStrings = {
     lineItemVat: 'VAT (%)',
     lineItemVatSum: 'VAT sum (€))',
     lineItemPrice: 'Price (€)',
+    lineItemPriceWithoutVAT: 'Price without VAT (€)',
     lineItemAmount: 'Amount',
     lineItemSum: 'Sum (€)',
     sumInWords: 'Sum in words:',
@@ -385,6 +387,8 @@ function generateContent(
     const lineItem = invoice.lineItems[i];
 
     const total = lineItem.price * lineItem.amount;
+    const vat_per_item =
+      lineItem.price - Math.round(lineItem.price / (1.0 + lineItem.vat / 100));
     y = drawTableRow(
       doc,
       y,
@@ -394,13 +398,13 @@ function generateContent(
         id: (i + 1).toString(),
         name: lineItem.name,
         unit: lineItem.unit,
-        price: formatPrice(lineItem.price),
+        price: formatPrice(
+          vatpayer ? lineItem.price - vat_per_item : lineItem.price,
+        ),
         amount: lineItem.amount.toString(),
         total: formatPrice(total),
         vat: lineItem.vat.toString(),
-        vat_sum: formatPrice(
-          total - Math.round(total / (1.0 + lineItem.vat / 100)),
-        ),
+        vat_sum: formatPrice(vat_per_item * lineItem.amount),
       },
       vatpayer ? FIELDS_INFO_WITH_VAT : FIELDS_INFO,
       vatpayer,
@@ -619,7 +623,7 @@ function drawTableHeader(
       id: t.no,
       name: t.lineItemName,
       unit: t.lineItemUnit,
-      price: t.lineItemPrice,
+      price: vatpayer ? t.lineItemPriceWithoutVAT : t.lineItemPrice,
       amount: t.lineItemAmount,
       vat: t.lineItemVat,
       vat_sum: t.lineItemVatSum,

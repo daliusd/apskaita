@@ -126,8 +126,8 @@ export default function InvoiceEditChangeButton() {
           vat: lineItems
             .map(
               (g) =>
-                g.price * g.amount -
-                Math.round((g.price * g.amount) / (1.0 + g.vat / 100)),
+                (g.price - Math.round(g.price / (1.0 + g.vat / 100))) *
+                g.amount,
             )
             .reduce((a, b) => a + b),
         };
