@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-04-23
+
+- PVM sąskaitų faktūrų patobulinimai
+
 ## 2023-04-09
 
 - Kreditinių sąskaitų faktūrų palaikymas

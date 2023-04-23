@@ -38,12 +38,14 @@ export default function LineItemEdit({
     return lineItem.price * lineItem.amount;
   }, [lineItem.price, lineItem.amount]);
 
-  const sum_without_vat = useMemo(() => {
+  const price_without_vat = useMemo(() => {
     const vatn = parseFloat(vat);
-    return !isNaN(vatn)
-      ? Math.round(lineItem.price / (1.0 + vatn / 100)) * lineItem.amount
-      : sum;
-  }, [lineItem.amount, lineItem.price, sum, vat]);
+    return !isNaN(vatn) ? Math.round(lineItem.price / (1.0 + vatn / 100)) : sum;
+  }, [lineItem.price, sum, vat]);
+
+  const sum_without_vat = useMemo(() => {
+    return price_without_vat * lineItem.amount;
+  }, [lineItem.amount, price_without_vat]);
 
   const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';
@@ -202,9 +204,22 @@ export default function LineItemEdit({
             <TextField
               variant="standard"
               type="number"
-              label="PVM suma"
+              label="PVM"
               disabled
-              value={(sum - sum_without_vat) / 100}
+              value={(lineItem.price - price_without_vat) / 100}
+              fullWidth
+              InputProps={{
+                endAdornment: <InputAdornment position="end">€</InputAdornment>,
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              variant="standard"
+              type="number"
+              label="Kaina be PVM"
+              disabled
+              value={price_without_vat / 100}
               fullWidth
               InputProps={{
                 endAdornment: <InputAdornment position="end">€</InputAdornment>,

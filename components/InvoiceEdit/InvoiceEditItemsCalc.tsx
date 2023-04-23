@@ -13,6 +13,9 @@ export default function InvoiceEditItems() {
   const [alreadyPaid, setAlreadyPaid] = useRecoilState(alreadyPaidState);
   const [alreadyPaidInner, setAlreadyPaidInner] = useState('0');
 
+  const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
+  const isVatPayer = vatpayerData?.value === '1';
+
   useEffect(() => {
     setAlreadyPaidInner((alreadyPaid / 100).toString());
   }, [alreadyPaid]);
@@ -21,6 +24,14 @@ export default function InvoiceEditItems() {
     () => lineItems.map((i) => i.price * i.amount).reduce((p, c) => p + c, 0),
     [lineItems],
   );
+
+  const total_without_vat = useMemo(() => {
+    if (isVatPayer) {
+      return lineItems
+        .map((i) => Math.round(i.price / (1.0 + i.vat / 100)) * i.amount)
+        .reduce((p, c) => p + c, 0);
+    }
+  }, [isVatPayer, lineItems]);
 
   return (
     <>
@@ -37,6 +48,22 @@ export default function InvoiceEditItems() {
           }}
         />
       </Grid>
+
+      {isVatPayer && (
+        <Grid container item xs={12} justifyContent="flex-end">
+          <TextField
+            variant="standard"
+            type="number"
+            label="Iš viso be PVM"
+            inputProps={{ 'aria-label': 'Iš viso' }}
+            value={total_without_vat / 100}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+              readOnly: true,
+            }}
+          />
+        </Grid>
+      )}
 
       <Grid container item xs={12} justifyContent="flex-end">
         <TextField
