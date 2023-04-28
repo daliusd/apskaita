@@ -1677,20 +1677,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/date-fns-jalali@npm:^2.16.0":
-  version: 2.16.0
-  resolution: "@date-io/date-fns-jalali@npm:2.16.0"
-  dependencies:
-    "@date-io/core": ^2.16.0
-  peerDependencies:
-    date-fns-jalali: ^2.13.0-0
-  peerDependenciesMeta:
-    date-fns-jalali:
-      optional: true
-  checksum: 141ee217ee0599f2d593438903785e8b4ade87dd53b0fef986fd0b8545a22a7d2eaad59a3daba7a516d7426ea27b188a92f78bc0e72ae92f90c1dea269260a48
-  languageName: node
-  linkType: hard
-
 "@date-io/date-fns@npm:^2.16.0":
   version: 2.16.0
   resolution: "@date-io/date-fns@npm:2.16.0"
@@ -1702,62 +1688,6 @@ __metadata:
     date-fns:
       optional: true
   checksum: aedb23c07da6f1e38a81ffe77ca1cb95167e1a175a3d65561cf244fbd1a5a0b961e84df88fe00b9cfa4bd32eda6d430e6d14567e2b040257198cd12748d5fcc5
-  languageName: node
-  linkType: hard
-
-"@date-io/hijri@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@date-io/hijri@npm:2.16.1"
-  dependencies:
-    "@date-io/moment": ^2.16.1
-  peerDependencies:
-    moment-hijri: ^2.1.2
-  peerDependenciesMeta:
-    moment-hijri:
-      optional: true
-  checksum: 21c5eb658f14c7a0deaa877565df305d01e9b6cf97d94ae5c7be4de47b8cf6e3b72a07142346c070d6c32da75a5c53638452c1ff0303de27c19757c03bc9d09a
-  languageName: node
-  linkType: hard
-
-"@date-io/jalaali@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@date-io/jalaali@npm:2.16.1"
-  dependencies:
-    "@date-io/moment": ^2.16.1
-  peerDependencies:
-    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0
-  peerDependenciesMeta:
-    moment-jalaali:
-      optional: true
-  checksum: 3df4865145c38f20080804a2bb7650afeff2dd427e96f5c2fa4157ecb9ba6bdba56b25e791ecb2d5a13c8c04a87c42ab807f5be2485abc23c46281b6a5909f3a
-  languageName: node
-  linkType: hard
-
-"@date-io/luxon@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@date-io/luxon@npm:2.16.1"
-  dependencies:
-    "@date-io/core": ^2.16.0
-  peerDependencies:
-    luxon: ^1.21.3 || ^2.x || ^3.x
-  peerDependenciesMeta:
-    luxon:
-      optional: true
-  checksum: ac3f667ff122728e7559fac96f75bc85109d0054bf3955c1aea9d8365e08bd49ed51780f7f3900160773c0ed584db21556ea7d49acf075c61a30eb0b0e5da935
-  languageName: node
-  linkType: hard
-
-"@date-io/moment@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@date-io/moment@npm:2.16.1"
-  dependencies:
-    "@date-io/core": ^2.16.0
-  peerDependencies:
-    moment: ^2.24.0
-  peerDependenciesMeta:
-    moment:
-      optional: true
-  checksum: 37a541661c504e1005904fab27b7b01d0c5d6c9c8c8a3b0a69d42a578aee8c52de7c181f917ad7acb14a9d7356d240c7e107777edf10efa11a453535977fc905
   languageName: node
   linkType: hard
 
@@ -2916,21 +2846,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.11.13":
-  version: 5.11.13
-  resolution: "@mui/utils@npm:5.11.13"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-    "@types/prop-types": ^15.7.5
-    "@types/react-is": ^16.7.1 || ^17.0.0
-    prop-types: ^15.8.1
-    react-is: ^18.2.0
-  peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-  checksum: 0f403f2635fd5cd39c013b9d4defa2cf1ecc023e35b8c9866d6123792480dcafe47207e43420c10b0d030e64df31e78adfdb8248e2476da27f07d80ed0b44927
-  languageName: node
-  linkType: hard
-
 "@mui/utils@npm:^5.12.0":
   version: 5.12.0
   resolution: "@mui/utils@npm:5.12.0"
@@ -2947,18 +2862,11 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.2.1
-  resolution: "@mui/x-date-pickers@npm:6.2.1"
+  version: 6.3.0
+  resolution: "@mui/x-date-pickers@npm:6.3.0"
   dependencies:
     "@babel/runtime": ^7.21.0
-    "@date-io/core": ^2.16.0
-    "@date-io/date-fns": ^2.16.0
-    "@date-io/date-fns-jalali": ^2.16.0
-    "@date-io/hijri": ^2.16.1
-    "@date-io/jalaali": ^2.16.1
-    "@date-io/luxon": ^2.16.1
-    "@date-io/moment": ^2.16.1
-    "@mui/utils": ^5.11.13
+    "@mui/utils": ^5.12.0
     "@types/react-transition-group": ^4.4.5
     clsx: ^1.2.1
     prop-types: ^15.8.1
@@ -2975,7 +2883,7 @@ __metadata:
     luxon: ^3.0.2
     moment: ^2.29.4
     moment-hijri: ^2.1.2
-    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0
+    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
   peerDependenciesMeta:
@@ -2997,7 +2905,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: f06eb6a89eafddbfd806e9296b2814b8de030a34d1eaecab6993ecfd9fd892f2d697ca98e31458fb2b0f41404008cedc652b912eb89eb3ac5f23baabd6de798b
+  checksum: 054a1074a3e719a6a9f9114f8483fb1cb886d41cd1f2d51099315a87be0bed21e42862d0ba3a6def57c301edfb9c8942bda850bfdb1d411abd4b04c51042b49a
   languageName: node
   linkType: hard
 
