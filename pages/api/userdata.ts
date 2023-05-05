@@ -1,15 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs/promises';
-import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import { Database } from 'sqlite';
 
 import { getInvoiceList, openDb } from '../../db/db';
 import { deleteInvoicePdf } from '../../utils/pdfinvoice';
 import { errorHandler, sendReportMessage } from '../../utils/report-mailer';
+import { authOptions } from './auth/[...nextauth]';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
   if (!session) {
     res.status(401);
     return;

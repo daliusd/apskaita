@@ -82,7 +82,7 @@ const googleExProvider: OAuthConfig<{
   clientSecret: process.env.GOOGLE_SECRET,
 };
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -195,6 +195,6 @@ const options: NextAuthOptions = {
   debug: true,
 };
 
-const authHandler = (req, res) => NextAuth(req, res, options);
+const authHandler = (req, res) => NextAuth(req, res, authOptions);
 
 export default authHandler;
