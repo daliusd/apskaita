@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
-import { Session } from 'next-auth';
+import { Session, getServerSession } from 'next-auth';
 import { Database } from 'sqlite';
 
 import { openDb } from './db';
 import { sendReportMessage } from '../utils/report-mailer';
+import { authOptions } from '../pages/api/auth/[...nextauth]';
 
 interface DBCallback {
   (db: Database, session: Session): Promise<void>;
@@ -15,7 +15,7 @@ export async function dbWrapper(
   res: NextApiResponse,
   callback: DBCallback,
 ) {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
   if (session) {
     let db: Database;
 
