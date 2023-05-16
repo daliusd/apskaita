@@ -30,7 +30,7 @@
     "react-dom": "latest",
     "react-recipes": "1.5.0",
     "recoil": "0.7.7",
-    "remark": "14.0.2",
+    "remark": "14.0.3",
     "remark-html": "15.0.2",
     "sqlite": "4.2.0",
     "sqlite3": "5.1.6",
