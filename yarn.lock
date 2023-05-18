@@ -8624,7 +8624,7 @@ __metadata:
     sqlite: 4.2.0
     sqlite3: 5.1.6
     stacktrace-js: 2.0.2
-    strip-markdown: 5.0.0
+    strip-markdown: 5.0.1
     swr: 2.1.5
     ts-node: 10.9.1
     typescript: 5.0.4
@@ -10413,14 +10413,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-markdown@npm:5.0.0":
-  version: 5.0.0
-  resolution: "strip-markdown@npm:5.0.0"
+"strip-markdown@npm:5.0.1":
+  version: 5.0.1
+  resolution: "strip-markdown@npm:5.0.1"
   dependencies:
     "@types/mdast": ^3.0.0
     "@types/unist": ^2.0.6
     unified: ^10.0.0
-  checksum: 4c3a9140b4fff874b63fe892de2b79d18839732bde8af7ab505b59817dd4a7dcc1bae4ef7d9bd9643e910e8b982197a30ed4859b3a45c4b4d8820893910e6bcd
+  checksum: 0cad4aeec911f833df19bbc90fdf6bf7a6f669cb7f541e70219879a4bae06b72f53f9fa4d9832c5aafa2080c5db876043f15cfcf1ebf29d351c41c8fad4f6cc8
   languageName: node
   linkType: hard
 
