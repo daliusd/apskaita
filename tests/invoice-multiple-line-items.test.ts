@@ -53,7 +53,7 @@ test('Invoice. Should create invoice with multiple items', async ({ page }) => {
     ),
   );
   await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
-  await page.waitForSelector('text=rendered');
+  await page.waitForSelector('text=_');
 
   await screenshotTest(page, 'invoice-multiple-line-items');
 
