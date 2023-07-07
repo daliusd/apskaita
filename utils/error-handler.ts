@@ -6,7 +6,10 @@ export function setUser(userName: string) {
   user = userName;
 }
 
-async function reportError(error: Error) {
+async function reportError(
+  error: Error,
+  event: ErrorEvent | PromiseRejectionEvent,
+) {
   let stringifiedStack = '';
 
   if (error !== null) {
@@ -16,6 +19,16 @@ async function reportError(error: Error) {
       stringifiedStack = stackframes.map((sf) => sf.toString()).join('\n');
     } catch {}
   }
+
+  let content = '';
+  try {
+    content = JSON.stringify(event, Object.getOwnPropertyNames(event), 2);
+  } catch {}
+
+  try {
+    content +=
+      '\n\n' + JSON.stringify(error, Object.getOwnPropertyNames(error), 2);
+  } catch {}
 
   try {
     fetch('/api/report', {
@@ -28,6 +41,7 @@ async function reportError(error: Error) {
         error: {
           message: error?.message || 'There is no error message.',
           stack: stringifiedStack || error?.stack || 'There is no error stack.',
+          content,
         },
       }),
     });
@@ -37,13 +51,13 @@ async function reportError(error: Error) {
 export function init() {
   if (typeof window !== 'undefined') {
     window.addEventListener('error', function (event: ErrorEvent) {
-      reportError(event.error);
+      reportError(event.error, event);
     });
 
     window.addEventListener(
       'unhandledrejection',
       function (event: PromiseRejectionEvent) {
-        reportError(event.reason);
+        reportError(event.reason, event);
       },
     );
   }

@@ -5,6 +5,7 @@ export async function sendReportMessage(subject, error, req) {
   if (!process.env.SMTP_HOST) {
     console.error(error.message);
     console.error(error.stack);
+    console.error(error?.content);
     throw Error('SMTP not configured.');
   }
 
@@ -33,6 +34,10 @@ export async function sendReportMessage(subject, error, req) {
 
   try {
     text += 'Error:\n\n' + error.stack + '\n\n';
+  } catch {}
+
+  try {
+    text += 'Content:\n\n' + error.content + '\n\n';
   } catch {}
 
   await transporter.sendMail({
