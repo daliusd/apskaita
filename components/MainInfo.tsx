@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import Invoices from '../components/Invoices';
+import Stats from './Stats';
 
 export default function MainInfo() {
   const { data: session } = useSession();
@@ -43,6 +44,7 @@ export default function MainInfo() {
           Nauja sąskaita faktūra
         </Button>
       </Grid>
+      <Stats />
       <Grid item xs={12}>
         <Typography variant="h6" component="h1" noWrap>
           Paskutinės sąskaitos faktūros

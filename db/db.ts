@@ -579,3 +579,17 @@ export async function deleteExpense(db: Database, expenseId: number) {
 
   return true;
 }
+
+export async function getStats(db: Database) {
+  let d = new Date();
+  d.setDate(1);
+  d.setUTCHours(0, 0, 0, 0);
+  d.setMonth(d.getMonth() - 12);
+
+  const result = await db.all(
+    "SELECT strftime('%Y-%m', datetime(created / 1000, 'unixepoch')) as month, flags, paid, sum(price) as total, sum(vat) as vat FROM Invoice where created >= ? group by month, flags, paid order by month, flags, paid",
+    d,
+  );
+
+  return result;
+}
