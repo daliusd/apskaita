@@ -37,7 +37,7 @@ test('Invoice. Should create simple credit invoice', async ({ page }) => {
   const el = await page.waitForSelector('[aria-label="PDF nuoroda"]');
   const href = await el.evaluate((e) => e.getAttribute('value'));
   await page.goto(`http://localhost:3000/pdfviewer.html?pdf=${href}`);
-  await page.waitForSelector('text=rendered');
+  await page.waitForSelector('text=_');
 
   await screenshotTest(page, 'invoice-credit');
 
