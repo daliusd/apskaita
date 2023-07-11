@@ -9043,7 +9043,7 @@ __metadata:
     recoil: 0.7.7
     remark: 14.0.3
     remark-html: 15.0.2
-    sqlite: 4.2.1
+    sqlite: 5.0.1
     sqlite3: 5.1.6
     stacktrace-js: 2.0.2
     strip-markdown: 5.0.1
@@ -10685,10 +10685,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sqlite@npm:4.2.1":
-  version: 4.2.1
-  resolution: "sqlite@npm:4.2.1"
-  checksum: 42c21a4855838c168b6b86b959bda215dc437f8950156fc77e27d5773ae70f20de5303a833fcecba17d1c56af0b718ea448c1e24ea87091243371d33d10f9fc4
+"sqlite@npm:5.0.1":
+  version: 5.0.1
+  resolution: "sqlite@npm:5.0.1"
+  checksum: f7f158efe27512bca62f2b84b1db963e74066be52fa60e85bf399171ee8961eddf5ecf5d8a33cdd1190132ff9cced753ca110fc91ff32bf234e2aa02f0948d7d
   languageName: node
   linkType: hard
 
