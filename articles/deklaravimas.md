@@ -4,19 +4,12 @@ date: '2021-04-28'
 modified: '2021-04-28'
 ---
 
-„Haiku.lt“ dar neturi dedikuoto įrankio padedančio susitvarkyti su
-pajamų deklaravimu (planuose yra), bet jūs nesate palikti visiškai
-be įrankių. Štai kaip galite deklaruoti pajamas ir išlaidas VMI
-naudodami „Haiku“.
-
-Visą pajamų sumą galite sužinoti nuėję į [„Sąskaitų“](/saskaitos)
-langą. Ten nurodė datų rėžius pamatysite kokia yra bendra sąskaitų
-suma.
-
-Lygiai tą patį galite padaryti su išlaidomis nuėję į
-["Išlaidų"](/islaidos) langą. Jeigu išlaidos sudaro daugiau negu
-30% pajamų galbūt norėsite deklaruoti pagal faktines išlaidas (o
-ne 30% nuo pajamų).
+„Haiku.lt“ turi ["Individualios Veiklos mokesčių
+skaičiuoklę"](/iv-skaiciuokle), kurios pagalba galėsite deklaruoti
+mokesčius. Nuėję į skaičiuoklę tiesiog nurodykite reikiamą
+laikotarpį ir gausite informaciją apie savo pajamas ir išlaidas.
+Jeigu išlaidos sudaro daugiau negu 30% pajamų galbūt norėsite
+deklaruoti pagal faktines išlaidas (o ne 30% nuo pajamų).
 
 VMI leidžia deklaruoti pajamas naudojantis vedliu ir tai gana
 paprastas ir intuityvus būdas. Pajamoms jau bus sukurtas įrašas,
