@@ -45,6 +45,7 @@ export default function MainInfo() {
         </Button>
       </Grid>
       <Stats />
+
       <Grid item xs={12}>
         <Typography variant="h6" component="h1" noWrap>
           Paskutinės sąskaitos faktūros

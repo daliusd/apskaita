@@ -36,12 +36,12 @@ sukurs direktoriją kiekvieniems metams (pvz.: „2021“), kuriems
 registruosite išlaidas. Deklaruojant duomenis galėsite parsisiųsti
 visus failus patogiai ir išsiųsti VMI.
 
-Ateityje „Haiku.lt“ sistema mokės paskaičiuoti mokesčius, kuriuos
-reikia sumokėti, tai išlaidų registravimas į sistemą bus naudingas
-ir dėl to.
+Išlaidų registravimas į sistemą naudingas dar ir dėl to, kad ši
+informacija lengvai pasiekiame [Individualios Veiklos mokesčių
+skaičiuoklėje](/iv-skaiciuokle).
 
 Šaltiniai:
 
-* [VMI seminaras: GYVENTOJŲ, VYKDANČIŲ INDIVIDUALIĄ VEIKLĄ PAGAL
+- [VMI seminaras: GYVENTOJŲ, VYKDANČIŲ INDIVIDUALIĄ VEIKLĄ PAGAL
   PAŽYMĄ BUHALTERINĖ
   APSKAITA](https://www.vmi.lt/evmi/documents/20142/391071/KD-0001618+seminaras+gyventoj%C5%B3+vykdan%C4%8Di%C5%B3+IDV+buhalterin%C4%97+apskaita.pdf/e4997fbd-59c6-7d50-23b1-396f31547806?t=1560975335410)

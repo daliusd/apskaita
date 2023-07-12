@@ -580,16 +580,77 @@ export async function deleteExpense(db: Database, expenseId: number) {
   return true;
 }
 
-export async function getStats(db: Database) {
-  let d = new Date();
-  d.setDate(1);
-  d.setUTCHours(0, 0, 0, 0);
-  d.setMonth(d.getMonth() - 12);
+export async function getStats(
+  db: Database,
+  minDate?: number,
+  maxDate?: number,
+) {
+  if (!minDate) {
+    let d = new Date();
+    d.setDate(1);
+    d.setUTCHours(0, 0, 0, 0);
+    d.setMonth(d.getMonth() - 12);
+    minDate = +d;
+  }
 
-  const result = await db.all(
-    "SELECT strftime('%Y-%m', datetime(created / 1000, 'unixepoch')) as month, flags, paid, sum(price) as total, sum(vat) as vat FROM Invoice where created >= ? group by month, flags, paid order by month, flags, paid",
-    d,
-  );
+  const args = [];
 
+  let query =
+    "SELECT strftime('%Y-%m', datetime(created / 1000, 'unixepoch')) as month, flags, paid, sum(price) as total, sum(vat) as vat FROM Invoice";
+
+  const whereConditions = [];
+
+  whereConditions.push('created >= ?');
+  args.push(minDate);
+
+  if (maxDate) {
+    whereConditions.push('created <= ?');
+    args.push(maxDate);
+  }
+
+  if (whereConditions.length > 0) {
+    query += ' WHERE ' + whereConditions.join(' AND ');
+  }
+
+  query += ' GROUP BY month, flags, paid ORDER BY month, flags, paid';
+
+  const result = await db.all(query, ...args);
   return result;
+}
+
+export async function getExpenseStats(
+  db: Database,
+  minDate?: number,
+  maxDate?: number,
+) {
+  if (!minDate) {
+    let d = new Date();
+    d.setDate(1);
+    d.setUTCHours(0, 0, 0, 0);
+    d.setMonth(d.getMonth() - 12);
+    minDate = +d;
+  }
+
+  const args = [];
+
+  let query = 'SELECT sum(price) as total FROM Expense';
+
+  const whereConditions = [];
+
+  if (minDate) {
+    whereConditions.push('created >= ?');
+    args.push(minDate);
+  }
+
+  if (maxDate) {
+    whereConditions.push('created <= ?');
+    args.push(maxDate);
+  }
+
+  if (whereConditions.length > 0) {
+    query += ' WHERE ' + whereConditions.join(' AND ');
+  }
+
+  const result = await db.get(query, ...args);
+  return { total: result.total || 0 };
 }

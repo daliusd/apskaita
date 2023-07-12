@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-07-12
+
+- Pridėta [Individualios Veiklos mokesčių skaičiuoklė](/iv-skaiciuokle)
+
 ## 2023-07-07
 
 - Paskutinių 12+ mėnesių grafikas

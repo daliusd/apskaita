@@ -1,103 +1,74 @@
-import { Grid, CircularProgress, Paper, Typography } from '@mui/material';
+import { Grid, CircularProgress, Typography } from '@mui/material';
 import { useMemo } from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
 import useSWR from 'swr';
+import { getMsSinceEpoch } from '../utils/date';
+import StatsGraph from './StatsGraph';
+import Link from '../src/Link';
 
-export default function Stats() {
-  const query = '/api/stats';
-  const { data, error } = useSWR(query);
-
+export default function Stats({
+  fromDateInit,
+  toDateInit,
+}: {
+  fromDateInit?: number;
+  toDateInit?: number;
+}) {
   const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';
 
-  const { graphData, totalUnpaid, totalPaid, totalVat } = useMemo(() => {
-    let graphData = [];
-    let totalUnpaid = 0;
-    let totalPaid = 0;
-    let totalVat = 0;
-
-    if (!data) {
-      return { graphData, totalUnpaid, totalPaid, totalVat };
-    }
-
-    const graphByMonth = new Map();
-
-    for (const item of data.stats) {
-      if (!graphByMonth.has(item.month)) {
-        graphByMonth.set(item.month, {
-          name: item.month,
-          total: 0,
-          vat: 0,
-          unpaid: 0,
-        });
-      }
-
-      const monthData = graphByMonth.get(item.month);
-      if (item.flags === 0) {
-        const total = item.total;
-        if (item.paid) {
-          monthData.total += total;
-          totalPaid += total;
-        } else {
-          monthData.total += total;
-          monthData.unpaid += total;
-          totalUnpaid += total;
-        }
-
-        if (item.vat) {
-          monthData.vat += item.vat;
-          totalVat += item.vat;
-        }
-      } else if (item.flags === 2) {
-        monthData.total -= item.total;
-        totalPaid -= item.total;
-
-        if (item.vat) {
-          monthData.vat -= item.vat;
-          totalVat -= item.vat;
-        }
-      }
-      graphByMonth.set(item.month, monthData);
-    }
-
-    if (totalPaid > 0 || totalUnpaid > 0) {
+  const fromDate = useMemo(() => {
+    if (fromDateInit) {
+      return fromDateInit;
+    } else {
       let d = new Date();
       d.setDate(1);
       d.setUTCHours(0, 0, 0, 0);
       d.setMonth(d.getMonth() - 12);
-      while (!graphByMonth.has(dateToMonthString(d)) && d < new Date()) {
-        d.setMonth(d.getMonth() + 1);
-      }
-      while (d < new Date()) {
-        const monthString = dateToMonthString(d);
-        graphData.push(
-          graphByMonth.get(monthString) || {
-            name: monthString,
-            total: 0,
-            vat: 0,
-            unpaid: 0,
-          },
+      return getMsSinceEpoch(d);
+    }
+  }, [fromDateInit]);
+
+  const toDate = useMemo(() => {
+    if (toDateInit) {
+      return toDateInit;
+    } else {
+      return getMsSinceEpoch(new Date());
+    }
+  }, [toDateInit]);
+
+  const query = `/api/stats?from=${fromDate}&to=${toDate}`;
+  const { data, error } = useSWR(query);
+
+  const totalPaid = useMemo(
+    () =>
+      data &&
+      data.stats.reduce((c, i) => {
+        return (
+          c + (i.flags === 0 && i.paid ? i.total : i.flags === 2 ? -i.total : 0)
         );
+      }, 0),
+    [data],
+  );
 
-        d.setMonth(d.getMonth() + 1);
-      }
-    }
+  const totalUnpaid = useMemo(
+    () =>
+      data &&
+      data.stats.reduce((c, i) => {
+        return c + (i.flags === 0 && !i.paid ? i.total : 0);
+      }, 0),
+    [data],
+  );
 
-    for (const item of graphData) {
-      item.total /= 100;
-      item.vat /= 100;
-      item.unpaid /= 100;
-    }
-    return { graphData, totalUnpaid, totalPaid, totalVat };
-  }, [data]);
+  const totalVat = useMemo(
+    () =>
+      data &&
+      data.stats.reduce((c, i) => {
+        return (
+          c +
+          (i.flags === 0 && i.vat ? i.vat : i.flags === 2 && i.vat ? -i.vat : 0)
+        );
+      }, 0),
+    [data],
+  );
 
   if (error) {
     return null;
@@ -122,35 +93,7 @@ export default function Stats() {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Paper
-          sx={{
-            p: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            height: 300,
-          }}
-        >
-          <ResponsiveContainer>
-            <BarChart width={500} height={300} data={graphData}>
-              <XAxis dataKey="name" />
-              <YAxis unit="€" />
-              <Tooltip />
-              <Legend />
-              <Bar name="Viso" dataKey="total" fill="#82ca9d" unit="€" />
-              {totalUnpaid > 0 && totalPaid > 0 && (
-                <Bar
-                  name="Neapmokėta"
-                  dataKey="unpaid"
-                  fill="#da7282"
-                  unit="€"
-                />
-              )}
-              {isVatPayer && totalVat > 0 && (
-                <Bar name="PVM" dataKey="vat" fill="#8884d8" unit="€" />
-              )}
-            </BarChart>
-          </ResponsiveContainer>
-        </Paper>
+        <StatsGraph data={data} fromDate={fromDate} toDate={toDate} />
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1" component="div">
@@ -161,11 +104,25 @@ export default function Stats() {
           {isVatPayer && totalVat > 0 ? ', PVM: ' + totalVat / 100 + '€' : ''}.
         </Typography>
       </Grid>
+
+      {!isVatPayer && (totalPaid + totalUnpaid) / 100 > 36000 && (
+        <Grid item xs={12}>
+          <Typography variant="body1" component="div">
+            <strong>Perspėjimas:</strong> pajamoms per paskutinius 12 mėnesių
+            viršijus 45000€ atsiranda prievolė registruotis PVM mokėtoju.
+          </Typography>
+        </Grid>
+      )}
+
       <Grid item xs={12}>
         <Typography variant="body1" component="div">
           <strong>Pastaba:</strong> Statistika rodoma nuo kiekvieno mėnesio
           pirmos dienos. Todėl matomi paskutiniai pilni 12 mėnesių + einamasis
-          mėnuo.
+          mėnuo. Jei norite detaliau peržiūrėti savo statistiką pasinaudokite{' '}
+          <Link href="/iv-skaiciuokle">
+            Individualios Veiklos mokesčių skaičiuokle
+          </Link>
+          .
         </Typography>
       </Grid>
     </>

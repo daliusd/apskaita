@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getStats } from '../../../db/db';
+import { getExpenseStats } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 import { errorHandler } from '../../../utils/report-mailer';
 import { defaultOrFirst } from '../../../utils/query';
@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       query: { from, to },
     } = req;
 
-    const stats = await getStats(
+    const stats = await getExpenseStats(
       db,
       from && parseInt(defaultOrFirst(from), 10),
       to && parseInt(defaultOrFirst(to), 10),
