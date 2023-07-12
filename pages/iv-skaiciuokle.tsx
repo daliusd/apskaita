@@ -378,8 +378,9 @@ export default function Index() {
         <Grid item xs={12}>
           <Typography variant="body1" component="div">
             Čia galite pasižiūrėti, kas būtų, jei jums reiktų mokėti PVM.
-            Prievolė registruotis PVM mokėtoju atsiranda gavus virš 45000€ per
-            metus arba įsigijus prekių iš kitos ES šalies už daugiau nei 14000€.
+            Prievolė registruotis PVM mokėtoju atsiranda gavus pajamų virš
+            45000€ per metus arba įsigijus prekių iš kitos ES šalies už daugiau
+            nei 14000€.
           </Typography>
         </Grid>
       )}
