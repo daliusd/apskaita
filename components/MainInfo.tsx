@@ -57,6 +57,21 @@ export default function MainInfo() {
           Detalesnė sąskaitų faktūrų paieška
         </Link>
       </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h6" component="h1" noWrap>
+          Kiti įrankiai
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Link href="/iv-skaiciuokle">
+          Individualios Veiklos mokesčių skaičiuokle
+        </Link>
+      </Grid>
+      <Grid item xs={12}>
+        <Link href="/pajamu-islaidu-zurnalas">
+          Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
+        </Link>
+      </Grid>
     </Grid>
   );
 }

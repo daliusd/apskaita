@@ -27,8 +27,8 @@ export default function Index() {
 
   const [fromDate, setFromDate] = useState(() => {
     let d = new Date();
-    d.setDate(1);
     d.setUTCHours(0, 0, 0, 0);
+    d.setDate(1);
     d.setMonth(d.getMonth() - 12);
     return d;
   });
@@ -202,16 +202,16 @@ export default function Index() {
           variant="text"
           onClick={() => {
             const start = new Date();
+            start.setUTCHours(0, 0, 0, 0);
             start.setMonth(0);
             start.setDate(1);
             start.setFullYear(start.getFullYear() - 1);
-            start.setUTCHours(0, 0, 0, 0);
             setFromDate(start);
 
             const end = new Date();
+            end.setUTCHours(0, 0, 0, 0);
             end.setMonth(0);
             end.setDate(31);
-            end.setUTCHours(0, 0, 0, 0);
             end.setMonth(end.getMonth() + 11);
             end.setFullYear(end.getFullYear() - 1);
             setToDate(end);
@@ -226,15 +226,15 @@ export default function Index() {
           variant="text"
           onClick={() => {
             const start = new Date();
-            start.setDate(1);
             start.setUTCHours(0, 0, 0, 0);
+            start.setDate(1);
             setFromDate(start);
 
             const end = new Date();
+            end.setUTCHours(0, 0, 0, 0);
             end.setMonth(end.getMonth() + 1);
             end.setDate(1);
             end.setDate(end.getDate() - 1);
-            end.setUTCHours(0, 0, 0, 0);
             setToDate(end);
           }}
           size="small"
@@ -247,15 +247,15 @@ export default function Index() {
           variant="text"
           onClick={() => {
             const start = new Date();
+            start.setUTCHours(0, 0, 0, 0);
             start.setDate(1);
             start.setMonth(start.getMonth() - 1);
-            start.setUTCHours(0, 0, 0, 0);
             setFromDate(start);
 
             const end = new Date();
+            end.setUTCHours(0, 0, 0, 0);
             end.setDate(1);
             end.setDate(end.getDate() - 1);
-            end.setUTCHours(0, 0, 0, 0);
             setToDate(end);
           }}
           size="small"
@@ -600,17 +600,17 @@ export default function Index() {
 
 function startOfThisYear() {
   const d = new Date();
+  d.setUTCHours(0, 0, 0, 0);
   d.setMonth(0);
   d.setDate(1);
-  d.setUTCHours(0, 0, 0, 0);
   return d;
 }
 
 function endOfThisYear() {
   const d = new Date();
+  d.setUTCHours(0, 0, 0, 0);
   d.setMonth(0);
   d.setDate(31);
-  d.setUTCHours(0, 0, 0, 0);
   d.setMonth(d.getMonth() + 11);
   return d;
 }

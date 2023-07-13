@@ -654,3 +654,40 @@ export async function getExpenseStats(
   const result = await db.get(query, ...args);
   return { total: result.total || 0 };
 }
+
+export async function getDataForJournal(
+  db: Database,
+  minDate?: number,
+  maxDate?: number,
+) {
+  if (!minDate) {
+    let d = new Date();
+    d.setDate(1);
+    d.setMonth(0);
+    d.setUTCHours(0, 0, 0, 0);
+    minDate = +d;
+  }
+
+  if (!maxDate) {
+    let d = new Date();
+    d.setMonth(11);
+    d.setDate(31);
+    d.setUTCHours(0, 0, 0, 0);
+    maxDate = +d;
+  }
+
+  const query = `
+    SELECT
+      created, (seriesName || '/' || seriesId) as name, Invoice.price, flags, group_concat(LineItem.name, '\n') as description
+      FROM Invoice
+      JOIN LineItem ON LineItem.invoiceId = Invoice.id
+      WHERE created >= ? AND created <= ? and flags != 1
+      GROUP BY Invoice.id
+    UNION
+    SELECT created, '' as name, price * 100, 3 as flags, description FROM Expense
+      WHERE created >= ? AND created <= ?
+    ORDER BY created`;
+
+  const result = await db.all(query, [minDate, maxDate, minDate, maxDate]);
+  return result;
+}
