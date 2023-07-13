@@ -588,7 +588,7 @@ export default function Index() {
                 href="https://www.vmi.lt/evmi/documents/20142/391017/Individualios+veiklos+apmokestinimo+tavrka+nuo+2018-01-01+%C4%AF+nauj%C4%85+KMK.pdf/35dee9e6-df89-da04-265d-60b67b404657?t=1543400149072"
                 underline="always"
               >
-                PVM skaičiavimas
+                GPM skaičiavimas
               </Link>
             </li>
           </ul>
