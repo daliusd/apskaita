@@ -10,22 +10,34 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
-        query: { from, to },
+        query: {
+          from,
+          to,
+          personalInfo,
+          location,
+          activityName,
+          includeExpenses,
+        },
       } = req;
 
       const journal = await getDataForJournal(
         db,
         from && parseInt(defaultOrFirst(from), 10),
         to && parseInt(defaultOrFirst(to), 10),
+        includeExpenses === 'true',
       );
 
-      return res.json({ journal });
+      const pdfInfo = {
+        journal,
+        personalInfo: defaultOrFirst(personalInfo),
+        location: defaultOrFirst(location),
+        activityName: defaultOrFirst(activityName),
+      };
+
+      return new Promise<void>((resolve) =>
+        generateJournalPdf(res, pdfInfo, resolve),
+      );
     });
-  } else if (req.method === 'POST') {
-    const pdfInfo = req.body;
-    return new Promise<void>((resolve) =>
-      generateJournalPdf(res, pdfInfo, resolve),
-    );
   }
 };
 

@@ -13,14 +13,11 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
-import useSWR from 'swr';
-import { useRecoilState } from 'recoil';
-import { messageTextState, messageSeverityState } from '../src/atoms';
+import { useRouter } from 'next/router';
 
 export default function Index() {
   const { data: session } = useSession();
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
+  const router = useRouter();
 
   const [fromDate, setFromDate] = useState(() => {
     let d = new Date();
@@ -42,45 +39,22 @@ export default function Index() {
   const [activityName, setActivityName] = useState('');
   const [includeExpenses, setIncludeExpenses] = useState(false);
 
-  const { data } = useSWR(
-    session &&
-      `/api/journal?from=${getMsSinceEpoch(fromDate)}&to=${getMsSinceEpoch(
-        toDate,
-      )}`,
-  );
-
   if (!session) {
     return null;
   }
 
   const generatePdf = async () => {
-    let response: Response;
-    try {
-      response = await fetch('/api/journal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          journal: data.journal,
-          personalInfo,
-          location,
-          activityName,
-          includeExpenses,
-        }),
-      });
-    } catch {}
+    const args = {
+      from: getMsSinceEpoch(fromDate).toString(),
+      to: getMsSinceEpoch(toDate).toString(),
+      includeExpenses: includeExpenses.toString(),
+      personalInfo,
+      location,
+      activityName,
+    };
 
-    if (!response || !response.ok) {
-      setMessageText('Įvyko klaida generuojant pajamų-išlaidų žurnalą.');
-      setMessageSeverity('error');
-      return;
-    }
-
-    const file = new Blob([await response.blob()], { type: 'application/pdf' });
-    const fileURL = URL.createObjectURL(file);
-
-    window.open(fileURL, '_blank');
+    const params = new URLSearchParams(args);
+    router.push('/api/journal?' + params.toString());
   };
 
   return (
@@ -234,12 +208,7 @@ export default function Index() {
       </Grid>
 
       <Grid item xs={4}>
-        <Button
-          variant="contained"
-          disabled={!data?.journal.length}
-          onClick={generatePdf}
-          size="small"
-        >
+        <Button variant="contained" onClick={generatePdf} size="small">
           Generuoti žurnalą
         </Button>
       </Grid>
