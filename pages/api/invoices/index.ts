@@ -42,7 +42,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({ invoices });
     });
   } else if (req.method === 'POST') {
-    const invoice = req.body as IInvoice;
+    const invoice = req.body.invoice as IInvoice;
+    const code = req.body.code as string;
 
     if (!invoice.seriesId) {
       return res.json({ success: false });
@@ -50,6 +51,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return dbWrapper(req, res, async (db, session) => {
       const lp = invoice.language === 'lt' ? '' : '_en';
+
+      if (code) {
+        const savedCode = await getSetting(db, 'code');
+        if (!savedCode) {
+          await setSetting(db, 'code', `${code}:${new Date().toISOString()}`);
+        }
+      }
 
       const savedSeller = await getSetting(db, 'seller' + lp);
       if (!invoice.seller) {

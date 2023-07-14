@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useRouter } from 'next/router';
+import { useLocalStorage } from 'react-recipes';
 
 import { IInvoice } from '../../db/db';
 import { getMsSinceEpoch } from '../../utils/date';
@@ -39,6 +40,7 @@ export default function InvoiceEditChangeButton() {
   const [language] = useRecoilState(languageState);
   const [lineItems] = useRecoilState(lineItemsState);
   const [alreadyPaid] = useRecoilState(alreadyPaidState);
+  const [code] = useLocalStorage('code', '');
 
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
@@ -148,7 +150,10 @@ export default function InvoiceEditChangeButton() {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(invoice),
+              body: JSON.stringify({
+                invoice,
+                code,
+              }),
             });
           }
         } catch {}

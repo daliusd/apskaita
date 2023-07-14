@@ -25,6 +25,10 @@ export async function sendReportMessage(subject, error, req) {
   } catch {}
 
   try {
+    text += 'URL:\n\n' + JSON.stringify(req.originalUrl, null, 2) + '\n\n';
+  } catch {}
+
+  try {
     text += 'Query:\n\n' + JSON.stringify(req.query, null, 2) + '\n\n';
   } catch {}
 
