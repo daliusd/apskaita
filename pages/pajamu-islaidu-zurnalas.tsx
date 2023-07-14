@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
 import { useRouter } from 'next/router';
+import SeriesNameInput from '../components/inputs/SeriesNameInput';
 
 export default function Index() {
   const { data: session } = useSession();
@@ -38,6 +39,7 @@ export default function Index() {
   const [location, setLocation] = useState('');
   const [activityName, setActivityName] = useState('');
   const [includeExpenses, setIncludeExpenses] = useState(false);
+  const [seriesName, setSeriesName] = useState('');
 
   if (!session) {
     return null;
@@ -48,6 +50,7 @@ export default function Index() {
       from: getMsSinceEpoch(fromDate).toString(),
       to: getMsSinceEpoch(toDate).toString(),
       includeExpenses: includeExpenses.toString(),
+      seriesName,
       personalInfo,
       location,
       activityName,
@@ -66,7 +69,7 @@ export default function Index() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6" component="h1">
-          Laikotarpis
+          Laikotarpis ir Serija
         </Typography>
       </Grid>
 
@@ -141,6 +144,14 @@ export default function Index() {
         </Button>
       </Grid>
       <Grid item xs={6}></Grid>
+      <Grid item xs={12}>
+        <SeriesNameInput
+          seriesName={seriesName}
+          onChange={setSeriesName}
+          disabled={false}
+          invoiceType={'standard'}
+        />
+      </Grid>
 
       <Grid item xs={12}>
         <Typography variant="h6" component="h1">
