@@ -19,6 +19,8 @@ Kodėl verta rinktis „Haiku.lt“:
 
 - Sekite savo išlaidas.
 
+- PVM sąskaitų faktūrų palaikymas
+
 - [Individualios Veiklos mokesčių skaičiuoklė](/iv-skaiciuokle)
 
-- Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
+- Pajamų Ir Išlaidų Apskaitos Žurnalo generavimas
