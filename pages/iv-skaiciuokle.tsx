@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react';
 import { getMsSinceEpoch } from '../utils/date';
 import StatsGraph from '../components/StatsGraph';
 import useSWR from 'swr';
+import SeriesNameInput from '../components/inputs/SeriesNameInput';
 
 const MMA_BY_YEAR = {
   2021: 642,
@@ -41,6 +42,7 @@ export default function Index() {
   const [vat, setVat] = useState('0');
   const [insured, setInsured] = useState(false);
   const [additionalPension, setAdditionalPension] = useState(true);
+  const [seriesName, setSeriesName] = useState('');
 
   const { data: vatpayerData } = useSWR(session && '/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';
@@ -49,7 +51,7 @@ export default function Index() {
     session &&
       `/api/stats?from=${getMsSinceEpoch(fromDate)}&to=${getMsSinceEpoch(
         toDate,
-      )}`,
+      )}&seriesName=${seriesName}`,
   );
 
   const { data: expdata } = useSWR(
@@ -147,7 +149,7 @@ export default function Index() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6" component="h1">
-          Laikotarpis
+          Laikotarpis ir Serija
         </Typography>
       </Grid>
 
@@ -185,6 +187,7 @@ export default function Index() {
           }}
         />
       </Grid>
+
       <Grid item xs={3}>
         <Button
           variant="text"
@@ -262,6 +265,15 @@ export default function Index() {
         >
           Praeitas mėnuo
         </Button>
+      </Grid>
+
+      <Grid item xs={12}>
+        <SeriesNameInput
+          seriesName={seriesName}
+          onChange={setSeriesName}
+          disabled={false}
+          invoiceType={'standard'}
+        />
       </Grid>
 
       {session && (

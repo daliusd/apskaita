@@ -584,6 +584,7 @@ export async function getStats(
   db: Database,
   minDate?: number,
   maxDate?: number,
+  seriesName?: string,
 ) {
   if (!minDate) {
     let d = new Date();
@@ -606,6 +607,11 @@ export async function getStats(
   if (maxDate) {
     whereConditions.push('created <= ?');
     args.push(maxDate);
+  }
+
+  if (seriesName) {
+    whereConditions.push('seriesName = ?');
+    args.push(seriesName);
   }
 
   if (whereConditions.length > 0) {
@@ -659,6 +665,7 @@ export async function getDataForJournal(
   db: Database,
   minDate?: number,
   maxDate?: number,
+  seriesName?: string,
   includeExpenses?: boolean,
 ) {
   if (!minDate) {
@@ -677,14 +684,20 @@ export async function getDataForJournal(
     maxDate = +d;
   }
 
-  let args = [minDate, maxDate];
+  let args: (string | number)[] = [minDate, maxDate];
   let query = `
     SELECT
       created, (seriesName || '/' || seriesId) as name, Invoice.price, flags, group_concat(LineItem.name, '\n') as description
       FROM Invoice
       JOIN LineItem ON LineItem.invoiceId = Invoice.id
-      WHERE created >= ? AND created <= ? and flags != 1
-      GROUP BY Invoice.id`;
+      WHERE created >= ? AND created <= ? AND flags != 1`;
+
+  if (seriesName) {
+    query += ' AND seriesName = ?';
+    args.push(seriesName);
+  }
+
+  query += ' GROUP BY Invoice.id';
 
   if (includeExpenses) {
     query += `

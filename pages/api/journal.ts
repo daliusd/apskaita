@@ -13,6 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         query: {
           from,
           to,
+          seriesName,
           personalInfo,
           location,
           activityName,
@@ -24,6 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         db,
         from && parseInt(defaultOrFirst(from), 10),
         to && parseInt(defaultOrFirst(to), 10),
+        defaultOrFirst(seriesName),
         includeExpenses === 'true',
       );
 

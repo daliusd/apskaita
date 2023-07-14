@@ -14,6 +14,8 @@ Jei turite klausimų ar pasiūlymų rašykite el. paštu
 
 - Pridėtas Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
 
+- Pridėtas serijos pavadinom filtras į mokesčių skaičiuoklę
+
 ## 2023-07-12
 
 - Pridėta [Individualios Veiklos mokesčių skaičiuoklė](/iv-skaiciuokle)
