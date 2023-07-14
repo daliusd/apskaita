@@ -659,6 +659,7 @@ export async function getDataForJournal(
   db: Database,
   minDate?: number,
   maxDate?: number,
+  includeExpenses?: boolean,
 ) {
   if (!minDate) {
     let d = new Date();
@@ -676,18 +677,25 @@ export async function getDataForJournal(
     maxDate = +d;
   }
 
-  const query = `
+  let args = [minDate, maxDate];
+  let query = `
     SELECT
       created, (seriesName || '/' || seriesId) as name, Invoice.price, flags, group_concat(LineItem.name, '\n') as description
       FROM Invoice
       JOIN LineItem ON LineItem.invoiceId = Invoice.id
       WHERE created >= ? AND created <= ? and flags != 1
-      GROUP BY Invoice.id
+      GROUP BY Invoice.id`;
+
+  if (includeExpenses) {
+    query += `
     UNION
     SELECT created, '' as name, price * 100, 3 as flags, description FROM Expense
-      WHERE created >= ? AND created <= ?
-    ORDER BY created`;
+      WHERE created >= ? AND created <= ?`;
+    args.push(minDate, maxDate);
+  }
 
-  const result = await db.all(query, [minDate, maxDate, minDate, maxDate]);
+  query += ' ORDER BY created';
+
+  const result = await db.all(query, args);
   return result;
 }

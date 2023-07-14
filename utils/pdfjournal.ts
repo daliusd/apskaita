@@ -81,7 +81,6 @@ export interface PdfInfo {
   personalInfo: string;
   location: string;
   activityName: string;
-  includeExpenses: boolean;
 }
 
 export async function generateJournalPdf(
@@ -224,26 +223,43 @@ function generateContent(doc: PDFKit.PDFDocument, pdfInfo: PdfInfo) {
   let y = generateTableHeader(doc);
 
   let idx = 1;
+  let total_income = 0;
+  let total_expenses = 0;
   for (const item of pdfInfo.journal) {
-    if (item.flags !== 3 || pdfInfo.includeExpenses) {
-      const tableItem: ITableItem = {
-        id: idx.toString(),
-        created: new Date(item.created).toISOString().slice(0, 10),
-        name: item.name,
-        description: item.description,
-        price:
-          item.flags === 0
-            ? (item.price / 100).toFixed(2)
-            : item.flags === 2
-            ? (-item.price / 100).toFixed(2)
-            : '',
-        expense: item.flags === 3 ? (item.price / 100).toFixed(2) : '',
-      };
+    const tableItem: ITableItem = {
+      id: idx.toString(),
+      created: new Date(item.created).toISOString().slice(0, 10),
+      name: item.name,
+      description: item.description,
+      price:
+        item.flags === 0
+          ? (item.price / 100).toFixed(2)
+          : item.flags === 2
+          ? (-item.price / 100).toFixed(2)
+          : '',
+      expense: item.flags === 3 ? (item.price / 100).toFixed(2) : '',
+    };
 
-      y = generateTableRow(doc, tableItem, y);
-      idx += 1;
+    y = generateTableRow(doc, tableItem, y);
+    idx += 1;
+
+    if (item.flags === 3) {
+      total_expenses += item.price;
+    } else {
+      total_income +=
+        item.flags === 0 ? item.price : item.flags === 2 ? -item.price : 0;
     }
   }
+
+  const tableItem: ITableItem = {
+    id: 'Suma',
+    created: '',
+    name: '',
+    description: '',
+    price: (total_income / 100).toFixed(2),
+    expense: (total_expenses / 100).toFixed(2),
+  };
+  y = generateTableRow(doc, tableItem, y);
 
   doc
     .strokeColor('#000000')
