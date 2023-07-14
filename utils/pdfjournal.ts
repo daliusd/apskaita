@@ -108,7 +108,7 @@ export async function generateJournalPdf(
       .writeHead(200, {
         'Content-Length': Buffer.byteLength(pdfData),
         'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=zurnalas.pdf',
+        'Content-disposition': 'inline;filename=zurnalas.pdf',
       })
       .end(pdfData);
     resolve();
