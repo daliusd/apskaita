@@ -28,9 +28,10 @@ export default function Index() {
 
   const [fromDate, setFromDate] = useState(() => {
     let d = new Date();
+    let today = d.getDate();
     d.setUTCHours(0, 0, 0, 0);
     d.setDate(1);
-    d.setMonth(d.getMonth() - 12);
+    d.setMonth(d.getMonth() - (today <= 10 ? 12 : 11));
     return d;
   });
   const [toDate, setToDate] = useState(() => {
