@@ -20,9 +20,10 @@ export default function Stats({
       return fromDateInit;
     } else {
       let d = new Date();
+      let today = d.getDate();
       d.setDate(1);
       d.setUTCHours(0, 0, 0, 0);
-      d.setMonth(d.getMonth() - 12);
+      d.setMonth(d.getMonth() - (today <= 10 ? 12 : 11));
       return getMsSinceEpoch(d);
     }
   }, [fromDateInit]);
@@ -116,9 +117,12 @@ export default function Stats({
 
       <Grid item xs={12}>
         <Typography variant="body1" component="div">
-          <strong>Pastaba:</strong> Statistika rodoma nuo kiekvieno mėnesio
-          pirmos dienos. Todėl matomi paskutiniai pilni 12 mėnesių + einamasis
-          mėnuo. Jei norite detaliau peržiūrėti savo statistiką pasinaudokite{' '}
+          <strong>Pastaba:</strong> Iki 10-tos mėnesio dienos statistika rodoma
+          pagal prieš tai buvusius pilnus 12-ką mėnesių ir einamojo mėnesio
+          dienas, o po 10-tos dienos pagal prieš tai buvusius 11-ą mėnesių ir
+          einamojo mėnesio dienas. Tai padaryta dėl to, kad būtų paprasčiau
+          planuoti pajamas. Jei norite detaliau peržiūrėti savo statistiką ir
+          patys nustatyti datas pasinaudokite{' '}
           <Link href="/iv-skaiciuokle">
             Individualios Veiklos mokesčių skaičiuokle
           </Link>
