@@ -24,3 +24,5 @@ Kodėl verta rinktis „Haiku.lt“:
 - [Individualios Veiklos mokesčių skaičiuoklė](/iv-skaiciuokle)
 
 - Pajamų Ir Išlaidų Apskaitos Žurnalo PDF formatu generavimas
+
+- i.SAF XML generavimas
