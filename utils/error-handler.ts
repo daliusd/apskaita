@@ -20,6 +20,10 @@ async function reportError(
     } catch {}
   }
 
+  if (!error.message && !(stringifiedStack || error?.stack)) {
+    return;
+  }
+
   let content = '';
   try {
     content = JSON.stringify(event, Object.getOwnPropertyNames(event), 2);
