@@ -72,6 +72,11 @@ export default function MainInfo() {
           Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
         </Link>
       </Grid>
+      <Grid item xs={12}>
+        <Link href="/isaf-generatorius">
+          i.SAF generatorius (PVM mokėtojams)
+        </Link>
+      </Grid>
     </Grid>
   );
 }
