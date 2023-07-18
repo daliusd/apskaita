@@ -712,3 +712,49 @@ export async function getDataForJournal(
   const result = await db.all(query, args);
   return result;
 }
+
+export async function getInvoicesForIsaf(
+  db: Database,
+  minDate?: number,
+  maxDate?: number,
+  seriesName?: string,
+) {
+  if (!minDate) {
+    let d = new Date();
+    d.setDate(1);
+    d.setMonth(0);
+    d.setUTCHours(0, 0, 0, 0);
+    minDate = +d;
+  }
+
+  if (!maxDate) {
+    let d = new Date();
+    d.setMonth(11);
+    d.setDate(31);
+    d.setUTCHours(0, 0, 0, 0);
+    maxDate = +d;
+  }
+
+  let args: (string | number)[] = [minDate, maxDate];
+  let query = `
+    SELECT id, created, (seriesName || seriesId) as name, flags, buyer, vat
+      FROM Invoice
+      WHERE created >= ? AND created <= ? AND flags != 1`;
+
+  if (seriesName) {
+    query += ' AND seriesName = ?';
+    args.push(seriesName);
+  }
+
+  query += ' ORDER BY created';
+
+  const result = await db.all(query, args);
+  return result;
+}
+
+export async function getLineItemsForIsaf(db: Database, invoiceId: number) {
+  let query = 'SELECT vat, amount, price FROM LineItem where invoiceId = ?';
+
+  const result = await db.all(query, [invoiceId]);
+  return result;
+}
