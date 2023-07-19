@@ -34,7 +34,7 @@ export default function InvoiceEditSeriesName() {
   const valid = validSeriesNumberData?.valid ?? true;
 
   useEffect(() => {
-    if (initialInvoice && invoiceType === initialInvoice.seriesName) {
+    if (initialInvoice && invoiceType === initialInvoice.invoiceType) {
       setSeriesName(initialInvoice.seriesName.toString());
     } else if (seriesNameResp.data) {
       setSeriesName(seriesNameResp.data.seriesName);
