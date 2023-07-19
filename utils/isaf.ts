@@ -135,6 +135,11 @@ export async function generateISAFXml({
         `<Amount>${
           Math.round((taxableValue * parseInt(vat, 10)) / 100) / 100
         }</Amount>\n`;
+      isaf +=
+        pr4 +
+        `<VATPointDate>${new Date(inv.created)
+          .toISOString()
+          .slice(0, 10)}</VATPointDate>\n`;
 
       isaf += pr3 + '</DocumentTotals>\n';
     }
