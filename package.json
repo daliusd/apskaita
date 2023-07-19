@@ -9,7 +9,7 @@
     "@emotion/styled": "^11.10.5",
     "@googleapis/drive": "8.0.0",
     "@googleapis/gmail": "5.0.0",
-    "@mui/base": "5.0.0-beta.7",
+    "@mui/base": "5.0.0-beta.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.8",
     "@mui/system": "^5.11.8",
