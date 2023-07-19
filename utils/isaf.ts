@@ -126,7 +126,7 @@ export async function generateISAFXml({
 
     for (const vat of Object.keys(taxableByTax)) {
       const taxableValue = taxableByTax[vat];
-      isaf += pr3 + '<DocumentTotals>\n';
+      isaf += pr3 + '<DocumentTotal>\n';
 
       isaf += pr4 + `<TaxableValue>${taxableValue / 100}</TaxableValue>\n`;
       isaf +=
@@ -146,7 +146,7 @@ export async function generateISAFXml({
           .toISOString()
           .slice(0, 10)}</VATPointDate2>\n`;
 
-      isaf += pr3 + '</DocumentTotals>\n';
+      isaf += pr3 + '</DocumentTotal>\n';
     }
 
     isaf += pr2 + '</DocumentTotals>\n';
