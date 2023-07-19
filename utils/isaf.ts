@@ -103,6 +103,11 @@ export async function generateISAFXml({
       pr2 + `<InvoiceType>${inv.flags === 0 ? 'SF' : 'KS'}</InvoiceType>\n`;
     isaf += pr2 + '<SpecialTaxation/>\n';
     isaf += pr2 + '<References/>\n';
+    isaf +=
+      pr2 +
+      `<VATPointDate>${new Date(inv.created)
+        .toISOString()
+        .slice(0, 10)}</VATPointDate>\n`;
 
     isaf += pr2 + '<DocumentTotals>\n';
 
@@ -137,9 +142,9 @@ export async function generateISAFXml({
         }</Amount>\n`;
       isaf +=
         pr4 +
-        `<VATPointDate>${new Date(inv.created)
+        `<VATPointDate2>${new Date(inv.created)
           .toISOString()
-          .slice(0, 10)}</VATPointDate>\n`;
+          .slice(0, 10)}</VATPointDate2>\n`;
 
       isaf += pr3 + '</DocumentTotals>\n';
     }
