@@ -3072,7 +3072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.14.3":
+"@mui/utils@npm:^5.14.1, @mui/utils@npm:^5.14.3":
   version: 5.14.3
   resolution: "@mui/utils@npm:5.14.3"
   dependencies:
@@ -3088,11 +3088,11 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.10.2
-  resolution: "@mui/x-date-pickers@npm:6.10.2"
+  version: 6.11.0
+  resolution: "@mui/x-date-pickers@npm:6.11.0"
   dependencies:
     "@babel/runtime": ^7.22.6
-    "@mui/utils": ^5.13.7
+    "@mui/utils": ^5.14.1
     "@types/react-transition-group": ^4.4.6
     clsx: ^1.2.1
     prop-types: ^15.8.1
@@ -3131,7 +3131,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: aad98373905625fe29121be27ee76848b2e65168366000a9c74323bafaa9a741f7f9a091b7244bb4c04a4e32f2acd51d45b23e1afaf021470724b8b9850a073d
+  checksum: a9cb726b5c42aaaae94a37797d311ebf2402868c9fb583a72ff72e32cd381e114b5b55dac03d2d15b545a5f08f4a111750db28c5d68101f8803d3557cbec355b
   languageName: node
   linkType: hard
 
