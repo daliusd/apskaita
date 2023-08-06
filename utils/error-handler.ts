@@ -20,7 +20,7 @@ async function reportError(
     } catch {}
   }
 
-  if (!error.message && !(stringifiedStack || error?.stack)) {
+  if (!error?.message && !(stringifiedStack || error?.stack)) {
     return;
   }
 
