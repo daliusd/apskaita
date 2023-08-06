@@ -65,6 +65,7 @@ export default function LineItemEdit({
           value={lineItem.name}
           onInputChange={(_e, newValue) => {
             let newPrice = lineItem.price;
+            let newVat = undefined;
             newValue = cleanUpString(newValue);
             if (newValue !== lineItem.name) {
               if (data) {
@@ -74,10 +75,19 @@ export default function LineItemEdit({
                 if (existingItems.length > 0) {
                   newPrice = existingItems[0].price;
                   setPrice((newPrice / 100).toString());
+                  if (isVatPayer) {
+                    newVat = existingItems[0].vat || 0;
+                    setVat(newVat.toString());
+                  }
                 }
               }
 
-              onChange({ ...lineItem, name: newValue, price: newPrice });
+              onChange({
+                ...lineItem,
+                name: newValue,
+                price: newPrice,
+                vat: newVat,
+              });
             }
           }}
           freeSolo
