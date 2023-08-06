@@ -479,7 +479,7 @@ export async function getUniqueBuyers(db: Database, start: string) {
 
 export async function getUniqueLineItemsNames(db: Database, start: string) {
   const result = await db.all(
-    'SELECT name, MAX(price) as price FROM LineItem WHERE name LIKE ? GROUP BY name ORDER BY name LIMIT 10',
+    'SELECT name, MAX(price) as price, MAX(vat) as vat FROM LineItem WHERE name LIKE ? GROUP BY name ORDER BY name LIMIT 10',
     start + '%',
   );
   return result;

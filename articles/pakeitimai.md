@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-08-06
+
+- Patobulinimas PVM mokėtojams
+
 ## 2023-07-19
 
 - Pridėtas i.SAF generatorius
