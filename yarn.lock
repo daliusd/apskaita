@@ -9086,6 +9086,7 @@ __metadata:
     number-to-words: 1.2.4
     pdfkit: 0.13.0
     prettier: 3.0.1
+    prop-types: ^15.8.1
     react: latest
     react-dom: latest
     react-recipes: 1.5.0
