@@ -3037,22 +3037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.14.1":
-  version: 5.14.3
-  resolution: "@mui/utils@npm:5.14.3"
-  dependencies:
-    "@babel/runtime": ^7.22.6
-    "@types/prop-types": ^15.7.5
-    "@types/react-is": ^18.2.1
-    prop-types: ^15.8.1
-    react-is: ^18.2.0
-  peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-  checksum: 1f82fe28b6a25b5c51f810438217f5a7ce82aebe734d41334b25a39fb35a8d0a4c39c5db3ef2621b211543deba1ee203ca9b1d70b131438262a2a14591e055d6
-  languageName: node
-  linkType: hard
-
-"@mui/utils@npm:^5.14.4":
+"@mui/utils@npm:^5.14.3, @mui/utils@npm:^5.14.4":
   version: 5.14.4
   resolution: "@mui/utils@npm:5.14.4"
   dependencies:
@@ -3068,13 +3053,13 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.11.0
-  resolution: "@mui/x-date-pickers@npm:6.11.0"
+  version: 6.11.1
+  resolution: "@mui/x-date-pickers@npm:6.11.1"
   dependencies:
     "@babel/runtime": ^7.22.6
-    "@mui/utils": ^5.14.1
+    "@mui/utils": ^5.14.3
     "@types/react-transition-group": ^4.4.6
-    clsx: ^1.2.1
+    clsx: ^2.0.0
     prop-types: ^15.8.1
     react-transition-group: ^4.4.5
   peerDependencies:
@@ -3111,7 +3096,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: a9cb726b5c42aaaae94a37797d311ebf2402868c9fb583a72ff72e32cd381e114b5b55dac03d2d15b545a5f08f4a111750db28c5d68101f8803d3557cbec355b
+  checksum: 9e21e07178c58f143f3a3ecad0e7bc7dff2bcc4cbf05a5439afff94f781ab595a9142ab5a82740784f6c84e8797a299e096e5e0f0d2ac655bb293fb62303d12f
   languageName: node
   linkType: hard
 
@@ -4770,13 +4755,6 @@ __metadata:
   version: 2.1.2
   resolution: "clone@npm:2.1.2"
   checksum: aaf106e9bc025b21333e2f4c12da539b568db4925c0501a1bf4070836c9e848c892fa22c35548ce0d1132b08bbbfa17a00144fe58fccdab6fa900fec4250f67d
-  languageName: node
-  linkType: hard
-
-"clsx@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
   languageName: node
   linkType: hard
 
