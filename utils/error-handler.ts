@@ -35,6 +35,11 @@ async function reportError(
   } catch {}
 
   try {
+    content += '\n\n' + window.location.href;
+    content += '\n' + JSON.stringify(Intl.DateTimeFormat().resolvedOptions());
+  } catch {}
+
+  try {
     fetch('/api/report', {
       method: 'POST',
       headers: {
