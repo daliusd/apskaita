@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -45,6 +46,8 @@ export default function InvoiceEditChangeButton() {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
+
+  const inProcess = useRef(false);
 
   return (
     <Button
@@ -109,6 +112,12 @@ export default function InvoiceEditChangeButton() {
           return;
         }
 
+        if (inProcess.current) {
+          return;
+        }
+
+        inProcess.current = true;
+
         const invoice: IInvoice = {
           invoiceType,
           seriesName,
@@ -166,6 +175,7 @@ export default function InvoiceEditChangeButton() {
         if (!response || !response.ok) {
           setMessageText(getEditError());
           setMessageSeverity('error');
+          inProcess.current = false;
           return;
         }
 
@@ -173,6 +183,7 @@ export default function InvoiceEditChangeButton() {
         if (!responseJson.success) {
           setMessageText(getEditError());
           setMessageSeverity('error');
+          inProcess.current = false;
           return;
         }
 
@@ -197,6 +208,7 @@ export default function InvoiceEditChangeButton() {
         ) {
           setMessageText('Klaida generuojant sąskaitos faktūros PDF failą');
           setMessageSeverity('error');
+          inProcess.current = false;
           return;
         }
 
@@ -211,6 +223,7 @@ export default function InvoiceEditChangeButton() {
           setMessageText('Sąskaitos faktūros pakeitimai išsaugoti');
           setMessageSeverity('success');
         }
+        inProcess.current = false;
       }}
     >
       {invoiceId ? 'Saugoti' : 'Sukurti'}
