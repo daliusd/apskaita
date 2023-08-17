@@ -3037,21 +3037,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.14.3":
-  version: 5.14.4
-  resolution: "@mui/utils@npm:5.14.4"
-  dependencies:
-    "@babel/runtime": ^7.22.6
-    "@types/prop-types": ^15.7.5
-    "@types/react-is": ^18.2.1
-    prop-types: ^15.8.1
-    react-is: ^18.2.0
-  peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-  checksum: b0084c55dc15c304e93832a23c567e41f2b152242dee3dc2578ce4b3d5177d604994abe1fd39b38a23d049592126a71ecf5ac9fe9f141155aeb4cce06241df92
-  languageName: node
-  linkType: hard
-
 "@mui/utils@npm:^5.14.5":
   version: 5.14.5
   resolution: "@mui/utils@npm:5.14.5"
@@ -3068,11 +3053,11 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.11.1
-  resolution: "@mui/x-date-pickers@npm:6.11.1"
+  version: 6.11.2
+  resolution: "@mui/x-date-pickers@npm:6.11.2"
   dependencies:
     "@babel/runtime": ^7.22.6
-    "@mui/utils": ^5.14.3
+    "@mui/utils": ^5.14.5
     "@types/react-transition-group": ^4.4.6
     clsx: ^2.0.0
     prop-types: ^15.8.1
@@ -3111,7 +3096,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 9e21e07178c58f143f3a3ecad0e7bc7dff2bcc4cbf05a5439afff94f781ab595a9142ab5a82740784f6c84e8797a299e096e5e0f0d2ac655bb293fb62303d12f
+  checksum: 389932d3e990d596a24d593086a02960a1111217745587ef9ac35a2e419bfbc3b7c112d50df591ff80ee864731acecb6cfe2945274796c52856f87275d1b4b10
   languageName: node
   linkType: hard
 
