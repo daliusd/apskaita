@@ -5,32 +5,35 @@ import { validateInput, validateTextArea } from './utils';
 test('Invoice. Should use English settings default', async ({ page }) => {
   await login(page);
 
-  // set Lithuanian settings
+  // Create lithuanian invoice
   await Promise.all([
     page.waitForNavigation(),
-    page.click('text="Nustatymai"'),
+    page.click('text="Nauja sąskaita faktūra"'),
   ]);
 
-  await page.fill(
-    'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
-    'sellerlt',
-  );
-  await page.click('[aria-label="Išsaugoti rekvizitus"]');
+  await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
 
-  await page.fill(
-    'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
-    'issuerlt',
-  );
-  await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
+  await page.click('div[aria-label="Kalba"]');
+  await page.click('li[aria-label="lt"]');
 
-  await page.fill(
-    'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
-    'extralt',
-  );
-  await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
+  await page.fill('textarea[aria-label="Pardavėjas"]', 'seller');
+  await page.fill('textarea[aria-label="Pirkėjas"]', 'buyern');
+  await page.fill('input[aria-label="SF išrašė"]', 'issuer');
+  await page.fill('textarea[aria-label="Papildoma informacija"]', 'extra');
+
+  await page.fill('input[aria-label="Paslaugos pavadinimas 1"]', 'Training');
+  await page.fill('input[aria-label="Kaina 1"]', '100');
+
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('[aria-label="Sukurti"]'),
+  ]);
 
   // Create english invoice
-  await Promise.all([page.waitForNavigation(), page.click('text="Sąskaitos"')]);
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('text="Pagrindinis"'),
+  ]);
 
   await Promise.all([
     page.waitForNavigation(),
@@ -55,32 +58,25 @@ test('Invoice. Should use English settings default', async ({ page }) => {
     page.click('[aria-label="Sukurti"]'),
   ]);
 
-  // Check English settings
+  // Start creating new English invoice and check if English settings are correct
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('text="Pagrindinis"'),
+  ]);
 
-  await page.click('text="Nustatymai"');
-  expect(page.url()).toEqual('http://localhost:3000/nustatymai');
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('text="Nauja sąskaita faktūra"'),
+  ]);
 
-  await page.click('text="Anglų kalbai"');
+  await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
 
-  await page.waitForSelector(
-    '[aria-label="Papildoma informacija sąskaitoje faktūroje"] >> text="extraen"',
-  );
+  await page.click('div[aria-label="Kalba"]');
+  await page.click('li[aria-label="en"]');
 
-  await validateTextArea(
-    page,
-    'Tavo rekvizitai sąskaitai faktūrai',
-    'selleren',
-  );
-  await validateInput(
-    page,
-    'Asmuo įprastai išrašantis sąskaitas faktūras',
-    'issueren',
-  );
-  await validateTextArea(
-    page,
-    'Papildoma informacija sąskaitoje faktūroje',
-    'extraen',
-  );
+  await validateTextArea(page, 'Pardavėjas', 'selleren');
+  await validateInput(page, 'SF išrašė', 'issueren');
+  await validateTextArea(page, 'Papildoma informacija', 'extraen');
 
   await deleteUser(page);
 });

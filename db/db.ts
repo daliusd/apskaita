@@ -240,6 +240,46 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   return result;
 }
 
+export async function getLastSellerInformation(
+  db: Database,
+  seriesName: string,
+  language: string,
+) {
+  let result = await db.get<{ seller: string; issuer: string; extra: string }>(
+    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? and language = ? ORDER BY created DESC LIMIT 1',
+    seriesName,
+    language,
+  );
+  if (result) {
+    return result;
+  }
+
+  result = await db.get<{ seller: string; issuer: string; extra: string }>(
+    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? ORDER BY created DESC LIMIT 1',
+    seriesName,
+  );
+  if (result) {
+    return result;
+  }
+
+  result = await db.get<{ seller: string; issuer: string; extra: string }>(
+    'SELECT seller, issuer, extra FROM Invoice WHERE language = ? ORDER BY created DESC LIMIT 1',
+    language,
+  );
+  if (result) {
+    return result;
+  }
+
+  result = await db.get<{ seller: string; issuer: string; extra: string }>(
+    'SELECT seller, issuer, extra FROM Invoice ORDER BY created DESC LIMIT 1',
+  );
+  if (result) {
+    return result;
+  }
+
+  return { seller: '', issuer: '', extra: '' };
+}
+
 export async function getNextSeriesId(db: Database, seriesName: string) {
   const maxSeriesId = (
     await db.get<{ maxSeriesId: number }>(

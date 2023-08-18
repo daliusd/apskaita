@@ -23,6 +23,7 @@ import {
   changeInvoiceLockedStatus,
   changeInvoiceSentStatus,
   getSeriesNameByType,
+  getLastSellerInformation,
 } from './db';
 
 describe('database tests', () => {
@@ -332,6 +333,46 @@ describe('database tests', () => {
       invoice.created = new Date(2020, 0, 31).getTime();
       resp = await createInvoice(db, invoice);
       expect(resp.success).toBeTruthy();
+    });
+
+    it('returns correct last seller information', async () => {
+      expect((await getLastSellerInformation(db, 'DD', 'lt')).seller).toBe('');
+
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 2,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      let resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+      expect((await getLastSellerInformation(db, 'DDX', 'en')).seller).toBe(
+        'Seller',
+      );
+
+      invoice.seriesId = 3;
+      invoice.seller = 'Seller_EN';
+      invoice.issuer = 'Issuer_EN';
+      invoice.extra = 'Extra_EN';
+      invoice.language = 'en';
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      expect((await getLastSellerInformation(db, 'DD', 'lt')).seller).toBe(
+        'Seller',
+      );
+      expect((await getLastSellerInformation(db, 'DD', 'en')).seller).toBe(
+        'Seller_EN',
+      );
+      expect((await getLastSellerInformation(db, 'DDX', 'lt')).seller).toBe(
+        'Seller',
+      );
     });
 
     it('Return next seriesId = 1 for non existing serie', async () => {

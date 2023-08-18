@@ -8,25 +8,27 @@ import {
   languageAfterChangeState,
   lockedState,
   sellerState,
+  seriesNameState,
 } from '../../src/atoms';
 
 export default function SellerInput() {
   const [seller, setSeller] = useRecoilState(sellerState);
   const [locked] = useRecoilState(lockedState);
   const [languageAfterChange] = useRecoilState(languageAfterChangeState);
+  const [seriesName] = useRecoilState(seriesNameState);
 
-  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
-
-  const { data: sellerData } = useSWR(
-    languageAfterChange && `/api/settings/seller${languageSettingPlus}`,
+  const { data: lastSellerData } = useSWR(
+    languageAfterChange &&
+      seriesName &&
+      `/api/lastseller/${languageAfterChange}/${seriesName}`,
   );
   useEffect(() => {
-    if (sellerData && sellerData.value) {
-      setSeller(sellerData.value);
+    if (lastSellerData && lastSellerData.seller) {
+      setSeller(lastSellerData.seller);
     }
-  }, [sellerData, setSeller]);
+  }, [lastSellerData, setSeller]);
 
-  const disabled = locked || (languageAfterChange && !sellerData);
+  const disabled = locked || (languageAfterChange && !lastSellerData);
 
   return (
     <TextField

@@ -5,9 +5,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useSession } from 'next-auth/react';
 
-import SellerInfoEdit from '../components/settings/SellerInfoEdit';
-import IssuerEdit from '../components/settings/IssuerEdit';
-import ExtraEdit from '../components/settings/ExtraEdit';
 import EmailTemplateEdit from '../components/settings/EmailTemplateEdit';
 import EmailSubjectEdit from '../components/settings/EmailSubjectEdit';
 import ZeroesEdit from '../components/settings/ZeroesEdit';
@@ -45,15 +42,6 @@ export default function Apie() {
           <Tab label="Lietuvių kalbai" />
           <Tab label="Anglų kalbai" />
         </Tabs>
-      </Grid>
-      <Grid item xs={12}>
-        <SellerInfoEdit language={language} />
-      </Grid>
-      <Grid item xs={12}>
-        <IssuerEdit language={language} />
-      </Grid>
-      <Grid item xs={12}>
-        <ExtraEdit language={language} />
       </Grid>
       {gmailSend && (
         <Grid item xs={12}>

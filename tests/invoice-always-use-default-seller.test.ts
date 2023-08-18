@@ -15,6 +15,18 @@ test('Invoice. Always use default seller', async ({ page }) => {
   await page.click('textarea[aria-label="Pirkėjas"]');
   await page.fill('textarea[aria-label="Pirkėjas"]', 'Matas Matauskas');
 
+  await page.click('textarea[aria-label="Pardavėjas"]');
+  await page.fill('textarea[aria-label="Pardavėjas"]', 'Mano rekvizitai');
+
+  await page.click('input[aria-label="SF išrašė"]');
+  await page.fill('input[aria-label="SF išrašė"]', 'Mikė Pūkuotukas');
+
+  await page.click('textarea[aria-label="Papildoma informacija"]');
+  await page.fill(
+    'textarea[aria-label="Papildoma informacija"]',
+    'Nekreipk dėmesio',
+  );
+
   await page.click('input[aria-label="Paslaugos pavadinimas 1"]');
   await page.fill('input[aria-label="Paslaugos pavadinimas 1"]', 'Testavimas');
 
@@ -23,26 +35,6 @@ test('Invoice. Always use default seller', async ({ page }) => {
   await page.click('[aria-label="Sukurti"]');
   await page.waitForNavigation();
   await page.waitForSelector('text="Sąskaita faktūra sukurta"');
-
-  await page.goto('http://localhost:3000/nustatymai');
-
-  await page.fill(
-    'textarea[aria-label="Tavo rekvizitai sąskaitai faktūrai"]',
-    'Mano rekvizitai',
-  );
-  await page.click('[aria-label="Išsaugoti rekvizitus"]');
-
-  await page.fill(
-    'input[aria-label="Asmuo įprastai išrašantis sąskaitas faktūras"]',
-    'Mikė Pūkuotukas',
-  );
-  await page.click('[aria-label="Išsaugoti asmenį išrašantį sąskaitas"]');
-
-  await page.fill(
-    'textarea[aria-label="Papildoma informacija sąskaitoje faktūroje"]',
-    'Nekreipk dėmesio',
-  );
-  await page.click('[aria-label="Išsaugoti papildomą informaciją"]');
 
   await page.goto('http://localhost:3000/saskaitos');
 

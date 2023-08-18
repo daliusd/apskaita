@@ -8,25 +8,27 @@ import {
   languageAfterChangeState,
   lockedState,
   extraState,
+  seriesNameState,
 } from '../../src/atoms';
 
 export default function ExtraInput() {
   const [extra, setExtra] = useRecoilState(extraState);
   const [locked] = useRecoilState(lockedState);
   const [languageAfterChange] = useRecoilState(languageAfterChangeState);
+  const [seriesName] = useRecoilState(seriesNameState);
 
-  const languageSettingPlus = languageAfterChange === 'en' ? '_en' : '';
-
-  const { data: extraData } = useSWR(
-    languageAfterChange && `/api/settings/extra${languageSettingPlus}`,
+  const { data: lastSellerData } = useSWR(
+    languageAfterChange &&
+      seriesName &&
+      `/api/lastseller/${languageAfterChange}/${seriesName}`,
   );
   useEffect(() => {
-    if (extraData && extraData.value) {
-      setExtra(extraData.value);
+    if (lastSellerData && lastSellerData.extra) {
+      setExtra(lastSellerData.extra);
     }
-  }, [extraData, setExtra]);
+  }, [lastSellerData, setExtra]);
 
-  const disabled = locked || (languageAfterChange && !extraData);
+  const disabled = locked || (languageAfterChange && !lastSellerData);
 
   return (
     <TextField
