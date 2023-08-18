@@ -97,9 +97,9 @@ export default function SendInvoiceButton() {
       <Grid item xs={12}>
         {email ? (
           <Typography variant="body2" component="div">
-            Jūs galite išsiųsti sąskaitą faktūrą {email} adresu paspaudę šį
-            mygtuką. Sąskaita faktūra bus išsiųsta iš jūsų el. pašto adreso
-            naudojant laiško šabloną, kurį galite pakeisti{' '}
+            Jūs galite išsiųsti sąskaitą faktūrą paspaudę šį mygtuką. Laiškas
+            bus išsiųstas „{email}“. Sąskaita faktūra bus išsiųsta iš jūsų el.
+            pašto adreso naudojant laiško šabloną, kurį galite pakeisti{' '}
             <Link href="/nustatymai">nustatymuose</Link>. Daugiau informacijos
             straipsnyje{' '}
             <Link href="/straipsniai/saskaitu-fakturu-siuntimas">
