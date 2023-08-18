@@ -54,6 +54,7 @@
     "test:docker": "DOCKER_HOST=\"unix://$HOME/.colima/docker.sock\" docker run -it --rm --ipc=host -v \"${PWD}:/var/app/\" mcr.microsoft.com/playwright:v1.31.2-focal /bin/bash -c 'cd /var/app; yarn; yarn playwright test'",
     "lint": "next lint",
     "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts",
+    "info": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/info.ts",
     "prepare": "husky install .config/husky"
   },
   "devDependencies": {
