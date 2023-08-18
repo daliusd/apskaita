@@ -10,6 +10,18 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-08-18
+
+- Išrašant naują SF pardavėjas, kas išrašė sąskaitą faktūrą ir papildoma
+  informacija nustatoma iš paskutinės panašiausios sąskaitos faktūros (pagal
+  sesijos numerį ir kalbą). Nustatymuose šių dalykų nebelieka.
+
+- Mokesčių skaičiuoklės patobulinimai
+
+- Kelių el. pašto adresų palaikymas siunčiant sąskaitą faktūrą
+
+- i.SAF patobulinimas
+
 ## 2023-08-06
 
 - Patobulinimas PVM mokėtojams
