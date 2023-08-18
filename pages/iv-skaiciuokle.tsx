@@ -101,7 +101,10 @@ export default function Index() {
 
   const { profit, gpm, sodros_baze, vsd, psd, total_tax, profit_after_taxes } =
     useMemo(() => {
-      const profit = Math.max(parseFloat(income) - parseFloat(expense), 0);
+      const profit = Math.max(
+        parseFloat(income) - parseFloat(expense) - parseFloat(vat),
+        0,
+      );
 
       const gpm =
         profit < 20_000
@@ -128,7 +131,7 @@ export default function Index() {
       }
 
       const total_tax = gpm + vsd + psd + (parseFloat(vat) || 0);
-      const profit_after_taxes = profit - total_tax;
+      const profit_after_taxes = profit - (total_tax - parseFloat(vat));
 
       return {
         profit,
@@ -533,7 +536,7 @@ export default function Index() {
         </Typography>
       </Grid>
 
-      {vat !== '0' && (
+      {parseFloat(vat) !== 0 && (
         <>
           <Grid item xs={6}>
             <Typography variant="body1" component="div">
