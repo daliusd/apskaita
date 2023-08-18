@@ -10,6 +10,12 @@ function escapeXml(xml: string) {
     .replaceAll('>', '&gt;');
 }
 
+const VAT_TO_CODE = {
+  '21': 'PVM1',
+  '9': 'PVM2',
+  '0': 'PVM5',
+};
+
 export async function generateISAFXml({
   db,
   from,
@@ -129,11 +135,7 @@ export async function generateISAFXml({
       isaf += pr3 + '<DocumentTotal>\n';
 
       isaf += pr4 + `<TaxableValue>${taxableValue / 100}</TaxableValue>\n`;
-      isaf +=
-        pr4 +
-        `<TaxCode>${
-          vat === '21' ? 'PVM1' : vat === '9' ? 'PVM2' : ''
-        }</TaxCode>\n`;
+      isaf += pr4 + `<TaxCode>${VAT_TO_CODE[vat] || ''}</TaxCode>\n`;
       isaf += pr4 + `<TaxPercentage>${vat}</TaxPercentage>\n`;
       isaf +=
         pr4 +
