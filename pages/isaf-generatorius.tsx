@@ -1,28 +1,16 @@
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Link, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
 import { useRouter } from 'next/router';
 import SeriesNameInput from '../components/inputs/SeriesNameInput';
-import useSWR from 'swr';
 
 export default function Index() {
   const { data: session } = useSession();
   const router = useRouter();
-
-  const settingApiUrl = `/api/settings/seller`;
-  const { data: sellerData } = useSWR(session && settingApiUrl);
 
   const [fromDate, setFromDate] = useState(() => {
     let d = new Date();
@@ -41,13 +29,6 @@ export default function Index() {
 
   const [seriesName, setSeriesName] = useState('');
   const [registrationNumber, setRegistrationNumber] = useState('');
-
-  useEffect(() => {
-    const regno = sellerData?.value?.match(/Ind.* ([0-9]+)/i);
-    if (regno) {
-      setRegistrationNumber(regno[1]);
-    }
-  }, [sellerData]);
 
   if (!session) {
     return null;
@@ -220,9 +201,9 @@ export default function Index() {
         <TextField
           variant="standard"
           inputProps={{
-            'aria-label': 'Individualios veiklos pažymėjimo numeris',
+            'aria-label': 'Asmens kodas',
           }}
-          label="Individualios veiklos pažymėjimo numeris"
+          label="Asmens kodas"
           value={registrationNumber}
           onChange={(e) => {
             setRegistrationNumber(e.target.value);
