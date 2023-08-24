@@ -1733,6 +1733,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.22.10":
+  version: 7.22.10
+  resolution: "@babel/runtime@npm:7.22.10"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 524d41517e68953dbc73a4f3616b8475e5813f64e28ba89ff5fca2c044d535c2ea1a3f310df1e5bb06162e1f0b401b5c4af73fe6e2519ca2450d9d8c44cf268d
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.18.10, @babel/template@npm:^7.20.7, @babel/template@npm:^7.3.3":
   version: 7.20.7
   resolution: "@babel/template@npm:7.20.7"
@@ -2063,6 +2072,44 @@ __metadata:
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
   checksum: cd3e5a8683db604739938b1c1c8b77927dc04fce3e28e0c88e7f2cd4900b89466baf83dfbad76b2b9e4d2746abdd00dd3f9da544d3e311633d8693f327d04cd7
+  languageName: node
+  linkType: hard
+
+"@floating-ui/core@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "@floating-ui/core@npm:1.4.1"
+  dependencies:
+    "@floating-ui/utils": ^0.1.1
+  checksum: be4ab864fe17eeba5e205bd554c264b9a4895a57c573661bbf638357fa3108677fed7ba3269ec15b4da90e29274c9b626d5a15414e8d1fe691e210d02a03695c
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.3.0":
+  version: 1.5.1
+  resolution: "@floating-ui/dom@npm:1.5.1"
+  dependencies:
+    "@floating-ui/core": ^1.4.1
+    "@floating-ui/utils": ^0.1.1
+  checksum: ddb509030978536ba7b321cf8c764ae9d0142a3b1fefb7e6bc050a5de7e825e12131fa5089009edabf7c125fb274886da211a5220fe17a71d875a7a96eb1386c
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@floating-ui/react-dom@npm:2.0.1"
+  dependencies:
+    "@floating-ui/dom": ^1.3.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 00fef2cf69ac2b15952e47505fd9e23f6cc5c20a26adc707862932826d1682f3c30f83c9887abfc93574fdca2d34dd2fc00271527318b1db403549cd6bc9eb00
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@floating-ui/utils@npm:0.1.1"
+  checksum: 548acdda7902f45b0afbe34e2e7f4cbff0696b95bad8c039f80936519de24ef2ec20e79902825b7815294b37f51a7c52ee86288b0688869a57cc229a164d86b4
   languageName: node
   linkType: hard
 
@@ -2926,6 +2973,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/base@npm:5.0.0-beta.12":
+  version: 5.0.0-beta.12
+  resolution: "@mui/base@npm:5.0.0-beta.12"
+  dependencies:
+    "@babel/runtime": ^7.22.10
+    "@emotion/is-prop-valid": ^1.2.1
+    "@floating-ui/react-dom": ^2.0.1
+    "@mui/types": ^7.2.4
+    "@mui/utils": ^5.14.6
+    "@popperjs/core": ^2.11.8
+    clsx: ^2.0.0
+    prop-types: ^15.8.1
+    react-is: ^18.2.0
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 3ed9b43323595588ccea7325a79bbaab60bf5a99a970821555c449f53ca4c8f7f298a4d5c8a280c5ea0b2b47273a0b1a03e33ef6cbbbd428b14bcc33222b5f75
+  languageName: node
+  linkType: hard
+
 "@mui/core-downloads-tracker@npm:^5.14.5":
   version: 5.14.5
   resolution: "@mui/core-downloads-tracker@npm:5.14.5"
@@ -2934,10 +3005,10 @@ __metadata:
   linkType: hard
 
 "@mui/icons-material@npm:^5.11.0":
-  version: 5.14.3
-  resolution: "@mui/icons-material@npm:5.14.3"
+  version: 5.14.6
+  resolution: "@mui/icons-material@npm:5.14.6"
   dependencies:
-    "@babel/runtime": ^7.22.6
+    "@babel/runtime": ^7.22.10
   peerDependencies:
     "@mui/material": ^5.0.0
     "@types/react": ^17.0.0 || ^18.0.0
@@ -2945,7 +3016,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 25ff0261dcbcdde9967779f844d12c85c3ffc79227e50d8c03eade1081c2be855e88d2dbe2a587aa57b5c5c2b742af14f70b1767f7ccfd539d89876a6fc580fb
+  checksum: 9f66d7f657b2c375512dee0b6f693460741e023c31ec33a995791d823a5a8e9988859316b691477cea2f4bf648f1a98c61b022140ee1d45fa5126337560d57f0
   languageName: node
   linkType: hard
 
@@ -3072,6 +3143,21 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
   checksum: 7044d73ae41bdfd9c7c6287a3c1391ec4c5395c8f0092eac3ca4f1fd5359068fad29366f39d8072f68493eb5225399463935bbca266c879d630f8ebaa3db96d7
+  languageName: node
+  linkType: hard
+
+"@mui/utils@npm:^5.14.6":
+  version: 5.14.6
+  resolution: "@mui/utils@npm:5.14.6"
+  dependencies:
+    "@babel/runtime": ^7.22.10
+    "@types/prop-types": ^15.7.5
+    "@types/react-is": ^18.2.1
+    prop-types: ^15.8.1
+    react-is: ^18.2.0
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: c5d2f37dec7984b9cf4da10a2fd9eabe23e7481ad0f3674cc9cdc2b7a3938eca28e92068f6d58b42cc807192dbb5e40d4885f8d896a4a01bab32a05c5ac3920b
   languageName: node
   linkType: hard
 
@@ -9128,7 +9214,7 @@ __metadata:
     "@emotion/styled": ^11.10.5
     "@googleapis/drive": 8.3.0
     "@googleapis/gmail": 5.0.3
-    "@mui/base": 5.0.0-beta.11
+    "@mui/base": 5.0.0-beta.12
     "@mui/icons-material": ^5.11.0
     "@mui/material": ^5.11.8
     "@mui/system": ^5.11.8
@@ -10251,6 +10337,13 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "regenerator-runtime@npm:0.14.0"
+  checksum: 1c977ad82a82a4412e4f639d65d22be376d3ebdd30da2c003eeafdaaacd03fc00c2320f18120007ee700900979284fc78a9f00da7fb593f6e6eeebc673fba9a3
   languageName: node
   linkType: hard
 
