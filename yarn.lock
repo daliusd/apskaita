@@ -84,6 +84,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.22.11":
+  version: 7.22.11
+  resolution: "@babel/runtime@npm:7.22.11"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: a5cd6683a8fcdb8065cb1677f221e22f6c67ec8f15ad1d273b180b93ab3bd86c66da2c48f500d4e72d8d2cfa85ff4872a3f350e5aa3855630036af5da765c001
+  languageName: node
+  linkType: hard
+
 "@babel/types@npm:^7.18.6":
   version: 7.20.7
   resolution: "@babel/types@npm:7.20.7"
@@ -1193,10 +1202,10 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.11.2
-  resolution: "@mui/x-date-pickers@npm:6.11.2"
+  version: 6.12.0
+  resolution: "@mui/x-date-pickers@npm:6.12.0"
   dependencies:
-    "@babel/runtime": ^7.22.6
+    "@babel/runtime": ^7.22.11
     "@mui/utils": ^5.14.5
     "@types/react-transition-group": ^4.4.6
     clsx: ^2.0.0
@@ -1236,7 +1245,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 389932d3e990d596a24d593086a02960a1111217745587ef9ac35a2e419bfbc3b7c112d50df591ff80ee864731acecb6cfe2945274796c52856f87275d1b4b10
+  checksum: 98f12593a4312f0971cc362e8028f30aa0cf5d034bb444821d26284c2577b3996241bf78bbb5bae78afc44d68a51461fae0e0dbaa07fb71f333aec94e423e334
   languageName: node
   linkType: hard
 
