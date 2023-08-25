@@ -1,3 +1,5 @@
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+
 import { Database } from 'sqlite';
 import {
   openDb,

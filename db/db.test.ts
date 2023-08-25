@@ -1,3 +1,5 @@
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+
 import { mkdtempSync, existsSync, rmdirSync } from 'fs';
 import { tmpdir } from 'os';
 import * as path from 'path';
@@ -37,7 +39,6 @@ describe('database tests', () => {
     let tempDir = '';
 
     beforeEach(() => {
-      jest.resetModules();
       process.env = { ...OLD_ENV };
       tempDir = mkdtempSync(path.join(tmpdir(), 'db'));
     });
