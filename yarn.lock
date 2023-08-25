@@ -529,12 +529,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/gmail@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@googleapis/gmail@npm:5.0.3"
+"@googleapis/gmail@npm:5.0.4":
+  version: 5.0.4
+  resolution: "@googleapis/gmail@npm:5.0.4"
   dependencies:
-    googleapis-common: ^6.0.3
-  checksum: 6f41a7a15f77a07e1578b018d95c490140ebd803d19561788fa40a164603c83a4291e309ccca9183259ac2aa8e5dc1d68a89182ed385341ed52d64ded0abcc98
+    googleapis-common: ^7.0.0
+  checksum: 3bbe83909a8b8395cb9c3555149a0b2ccbf72279d36fd53fdd7a349c7e3242650988790f26d35f7024507d5ac2240b4c83dc606142ca1a2377c350c836f536b9
   languageName: node
   linkType: hard
 
@@ -2237,13 +2237,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arrify@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "arrify@npm:2.0.1"
-  checksum: 067c4c1afd182806a82e4c1cb8acee16ab8b5284fbca1ce29408e6e91281c36bb5b612f6ddfbd40a0f7a7e0c75bf2696eb94c027f6e328d6e9c52465c98e4209
-  languageName: node
-  linkType: hard
-
 "assertion-error@npm:^1.1.0":
   version: 1.1.0
   resolution: "assertion-error@npm:1.1.0"
@@ -3817,13 +3810,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-text-encoding@npm:^1.0.0":
-  version: 1.0.6
-  resolution: "fast-text-encoding@npm:1.0.6"
-  checksum: 9d58f694314b3283e785bf61954902536da228607ad246905e30256f9ab8331f780ac987e7222c9f5eafd04168d07e12b8054c85cedb76a2c05af0e82387a903
-  languageName: node
-  linkType: hard
-
 "fastq@npm:^1.6.0":
   version: 1.15.0
   resolution: "fastq@npm:1.15.0"
@@ -4035,18 +4021,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gaxios@npm:^5.0.0, gaxios@npm:^5.0.1":
-  version: 5.0.2
-  resolution: "gaxios@npm:5.0.2"
-  dependencies:
-    extend: ^3.0.2
-    https-proxy-agent: ^5.0.0
-    is-stream: ^2.0.0
-    node-fetch: ^2.6.7
-  checksum: 117036131cc0d0a268d2d99fffe6a6cc6a4e88dd5b77ce23d3f0b4aff1291b8af169dae20e88799adc986cf3ae507acfaeb70f6ceca8c5d6b8c28e3dde5c992a
-  languageName: node
-  linkType: hard
-
 "gaxios@npm:^6.0.0, gaxios@npm:^6.0.3":
   version: 6.0.3
   resolution: "gaxios@npm:6.0.3"
@@ -4056,16 +4030,6 @@ __metadata:
     is-stream: ^2.0.0
     node-fetch: ^2.6.9
   checksum: 5fa9b9a6d314701cfccf8be6559d931f61552572d15d17023dc519c71aa031351e97d41726af4e9fc0f4eac9f60d68e825781d4b450a8faffdfbcf6daeaa9801
-  languageName: node
-  linkType: hard
-
-"gcp-metadata@npm:^5.0.0":
-  version: 5.2.0
-  resolution: "gcp-metadata@npm:5.2.0"
-  dependencies:
-    gaxios: ^5.0.0
-    json-bigint: ^1.0.0
-  checksum: 4e7ed589c814bb79cbf052b0eda1d5e219fbee030f4772eca27ec1e6e1faa85ba0ef3b17ea5c3fd51a54fc5429c924b4edbb260ac147701f211fb9807b893544
   languageName: node
   linkType: hard
 
@@ -4266,23 +4230,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-auth-library@npm:^8.0.2":
-  version: 8.7.0
-  resolution: "google-auth-library@npm:8.7.0"
-  dependencies:
-    arrify: ^2.0.0
-    base64-js: ^1.3.0
-    ecdsa-sig-formatter: ^1.0.11
-    fast-text-encoding: ^1.0.0
-    gaxios: ^5.0.0
-    gcp-metadata: ^5.0.0
-    gtoken: ^6.1.0
-    jws: ^4.0.0
-    lru-cache: ^6.0.0
-  checksum: 978d1c5f763aceddbc0218cd76fa578c8ba54a0653cefffaf61847bb8d246ebf26e7fcd276d8885b8a3354c17eef0a11cfae9e60e4df62c01cae4378d4eb78e4
-  languageName: node
-  linkType: hard
-
 "google-auth-library@npm:^9.0.0":
   version: 9.0.0
   resolution: "google-auth-library@npm:9.0.0"
@@ -4298,17 +4245,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-p12-pem@npm:^4.0.0":
-  version: 4.0.1
-  resolution: "google-p12-pem@npm:4.0.1"
-  dependencies:
-    node-forge: ^1.3.1
-  bin:
-    gp12-pem: build/src/bin/gp12-pem.js
-  checksum: 59a5026331ea67455672e83770da29f09d979f02e06cb2227ea5916f8cca437887c2d3869f2602a686dc84437886ae9d2ac010780803cbe8e5f161c2d02d8efd
-  languageName: node
-  linkType: hard
-
 "googleapis-common@npm:7.0.0, googleapis-common@npm:^7.0.0":
   version: 7.0.0
   resolution: "googleapis-common@npm:7.0.0"
@@ -4320,20 +4256,6 @@ __metadata:
     url-template: ^2.0.8
     uuid: ^9.0.0
   checksum: 16442a557fb2bef67f5f38a84287c2bc262c07f7303aa87541449d8c9c4295ba5e456c956decec83b28f8e375311706acdca8a7442f66d0a1b74bb0c064c1131
-  languageName: node
-  linkType: hard
-
-"googleapis-common@npm:^6.0.3":
-  version: 6.0.4
-  resolution: "googleapis-common@npm:6.0.4"
-  dependencies:
-    extend: ^3.0.2
-    gaxios: ^5.0.1
-    google-auth-library: ^8.0.2
-    qs: ^6.7.0
-    url-template: ^2.0.8
-    uuid: ^9.0.0
-  checksum: 718db6b533bdbfaef8f50df8ad9c7cf5a145a346dde16601e7380c5a845920c0801fa84b915e82998f9c4fc1ca77022b585fa5e94c3a40ec35600def7b9d94fe
   languageName: node
   linkType: hard
 
@@ -4376,17 +4298,6 @@ __metadata:
     section-matter: ^1.0.0
     strip-bom-string: ^1.0.0
   checksum: 37717bd424344487d655392251ce8d8878a1275ee087003e61208fba3bfd59cbb73a85b2159abf742ae95e23db04964813fdc33ae18b074208428b2528205222
-  languageName: node
-  linkType: hard
-
-"gtoken@npm:^6.1.0":
-  version: 6.1.2
-  resolution: "gtoken@npm:6.1.2"
-  dependencies:
-    gaxios: ^5.0.1
-    google-p12-pem: ^4.0.0
-    jws: ^4.0.0
-  checksum: cf3210afe2ccee8feaa06f0c7eb942e217244a8563a1d0a71aa3095eea545015896741c1d48654d8de35b7b07579f93e25e5dfe817f06b7e753646b67f7a4ecf
   languageName: node
   linkType: hard
 
@@ -6251,7 +6162,7 @@ __metadata:
     "@emotion/server": latest
     "@emotion/styled": ^11.10.5
     "@googleapis/drive": 8.3.1
-    "@googleapis/gmail": 5.0.3
+    "@googleapis/gmail": 5.0.4
     "@mui/base": 5.0.0-beta.12
     "@mui/icons-material": ^5.11.0
     "@mui/material": ^5.11.8
@@ -6336,13 +6247,6 @@ __metadata:
     encoding:
       optional: true
   checksum: 3bc1655203d47ee8e313c0d96664b9673a3d4dd8002740318e9d27d14ef306693a4b2ef8d6525775056fd912a19e23f3ac0d7111ad8925877b7567b29a625592
-  languageName: node
-  linkType: hard
-
-"node-forge@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "node-forge@npm:1.3.1"
-  checksum: 08fb072d3d670599c89a1704b3e9c649ff1b998256737f0e06fbd1a5bf41cae4457ccaee32d95052d80bbafd9ffe01284e078c8071f0267dc9744e51c5ed42a9
   languageName: node
   linkType: hard
 
