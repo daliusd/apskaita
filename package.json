@@ -7,7 +7,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/server": "latest",
     "@emotion/styled": "^11.10.5",
-    "@googleapis/drive": "8.3.0",
+    "@googleapis/drive": "8.3.1",
     "@googleapis/gmail": "5.0.3",
     "@mui/base": "5.0.0-beta.12",
     "@mui/icons-material": "^5.11.0",
