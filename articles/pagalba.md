@@ -23,28 +23,34 @@ repozitorijoje](https://github.com/daliusd/apskaita/issues).
 
 Sistemos valdymas:
 
-* Sąskaitos faktūros
+- Sąskaitos faktūros
 
-  * [Sąskaitų faktūrų išrašymas ir
+  - [Sąskaitų faktūrų išrašymas ir
     redagavimas](/straipsniai/saskaitos-fakturos)
 
-  * [Sąskaitų faktūrų siuntimas](/straipsniai/saskaitu-fakturu-siuntimas)
+  - [Išankstinės sąskaitos
+    faktūros](/straipsniai/isankstines-saskaitos-fakturos)
 
-  * [Sąskaitų faktūrų
+  - [Kreditinės sąskaitos
+    faktūros](/straipsniai/kreditines-saskaitos-fakturos)
+
+  - [Sąskaitų faktūrų siuntimas](/straipsniai/saskaitu-fakturu-siuntimas)
+
+  - [Sąskaitų faktūrų
     paieška](/straipsniai/saskaitu-fakturu-paieska)
 
-* [Išlaidų sekimas](/straipsniai/islaidu-sekimas)
+- [Išlaidų sekimas](/straipsniai/islaidu-sekimas)
 
-* [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)
+- [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)
 
-* [Pajamų deklaravimas](/straipsniai/deklaravimas)
+- [Pajamų deklaravimas](/straipsniai/deklaravimas)
 
 Kita informacija:
 
-* [Kontaktai](/kontaktai)
+- [Kontaktai](/kontaktai)
 
-* [Privatumo politika](/privatumas)
+- [Privatumo politika](/privatumas)
 
-* [Naudojimo sąlygos](/naudojimas)
+- [Naudojimo sąlygos](/naudojimas)
 
-* [Kaina](/kaina)
+- [Kaina](/kaina)

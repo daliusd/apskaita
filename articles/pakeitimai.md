@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-08-27
+
+- Dokumentacijos papildymas
+
 ## 2023-08-18
 
 - Išrašant naują SF pardavėjas, kas išrašė sąskaitą faktūrą ir papildoma
