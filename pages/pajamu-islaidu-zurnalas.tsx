@@ -15,6 +15,8 @@ import { useSession } from 'next-auth/react';
 import { getMsSinceEpoch } from '../utils/date';
 import { useRouter } from 'next/router';
 import SeriesNameInput from '../components/inputs/SeriesNameInput';
+import { DateButtonThisYear } from '../components/inputs/DateButtonThisYear';
+import { DateButtonPreviousYear } from '../components/inputs/DateButtonPreviousYear';
 
 export default function Index() {
   const { data: session } = useSession();
@@ -108,40 +110,13 @@ export default function Index() {
         />
       </Grid>
       <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            setFromDate(startOfThisYear());
-            setToDate(endOfThisYear());
-          }}
-          size="small"
-        >
-          Šie metai
-        </Button>
+        <DateButtonThisYear setFromDate={setFromDate} setToDate={setToDate} />
       </Grid>
       <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            const start = new Date();
-            start.setUTCHours(0, 0, 0, 0);
-            start.setMonth(0);
-            start.setDate(1);
-            start.setFullYear(start.getFullYear() - 1);
-            setFromDate(start);
-
-            const end = new Date();
-            end.setUTCHours(0, 0, 0, 0);
-            end.setMonth(0);
-            end.setDate(31);
-            end.setMonth(end.getMonth() + 11);
-            end.setFullYear(end.getFullYear() - 1);
-            setToDate(end);
-          }}
-          size="small"
-        >
-          Praeiti metai
-        </Button>
+        <DateButtonPreviousYear
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+        />
       </Grid>
       <Grid item xs={6}></Grid>
       <Grid item xs={12}>
@@ -247,21 +222,4 @@ export default function Index() {
       </Grid>
     </Grid>
   );
-}
-
-function startOfThisYear() {
-  const d = new Date();
-  d.setUTCHours(0, 0, 0, 0);
-  d.setMonth(0);
-  d.setDate(1);
-  return d;
-}
-
-function endOfThisYear() {
-  const d = new Date();
-  d.setUTCHours(0, 0, 0, 0);
-  d.setMonth(0);
-  d.setDate(31);
-  d.setMonth(d.getMonth() + 11);
-  return d;
 }

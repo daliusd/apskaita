@@ -16,6 +16,7 @@ import { getMsSinceEpoch } from '../utils/date';
 import StatsGraph from '../components/StatsGraph';
 import useSWR from 'swr';
 import SeriesNameInput from '../components/inputs/SeriesNameInput';
+import { DefaultDates } from '../components/inputs/DefaultDates';
 
 const MMA_BY_YEAR = {
   2021: 642,
@@ -41,7 +42,7 @@ export default function Index() {
   const [income, setIncome] = useState('0');
   const [expense, setExpense] = useState('0');
   const [vat, setVat] = useState('0');
-  const [insured, setInsured] = useState(false);
+  const [insured, setInsured] = useState(true);
   const [additionalPension, setAdditionalPension] = useState(true);
   const [seriesName, setSeriesName] = useState('');
 
@@ -192,84 +193,7 @@ export default function Index() {
         />
       </Grid>
 
-      <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            setFromDate(startOfThisYear());
-            setToDate(endOfThisYear());
-          }}
-          size="small"
-        >
-          Šie metai
-        </Button>
-      </Grid>
-      <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            const start = new Date();
-            start.setUTCHours(0, 0, 0, 0);
-            start.setMonth(0);
-            start.setDate(1);
-            start.setFullYear(start.getFullYear() - 1);
-            setFromDate(start);
-
-            const end = new Date();
-            end.setUTCHours(0, 0, 0, 0);
-            end.setMonth(0);
-            end.setDate(31);
-            end.setMonth(end.getMonth() + 11);
-            end.setFullYear(end.getFullYear() - 1);
-            setToDate(end);
-          }}
-          size="small"
-        >
-          Praeiti metai
-        </Button>
-      </Grid>
-      <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            const start = new Date();
-            start.setUTCHours(0, 0, 0, 0);
-            start.setDate(1);
-            setFromDate(start);
-
-            const end = new Date();
-            end.setUTCHours(0, 0, 0, 0);
-            end.setMonth(end.getMonth() + 1);
-            end.setDate(1);
-            end.setDate(end.getDate() - 1);
-            setToDate(end);
-          }}
-          size="small"
-        >
-          Šis mėnuo
-        </Button>
-      </Grid>
-      <Grid item xs={3}>
-        <Button
-          variant="text"
-          onClick={() => {
-            const start = new Date();
-            start.setUTCHours(0, 0, 0, 0);
-            start.setDate(1);
-            start.setMonth(start.getMonth() - 1);
-            setFromDate(start);
-
-            const end = new Date();
-            end.setUTCHours(0, 0, 0, 0);
-            end.setDate(1);
-            end.setDate(end.getDate() - 1);
-            setToDate(end);
-          }}
-          size="small"
-        >
-          Praeitas mėnuo
-        </Button>
-      </Grid>
+      <DefaultDates setFromDate={setFromDate} setToDate={setToDate} />
 
       <Grid item xs={12}>
         <SeriesNameInput
@@ -612,21 +536,4 @@ export default function Index() {
       </Grid>
     </Grid>
   );
-}
-
-function startOfThisYear() {
-  const d = new Date();
-  d.setUTCHours(0, 0, 0, 0);
-  d.setMonth(0);
-  d.setDate(1);
-  return d;
-}
-
-function endOfThisYear() {
-  const d = new Date();
-  d.setUTCHours(0, 0, 0, 0);
-  d.setMonth(0);
-  d.setDate(31);
-  d.setMonth(d.getMonth() + 11);
-  return d;
 }

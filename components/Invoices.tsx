@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid, CircularProgress } from '@mui/material';
+import { Grid, CircularProgress, Pagination } from '@mui/material';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';
@@ -12,8 +12,8 @@ interface Props {
   buyer?: string;
   paid?: boolean;
   limit?: number;
-  offset?: number;
   invoiceType?: string;
+  showSummary?: boolean;
 }
 
 export default function Invoices(props: Props) {
@@ -25,9 +25,14 @@ export default function Invoices(props: Props) {
     buyer,
     paid,
     limit,
-    offset,
+    showSummary,
   } = props;
   const args: Record<string, string> = {};
+
+  const [page, setPage] = useState(0);
+  useEffect(() => {
+    setPage(0);
+  }, [minDate, maxDate, seriesName, invoiceType, buyer, paid, limit]);
 
   if (minDate) {
     args.minDate = minDate.toString();
@@ -50,51 +55,22 @@ export default function Invoices(props: Props) {
   if (limit) {
     args.limit = limit.toString();
   }
+  const offset = page * limit;
   if (offset) {
     args.offset = offset.toString();
   }
-  const params = new URLSearchParams(args);
-  const query = '/api/invoices?' + params.toString();
+  const params = new URLSearchParams(args).toString();
+  const query = '/api/invoices?' + params;
   const { data, error } = useSWR(query);
-  const [sum, setSum] = useState(0);
-  const [countUnpaid, setCountUnpaid] = useState(0);
-  const [sumUnpaid, setSumUnpaid] = useState(0);
-  const [vatToPay, setVatToPay] = useState(0);
+  const { data: invoicesCountData } = useSWR(
+    showSummary && '/api/invoicescount?' + params,
+  );
+  const { data: invoicesSummaryData } = useSWR(
+    showSummary && '/api/invoicessummary?' + params,
+  );
 
   const { data: vatPayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatPayerData && vatPayerData.value === '1' ? true : false;
-
-  useEffect(() => {
-    if (data && data.invoices) {
-      let sum = 0;
-      let vatsum = 0;
-      let unpaid = 0;
-      let unpaidSum = 0;
-      for (const i of data.invoices) {
-        if (i.invoiceType === 'credit') {
-          sum -= i.price;
-          vatsum -= i.vat;
-        } else {
-          sum += i.price;
-          vatsum += i.vat;
-        }
-
-        if (!i.paid) {
-          unpaid++;
-          if (i.invoiceType === 'credit') {
-            unpaidSum -= i.price;
-          } else {
-            unpaidSum += i.price;
-          }
-        }
-      }
-
-      setSum(sum / 100);
-      setCountUnpaid(unpaid);
-      setSumUnpaid(unpaidSum / 100);
-      setVatToPay(vatsum / 100);
-    }
-  }, [data]);
 
   if (error)
     return (
@@ -102,7 +78,11 @@ export default function Invoices(props: Props) {
         Klaida parsiunčiant sąskaitų faktūrų sąrašą.
       </Grid>
     );
-  if (!data)
+  if (
+    !data ||
+    (showSummary && !invoicesCountData) ||
+    (showSummary && !invoicesSummaryData)
+  )
     return (
       <Grid item xs={12}>
         <CircularProgress />
@@ -116,18 +96,46 @@ export default function Invoices(props: Props) {
       </Grid>
     );
 
+  const sum = showSummary
+    ? ((invoicesSummaryData.standardPaid?.price || 0) +
+        (invoicesSummaryData.standardUnpaid?.price || 0)) /
+      100
+    : 0;
+  const vatToPay = showSummary
+    ? ((invoicesSummaryData.standardPaid?.vat || 0) +
+        (invoicesSummaryData.standardUnpaid?.vat || 0)) /
+      100
+    : 0;
+
   return (
     <>
-      <Grid item xs={12}>
-        Rasta sąskaitų faktūrų pagal šiuos filtrus: {data.invoices.length}
-        {`, kurių bendra suma ${sum} €. `}
-        {countUnpaid > 0 &&
-          `Iš jų neapmokėtų:  ${countUnpaid}` +
-            `, kurių bendra suma ${sumUnpaid} €.`}
-        {isVatPayer && ` PVM suma ${vatToPay} €.`}
-        {data.invoices.length === 1000 &&
-          ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visos sąskaitos faktūros.'}
-      </Grid>
+      {showSummary && (
+        <Grid item xs={12}>
+          Rasta sąskaitų faktūrų pagal šiuos filtrus: {invoicesCountData.count}
+          {`, kurių bendra suma ${sum} €. `}
+          {(invoicesSummaryData.standardUnpaid?.cnt || 0) > 0 &&
+            `Iš jų neapmokėtų:  ${
+              invoicesSummaryData.standardUnpaid?.cnt || 0
+            }` +
+              `, kurių bendra suma ${
+                (invoicesSummaryData.standardUnpaid?.price || 0) / 100
+              } €.`}
+          {isVatPayer && ` PVM suma ${vatToPay} €.`}
+        </Grid>
+      )}
+
+      {showSummary && invoicesCountData.count > limit && (
+        <Grid item xs={12}>
+          <Pagination
+            size="large"
+            count={Math.ceil(invoicesCountData.count / limit)}
+            page={page + 1}
+            boundaryCount={2}
+            onChange={(event, newPage) => setPage(newPage - 1)}
+          />
+        </Grid>
+      )}
+
       <Grid item xs={12}>
         {data.invoices.map((i: IInvoice) => (
           <InvoiceView key={i.id} invoice={i} onChange={() => mutate(query)} />

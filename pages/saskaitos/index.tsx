@@ -17,6 +17,7 @@ import Invoices from '../../components/Invoices';
 import BuyerInput from '../../components/inputs/BuyerInput';
 import SeriesNameInput from '../../components/inputs/SeriesNameInput';
 import { getMsSinceEpoch } from '../../utils/date';
+import { DefaultDates } from '../../components/inputs/DefaultDates';
 
 export default function Index() {
   const { data: session } = useSession();
@@ -97,6 +98,7 @@ export default function Index() {
           }}
         />
       </Grid>
+      <DefaultDates setFromDate={setMinDate} setToDate={setMaxDate} />
 
       <Grid item xs={12}>
         <FormControl component="fieldset">
@@ -184,6 +186,8 @@ export default function Index() {
         buyer={debouncedBuyer}
         paid={paid === 'paid' ? true : paid === 'unpaid' ? false : undefined}
         invoiceType={invoiceType}
+        limit={5}
+        showSummary={true}
       />
     </Grid>
   );

@@ -151,16 +151,8 @@ interface GetInvoiceListParams {
   paid?: number;
 }
 
-export async function getInvoiceList(
-  db: Database,
-  params: GetInvoiceListParams,
-) {
-  const { limit = 10, offset = 0 } = params;
+function formatWhereConditionsForIncoicesQuery(params: GetInvoiceListParams) {
   const args = [];
-
-  let query =
-    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent, flags, vat FROM Invoice';
-
   const whereConditions = [];
 
   if (params.minDate !== undefined) {
@@ -196,9 +188,55 @@ export async function getInvoiceList(
     args.push(params.paid);
   }
 
-  if (whereConditions.length > 0) {
-    query += ' WHERE ' + whereConditions.join(' AND ');
-  }
+  return {
+    args,
+    where:
+      whereConditions.length > 0
+        ? ' WHERE ' + whereConditions.join(' AND ')
+        : '',
+  };
+}
+
+export async function getInvoicesCount(
+  db: Database,
+  params: GetInvoiceListParams,
+) {
+  let query = 'SELECT count(*) as cnt FROM Invoice';
+
+  const { args, where } = formatWhereConditionsForIncoicesQuery(params);
+  query += where;
+
+  const result = await db.get<{ cnt: number }>(query, ...args);
+  return result.cnt;
+}
+
+export async function getInvoicesSummary(
+  db: Database,
+  params: GetInvoiceListParams,
+) {
+  let query =
+    'SELECT flags, paid, sum(price) as price, sum(vat) as vat, count(*) as cnt FROM Invoice';
+
+  const { args, where } = formatWhereConditionsForIncoicesQuery(params);
+  query += where;
+  query += ' GROUP BY flags, paid';
+
+  const result = await db.all(query, ...args);
+  return result;
+}
+
+export async function getInvoiceList(
+  db: Database,
+  params: GetInvoiceListParams,
+) {
+  const { limit = 10, offset = 0 } = params;
+
+  let query =
+    'SELECT id, seriesName, seriesId, created, price, buyer, pdfname, paid, locked, sent, flags, vat FROM Invoice';
+
+  const { args, where } = formatWhereConditionsForIncoicesQuery(params);
+
+  query += where;
 
   query += ' ORDER BY created DESC, seriesName, seriesId DESC LIMIT ? OFFSET ?';
 

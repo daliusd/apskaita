@@ -26,6 +26,8 @@ import {
   changeInvoiceSentStatus,
   getSeriesNameByType,
   getLastSellerInformation,
+  getInvoicesCount,
+  getInvoicesSummary,
 } from './db';
 
 describe('database tests', () => {
@@ -238,6 +240,88 @@ describe('database tests', () => {
       expect(invoices[0].seriesId).toEqual(3);
       expect(invoices[1].seriesId).toEqual(2);
       expect(invoices[2].seriesId).toEqual(1);
+    });
+
+    it('returns correct invoices count based on parameters', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'ZZ',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        invoiceType: 'standard',
+        lineItems: [],
+      };
+      await createInvoice(db, invoice);
+
+      invoice.invoiceType = 'proforma';
+      invoice.seriesName = 'AA';
+      invoice.created = new Date(2020, 1, 28).getTime();
+      invoice.buyer = 'Antanukas';
+      await createInvoice(db, invoice);
+
+      expect(await getInvoicesCount(db, {})).toBe(2);
+      expect(await getInvoicesCount(db, { invoiceType: 'proforma' })).toBe(1);
+      expect(
+        await getInvoicesCount(db, { minDate: new Date(2020, 0, 1).getTime() }),
+      ).toBe(2);
+      expect(
+        await getInvoicesCount(db, { minDate: new Date(2020, 1, 1).getTime() }),
+      ).toBe(1);
+      expect(
+        await getInvoicesCount(db, { maxDate: new Date(2020, 1, 1).getTime() }),
+      ).toBe(1);
+      expect(
+        await getInvoicesCount(db, { maxDate: new Date(2020, 2, 1).getTime() }),
+      ).toBe(2);
+      expect(await getInvoicesCount(db, { seriesName: 'AA' })).toBe(1);
+      expect(await getInvoicesCount(db, { buyer: 'Buyer' })).toBe(1);
+      expect(await getInvoicesCount(db, { paid: 1 })).toBe(0);
+      expect(await getInvoicesCount(db, { paid: 0 })).toBe(2);
+    });
+
+    it('returns correct invoices summary based on parameters', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'ZZ',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        invoiceType: 'standard',
+        lineItems: [],
+      };
+      await createInvoice(db, invoice);
+
+      invoice.invoiceType = 'proforma';
+      invoice.seriesName = 'AA';
+      invoice.created = new Date(2020, 1, 28).getTime();
+      invoice.buyer = 'Antanukas';
+      await createInvoice(db, invoice);
+
+      expect(await getInvoicesSummary(db, {})).toStrictEqual([
+        {
+          cnt: 1,
+          flags: 0,
+          paid: 0,
+          price: 100,
+          vat: 0,
+        },
+        {
+          cnt: 1,
+          flags: 1,
+          paid: 0,
+          price: 100,
+          vat: 0,
+        },
+      ]);
     });
 
     it('creates invoice with line items', async () => {
