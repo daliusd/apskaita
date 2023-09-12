@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid, CircularProgress, Pagination } from '@mui/material';
+import { Grid, CircularProgress, Pagination, Skeleton } from '@mui/material';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';
@@ -52,19 +52,22 @@ export default function Invoices(props: Props) {
   if (paid !== undefined) {
     args.paid = paid ? '1' : '0';
   }
+
+  const argsplus = { ...args };
   if (limit) {
-    args.limit = limit.toString();
+    argsplus.limit = limit.toString();
   }
   const offset = page * limit;
   if (offset) {
-    args.offset = offset.toString();
+    argsplus.offset = offset.toString();
   }
+
   const params = new URLSearchParams(args).toString();
-  const query = '/api/invoices?' + params;
-  const { data, error } = useSWR(query);
-  const { data: invoicesCountData } = useSWR(
-    showSummary && '/api/invoicescount?' + params,
-  );
+  const paramsplus = new URLSearchParams(argsplus).toString();
+
+  const query = '/api/invoices?' + paramsplus;
+  const { data, error, isLoading } = useSWR(query);
+  const { data: invoicesCountData } = useSWR('/api/invoicescount?' + params);
   const { data: invoicesSummaryData } = useSWR(
     showSummary && '/api/invoicessummary?' + params,
   );
@@ -78,21 +81,10 @@ export default function Invoices(props: Props) {
         Klaida parsiunčiant sąskaitų faktūrų sąrašą.
       </Grid>
     );
-  if (
-    !data ||
-    (showSummary && !invoicesCountData) ||
-    (showSummary && !invoicesSummaryData)
-  )
+  if (!invoicesCountData || (showSummary && !invoicesSummaryData))
     return (
       <Grid item xs={12}>
         <CircularProgress />
-      </Grid>
-    );
-
-  if (!data.invoices.length)
-    return (
-      <Grid item xs={12}>
-        Nerasta sąskaitų faktūrų pagal šiuos filtrus.
       </Grid>
     );
 
@@ -107,9 +99,25 @@ export default function Invoices(props: Props) {
       100
     : 0;
 
+  const pageCount = Math.ceil(invoicesCountData.count / limit);
+  const pages = showSummary && invoicesCountData.count > limit && (
+    <Grid item xs={12}>
+      <Pagination
+        size="large"
+        count={pageCount}
+        page={page + 1}
+        boundaryCount={2}
+        onChange={(event, newPage) => setPage(newPage - 1)}
+      />
+    </Grid>
+  );
+
+  const itemsCount =
+    page + 1 === pageCount ? invoicesCountData.count % limit : limit;
+
   return (
     <>
-      {showSummary && (
+      {showSummary && invoicesCountData.count > 0 && (
         <Grid item xs={12}>
           Rasta sąskaitų faktūrų pagal šiuos filtrus: {invoicesCountData.count}
           {`, kurių bendra suma ${sum} €. `}
@@ -124,23 +132,39 @@ export default function Invoices(props: Props) {
         </Grid>
       )}
 
-      {showSummary && invoicesCountData.count > limit && (
+      {pages}
+
+      {invoicesCountData.count === 0 && (
         <Grid item xs={12}>
-          <Pagination
-            size="large"
-            count={Math.ceil(invoicesCountData.count / limit)}
-            page={page + 1}
-            boundaryCount={2}
-            onChange={(event, newPage) => setPage(newPage - 1)}
-          />
+          Nerasta sąskaitų faktūrų pagal šiuos filtrus.
         </Grid>
       )}
 
-      <Grid item xs={12}>
-        {data.invoices.map((i: IInvoice) => (
-          <InvoiceView key={i.id} invoice={i} onChange={() => mutate(query)} />
-        ))}
-      </Grid>
+      {invoicesCountData.count > 0 && (
+        <Grid item xs={12}>
+          {isLoading &&
+            Array(itemsCount)
+              .fill(0)
+              .map((_, idx) => (
+                <Skeleton
+                  key={idx}
+                  variant="rounded"
+                  height={231}
+                  sx={{ marginBottom: '12px' }}
+                />
+              ))}
+
+          {data?.invoices.map((i: IInvoice) => (
+            <InvoiceView
+              key={i.id}
+              invoice={i}
+              onChange={() => mutate(query)}
+            />
+          ))}
+        </Grid>
+      )}
+
+      {pages}
     </>
   );
 }
