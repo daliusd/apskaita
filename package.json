@@ -40,7 +40,7 @@
     "strip-markdown": "5.0.1",
     "swr": "2.2.2",
     "ts-node": "10.9.1",
-    "uuid": "9.0.0"
+    "uuid": "9.0.1"
   },
   "scripts": {
     "dev": "next",
