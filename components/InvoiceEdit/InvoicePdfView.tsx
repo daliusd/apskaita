@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { useCopyClipboard } from 'react-recipes';
+import { useCopyToClipboard } from 'react-use';
 
 import {
   messageSeverityState,
@@ -22,14 +22,14 @@ export default function InvoicePdfView() {
   const router = useRouter();
   const [, setMessageText] = useRecoilState(messageTextState);
   const [, setMessageSeverity] = useRecoilState(messageSeverityState);
-  const [isCopied, setIsCopied] = useCopyClipboard();
+  const [isCopied, setIsCopied] = useCopyToClipboard();
 
   useEffect(() => {
-    if (isCopied) {
+    if (isCopied.value) {
       setMessageText('Nuoroda nukopijuota.');
       setMessageSeverity('success');
     }
-  }, [isCopied, setMessageText, setMessageSeverity]);
+  }, [isCopied.value, setMessageText, setMessageSeverity]);
 
   if (!pdfname) {
     return null;

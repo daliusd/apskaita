@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { useRouter } from 'next/router';
-import { useLocalStorage } from 'react-recipes';
+import { useLocalStorage } from 'react-use';
 
 import { IInvoice } from '../../db/db';
 import { getMsSinceEpoch } from '../../utils/date';

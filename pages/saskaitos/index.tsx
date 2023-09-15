@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import AddIcon from '@mui/icons-material/Add';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 
 import Invoices from '../../components/Invoices';
 import BuyerInput from '../../components/inputs/BuyerInput';
@@ -34,8 +34,11 @@ export default function Index() {
   const [paid, setPaid] = useState('all');
   const [invoiceType, setInvoiceType] = useState('all');
 
-  const debouncedSeriesName = useDebounce(seriesName, 500);
-  const debouncedBuyer = useDebounce(buyer, 500);
+  const [debouncedSeriesName, setDebouncedSeriesName] = useState('');
+  useDebounce(() => setDebouncedSeriesName(seriesName), 500, [seriesName]);
+
+  const [debouncedBuyer, setDebouncedBuyer] = useState('');
+  useDebounce(() => setDebouncedBuyer(buyer), 500, [buyer]);
 
   if (!session) {
     return null;

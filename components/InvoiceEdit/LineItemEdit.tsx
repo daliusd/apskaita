@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete from '@mui/material/Autocomplete';
 import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 
 import { ILineItem } from '../../db/db';
 import { cleanUpString } from '../../utils/textutils';
@@ -50,7 +50,12 @@ export default function LineItemEdit({
   const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';
 
-  const debouncedLineItemName = useDebounce(lineItem.name, 500);
+  const [debouncedLineItemName, setDebouncedLineItemName] = useState(
+    lineItem.name,
+  );
+  useDebounce(() => setDebouncedLineItemName(lineItem.name), 500, [
+    lineItem.name,
+  ]);
   const { data } = useSWR(`/api/uniquelineitemsnames/${debouncedLineItemName}`);
 
   const lid = ` ${idx + 1}`;

@@ -9,7 +9,7 @@ import Snackbar from '@mui/material/Snackbar';
 import SvgIcon from '@mui/material/SvgIcon';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useLocalStorage } from 'react-recipes';
+import { useLocalStorage } from 'react-use';
 
 import Copyright from './Copyright';
 import Link from './Link';

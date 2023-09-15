@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 
 import { cleanUpString } from '../../utils/textutils';
 
@@ -24,7 +25,8 @@ export default function SeriesNameInput({
   disabled,
   valid,
 }: IProps) {
-  const debouncedSeriesName = useDebounce(seriesName, 500);
+  const [debouncedSeriesName, setDebouncedSeriesName] = useState(seriesName);
+  useDebounce(() => setDebouncedSeriesName(seriesName), 500, [seriesName]);
 
   const { data: seriesNamesData } = useSWR(
     `/api/uniqueseriesnames/${debouncedSeriesName}` +

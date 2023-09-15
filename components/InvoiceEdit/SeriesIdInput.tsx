@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 import useSWR from 'swr';
 
 import {
@@ -19,13 +19,21 @@ export default function SeriesIdInput() {
   const [locked] = useRecoilState(lockedState);
   const [seriesId, setSeriesId] = useRecoilState(seriesIdState);
 
-  const debouncedSeriesName = useDebounce(seriesName, 500);
-  const debouncedQuery = useDebounce(
-    debouncedSeriesName && seriesId
-      ? `/api/validseriesnumber/${debouncedSeriesName}/${seriesId}` +
-          (invoiceId ? '?invoiceId=' + invoiceId : '')
-      : null,
+  const [debouncedSeriesName, setDebouncedSeriesName] = useState(seriesName);
+  useDebounce(() => setDebouncedSeriesName(seriesName), 500, [seriesName]);
+
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useDebounce(
+    () =>
+      setDebouncedQuery(
+        debouncedSeriesName && seriesId
+          ? `/api/validseriesnumber/${debouncedSeriesName}/${seriesId}` +
+              (invoiceId ? '?invoiceId=' + invoiceId : '')
+          : null,
+      ),
     500,
+    [debouncedSeriesName, seriesId, invoiceId],
   );
 
   const { data: validSeriesNumberData } = useSWR(debouncedQuery);

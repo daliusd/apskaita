@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import { Typography, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 import Link from '../src/Link';
 import { mutate } from 'swr';
 
@@ -22,7 +22,8 @@ export default function Index() {
   });
   const [maxDate, setMaxDate] = useState(() => new Date());
 
-  const debouncedDescription = useDebounce(description, 500);
+  const [debouncedDescription, setDebouncedDescription] = useState('');
+  useDebounce(() => setDebouncedDescription(description), 500, [description]);
   const [query, setQuery] = useState('');
 
   const constructQuery = useCallback(() => {

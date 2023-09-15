@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useLocalStorage } from 'react-recipes';
+import { useLocalStorage } from 'react-use';
 
 import { defaultOrFirst } from '../utils/query';
 

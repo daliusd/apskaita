@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useLocalStorage } from 'react-recipes';
+import { useLocalStorage } from 'react-use';
 import ArticleView from '../../components/ArticleView';
 import { getArticleBySlug } from '../../db/articles';
 
 export default function Kodas({ article }) {
   const router = useRouter();
 
-  const [code, setCode] = useLocalStorage('code', '');
+  const [code, setCode] = useLocalStorage('code', '', { raw: true });
   const value = router.query.id;
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Kodas({ article }) {
     if (code === value) {
       router.replace('/');
     } else {
-      setCode(value);
+      setCode(value as string);
       router.reload();
     }
   }, [value, router, code, setCode]);

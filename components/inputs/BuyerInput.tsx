@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 
 import { cleanUpString } from '../../utils/textutils';
 
@@ -19,7 +20,8 @@ export default function BuyerInput({
   disabled,
   rows = 4,
 }: IProps) {
-  const debouncedBuyer = useDebounce(buyer, 500);
+  const [debouncedBuyer, setDebouncedBuyer] = useState('');
+  useDebounce(() => setDebouncedBuyer(buyer), 500, [buyer]);
   const { data: dataBuyer } = useSWR(`/api/uniquebuyers/${debouncedBuyer}`);
   const buyerToEmail = {};
   dataBuyer?.buyers?.forEach((b) => {

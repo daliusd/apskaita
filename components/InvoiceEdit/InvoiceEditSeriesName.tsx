@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import SeriesNameInput from '../inputs/SeriesNameInput';
 import useSWR from 'swr';
-import { useDebounce } from 'react-recipes';
+import { useDebounce } from 'react-use';
 
 import {
   initialInvoiceState,
@@ -21,12 +21,18 @@ export default function InvoiceEditSeriesName() {
 
   const seriesNameResp = useSWR(`/api/seriesname/${invoiceType}`);
 
-  const debouncedQuery = useDebounce(
-    seriesName && invoiceType
-      ? `/api/validseriesname/${seriesName}/${invoiceType}` +
-          (invoiceId ? '?invoiceId=' + invoiceId : '')
-      : null,
+  const [debouncedQuery, setDebouncedQuery] = useState(null);
+
+  useDebounce(
+    () =>
+      setDebouncedQuery(
+        seriesName && invoiceType
+          ? `/api/validseriesname/${seriesName}/${invoiceType}` +
+              (invoiceId ? '?invoiceId=' + invoiceId : '')
+          : null,
+      ),
     500,
+    [seriesName, invoiceType, invoiceId],
   );
 
   const { data: validSeriesNumberData } = useSWR(debouncedQuery);
