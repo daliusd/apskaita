@@ -1243,8 +1243,8 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.15.0
-  resolution: "@mui/x-date-pickers@npm:6.15.0"
+  version: 6.16.0
+  resolution: "@mui/x-date-pickers@npm:6.16.0"
   dependencies:
     "@babel/runtime": ^7.22.15
     "@mui/base": ^5.0.0-beta.14
@@ -1286,7 +1286,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: c931bca8b4579c12a4fb7c0cd5bfd8d853ff5da51ebaf2e11e2a293735446e16dc8a60731d0c9eca2c64b9fe19dc92e72ad559a58e51d3bcb105bbfbf88e4c5f
+  checksum: 0f9eeb3b6882110e1b688e807936a0c170b0ef3ec6daaa5f19c977eded912ff6dd5c044094163fc4e7e995a7d004ad9aa140ad632e177ca31b2cb68071aea2d1
   languageName: node
   linkType: hard
 
