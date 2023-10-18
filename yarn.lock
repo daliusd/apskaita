@@ -1765,12 +1765,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nodemailer@npm:6.4.12":
-  version: 6.4.12
-  resolution: "@types/nodemailer@npm:6.4.12"
+"@types/nodemailer@npm:6.4.13":
+  version: 6.4.13
+  resolution: "@types/nodemailer@npm:6.4.13"
   dependencies:
     "@types/node": "*"
-  checksum: 1019fffa90d1655aaec58e170943c69d7ecbb684da6027771e9adedbe1a79ee67001d9a63dac0a66d1eed33b043a1daa49fd4b370cd5d51270453720655f1688
+  checksum: fd27d57d5801aaa7594d3bab748aedb1addc0c3a8ff9a21ea7675eec0e7e99cc477d05264b757b97691612fcfab37e52ded6c0725a700a90ad24fc7829dcc641
   languageName: node
   linkType: hard
 
@@ -6543,7 +6543,7 @@ __metadata:
     "@types/chance": 1.1.5
     "@types/multer": 1.4.9
     "@types/node": ^18.13.0
-    "@types/nodemailer": 6.4.12
+    "@types/nodemailer": 6.4.13
     "@types/number-to-words": 1.2.2
     "@types/pdfkit": 0.12.12
     "@types/sharp": 0.31.1
