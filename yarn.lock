@@ -1774,10 +1774,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/number-to-words@npm:1.2.1":
-  version: 1.2.1
-  resolution: "@types/number-to-words@npm:1.2.1"
-  checksum: 0179360924f1854ad42c1d61956af22f225105be3ed4ca261c2660c12f483c558df62d834b053491cd3153083f085f6545f1cf487b8227d21284c2bdb7169856
+"@types/number-to-words@npm:1.2.2":
+  version: 1.2.2
+  resolution: "@types/number-to-words@npm:1.2.2"
+  checksum: de757673ed33bc59ca43a1ad01bdce00ab21e75293586f243c9985556f1465808f3d891b0e8001d7fd9e2da19303c9ee7cab67f32d9d3fc1a793c9c62b8754f9
   languageName: node
   linkType: hard
 
@@ -6544,7 +6544,7 @@ __metadata:
     "@types/multer": 1.4.9
     "@types/node": ^18.13.0
     "@types/nodemailer": 6.4.12
-    "@types/number-to-words": 1.2.1
+    "@types/number-to-words": 1.2.2
     "@types/pdfkit": 0.12.12
     "@types/sharp": 0.31.1
     chance: 1.1.11
