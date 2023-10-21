@@ -4,7 +4,7 @@ import {
   getNextSeriesId,
   getUniqueSeriesNames,
   getInvoiceWithLineItems,
-  getSetting,
+  getLastSellerInformation,
 } from '../../db/db';
 
 import { dbWrapper } from '../../db/apiwrapper';
@@ -24,11 +24,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         defaultOrFirst(invoiceType),
       );
       const seriesId = await getNextSeriesId(db, seriesNames[0] || '');
+      const lastSellerInfo = await getLastSellerInformation(
+        db,
+        seriesNames[0],
+        'lt',
+      );
+
       const seller =
-        (await getSetting(db, 'seller')) ||
-        `${session.user.name}\n${session.user.email}`;
-      const issuer = (await getSetting(db, 'issuer')) || session.user.name;
-      const extra = (await getSetting(db, 'extra')) || '';
+        lastSellerInfo.seller || `${session.user.name}\n${session.user.email}`;
+      const issuer = lastSellerInfo.issuer || session.user.name;
+      const extra = lastSellerInfo.extra || '';
 
       return res.json({
         invoice: {
@@ -51,10 +56,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const seriesId = await getNextSeriesId(db, invoice.seriesName);
 
-      const lp = invoice.language === 'lt' ? '' : '_en';
-      const seller = (await getSetting(db, 'seller' + lp)) || invoice.seller;
-      const issuer = (await getSetting(db, 'issuer' + lp)) || invoice.issuer;
-      const extra = (await getSetting(db, 'extra' + lp)) || invoice.extra;
+      const lastSellerInfo = await getLastSellerInformation(
+        db,
+        invoice.seriesName,
+        invoice.language,
+      );
+      const seller = lastSellerInfo.seller || invoice.seller;
+      const issuer = lastSellerInfo.issuer || invoice.issuer;
+      const extra = lastSellerInfo.extra || invoice.extra;
 
       return res.json({
         invoice: {

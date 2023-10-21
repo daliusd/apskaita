@@ -7,6 +7,7 @@ import {
   IInvoice,
   getSetting,
   setSetting,
+  getLastSellerInformation,
 } from '../../../db/db';
 
 import { dbWrapper } from '../../../db/apiwrapper';
@@ -59,24 +60,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
 
-      const savedSeller = await getSetting(db, 'seller' + lp);
+      const lastSellerInfo = await getLastSellerInformation(
+        db,
+        invoice.seriesName,
+        invoice.language,
+      );
+
       if (!invoice.seller) {
         invoice.seller =
-          savedSeller || `${session.user.name}\n${session.user.email}`;
-      } else if (!savedSeller) {
-        await setSetting(db, 'seller' + lp, invoice.seller);
+          lastSellerInfo.seller ||
+          `${session.user.name}\n${session.user.email}`;
       }
 
-      const savedIssuer = await getSetting(db, 'issuer' + lp);
       if (!invoice.issuer) {
-        invoice.issuer = savedIssuer || session.user.name;
-      } else if (!savedIssuer) {
-        await setSetting(db, 'issuer' + lp, invoice.issuer);
-      }
-
-      const savedExtra = await getSetting(db, 'extra' + lp);
-      if (invoice.extra && !savedExtra) {
-        await setSetting(db, 'extra' + lp, invoice.extra);
+        invoice.issuer = lastSellerInfo.issuer || session.user.name;
       }
 
       invoice.pdfname = `${uuidv4()}.pdf`;

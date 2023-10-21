@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2023-10-21
+
+- Sąskaitų kūrimo pataisymas
+
 ## 2023-09-08
 
 - Sąskaitų lango patobulinimai
