@@ -18,7 +18,7 @@ const LOGO_WIDTH = 50 * PTPMM;
 interface IFieldInfo {
   name: string;
   size: number;
-  align: string;
+  align: 'center' | 'justify' | 'left' | 'right' | undefined;
 }
 
 const FIELDS_INFO: IFieldInfo[] = [

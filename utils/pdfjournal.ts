@@ -15,7 +15,7 @@ const SPANNED_EXP_COLUMN_WIDTH = 45 * PTPMM;
 interface ICell {
   name: string;
   size: number;
-  align: string;
+  align: 'center' | 'justify' | 'left' | 'right' | undefined;
 }
 
 interface ITableItem {
