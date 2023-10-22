@@ -74,6 +74,8 @@ test('Invoice. Should use English settings default', async ({ page }) => {
   await page.click('div[aria-label="Kalba"]');
   await page.click('li[aria-label="en"]');
 
+  await page.waitForTimeout(500); // give a little bit of time for English texts to appear
+
   await validateTextArea(page, 'Pardavėjas', 'selleren');
   await validateInput(page, 'SF išrašė', 'issueren');
   await validateTextArea(page, 'Papildoma informacija', 'extraen');
