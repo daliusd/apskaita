@@ -284,7 +284,7 @@ export async function getLastSellerInformation(
   language: string,
 ) {
   let result = await db.get<{ seller: string; issuer: string; extra: string }>(
-    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? and language = ? ORDER BY created, seriesId DESC LIMIT 1',
+    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? and language = ? ORDER BY created DESC, seriesId DESC LIMIT 1',
     seriesName,
     language,
   );
