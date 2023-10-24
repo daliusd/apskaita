@@ -61,7 +61,7 @@
     "@playwright/test": "1.39.0",
     "@types/chance": "1.1.5",
     "@types/multer": "1.4.9",
-    "@types/node": "^18.13.0",
+    "@types/node": "^20.0.0",
     "@types/nodemailer": "6.4.13",
     "chance": "1.1.11",
     "eslint": "latest",
