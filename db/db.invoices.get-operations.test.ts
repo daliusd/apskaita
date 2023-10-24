@@ -208,6 +208,97 @@ describe('database tests', () => {
       );
     });
 
+    it('returns correct last seller information (changed seller info case)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 2,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      let resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      invoice.seriesId = 3;
+      invoice.created = new Date(2020, 1, 3).getTime();
+      invoice.seller = 'Seller changed info';
+      invoice.issuer = 'Issuer changed info';
+      invoice.extra = 'Extra changed info';
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      expect(await getLastSellerInformation(db, 'DD', 'lt')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'DD', 'en')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'ZZ', 'lt')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'ZZ', 'en')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+    });
+
+    it('returns correct last seller information (changed seller info case, invoices created on same date)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 2,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [],
+      };
+      let resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      invoice.seriesId = 3;
+      invoice.seller = 'Seller changed info';
+      invoice.issuer = 'Issuer changed info';
+      invoice.extra = 'Extra changed info';
+      resp = await createInvoice(db, invoice);
+      expect(resp.success).toBeTruthy();
+
+      expect(await getLastSellerInformation(db, 'DD', 'lt')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'DD', 'en')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'ZZ', 'lt')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+      expect(await getLastSellerInformation(db, 'ZZ', 'en')).toEqual({
+        seller: 'Seller changed info',
+        extra: 'Extra changed info',
+        issuer: 'Issuer changed info',
+      });
+    });
+
     it('Return next seriesId = 1 for non existing serie', async () => {
       const seriesId = await getNextSeriesId(db, 'AB');
       expect(seriesId).toEqual(1);

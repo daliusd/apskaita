@@ -293,7 +293,7 @@ export async function getLastSellerInformation(
   }
 
   result = await db.get<{ seller: string; issuer: string; extra: string }>(
-    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? ORDER BY created DESC LIMIT 1',
+    'SELECT seller, issuer, extra FROM Invoice WHERE seriesName = ? ORDER BY created DESC, seriesId DESC LIMIT 1',
     seriesName,
   );
   if (result) {
@@ -301,7 +301,7 @@ export async function getLastSellerInformation(
   }
 
   result = await db.get<{ seller: string; issuer: string; extra: string }>(
-    'SELECT seller, issuer, extra FROM Invoice WHERE language = ? ORDER BY created DESC LIMIT 1',
+    'SELECT seller, issuer, extra FROM Invoice WHERE language = ? ORDER BY created DESC, seriesId DESC LIMIT 1',
     language,
   );
   if (result) {
@@ -309,7 +309,7 @@ export async function getLastSellerInformation(
   }
 
   result = await db.get<{ seller: string; issuer: string; extra: string }>(
-    'SELECT seller, issuer, extra FROM Invoice ORDER BY created DESC LIMIT 1',
+    'SELECT seller, issuer, extra FROM Invoice ORDER BY created DESC, seriesId DESC LIMIT 1',
   );
   if (result) {
     return result;
