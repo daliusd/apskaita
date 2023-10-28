@@ -1258,13 +1258,13 @@ __metadata:
   linkType: hard
 
 "@mui/x-date-pickers@npm:^6.0.0":
-  version: 6.16.3
-  resolution: "@mui/x-date-pickers@npm:6.16.3"
+  version: 6.17.0
+  resolution: "@mui/x-date-pickers@npm:6.17.0"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@mui/base": ^5.0.0-beta.20
     "@mui/utils": ^5.14.14
-    "@types/react-transition-group": ^4.4.7
+    "@types/react-transition-group": ^4.4.8
     clsx: ^2.0.0
     prop-types: ^15.8.1
     react-transition-group: ^4.4.5
@@ -1301,7 +1301,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 3e00c3b1088ebc84bbd84b44fd53fb588f747eb5962df62e25d4d76610293adfbf1cdd7d8d2b0a985bdfbbb67eefbafc1055957b71e60c1afacfa17cb15c9d17
+  checksum: a26e7424b239e6c41607a97724ba905593b69e881315f380f0e20a74b1c3e63f5eb704a70738dc4ace5a4cb476266b39ae00a9cb692432b27169fc82d84f02a1
   languageName: node
   linkType: hard
 
@@ -1865,6 +1865,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 3b91486e7aa777a3787e773efce79a0fa9be4ec9e02d51ccda8c7532c5c5d84fbcefe248dacb4007293d85bf0794ac51603bb9cec360db81cf3657d2b7123fb9
+  languageName: node
+  linkType: hard
+
+"@types/react-transition-group@npm:^4.4.8":
+  version: 4.4.8
+  resolution: "@types/react-transition-group@npm:4.4.8"
+  dependencies:
+    "@types/react": "*"
+  checksum: ad7ba2bce97631fda9d89b4ed9772489bd050fec3ccd7563041b206dbe219d37d22e0d7731b1f90f56e89daf40e69ba16beba8066c42165bf8a584533feb6a2c
   languageName: node
   linkType: hard
 
