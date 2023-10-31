@@ -4534,7 +4534,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:7.0.0, googleapis-common@npm:^7.0.0":
+"googleapis-common@npm:7.0.1":
+  version: 7.0.1
+  resolution: "googleapis-common@npm:7.0.1"
+  dependencies:
+    extend: ^3.0.2
+    gaxios: ^6.0.3
+    google-auth-library: ^9.0.0
+    qs: ^6.7.0
+    url-template: ^2.0.8
+    uuid: ^9.0.0
+  checksum: b87f3e14aed5fab82d3327d924e82a1f1527715c93c0b3534b2e28de698abc02daea00bebe375966ca8bb491394f5fd521e6b615cb89e1bfbe8870b7caa5f899
+  languageName: node
+  linkType: hard
+
+"googleapis-common@npm:^7.0.0":
   version: 7.0.0
   resolution: "googleapis-common@npm:7.0.0"
   dependencies:
@@ -6574,7 +6588,7 @@ __metadata:
     eslint: latest
     eslint-config-next: ^13.4.19
     eslint-config-prettier: 9.0.0
-    googleapis-common: 7.0.0
+    googleapis-common: 7.0.1
     gray-matter: 4.0.3
     husky: 8.0.3
     jimp: ^0.22.4
