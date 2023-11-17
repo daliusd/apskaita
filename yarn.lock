@@ -1800,12 +1800,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:0.13.1":
-  version: 0.13.1
-  resolution: "@types/pdfkit@npm:0.13.1"
+"@types/pdfkit@npm:0.13.2":
+  version: 0.13.2
+  resolution: "@types/pdfkit@npm:0.13.2"
   dependencies:
     "@types/node": "*"
-  checksum: 1369d4695daedcf6253061603b3f8efe75b5f311c1940d4e5211e0f4f95966c526d4927dd7fd498714c227a0b57c683fd18c52db926ae3be22e86c31cb6f162b
+  checksum: de443f3ad883ae22f653310244858aba379c802e518cf196afd992d5da843e0f5fc219299364cc65e4fc3c4b870ef0843edb0632fd15e4d304974a268c65fa41
   languageName: node
   linkType: hard
 
@@ -2899,10 +2899,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.0.0":
-  version: 4.1.1
-  resolution: "crypto-js@npm:4.1.1"
-  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
+"crypto-js@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "crypto-js@npm:4.2.0"
+  checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
   languageName: node
   linkType: hard
 
@@ -6566,7 +6566,7 @@ __metadata:
     "@types/node": ^20.0.0
     "@types/nodemailer": 6.4.14
     "@types/number-to-words": 1.2.2
-    "@types/pdfkit": 0.13.1
+    "@types/pdfkit": 0.13.2
     "@types/sharp": 0.31.1
     chance: 1.1.11
     date-fns: ^2.29.3
@@ -6583,7 +6583,7 @@ __metadata:
     next-auth: 4.24.4
     nodemailer: 6.9.7
     number-to-words: 1.2.4
-    pdfkit: 0.13.0
+    pdfkit: 0.14.0
     prettier: 3.0.3
     prop-types: ^15.8.1
     react: latest
@@ -7122,15 +7122,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfkit@npm:0.13.0":
-  version: 0.13.0
-  resolution: "pdfkit@npm:0.13.0"
+"pdfkit@npm:0.14.0":
+  version: 0.14.0
+  resolution: "pdfkit@npm:0.14.0"
   dependencies:
-    crypto-js: ^4.0.0
+    crypto-js: ^4.2.0
     fontkit: ^1.8.1
     linebreak: ^1.0.2
     png-js: ^1.0.0
-  checksum: 1c0875b5cc0cb8dbf06943089244358bd147493b5b453fefc6cabf55e4a4098dead253d14ec859caefaeb35604130faf454ac04f908d99f9c55f9394e9b21d69
+  checksum: 67ca633704cc028df659246f6aaeb734fe5f2d2bc4edc54844b78ffd33e1915ae80681a55cd836fb49fceb3fdf639a6addb583ff4cffbe048e7571944bd11599
   languageName: node
   linkType: hard
 
