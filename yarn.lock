@@ -1731,6 +1731,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mdast@npm:^4.0.0":
+  version: 4.0.3
+  resolution: "@types/mdast@npm:4.0.3"
+  dependencies:
+    "@types/unist": "npm:*"
+  checksum: 6d2d8f00ffaff6663dd67ea9ab999a5e52066c001432a9b99947fa9e76bccba819dfca40e419588a637a70d42cd405071f5b76efd4ddeb1dc721353b7cc73623
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:*":
   version: 3.0.1
   resolution: "@types/mime@npm:3.0.1"
@@ -1890,7 +1899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.6":
+"@types/unist@npm:*, @types/unist@npm:^2.0.0":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
@@ -6596,7 +6605,7 @@ __metadata:
     sqlite: "npm:5.1.1"
     sqlite3: "npm:5.1.6"
     stacktrace-js: "npm:2.0.2"
-    strip-markdown: "npm:5.0.1"
+    strip-markdown: "npm:6.0.0"
     swr: "npm:2.2.4"
     ts-node: "npm:10.9.1"
     typescript: "npm:5.2.2"
@@ -8493,14 +8502,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-markdown@npm:5.0.1":
-  version: 5.0.1
-  resolution: "strip-markdown@npm:5.0.1"
+"strip-markdown@npm:6.0.0":
+  version: 6.0.0
+  resolution: "strip-markdown@npm:6.0.0"
   dependencies:
-    "@types/mdast": "npm:^3.0.0"
-    "@types/unist": "npm:^2.0.6"
-    unified: "npm:^10.0.0"
-  checksum: 0cad4aeec911f833df19bbc90fdf6bf7a6f669cb7f541e70219879a4bae06b72f53f9fa4d9832c5aafa2080c5db876043f15cfcf1ebf29d351c41c8fad4f6cc8
+    "@types/mdast": "npm:^4.0.0"
+  checksum: 0906bce617c33fc58ee7778f2d3cea005f0bbcfcf996ea68d5c96ade20fcd10d43d8bc44064a510ea9b331f8d2fa4b8ef100921a9fc38cbeaf78de7e4cb6aa72
   languageName: node
   linkType: hard
 
