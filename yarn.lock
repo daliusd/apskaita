@@ -1745,12 +1745,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/multer@npm:1.4.10":
-  version: 1.4.10
-  resolution: "@types/multer@npm:1.4.10"
+"@types/multer@npm:1.4.11":
+  version: 1.4.11
+  resolution: "@types/multer@npm:1.4.11"
   dependencies:
     "@types/express": "npm:*"
-  checksum: 10656b5c5184c990e269555fac45c06ac66c141d4b22b3fee69b22dcb5551d3fcd7e1c9a46bba798f560fba91d493f0b925d14129d8582539664868d7bebf379
+  checksum: 5abbc9a8b0d7bb817a52429c52f052152ebe2fb212e7138359c0c0b9207486ef7b1e54f65915c968300a0874cee546dbfc850415584fc9d14eff2b27bb926e7f
   languageName: node
   linkType: hard
 
@@ -6555,7 +6555,7 @@ __metadata:
     "@mui/x-date-pickers": "npm:^6.0.0"
     "@playwright/test": "npm:1.40.0"
     "@types/chance": "npm:1.1.6"
-    "@types/multer": "npm:1.4.10"
+    "@types/multer": "npm:1.4.11"
     "@types/node": "npm:^20.0.0"
     "@types/nodemailer": "npm:6.4.14"
     "@types/number-to-words": "npm:1.2.3"
