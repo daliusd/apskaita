@@ -541,12 +541,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/gmail@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@googleapis/gmail@npm:6.0.0"
+"@googleapis/gmail@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@googleapis/gmail@npm:6.1.0"
   dependencies:
     googleapis-common: "npm:^7.0.0"
-  checksum: 88cc6471df38f63cb48550ffee8af23f079636d2696ad7869749f0d219e4314955b37f3f257e4ea1dc27b438486a51d494afb39bae4f0ed7bc5e81a524d34863
+  checksum: b7bda4023a2a7b7e8dc205670e3add8a9e2065090cefebc5cb724225577fe15800fe9e97c5ea0186a9b9e4b77c6af7e16e19b357803ecfcb80f9f18f8e780d6d
   languageName: node
   linkType: hard
 
@@ -6565,7 +6565,7 @@ __metadata:
     "@emotion/server": "npm:latest"
     "@emotion/styled": "npm:^11.10.5"
     "@googleapis/drive": "npm:8.4.0"
-    "@googleapis/gmail": "npm:6.0.0"
+    "@googleapis/gmail": "npm:6.1.0"
     "@mui/base": "npm:5.0.0-beta.25"
     "@mui/icons-material": "npm:^5.11.0"
     "@mui/material": "npm:^5.11.8"
