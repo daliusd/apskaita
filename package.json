@@ -8,7 +8,7 @@
     "@emotion/server": "latest",
     "@emotion/styled": "^11.10.5",
     "@googleapis/drive": "8.4.0",
-    "@googleapis/gmail": "6.0.0",
+    "@googleapis/gmail": "6.1.0",
     "@mui/base": "5.0.0-beta.25",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.8",
