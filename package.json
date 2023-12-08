@@ -39,7 +39,7 @@
     "stacktrace-js": "2.0.2",
     "strip-markdown": "5.0.1",
     "swr": "2.2.4",
-    "ts-node": "10.9.1",
+    "ts-node": "10.9.2",
     "uuid": "9.0.1"
   },
   "scripts": {
