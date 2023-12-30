@@ -6730,7 +6730,7 @@ __metadata:
     multer: "npm:1.4.4"
     next: "npm:^14.0.0"
     next-auth: "npm:4.24.5"
-    nodemailer: "npm:6.9.7"
+    nodemailer: "npm:6.9.8"
     number-to-words: "npm:1.2.4"
     pdfkit: "npm:0.14.0"
     prettier: "npm:3.1.1"
@@ -6831,10 +6831,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:6.9.7":
-  version: 6.9.7
-  resolution: "nodemailer@npm:6.9.7"
-  checksum: 32b6e6c3f5e0ab6c5fa796934fee397e8b520f6d782fc41d8bd5aaf72a2e757564b8e7e7f7aa02fcf0ba73a83d364bdb923c2dbb76a32ac87a5c628d1bde03df
+"nodemailer@npm:6.9.8":
+  version: 6.9.8
+  resolution: "nodemailer@npm:6.9.8"
+  checksum: 8c22b671bde4d507b6585758a323111aa2f7c97e0720fb91a645f1dee1da6661cdc4004bc42c63c95c712e7b1f7287518c623f9ac92e590f85b4d3f0f2ff7f65
   languageName: node
   linkType: hard
 
