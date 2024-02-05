@@ -571,12 +571,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/drive@npm:8.6.0":
-  version: 8.6.0
-  resolution: "@googleapis/drive@npm:8.6.0"
+"@googleapis/drive@npm:8.7.0":
+  version: 8.7.0
+  resolution: "@googleapis/drive@npm:8.7.0"
   dependencies:
     googleapis-common: "npm:^7.0.0"
-  checksum: 10/7b21aa9715a045730ae421c35bb6c4b56cceec5ea14333bf58ef04a59adeeff933c27c3d82fef1a164a94b1585cea131340a57e676c065f540c6136f1d02e3ce
+  checksum: 10/a01502ad26a5df2819bdc8d481f2d70ac74a3a847fcf37a2c4f840a19f96ed57b90b30717b7ba425731f1cc1b54d17d835f30d6c5c27b08261dc850e0fb4e60f
   languageName: node
   linkType: hard
 
@@ -6872,7 +6872,7 @@ __metadata:
     "@emotion/react": "npm:^11.10.5"
     "@emotion/server": "npm:latest"
     "@emotion/styled": "npm:^11.10.5"
-    "@googleapis/drive": "npm:8.6.0"
+    "@googleapis/drive": "npm:8.7.0"
     "@googleapis/gmail": "npm:7.0.0"
     "@mui/base": "npm:5.0.0-beta.34"
     "@mui/icons-material": "npm:^5.11.0"
