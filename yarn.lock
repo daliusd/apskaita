@@ -1925,12 +1925,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:0.13.3":
-  version: 0.13.3
-  resolution: "@types/pdfkit@npm:0.13.3"
+"@types/pdfkit@npm:0.13.4":
+  version: 0.13.4
+  resolution: "@types/pdfkit@npm:0.13.4"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/82e953b420ffe068f762141afc3e140d4e0d9537c86a24cca2959476840393e10f45fd0032245f7fcb944b0976a65f9f906cb2ae8943a8a6067fb25c0f94fb6e
+  checksum: 10/2bf736e784b881b24ae142f921e477a167832136a99110dda38a950df9da4bd29e13d0cf09a39113551010ff649fe9c9be23ac67d16a048aa84407a6afbdc507
   languageName: node
   linkType: hard
 
@@ -6883,7 +6883,7 @@ __metadata:
     "@types/node": "npm:^20.0.0"
     "@types/nodemailer": "npm:6.4.14"
     "@types/number-to-words": "npm:1.2.3"
-    "@types/pdfkit": "npm:0.13.3"
+    "@types/pdfkit": "npm:0.13.4"
     "@types/sharp": "npm:0.31.1"
     chance: "npm:1.1.11"
     date-fns: "npm:^2.29.3"
