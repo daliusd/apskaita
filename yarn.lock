@@ -113,24 +113,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:^2.17.0":
-  version: 2.17.0
-  resolution: "@date-io/core@npm:2.17.0"
-  checksum: 10/7b7e2584bb82a3c7a891654f19a5f09307f9f4942f6715c76926b8d547fadac6d2afe65c5167ab611126eb3c5181f7800df50537651a79255b8d17b4cba680b2
+"@date-io/core@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@date-io/core@npm:3.0.0"
+  checksum: 10/0dcd44db8fcb5f2fd2c3de895bd3316edd25447ead83572c322801c94e5de36ea96b5b2d14b8224398308425f6320378ff198921b8159cc89ec8c61cb7af652f
   languageName: node
   linkType: hard
 
-"@date-io/date-fns@npm:^2.16.0":
-  version: 2.17.0
-  resolution: "@date-io/date-fns@npm:2.17.0"
+"@date-io/date-fns@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@date-io/date-fns@npm:3.0.0"
   dependencies:
-    "@date-io/core": "npm:^2.17.0"
+    "@date-io/core": "npm:^3.0.0"
   peerDependencies:
-    date-fns: ^2.0.0
+    date-fns: ^3.2.0
   peerDependenciesMeta:
     date-fns:
       optional: true
-  checksum: 10/0d81c60d8a8c155a26d5a47ab78cb16224f74310711e0507dc7f451baea10cfdc9559a99ba960a9300312905f712cc421568f4ba3ad7a25c8c493abe282abf27
+  checksum: 10/3747421bfae96d2ab8b6a48c20c59dba267839ef7bd5eb2b0c2b8aa5e1f3696c864444db4e0712c6e7a4c1996a71289fbb870b902920cd06de629fc678c09824
   languageName: node
   linkType: hard
 
@@ -6864,7 +6864,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nextjs@workspace:."
   dependencies:
-    "@date-io/date-fns": "npm:^2.16.0"
+    "@date-io/date-fns": "npm:^3.0.0"
     "@emotion/react": "npm:^11.10.5"
     "@emotion/server": "npm:latest"
     "@emotion/styled": "npm:^11.10.5"
