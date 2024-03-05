@@ -17,7 +17,7 @@
     "@types/number-to-words": "1.2.3",
     "@types/pdfkit": "0.13.4",
     "@types/sharp": "0.31.1",
-    "date-fns": "^2.29.3",
+    "date-fns": "^3.0.0",
     "googleapis-common": "7.0.1",
     "gray-matter": "4.0.3",
     "jimp": "^0.22.4",
