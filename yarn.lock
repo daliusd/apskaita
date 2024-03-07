@@ -5677,10 +5677,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.11.4":
-  version: 4.13.0
-  resolution: "jose@npm:4.13.0"
-  checksum: 10/5324d3915d27e3636a505371cd2dc242e3aea39d3d00e86eb4b663e7ee2b349ddfe01bc2314cf14c4749c0416a235522fae3b8d5f0f6a990e41c26043955e928
+"jose@npm:^4.15.5":
+  version: 4.15.5
+  resolution: "jose@npm:4.15.5"
+  checksum: 10/17944fcc0d9afa07387eef23127c30ecfcc77eafddc4b4f1a349a8eee0536bee9b08ecd745406eaa0af65d531f738b94d2467976479cbfe8b3b60f8fc8082b8d
   languageName: node
   linkType: hard
 
@@ -6780,14 +6780,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-auth@npm:4.24.6":
-  version: 4.24.6
-  resolution: "next-auth@npm:4.24.6"
+"next-auth@npm:4.24.7":
+  version: 4.24.7
+  resolution: "next-auth@npm:4.24.7"
   dependencies:
     "@babel/runtime": "npm:^7.20.13"
     "@panva/hkdf": "npm:^1.0.2"
     cookie: "npm:^0.5.0"
-    jose: "npm:^4.11.4"
+    jose: "npm:^4.15.5"
     oauth: "npm:^0.9.15"
     openid-client: "npm:^5.4.0"
     preact: "npm:^10.6.3"
@@ -6801,7 +6801,7 @@ __metadata:
   peerDependenciesMeta:
     nodemailer:
       optional: true
-  checksum: 10/908e90dcb9c023b566ccf89674a2a50524bb600e000d5720bb8f699109176271c0c68fc284abdf3a4369b0373f402a0295f479cd49849db8569797d6692830e8
+  checksum: 10/f226254dac02e31dc28589344ca077fc975261242cc8484f2d9b7c5916f29f29877d75a213168403fbf75d0c84b324c19d68c5a3283cbc683d720a6ea6f3872d
   languageName: node
   linkType: hard
 
@@ -6895,7 +6895,7 @@ __metadata:
     lint-staged: "npm:15.2.2"
     multer: "npm:1.4.4"
     next: "npm:^14.0.0"
-    next-auth: "npm:4.24.6"
+    next-auth: "npm:4.24.7"
     nodemailer: "npm:6.9.11"
     number-to-words: "npm:1.2.4"
     pdfkit: "npm:0.14.0"
