@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { lt } from 'date-fns/locale/lt';
 import { SessionProvider, SessionProviderProps } from 'next-auth/react';

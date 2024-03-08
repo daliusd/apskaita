@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 interface Props {
   setFromDate: (date: Date) => void;

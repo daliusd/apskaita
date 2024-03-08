@@ -43,7 +43,7 @@
     "uuid": "9.0.1"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "start-with-port": "next start -p $PORT",
@@ -51,7 +51,7 @@
     "test": "yarn test:unit && yarn test:e2e",
     "test:unit": "vitest run",
     "test:e2e": "yarn playwright test",
-    "test:docker": "DOCKER_HOST=\"unix://$HOME/.colima/docker.sock\" docker run -it --rm --ipc=host -v \"${PWD}:/var/app/\" mcr.microsoft.com/playwright:v1.31.2-focal /bin/bash -c 'cd /var/app; yarn; yarn playwright test'",
+    "test:docker": "DOCKER_HOST=\"unix://$HOME/.colima/docker.sock\" docker run -it --rm --ipc=host -v \"${PWD}:/var/app/\" mcr.microsoft.com/playwright:v1.42.1-focal /bin/bash -c 'cd /var/app; yarn; yarn playwright test'",
     "lint": "next lint",
     "migrate": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/migrate-dbs.ts",
     "info": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/info.ts",
@@ -79,5 +79,8 @@
       "eslint"
     ]
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "volta": {
+    "node": "20.11.1"
+  }
 }

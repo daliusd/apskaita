@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Grid, CircularProgress, Pagination, Skeleton } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
+import Pagination from '@mui/material/Pagination';
+import Skeleton from '@mui/material/Skeleton';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';

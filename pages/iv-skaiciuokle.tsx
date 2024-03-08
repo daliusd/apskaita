@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  TextField,
-  Typography,
-  Link,
-} from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
@@ -111,8 +109,9 @@ export default function Index() {
         profit < 20_000
           ? profit * 0.05
           : profit > 35_000
-          ? profit * 0.15
-          : profit * 0.15 - profit * (0.1 - (2 / 300_000) * (profit - 20_000));
+            ? profit * 0.15
+            : profit * 0.15 -
+              profit * (0.1 - (2 / 300_000) * (profit - 20_000));
 
       const sodros_baze = profit * 0.9;
 

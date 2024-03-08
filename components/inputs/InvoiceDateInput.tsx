@@ -1,4 +1,4 @@
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import { getDateString } from '../../utils/date';
 
@@ -41,13 +41,13 @@ export default function InvoiceDateInput({
                   validInvoiceDate.minValidDate,
                 )} arba vėlesnė`
               : validInvoiceDate.maxValidDate
-              ? `Data turi būti ${getDateString(
-                  validInvoiceDate.maxValidDate,
-                )} arba ankstesnė`
-              : ''
+                ? `Data turi būti ${getDateString(
+                    validInvoiceDate.maxValidDate,
+                  )} arba ankstesnė`
+                : ''
             : !date || !date.getTime()
-            ? 'Data yra būtina'
-            : '',
+              ? 'Data yra būtina'
+              : '',
         },
       }}
       disabled={disabled}
