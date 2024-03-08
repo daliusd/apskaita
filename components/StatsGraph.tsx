@@ -1,4 +1,7 @@
-import { Grid, CircularProgress, Paper, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { ReactNode, useMemo } from 'react';
 import {
   BarChart,

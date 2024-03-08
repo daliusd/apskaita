@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Grid from '@mui/material/Grid';
+import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { InputAdornment } from '@mui/material';
 import useSWR from 'swr';
 
 import { alreadyPaidState, lineItemsState } from '../../src/atoms';

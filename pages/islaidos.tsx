@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { Typography, TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-use';

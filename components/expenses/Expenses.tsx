@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Grid, CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import useSWR, { mutate } from 'swr';
 
