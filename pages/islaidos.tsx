@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers';
 import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-use';
 import Link from '../src/Link';
@@ -11,6 +10,7 @@ import { mutate } from 'swr';
 import Expenses from '../components/expenses/Expenses';
 import ExpenseCreate from '../components/expenses/ExpenseCreate';
 import { getMsSinceEpoch } from '../utils/date';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function Index() {
   const { data: session } = useSession();

@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import CloudUpload from '@mui/icons-material/CloudUpload';
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../../utils/date';
