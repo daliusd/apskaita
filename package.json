@@ -16,7 +16,7 @@
     "@mui/x-date-pickers": "^6.0.0",
     "@types/number-to-words": "1.2.3",
     "@types/pdfkit": "0.13.4",
-    "@types/sharp": "0.31.1",
+    "@types/sharp": "0.32.0",
     "date-fns": "^3.0.0",
     "googleapis-common": "7.0.1",
     "gray-matter": "4.0.3",
