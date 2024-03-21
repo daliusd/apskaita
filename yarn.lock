@@ -2403,6 +2403,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"agent-base@npm:^7.0.2":
+  version: 7.1.0
+  resolution: "agent-base@npm:7.1.0"
+  dependencies:
+    debug: "npm:^4.3.4"
+  checksum: 10/f7828f991470a0cc22cb579c86a18cbae83d8a3cbed39992ab34fc7217c4d126017f1c74d0ab66be87f71455318a8ea3e757d6a37881b8d0f2a2c6aa55e5418f
+  languageName: node
+  linkType: hard
+
 "agentkeepalive@npm:^4.1.3, agentkeepalive@npm:^4.2.1":
   version: 4.2.1
   resolution: "agentkeepalive@npm:4.2.1"
@@ -4725,6 +4734,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gaxios@npm:^6.1.1":
+  version: 6.3.0
+  resolution: "gaxios@npm:6.3.0"
+  dependencies:
+    extend: "npm:^3.0.2"
+    https-proxy-agent: "npm:^7.0.1"
+    is-stream: "npm:^2.0.0"
+    node-fetch: "npm:^2.6.9"
+  checksum: 10/7b24f6480134e09967ddb5e743b5c549fbeaab8ca6d2b4d939080f9ad9472e963652f3c94d316c129aadff015d0ebb7144e93abc25b8ac54522ac86fdbaa27c4
+  languageName: node
+  linkType: hard
+
 "gcp-metadata@npm:^6.0.0":
   version: 6.0.0
   resolution: "gcp-metadata@npm:6.0.0"
@@ -4732,6 +4753,16 @@ __metadata:
     gaxios: "npm:^6.0.0"
     json-bigint: "npm:^1.0.0"
   checksum: 10/c6bfc054828de3cf4f180479867fe5d34c2065cdd14321677c468f8c6e98b83f00b638b3eeb61dd3207f2e4cf83988aa34c2d3835c61a9b307f377b3ebae36f2
+  languageName: node
+  linkType: hard
+
+"gcp-metadata@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "gcp-metadata@npm:6.1.0"
+  dependencies:
+    gaxios: "npm:^6.0.0"
+    json-bigint: "npm:^1.0.0"
+  checksum: 10/a0d12a9cb7499fdb9de0fff5406aa220310c1326b80056be8d9b747aae26414f99d14bd795c0ec52ef7d0473eef9d61bb657b8cd3d8186c8a84c4ddbff025fe9
   languageName: node
   linkType: hard
 
@@ -4964,17 +4995,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:7.0.1":
-  version: 7.0.1
-  resolution: "googleapis-common@npm:7.0.1"
+"google-auth-library@npm:^9.7.0":
+  version: 9.7.0
+  resolution: "google-auth-library@npm:9.7.0"
+  dependencies:
+    base64-js: "npm:^1.3.0"
+    ecdsa-sig-formatter: "npm:^1.0.11"
+    gaxios: "npm:^6.1.1"
+    gcp-metadata: "npm:^6.1.0"
+    gtoken: "npm:^7.0.0"
+    jws: "npm:^4.0.0"
+  checksum: 10/9f255ba88fa2a0b209cc6a5ca5a24012cd5857a0c2beea494ee2751a0d9674f3fb1e156cf0fe288099df5282cb78fdedc9c9ed81d2ff4aa8858a1a62b8507852
+  languageName: node
+  linkType: hard
+
+"googleapis-common@npm:7.1.0":
+  version: 7.1.0
+  resolution: "googleapis-common@npm:7.1.0"
   dependencies:
     extend: "npm:^3.0.2"
     gaxios: "npm:^6.0.3"
-    google-auth-library: "npm:^9.0.0"
+    google-auth-library: "npm:^9.7.0"
     qs: "npm:^6.7.0"
     url-template: "npm:^2.0.8"
     uuid: "npm:^9.0.0"
-  checksum: 10/ae44d20c81183d72bf3ce85bfca3915b5370310ce5387b7b8c5b3e9348b1eb14c5f2b8e187aa6d088cd7a64153b3f7b797e0e2ee2894068f0c295287edeaafe3
+  checksum: 10/739b6be7e9dfbfa6376c8859457998220d71ca4942a037a6231b8793941feb247830f153a2df0d32183d2e400181e7670e617e7769418b906ba7c67f207ba7e1
   languageName: node
   linkType: hard
 
@@ -5301,6 +5346,16 @@ __metadata:
     agent-base: "npm:6"
     debug: "npm:4"
   checksum: 10/f0dce7bdcac5e8eaa0be3c7368bb8836ed010fb5b6349ffb412b172a203efe8f807d9a6681319105ea1b6901e1972c7b5ea899672a7b9aad58309f766dcbe0df
+  languageName: node
+  linkType: hard
+
+"https-proxy-agent@npm:^7.0.1":
+  version: 7.0.4
+  resolution: "https-proxy-agent@npm:7.0.4"
+  dependencies:
+    agent-base: "npm:^7.0.2"
+    debug: "npm:4"
+  checksum: 10/405fe582bba461bfe5c7e2f8d752b384036854488b828ae6df6a587c654299cbb2c50df38c4b6ab303502c3c5e029a793fbaac965d1e86ee0be03faceb554d63
   languageName: node
   linkType: hard
 
@@ -7106,7 +7161,7 @@ __metadata:
     eslint: "npm:latest"
     eslint-config-next: "npm:^14.0.0"
     eslint-config-prettier: "npm:9.1.0"
-    googleapis-common: "npm:7.0.1"
+    googleapis-common: "npm:7.1.0"
     gray-matter: "npm:4.0.3"
     husky: "npm:9.0.11"
     jimp: "npm:^0.22.4"
