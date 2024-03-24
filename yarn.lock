@@ -5957,6 +5957,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jpeg-exif@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "jpeg-exif@npm:1.1.4"
+  checksum: 10/75699bd7161de1be99e847166917957bfb405ed736655361c58f0390e7182cc28999b2cbc31e650b71b6d2ad38843789439a121ac64988b2ccaa00f6832bb3d9
+  languageName: node
+  linkType: hard
+
 "jpeg-js@npm:^0.4.4":
   version: 0.4.4
   resolution: "jpeg-js@npm:0.4.4"
@@ -7171,7 +7178,7 @@ __metadata:
     next-auth: "npm:4.24.7"
     nodemailer: "npm:6.9.13"
     number-to-words: "npm:1.2.4"
-    pdfkit: "npm:0.14.0"
+    pdfkit: "npm:0.15.0"
     prettier: "npm:3.2.5"
     prop-types: "npm:^15.8.1"
     react: "npm:latest"
@@ -7719,15 +7726,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfkit@npm:0.14.0":
-  version: 0.14.0
-  resolution: "pdfkit@npm:0.14.0"
+"pdfkit@npm:0.15.0":
+  version: 0.15.0
+  resolution: "pdfkit@npm:0.15.0"
   dependencies:
     crypto-js: "npm:^4.2.0"
     fontkit: "npm:^1.8.1"
+    jpeg-exif: "npm:^1.1.4"
     linebreak: "npm:^1.0.2"
     png-js: "npm:^1.0.0"
-  checksum: 10/f4b4cddb3c65d8958aa5fce81407fc2e397370d6929c1c1b11f95f91cef149a610d123f67aee2f1538fafd7dcccb78b4106af808c31ade7edfa613642be21d33
+  checksum: 10/78f4186ac9c67b0a7e1f1bde1a065ee64ef1767c20afe3d464a6da726f8b17ebd0abb2b09ddd04bd46cbe38216a18ae0ed095d0a2d182b65f14104f8bfbd665f
   languageName: node
   linkType: hard
 
