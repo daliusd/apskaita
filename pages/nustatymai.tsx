@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import { Grid, Tabs, Title, Text } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 
 import EmailTemplateEdit from '../components/settings/EmailTemplateEdit';
@@ -16,76 +13,61 @@ import Link from '../src/Link';
 
 export default function Apie() {
   const { data: session } = useSession();
-  const gmailSend =
-    session && (session as unknown as { gmailSend: boolean }).gmailSend;
 
-  const [tab, setTab] = useState(0);
   const [language, setLanguage] = useState('lt');
-
-  useEffect(() => {
-    setLanguage(tab === 0 ? 'lt' : 'en');
-  }, [tab]);
 
   if (!session) {
     return null;
   }
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Nustatymai
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Tabs value={tab} onChange={(_e, nv) => setTab(nv)}>
-          <Tab label="Lietuvių kalbai" />
-          <Tab label="Anglų kalbai" />
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={3}>Nustatymai</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Tabs value={language} onChange={setLanguage}>
+          <Tabs.List>
+            <Tabs.Tab value="lt">Lietuvių kalbai</Tabs.Tab>
+            <Tabs.Tab value="en">Anglų kalbai</Tabs.Tab>
+          </Tabs.List>
         </Tabs>
-      </Grid>
-      {gmailSend && (
-        <Grid item xs={12}>
-          <EmailSubjectEdit language={language} />
-        </Grid>
-      )}
-      {gmailSend && (
-        <Grid item xs={12}>
-          <EmailTemplateEdit language={language} />
-        </Grid>
-      )}
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <EmailSubjectEdit language={language} />
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <EmailTemplateEdit language={language} />
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Kiti Nustatymai
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Kiti Nustatymai</Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <ZeroesEdit />
-      </Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <LogoEdit />
-      </Grid>
+      </Grid.Col>
 
       <VATPayer />
 
       <ContactAgreement />
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Jūsų duomenys ir paskyra
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Title order={3}>Jūsų duomenys ir paskyra</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           Jeigu norite galite parsisiųsti savo duomenis kaip SQLite duombazę.{' '}
           <Link href="/api/userdata">Parsisiųsti</Link>. Daugiau informacijos{' '}
           <Link href="/straipsniai/duomenu-parsisiuntimas">
             „Duomenų parsisiuntimas“
           </Link>
           .
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
 
       <DataDeleteButton />
     </Grid>

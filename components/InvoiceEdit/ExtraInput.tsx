@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
@@ -10,6 +9,7 @@ import {
   extraState,
   seriesNameState,
 } from '../../src/atoms';
+import { Textarea } from '@mantine/core';
 
 export default function ExtraInput() {
   const [extra, setExtra] = useRecoilState(extraState);
@@ -31,17 +31,15 @@ export default function ExtraInput() {
   const disabled = locked || (languageAfterChange && !lastSellerData);
 
   return (
-    <TextField
+    <Textarea
       label="Papildoma informacija sąskaitoje faktūroje"
-      inputProps={{ 'aria-label': 'Papildoma informacija' }}
+      aria-label={'Papildoma informacija'}
       value={extra}
       onChange={(e) => {
         setExtra(cleanUpString(e.target.value));
       }}
-      fullWidth
-      multiline
+      autosize
       minRows={2}
-      variant="outlined"
       disabled={disabled}
     />
   );

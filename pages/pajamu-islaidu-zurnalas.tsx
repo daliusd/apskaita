@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Grid,
+  TextInput,
+  Text,
+  Title,
+} from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
@@ -61,163 +62,125 @@ export default function Index() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h5" component="h1">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={2}>
           Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Laikotarpis ir Serija
-        </Typography>
-      </Grid>
+        </Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Laikotarpis ir Serija</Title>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <DatePicker
+      <Grid.Col span={6}>
+        <DateInput
           label="Pradžios data"
+          aria-label="Pradžios data"
           value={fromDate}
           onChange={setFromDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pradžios data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Pabaigos data"
+          aria-label="Pabaigos data"
           value={toDate}
           onChange={setToDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pabaigos data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={3}>
+      </Grid.Col>
+      <Grid.Col span={3}>
         <DateButtonThisYear setFromDate={setFromDate} setToDate={setToDate} />
-      </Grid>
-      <Grid item xs={3}>
+      </Grid.Col>
+      <Grid.Col span={3}>
         <DateButtonPreviousYear
           setFromDate={setFromDate}
           setToDate={setToDate}
         />
-      </Grid>
-      <Grid item xs={6}></Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={6}></Grid.Col>
+      <Grid.Col span={12}>
         <SeriesNameInput
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={false}
           invoiceType={'standard'}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Jūsų duomenys
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Jūsų duomenys</Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <TextField
-          variant="standard"
-          inputProps={{
-            'aria-label': 'Gyventojo vardas, pavardė, asmens kodas',
-          }}
+      <Grid.Col span={12}>
+        <TextInput
+          aria-label={'Gyventojo vardas, pavardė, asmens kodas'}
           label="Gyventojo vardas, pavardė, asmens kodas"
           value={personalInfo}
           onChange={(e) => {
             setPersonalInfo(e.target.value);
           }}
-          fullWidth
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <TextField
-          variant="standard"
-          inputProps={{ 'aria-label': 'Gyvenamoji vieta' }}
+      <Grid.Col span={12}>
+        <TextInput
+          aria-label={'Gyvenamoji vieta'}
           label="Gyvenamoji vieta"
           value={location}
           onChange={(e) => {
             setLocation(e.target.value);
           }}
-          fullWidth
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <TextField
-          variant="standard"
-          inputProps={{ 'aria-label': 'Veiklos pavadinimas' }}
+      <Grid.Col span={12}>
+        <TextInput
+          aria-label={'Veiklos pavadinimas'}
           label="Veiklos pavadinimas"
           value={activityName}
           onChange={(e) => {
             setActivityName(e.target.value);
           }}
-          fullWidth
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <FormControl variant="standard">
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={includeExpenses}
-                onChange={(event) => setIncludeExpenses(event.target.checked)}
-                name="sent"
-                color="primary"
-              />
-            }
-            label={
-              'Ar įtraukti išlaidas į žurnalą? Jeigu deklaruojate, kad išlaidos sudaro 30% pajamų, išlaidų įtraukti nereikia.'
-            }
-          />
-        </FormControl>
-      </Grid>
+      <Grid.Col span={12}>
+        <Checkbox
+          checked={includeExpenses}
+          onChange={(event) => setIncludeExpenses(event.target.checked)}
+          name="sent"
+          label={
+            'Ar įtraukti išlaidas į žurnalą? Jeigu deklaruojate, kad išlaidos sudaro 30% pajamų, išlaidų įtraukti nereikia.'
+          }
+        />
+      </Grid.Col>
 
-      <Grid item xs={4}>
-        <Button variant="contained" onClick={generatePdf} size="small">
+      <Grid.Col span={4}>
+        <Button variant="filled" onClick={generatePdf} size="small">
           Generuoti žurnalą
         </Button>
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Naudingos nuorodos
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Title order={3}>Naudingos nuorodos</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           <ul>
             <li>
-              <Link
-                color="inherit"
+              <Anchor
                 href="https://www.e-tar.lt/portal/lt/legalAct/TAR.1C8F1B983D57"
                 underline="always"
               >
                 Informacija apie gyventojų pajamų ir išlaidų apskaitos žurnalo
                 vedimą.
-              </Link>
+              </Anchor>
             </li>
           </ul>
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
     </Grid>
   );
 }

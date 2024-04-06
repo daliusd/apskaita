@@ -1,8 +1,4 @@
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
+import { Radio, Group } from '@mantine/core';
 
 type IInvoiceType = 'standard' | 'proforma' | 'credit';
 
@@ -18,34 +14,18 @@ export default function InvoiceTypeSelector({
   disabled,
 }: IProps) {
   return (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">Sąskaitos faktūros tipas</FormLabel>
-      <RadioGroup
-        aria-label="Sąskaitos faktūros tipas"
-        name="invoiceType"
-        value={invoiceType}
-        onChange={(e) => onChange(e.target.value as IInvoiceType)}
-        row
-      >
-        <FormControlLabel
-          value="standard"
-          control={<Radio />}
-          label="Standartinė"
-          disabled={disabled}
-        />
-        <FormControlLabel
-          value="proforma"
-          control={<Radio />}
-          label="Išankstinė"
-          disabled={disabled}
-        />
-        <FormControlLabel
-          value="credit"
-          control={<Radio />}
-          label="Kreditinė"
-          disabled={disabled}
-        />
-      </RadioGroup>
-    </FormControl>
+    <Radio.Group
+      aria-label="Sąskaitos faktūros tipas"
+      label="Sąskaitos faktūros tipas"
+      name="invoiceType"
+      value={invoiceType}
+      onChange={onChange}
+    >
+      <Group mt="xs">
+        <Radio value="standard" label="Standartinė" disabled={disabled} />
+        <Radio value="proforma" label="Išankstinė" disabled={disabled} />
+        <Radio value="credit" label="Kreditinė" disabled={disabled} />
+      </Group>
+    </Radio.Group>
   );
 }

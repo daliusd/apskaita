@@ -1,9 +1,5 @@
-import Typography from '@mui/material/Typography';
+import { Text } from '@mantine/core';
 
 export default function NotFound() {
-  return (
-    <Typography variant="body1" component="div" align="center">
-      Puslapis nerastas :-(
-    </Typography>
-  );
+  return <Text ta="center">Puslapis nerastas :-(</Text>;
 }

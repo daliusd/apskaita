@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Button, Grid, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 import Link from '../../src/Link';
 import {
   emailState,
   invoiceIdState,
   lockedState,
-  messageSeverityState,
-  messageTextState,
   sentState,
 } from '../../src/atoms';
 
@@ -24,8 +21,6 @@ export default function SendInvoiceButton() {
   const [sent, setSent] = useRecoilState(sentState);
   const [, setLocked] = useRecoilState(lockedState);
 
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [sending, setSending] = useState(false);
 
   const disabled = !email || sent;
@@ -34,10 +29,11 @@ export default function SendInvoiceButton() {
 
   const handleClick = async () => {
     if (!email) {
-      setMessageText(
-        'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',
-      );
-      setMessageSeverity('error');
+      notifications.show({
+        message:
+          'Nurodykite pirkėjo el.pašto adresą sąkaitoje faktūroje ir išsaugokite ją.',
+        color: 'red',
+      });
       return;
     }
 
@@ -60,22 +56,28 @@ export default function SendInvoiceButton() {
     setSending(false);
 
     if (!response || !response.ok) {
-      setMessageText('Klaida siunčiant sąskaitą faktūrą el. paštu.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
+        color: 'red',
+      });
+
       return;
     }
 
     const message = await response.json();
     if (!message.success) {
-      setMessageText(
-        message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
-      );
-      setMessageSeverity('error');
+      notifications.show({
+        message:
+          message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
+        color: 'red',
+      });
       return;
     }
 
-    setMessageText('Sąskaita faktūra išsiusta.');
-    setMessageSeverity('success');
+    notifications.show({
+      message: 'Sąskaita faktūra išsiusta.',
+      color: 'green',
+    });
 
     setSent(true);
     setLocked(true);
@@ -83,20 +85,19 @@ export default function SendInvoiceButton() {
 
   return (
     <>
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <Button
-          variant="contained"
-          color="primary"
+          variant="filled"
           aria-label="Išsiųsti Sąskaitą Faktūrą"
           onClick={handleClick}
           disabled={disabled || sending}
         >
           Išsiųsti Sąskaitą Faktūrą
         </Button>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={12}>
         {email ? (
-          <Typography variant="body2" component="div">
+          <Text>
             Jūs galite išsiųsti sąskaitą faktūrą paspaudę šį mygtuką. Laiškas
             bus išsiųstas „{email}“. Sąskaita faktūra bus išsiųsta iš jūsų el.
             pašto adreso naudojant laiško šabloną, kurį galite pakeisti{' '}
@@ -106,14 +107,14 @@ export default function SendInvoiceButton() {
               „Sąskaitų faktūrų siuntimas“
             </Link>
             .
-          </Typography>
+          </Text>
         ) : (
-          <Typography variant="body2" component="div">
+          <Text>
             Jei norite išsiųsti sąskaitą faktūrą el. paštu nurodykite pirkėjo
             el. paštą aukščiau.
-          </Typography>
+          </Text>
         )}
-      </Grid>
+      </Grid.Col>
     </>
   );
 }

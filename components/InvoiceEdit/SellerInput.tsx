@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
@@ -10,6 +9,7 @@ import {
   sellerState,
   seriesNameState,
 } from '../../src/atoms';
+import { Textarea } from '@mantine/core';
 
 export default function SellerInput() {
   const [seller, setSeller] = useRecoilState(sellerState);
@@ -31,17 +31,15 @@ export default function SellerInput() {
   const disabled = locked || (languageAfterChange && !lastSellerData);
 
   return (
-    <TextField
+    <Textarea
       label="Pardavėjas"
-      inputProps={{ 'aria-label': 'Pardavėjas' }}
+      aria-label={'Pardavėjas'}
       value={seller}
       onChange={(e) => {
         setSeller(cleanUpString(e.target.value));
       }}
-      fullWidth
-      multiline
+      autosize
       minRows={4}
-      variant="outlined"
       disabled={disabled}
     />
   );

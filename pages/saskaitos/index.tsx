@@ -1,20 +1,14 @@
 import { useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Grid, Title, Radio, Group } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
+import { DateInput } from '@mantine/dates';
+
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'react-use';
 
 import Invoices from '../../components/Invoices';
-import BuyerInput from '../../components/inputs/BuyerInput';
+import BuyerFirstLineInput from '../../components/inputs/BuyerFirstLineInput';
 import SeriesNameInput from '../../components/inputs/SeriesNameInput';
 import { getMsSinceEpoch } from '../../utils/date';
 import { DefaultDates } from '../../components/inputs/DefaultDates';
@@ -49,138 +43,95 @@ export default function Index() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
         <Button
           aria-label="Nauja sąskaita faktūra"
           variant="contained"
           color="primary"
-          startIcon={<AddIcon />}
+          leftSection={<IconPlus size={14} />}
           onClick={onClickCreateInvoice}
         >
           Nauja sąskaita faktūra
         </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Filtrai
-        </Typography>
-      </Grid>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Filtrai</Title>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <DatePicker
+      <Grid.Col span={6}>
+        <DateInput
           label="Minimali data"
+          aria-label="Minimali data"
           value={minDate}
           onChange={setMinDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Minimali data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Maksimali data"
+          aria-label="Maksimali data"
           value={maxDate}
           onChange={setMaxDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Maksimali data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
+      </Grid.Col>
       <DefaultDates setFromDate={setMinDate} setToDate={setMaxDate} />
 
-      <Grid item xs={12}>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Sąskaitos tipas</FormLabel>
-          <RadioGroup
-            aria-label="Sąskaitos tipas"
-            name="invoiceType"
-            value={invoiceType}
-            onChange={(e) => setInvoiceType(e.target.value)}
-            row
-          >
-            <FormControlLabel value="all" control={<Radio />} label="Visos" />
-            <FormControlLabel
-              value="standard"
-              control={<Radio />}
-              label="Standartinės"
-            />
-            <FormControlLabel
-              value="proforma"
-              control={<Radio />}
-              label="Išankstinės"
-            />
-            <FormControlLabel
-              value="credit"
-              control={<Radio />}
-              label="Kreditinės"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
+      <Grid.Col span={12}>
+        <Radio.Group
+          name="invoiceType"
+          label="Sąskaitos tipas"
+          aria-label="Sąskaitos tipas"
+          value={invoiceType}
+          onChange={setInvoiceType}
+        >
+          <Group mt="xs">
+            <Radio value="all" label="Visos" />
+            <Radio value="standard" label="Standartinės" />
+            <Radio value="proforma" label="Išankstinės" />
+            <Radio value="credit" label="Kreditinės" />
+          </Group>
+        </Radio.Group>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <SeriesNameInput
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={false}
           invoiceType={invoiceType}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <BuyerInput
+      <Grid.Col span={12}>
+        <BuyerFirstLineInput
           buyer={buyer}
           onChange={(bi) => setBuyer(bi.buyer)}
-          rows={1}
           disabled={false}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <FormControl variant="standard" component="fieldset">
-          <FormLabel component="legend">Apmokėjimas</FormLabel>
-          <RadioGroup
-            aria-label="Apmokėjimas"
-            name="paidStatus"
-            value={paid}
-            onChange={(e) => setPaid(e.target.value)}
-            row
-          >
-            <FormControlLabel value="all" control={<Radio />} label="Visos" />
-            <FormControlLabel
-              value="paid"
-              control={<Radio />}
-              label="Apmokėtos"
-            />
-            <FormControlLabel
-              value="unpaid"
-              control={<Radio />}
-              label="Neapmokėtos"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
+      <Grid.Col span={12}>
+        <Radio.Group
+          name="paidStatus"
+          label="Apmokėjimas"
+          aria-label="Apmokėjimas"
+          value={paid}
+          onChange={setPaid}
+        >
+          <Group mt="xs">
+            <Radio value="all" label="Visos" />
+            <Radio value="paid" label="Apmokėtos" />
+            <Radio value="unpaid" label="Neapmokėtos" />
+          </Group>
+        </Radio.Group>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Sąskaitos faktūros
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Sąskaitos faktūros</Title>
+      </Grid.Col>
 
       <Invoices
         minDate={getMsSinceEpoch(minDate)}

@@ -1,6 +1,5 @@
 import { useRecoilState } from 'recoil';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Grid, Text, Title } from '@mantine/core';
 
 import BuyerEmailInput from '../inputs/BuyerEmailInput';
 import ExtraInput from './ExtraInput';
@@ -19,62 +18,62 @@ export default function InvoiceEditMain() {
   const [invoiceId] = useRecoilState(invoiceIdState);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={3}>
           {invoiceId ? 'Keisti sąskaitą faktūrą' : 'Sukurti sąskaitą faktūrą'}
-        </Typography>
-      </Grid>
+        </Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="body2" component="div">
+      <Grid.Col span={12}>
+        <Text>
           Pagalbinės informacijos apie sąskaitų faktūrų sukūrimą, keitimą ir
           kitą funkcionalumą galite rasti šiame straipsnyje{' '}
           <Link href="/straipsniai/saskaitos-fakturos">
             „Sąskaitų faktūrų išrašymas ir redagavimas“
           </Link>
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <InvoiceEditType />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={6}>
+      <Grid.Col span={6}>
         <InvoiceEditSeriesName />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={6}>
+      <Grid.Col span={6}>
         <SeriesIdInput />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={6}>
+      <Grid.Col span={6}>
         <InvoiceEditDate />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={6}>
+      <Grid.Col span={6}>
         <LanguageSelect />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <SellerInput />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <InvoiceEditBuyer />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <BuyerEmailInput />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <IssuerInput />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <ExtraInput />
-      </Grid>
+      </Grid.Col>
     </Grid>
   );
 }

@@ -1,21 +1,17 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Pageview from '@mui/icons-material/Pageview';
-import CloudDownload from '@mui/icons-material/CloudDownload';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, Card, Grid, Text, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import {
+  IconEdit,
+  IconTrash,
+  IconEye,
+  IconCloudDownload,
+} from '@tabler/icons-react';
 
 import ExpenseEditDialog from './ExpenseEditDialog';
 import { IExpense } from '../../db/db';
 import { getDateString } from '../../utils/date';
 import Link from '../../src/Link';
-import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface Props {
   expense: IExpense;
@@ -24,8 +20,6 @@ interface Props {
 
 export default function ExpenseView(props: Props) {
   const { expense } = props;
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -37,82 +31,75 @@ export default function ExpenseView(props: Props) {
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Klaida trinant išlaidų įrašą.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Klaida trinant išlaidų įrašą.',
+        color: 'red',
+      });
       return;
     }
 
-    setMessageText('Išlaidų įrašas ištrintas.');
-    setMessageSeverity('info');
+    notifications.show({
+      message: 'Išlaidų įrašas ištrintas.',
+      color: 'blue',
+    });
     props.onChange();
   };
 
   return (
-    <Card sx={{ marginBottom: '12px' }} elevation={3}>
-      <CardContent>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h1">
-              {expense.description}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="body1" color="textSecondary" component="p">
-              Data: {getDateString(expense.created)}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="body1" color="textSecondary" component="p">
-              Suma: {expense.price} €
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
-      <CardActions>
-        <Grid container>
-          <Grid item xs={12}>
-            <Button
-              aria-label={`Keisti`}
-              color="primary"
-              startIcon={<EditIcon />}
-              onClick={() => setExpenseEditOpen(true)}
-            >
-              Keisti
-            </Button>
+    <Card shadow="sm" withBorder mb={12}>
+      <Grid>
+        <Grid.Col span={12}>
+          <Title order={4}>{expense.description}</Title>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Text>Data: {getDateString(expense.created)}</Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Text>Suma: {expense.price} €</Text>
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <Button
+            aria-label={`Keisti`}
+            variant="subtle"
+            leftSection={<IconEdit />}
+            onClick={() => setExpenseEditOpen(true)}
+          >
+            Keisti
+          </Button>
 
-            {expense.webViewLink && (
-              <Link href={expense.webViewLink} color="secondary">
-                <Button
-                  aria-label={`Peržiūrėti išlaidų dokumentą`}
-                  color="primary"
-                  startIcon={<Pageview />}
-                >
-                  Peržiūrėti
-                </Button>
-              </Link>
-            )}
-            {expense.webContentLink && (
-              <Link href={expense.webContentLink} color="secondary">
-                <Button
-                  aria-label={`Atsisiųsti išlaidų dokumentą`}
-                  color="primary"
-                  startIcon={<CloudDownload />}
-                >
-                  Atsisiųsti
-                </Button>
-              </Link>
-            )}
-            <Button
-              aria-label={`Ištrinti išlaidų įrašą`}
-              color="secondary"
-              startIcon={<DeleteIcon />}
-              onClick={handleDelete}
-            >
-              Ištrinti
-            </Button>
-          </Grid>
-        </Grid>
-      </CardActions>
+          {expense.webViewLink && (
+            <Link href={expense.webViewLink} color="secondary">
+              <Button
+                aria-label={`Peržiūrėti išlaidų dokumentą`}
+                variant="subtle"
+                leftSection={<IconEye />}
+              >
+                Peržiūrėti
+              </Button>
+            </Link>
+          )}
+          {expense.webContentLink && (
+            <Link href={expense.webContentLink} color="secondary">
+              <Button
+                aria-label={`Atsisiųsti išlaidų dokumentą`}
+                variant="subtle"
+                leftSection={<IconCloudDownload />}
+              >
+                Atsisiųsti
+              </Button>
+            </Link>
+          )}
+          <Button
+            aria-label={`Ištrinti išlaidų įrašą`}
+            variant="subtle"
+            color="red"
+            leftSection={<IconTrash />}
+            onClick={handleDelete}
+          >
+            Ištrinti
+          </Button>
+        </Grid.Col>
+      </Grid>
 
       {expenseEditOpen && (
         <ExpenseEditDialog

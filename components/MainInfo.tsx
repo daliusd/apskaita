@@ -1,8 +1,6 @@
 import Link from '../src/Link';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Grid, Text, Title } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
@@ -18,9 +16,9 @@ export default function MainInfo() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Text variant="body1" component="div">
           Esi prisijungęs/prisijungusi kaip {session.user.email}. Savo
           nustatymus galite pakeisti{' '}
           <Link href="/nustatymai" color="secondary">
@@ -31,52 +29,47 @@ export default function MainInfo() {
             čia
           </Link>
           .
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <Button
           aria-label="Nauja sąskaita faktūra"
-          variant="contained"
-          color="primary"
-          startIcon={<AddIcon />}
+          variant="filled"
+          leftSection={<IconPlus />}
           onClick={onClickCreateInvoice}
         >
           Nauja sąskaita faktūra
         </Button>
-      </Grid>
+      </Grid.Col>
       <Stats />
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Paskutinės sąskaitos faktūros
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Paskutinės sąskaitos faktūros</Title>
+      </Grid.Col>
       <Invoices limit={5} />
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <Link href="/saskaitos" color="secondary">
           Detalesnė sąskaitų faktūrų paieška
         </Link>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Kiti įrankiai
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Kiti įrankiai</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <Link href="/iv-skaiciuokle">
           Individualios Veiklos mokesčių skaičiuokle
         </Link>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <Link href="/pajamu-islaidu-zurnalas">
           Pajamų Ir Išlaidų Apskaitos Žurnalo Generatorius
         </Link>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <Link href="/isaf-generatorius">
           i.SAF generatorius (PVM mokėtojams)
         </Link>
-      </Grid>
+      </Grid.Col>
     </Grid>
   );
 }

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Grid,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
@@ -145,124 +146,96 @@ export default function Index() {
     }, [additionalPension, expense, fromDate, income, insured, toDate, vat]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h5" component="h1">
-          Individualios Veiklos mokesčių skaičiuoklė
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Laikotarpis ir Serija
-        </Typography>
-      </Grid>
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={2}>Individualios Veiklos mokesčių skaičiuoklė</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Laikotarpis ir Serija</Title>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <DatePicker
-          label="Pradžios data"
+      <Grid.Col span={6}>
+        <DateInput
+          label="Minimali data"
+          aria-label="Minimali data"
           value={fromDate}
           onChange={setFromDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pradžios data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Pabaigos data"
+          aria-label="Pabaigos data"
           value={toDate}
           onChange={setToDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pabaigos data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
+      </Grid.Col>
 
       <DefaultDates setFromDate={setFromDate} setToDate={setToDate} />
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <SeriesNameInput
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={false}
           invoiceType={'standard'}
         />
-      </Grid>
+      </Grid.Col>
 
       {session && (
         <>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h1">
-              Pajamų grafikas
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
+          <Grid.Col span={12}>
+            <Title order={3}>Pajamų grafikas</Title>
+          </Grid.Col>
+          <Grid.Col span={12}>
             <StatsGraph
               data={data}
               fromDate={getMsSinceEpoch(fromDate)}
               toDate={getMsSinceEpoch(toDate)}
             />
-          </Grid>
+          </Grid.Col>
         </>
       )}
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Jūsų duomenys
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Jūsų duomenys</Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Text>
           Ši mokesčių skaičiuoklė turėtų padėti apsiskaičiuoti kiek daugiausia
           mokesčių gali tekti susimokėti. Ji nepadengia visų įmanomų mokestinių
           lengvatų ir jei jos jums aktualios siūlau naudotis:{' '}
-          <Link
-            color="inherit"
+          <Anchor
             href="https://www.sodra.lt/lt/skaiciuokles/individualios_veiklos_skaiciuokle"
             underline="always"
           >
             Sodros Individualios Veiklos skaičiuokle
-          </Link>
+          </Anchor>
           .{' '}
           {session &&
             'Galite naudoti tiek duomenis, kuriuos įvedėte haiku.lt, tiek hipotetinius, kuriuos susigalvojote.'}
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
 
-      <Grid item xs={4}>
-        <TextField
+      <Grid.Col span={4}>
+        <TextInput
           variant="standard"
-          inputProps={{ 'aria-label': 'Pajamos' }}
+          aria-label={'Pajamos'}
           label="Pajamos"
           value={income}
           onChange={(e) => {
-            setIncome(e.target.value);
+            setIncome(e.currentTarget.value);
           }}
-          fullWidth
         />
-      </Grid>
-      <Grid item xs={8}>
+      </Grid.Col>
+      <Grid.Col span={8}>
         {totalIncome !== undefined && (
           <>
-            <Typography variant="body1" component="div">
-              Jūsų pajamos pagal SF: {totalIncome}
-            </Typography>
+            <Text>Jūsų pajamos pagal SF: {totalIncome}</Text>
             <Button
-              variant="text"
+              variant="transparent"
               onClick={() => setIncome(totalIncome.toString())}
               size="small"
             >
@@ -270,40 +243,35 @@ export default function Index() {
             </Button>
           </>
         )}
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={4}>
-        <TextField
+      <Grid.Col span={4}>
+        <TextInput
           variant="standard"
-          inputProps={{ 'aria-label': 'Išlaidos' }}
+          aria-label={'Išlaidos'}
           label="Išlaidos"
           value={expense}
           onChange={(e) => {
-            setExpense(e.target.value);
+            setExpense(e.currentTarget.value);
           }}
-          fullWidth
         />
-      </Grid>
-      <Grid item xs={4}>
-        <Typography variant="body1" component="div">
-          30% nuo pajamų: {(parseFloat(income) * 0.3).toFixed(2)}
-        </Typography>
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Text>30% nuo pajamų: {(parseFloat(income) * 0.3).toFixed(2)}</Text>
         <Button
-          variant="text"
+          variant="transparent"
           onClick={() => setExpense((parseFloat(income) * 0.3).toFixed(2))}
           size="small"
         >
           Naudoti
         </Button>
-      </Grid>
-      <Grid item xs={4}>
+      </Grid.Col>
+      <Grid.Col span={4}>
         {expdata?.stats?.total !== undefined && (
           <>
-            <Typography variant="body1" component="div">
-              Jūsų išlaidos: {expdata.stats.total}
-            </Typography>
+            <Text>Jūsų išlaidos: {expdata.stats.total}</Text>
             <Button
-              variant="text"
+              variant="transparent"
               onClick={() => setExpense(expdata.stats.total.toString())}
               size="small"
             >
@@ -311,37 +279,36 @@ export default function Index() {
             </Button>
           </>
         )}
-      </Grid>
+      </Grid.Col>
 
       {!isVatPayer && (
-        <Grid item xs={12}>
-          <Typography variant="body1" component="div">
+        <Grid.Col span={12}>
+          <Text>
             Čia galite pasižiūrėti, kas būtų, jei jums reiktų mokėti PVM.
             Prievolė registruotis PVM mokėtoju atsiranda gavus pajamų virš
             45000€ per metus arba įsigijus prekių iš kitos ES šalies už daugiau
             nei 14000€.
-          </Typography>
-        </Grid>
+          </Text>
+        </Grid.Col>
       )}
-      <Grid item xs={4}>
-        <TextField
+      <Grid.Col span={4}>
+        <TextInput
           variant="standard"
-          inputProps={{ 'aria-label': 'PVM' }}
+          aria-label={'PVM'}
           label="PVM"
           value={vat}
           onChange={(e) => {
-            setVat(e.target.value);
+            setVat(e.currentTarget.value);
           }}
-          fullWidth
         />
-      </Grid>
-      <Grid item xs={4}>
-        <Typography variant="body1" component="div">
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Text>
           21% PVM nuo pajamų:{' '}
           {(parseFloat(income) * (1.0 - 1.0 / 1.21)).toFixed(2)}
-        </Typography>
+        </Text>
         <Button
-          variant="text"
+          variant="transparent"
           onClick={() =>
             setVat((parseFloat(income) * (1.0 - 1.0 / 1.21)).toFixed(2))
           }
@@ -349,13 +316,11 @@ export default function Index() {
         >
           Naudoti
         </Button>
-      </Grid>
-      <Grid item xs={4}>
+      </Grid.Col>
+      <Grid.Col span={4}>
         {totalVat !== undefined && isVatPayer && (
           <>
-            <Typography variant="body1" component="div">
-              PVM pagal SF: {totalVat.toFixed(2)}
-            </Typography>
+            <Text>PVM pagal SF: {totalVat.toFixed(2)}</Text>
             <Button
               variant="text"
               onClick={() => setVat(totalVat.toFixed(2))}
@@ -365,174 +330,137 @@ export default function Index() {
             </Button>
           </>
         )}
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <FormControl variant="standard">
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={insured}
-                onChange={(event) => setInsured(event.target.checked)}
-                name="sent"
-                color="primary"
-              />
-            }
-            label={'Ar esate draustas privalomu sveikatos draudimu?'}
-          />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl variant="standard">
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={additionalPension}
-                onChange={(event) => setAdditionalPension(event.target.checked)}
-                name="sent"
-                color="primary"
-              />
-            }
-            label={'Ar kaupiate papildomai pensijai?'}
-          />
-        </FormControl>
-      </Grid>
+      <Grid.Col span={12}>
+        <Checkbox
+          checked={insured}
+          onChange={(event) => setInsured(event.target.checked)}
+          name="sent"
+          color="primary"
+          label={'Ar esate draustas privalomu sveikatos draudimu?'}
+        />
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Checkbox
+          checked={additionalPension}
+          onChange={(event) => setAdditionalPension(event.target.checked)}
+          name="sent"
+          color="primary"
+          label={'Ar kaupiate papildomai pensijai?'}
+        />
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Mokesčių skaičiavimai
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Mokesčių skaičiavimai</Title>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>Apmokestinamas pelnas: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {profit.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{profit.toFixed(2)} €</Text>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>Sodros bazė: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {sodros_baze.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{sodros_baze.toFixed(2)} €</Text>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>GPM: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {gpm.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{gpm.toFixed(2)} €</Text>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>VSD: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {vsd.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{vsd.toFixed(2)} €</Text>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>PSD: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {psd.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{psd.toFixed(2)} €</Text>
+      </Grid.Col>
 
       {parseFloat(vat) !== 0 && (
         <>
-          <Grid item xs={6}>
-            <Typography variant="body1" component="div">
+          <Grid.Col span={6}>
+            <Text>
               <strong>PVM:</strong>
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="body1" component="div">
-              {parseFloat(vat).toFixed(2)} €
-            </Typography>
-          </Grid>
+            </Text>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Text>{parseFloat(vat).toFixed(2)} €</Text>
+          </Grid.Col>
         </>
       )}
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>Viso mokesčių: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {total_tax.toFixed(2)} €
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{total_tax.toFixed(2)} €</Text>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={6}>
+        <Text>
           <strong>Pelnas po mokesčių: </strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body1" component="div">
-          {profit_after_taxes.toFixed(2)} €
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Naudingos nuorodos
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
-          <ul>
-            <li>
-              <Link
-                color="inherit"
-                href="https://www.sodra.lt/lt/skaiciuokles/individualios_veiklos_skaiciuokle"
-                underline="always"
-              >
-                Sodros Individualios Veiklos skaičiuoklė
-              </Link>
-            </li>
-            <li>
-              <Link
-                color="inherit"
-                href="https://www.sodra.lt/lt/situacijos/imoku-tarifai-savarankiskai-dirbantiems"
-                underline="always"
-              >
-                Įmoku tarifai savarankiškai dirbantiems
-              </Link>
-            </li>
-            <li>
-              <Link
-                color="inherit"
-                href="https://www.vmi.lt/evmi/documents/20142/391017/Individualios+veiklos+apmokestinimo+tavrka+nuo+2018-01-01+%C4%AF+nauj%C4%85+KMK.pdf/35dee9e6-df89-da04-265d-60b67b404657?t=1543400149072"
-                underline="always"
-              >
-                GPM skaičiavimas
-              </Link>
-            </li>
-          </ul>
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Text>{profit_after_taxes.toFixed(2)} €</Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Naudingos nuorodos</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <ul>
+          <li>
+            <Anchor
+              href="https://www.sodra.lt/lt/skaiciuokles/individualios_veiklos_skaiciuokle"
+              underline="always"
+            >
+              Sodros Individualios Veiklos skaičiuoklė
+            </Anchor>
+          </li>
+          <li>
+            <Anchor
+              href="https://www.sodra.lt/lt/situacijos/imoku-tarifai-savarankiskai-dirbantiems"
+              underline="always"
+            >
+              Įmoku tarifai savarankiškai dirbantiems
+            </Anchor>
+          </li>
+          <li>
+            <Anchor
+              href="https://www.vmi.lt/evmi/documents/20142/391017/Individualios+veiklos+apmokestinimo+tavrka+nuo+2018-01-01+%C4%AF+nauj%C4%85+KMK.pdf/35dee9e6-df89-da04-265d-60b67b404657?t=1543400149072"
+              underline="always"
+            >
+              GPM skaičiavimas
+            </Anchor>
+          </li>
+        </ul>
+      </Grid.Col>
     </Grid>
   );
 }

@@ -1,17 +1,7 @@
-import Grid from '@mui/material/Grid';
-import CircularProgress from '@mui/material/CircularProgress';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { ReactNode, useMemo } from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { useMemo } from 'react';
+import { Card } from '@mantine/core';
+import { BarChart } from '@mantine/charts';
+
 import useSWR from 'swr';
 
 export default function StatsGraph({
@@ -105,29 +95,27 @@ export default function StatsGraph({
     return null;
   }
 
+  let series = [
+    { label: 'Viso', name: 'total', color: '#82ca9d' },
+    { label: 'Neapmokėta', name: 'unpaid', color: '#da7282' },
+  ];
+
+  if (isVatPayer) {
+    series.push({ label: 'PVM', name: 'vat', color: '#8884d8' });
+  }
+
   return (
-    <Paper
-      sx={{
-        p: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 300,
-      }}
-    >
-      <ResponsiveContainer>
-        <BarChart width={500} height={300} data={graphData}>
-          <XAxis dataKey="name" />
-          <YAxis unit="€" />
-          <Tooltip />
-          <Legend />
-          <Bar name="Viso" dataKey="total" fill="#82ca9d" unit="€" />
-          <Bar name="Neapmokėta" dataKey="unpaid" fill="#da7282" unit="€" />
-          {isVatPayer && (
-            <Bar name="PVM" dataKey="vat" fill="#8884d8" unit="€" />
-          )}
-        </BarChart>
-      </ResponsiveContainer>
-    </Paper>
+    <Card withBorder shadow="sm">
+      <BarChart
+        h={300}
+        data={graphData}
+        dataKey="name"
+        unit="€"
+        withTooltip
+        withLegend
+        series={series}
+      />
+    </Card>
   );
 }
 

@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Pagination from '@mui/material/Pagination';
-import Skeleton from '@mui/material/Skeleton';
+import { Grid, Loader, Skeleton, Pagination } from '@mantine/core';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';
@@ -80,15 +77,15 @@ export default function Invoices(props: Props) {
 
   if (error)
     return (
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         Klaida parsiunčiant sąskaitų faktūrų sąrašą.
-      </Grid>
+      </Grid.Col>
     );
   if (!invoicesCountData || (showSummary && !invoicesSummaryData))
     return (
-      <Grid item xs={12}>
-        <CircularProgress />
-      </Grid>
+      <Grid.Col span={12}>
+        <Loader />
+      </Grid.Col>
     );
 
   const sum = showSummary
@@ -104,15 +101,14 @@ export default function Invoices(props: Props) {
 
   const pageCount = Math.ceil(invoicesCountData.count / limit);
   const pages = showSummary && invoicesCountData.count > limit && (
-    <Grid item xs={12}>
+    <Grid.Col span={12}>
       <Pagination
-        size="large"
-        count={pageCount}
-        page={page + 1}
-        boundaryCount={2}
-        onChange={(event, newPage) => setPage(newPage - 1)}
+        total={pageCount}
+        value={page + 1}
+        siblings={3}
+        onChange={(newPage) => setPage(newPage - 1)}
       />
-    </Grid>
+    </Grid.Col>
   );
 
   const itemsCount =
@@ -121,7 +117,7 @@ export default function Invoices(props: Props) {
   return (
     <>
       {showSummary && invoicesCountData.count > 0 && (
-        <Grid item xs={12}>
+        <Grid.Col span={12}>
           Rasta sąskaitų faktūrų pagal šiuos filtrus: {invoicesCountData.count}
           {`, kurių bendra suma ${sum} €. `}
           {(invoicesSummaryData.standardUnpaid?.cnt || 0) > 0 &&
@@ -132,30 +128,23 @@ export default function Invoices(props: Props) {
                 (invoicesSummaryData.standardUnpaid?.price || 0) / 100
               } €.`}
           {isVatPayer && ` PVM suma ${vatToPay} €.`}
-        </Grid>
+        </Grid.Col>
       )}
 
       {pages}
 
       {invoicesCountData.count === 0 && (
-        <Grid item xs={12}>
+        <Grid.Col span={12}>
           Nerasta sąskaitų faktūrų pagal šiuos filtrus.
-        </Grid>
+        </Grid.Col>
       )}
 
       {invoicesCountData.count > 0 && (
-        <Grid item xs={12}>
+        <Grid.Col span={12}>
           {isLoading &&
             Array(itemsCount)
               .fill(0)
-              .map((_, idx) => (
-                <Skeleton
-                  key={idx}
-                  variant="rounded"
-                  height={231}
-                  sx={{ marginBottom: '12px' }}
-                />
-              ))}
+              .map((_, idx) => <Skeleton key={idx} height={187} mb={12} />)}
 
           {data?.invoices.map((i: IInvoice) => (
             <InvoiceView
@@ -164,7 +153,7 @@ export default function Invoices(props: Props) {
               onChange={() => mutate(query)}
             />
           ))}
-        </Grid>
+        </Grid.Col>
       )}
 
       {pages}

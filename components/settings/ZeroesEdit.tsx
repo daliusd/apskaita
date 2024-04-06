@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, NumberInput } from '@mantine/core';
+import { IconEdit } from '@tabler/icons-react';
 import useSWR from 'swr';
 
 export default function ZeroesEdit() {
-  const [zeroesCurrent, setZeroesCurrent] = useState<string | undefined>(
+  const [zeroesCurrent, setZeroesCurrent] = useState<number | undefined>(
     undefined,
   );
-  const [zeroes, setZeroes] = useState('');
+  const [zeroes, setZeroes] = useState(0);
   const [enabled, setEnabled] = useState(false);
 
   const { data } = useSWR('/api/settings/zeroes');
@@ -23,26 +22,21 @@ export default function ZeroesEdit() {
 
   return (
     <>
-      <TextField
+      <NumberInput
         disabled={!enabled}
         label="Skaitmenų skaičius sąskaitos faktūros serijos numeryje"
-        inputProps={{
-          'aria-label':
-            'Skaitmenų skaičius sąskaitos faktūros serijos numeryje',
-        }}
-        helperText="Pavyzdžiui, jei įrašysite 6, tai jūsų serijos numeris atrodys kaip 000001. Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
-        type="number"
+        aria-label={'Skaitmenų skaičius sąskaitos faktūros serijos numeryje'}
+        description="Pavyzdžiui, jei įrašysite 6, tai jūsų serijos numeris atrodys kaip 000001. Šis nustatymas veikia tik naujoms ir naujai išsaugotoms sąskaitoms faktūroms."
         value={zeroes}
-        onChange={(e) => {
-          setZeroes(e.target.value);
+        onChange={(value) => {
+          if (typeof value === 'string') return;
+          setZeroes(value);
         }}
-        fullWidth
-        variant="outlined"
       />
 
       <Button
-        color="primary"
-        startIcon={<EditIcon />}
+        leftSection={<IconEdit />}
+        variant="subtle"
         disabled={zeroes === zeroesCurrent}
         onClick={async () => {
           try {

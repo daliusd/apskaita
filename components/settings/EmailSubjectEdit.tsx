@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, TextInput } from '@mantine/core';
+import { IconEdit } from '@tabler/icons-react';
 import useSWR from 'swr';
 
 import { defaultEmailSubject } from '../../utils/email';
@@ -35,23 +34,19 @@ export default function EmailSubjectEdit({ language }: Props) {
 
   return (
     <>
-      <TextField
+      <TextInput
         disabled={!enabled}
         label="Siunčiamo laiško tema"
-        inputProps={{
-          'aria-label': 'Siunčiamo laiško tema',
-        }}
+        aria-label={'Siunčiamo laiško tema'}
         value={emailSubject}
-        onChange={(e) => {
-          setEmailSubject(e.target.value);
+        onChange={(value) => {
+          setEmailSubject(value);
         }}
-        fullWidth
-        variant="outlined"
       />
 
       <Button
-        color="primary"
-        startIcon={<EditIcon />}
+        leftSection={<IconEdit />}
+        variant="subtle"
         disabled={emailSubject === emailSubjectCurrent}
         onClick={async () => {
           try {

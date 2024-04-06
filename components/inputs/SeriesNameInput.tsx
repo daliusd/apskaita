@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import useSWR from 'swr';
 import { useDebounce } from 'react-use';
+import { Autocomplete } from '@mantine/core';
 
 import { cleanUpString } from '../../utils/textutils';
 
@@ -37,34 +36,21 @@ export default function SeriesNameInput({
 
   return (
     <Autocomplete
-      options={options}
-      fullWidth
+      data={options}
       value={seriesName}
-      inputValue={seriesName}
-      onInputChange={(_e, newValue) => {
+      onChange={(newValue) => {
         const value = cleanSerialNumber(cleanUpString(newValue));
         onChange(value);
       }}
-      freeSolo
-      renderInput={(params) => (
-        <TextField
-          variant="standard"
-          {...params}
-          label="Serijos pavadinimas"
-          inputProps={{
-            'aria-label': 'Serijos pavadinimas',
-            ...params.inputProps,
-          }}
-          error={valid === false}
-          helperText={
-            valid === false
-              ? seriesName.length === 0
-                ? 'Įveskite serijos pavadinimą'
-                : 'Serijos pavadinimas naudojamas kito tipo sąskaitoms faktūroms'
-              : ''
-          }
-        />
-      )}
+      label="Serijos pavadinimas"
+      aria-label="Serijos pavadinimas"
+      error={
+        valid === false
+          ? seriesName.length === 0
+            ? 'Įveskite serijos pavadinimą'
+            : 'Serijos pavadinimas naudojamas kito tipo sąskaitoms faktūroms'
+          : ''
+      }
       disabled={disabled}
     />
   );

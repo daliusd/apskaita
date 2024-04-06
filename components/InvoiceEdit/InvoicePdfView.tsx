@@ -1,18 +1,11 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
+import { Button, Grid, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useCopyToClipboard } from 'react-use';
 
-import {
-  messageSeverityState,
-  messageTextState,
-  pdfnameState,
-  seriesIdState,
-  seriesNameState,
-} from '../../src/atoms';
+import { pdfnameState, seriesIdState, seriesNameState } from '../../src/atoms';
 
 export default function InvoicePdfView() {
   const [seriesName] = useRecoilState(seriesNameState);
@@ -20,16 +13,16 @@ export default function InvoicePdfView() {
   const [pdfname] = useRecoilState(pdfnameState);
 
   const router = useRouter();
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [isCopied, setIsCopied] = useCopyToClipboard();
 
   useEffect(() => {
     if (isCopied.value) {
-      setMessageText('Nuoroda nukopijuota.');
-      setMessageSeverity('success');
+      notifications.show({
+        message: 'Nuoroda nukopijuota.',
+        color: 'green',
+      });
     }
-  }, [isCopied.value, setMessageText, setMessageSeverity]);
+  }, [isCopied.value]);
 
   if (!pdfname) {
     return null;
@@ -43,19 +36,16 @@ export default function InvoicePdfView() {
 
   return (
     <>
-      <Grid item xs={12}>
-        <TextField
-          variant="standard"
+      <Grid.Col span={12}>
+        <TextInput
           label="PDF nuoroda"
-          inputProps={{ 'aria-label': 'PDF nuoroda' }}
+          aria-label={'PDF nuoroda'}
           value={fullUrl}
-          fullWidth
         />
-      </Grid>
-      <Grid item xs={6}>
+      </Grid.Col>
+      <Grid.Col span={6}>
         <Button
-          variant="contained"
-          color="primary"
+          variant="filled"
           aria-label="PDF failas"
           onClick={() => {
             router.push(pdfUrl);
@@ -63,11 +53,10 @@ export default function InvoicePdfView() {
         >
           Atidaryti PDF failą
         </Button>
-      </Grid>
-      <Grid container item xs={6} justifyContent="flex-end">
+      </Grid.Col>
+      <Grid.Col span={6}>
         <Button
-          variant="contained"
-          color="primary"
+          variant="filled"
           aria-label="Kopijuoti PDF nuorodą"
           onClick={() => {
             setIsCopied(fullUrl);
@@ -75,7 +64,7 @@ export default function InvoicePdfView() {
         >
           Kopijuoti PDF nuorodą
         </Button>
-      </Grid>
+      </Grid.Col>
     </>
   );
 }

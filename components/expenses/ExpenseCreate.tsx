@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { Button, Grid } from '@mantine/core';
 
 import ExpenseEditDialog from './ExpenseEditDialog';
 
@@ -20,11 +19,11 @@ export default function ExpenseCreate({ onCreate }: ExpenseCreateProps) {
   };
 
   return (
-    <Grid item xs={12}>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+    <Grid.Col span={12}>
+      <Button variant="filled" onClick={handleClickOpen}>
         Pridėti išlaidų įrašą
       </Button>
       {open && <ExpenseEditDialog onClose={handleClose} onChange={onCreate} />}
-    </Grid>
+    </Grid.Col>
   );
 }

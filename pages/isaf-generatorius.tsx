@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Anchor, Grid, Title, Text, Button, TextInput } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../utils/date';
@@ -51,121 +47,94 @@ export default function Index() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h5" component="h1">
-          i.SAF generatorius
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={2}>i.SAF generatorius</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           i.SAF generatorius nėra visiškai išbaigtas. Šiuo metu jis tinkamas tik
           generuoti sąskaitų faktūrų i.SAF XML failui (išlaidų i.SAF nėra
           generuojamas). Taip pat šis įrankis šiuo metu daro prielaidą, kad SF
           išrašomos Lietuvoje. Jeigu jūs SF išrašote pirkėjams iš kitų šalių ir
           jums reikia i.SAF, susisiekite su manimi - pažiūrėsime, ką galime
           padaryti.
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Laikotarpis ir Serija
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Title order={3}>Laikotarpis ir Serija</Title>
+      </Grid.Col>
 
-      <Grid item xs={6}>
-        <DatePicker
+      <Grid.Col span={6}>
+        <DateInput
           label="Pradžios data"
+          aria-label="Pradžios data"
           value={fromDate}
           onChange={setFromDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pradžios data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Pabaigos data"
+          aria-label="Pabaigos data"
           value={toDate}
           onChange={setToDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Pabaigos data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
+      </Grid.Col>
 
       <DefaultDates setFromDate={setFromDate} setToDate={setToDate} />
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <SeriesNameInput
           seriesName={seriesName}
           onChange={setSeriesName}
           disabled={false}
           invoiceType={'standard'}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Jūsų duomenys
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Jūsų duomenys</Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <TextField
+      <Grid.Col span={12}>
+        <TextInput
           variant="standard"
-          inputProps={{
-            'aria-label': 'Asmens kodas',
-          }}
+          aria-label={'Asmens kodas'}
           label="Asmens kodas"
           value={registrationNumber}
           onChange={(e) => {
             setRegistrationNumber(e.target.value);
           }}
-          fullWidth
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={4}>
-        <Button variant="contained" onClick={generateISAF} size="small">
+      <Grid.Col span={4}>
+        <Button variant="filled" onClick={generateISAF} size="small">
           Generuoti i.SAF XML
         </Button>
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Naudingos nuorodos
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Title order={3}>Naudingos nuorodos</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           <ul>
             <li>
-              <Link
+              <Anchor
                 color="inherit"
                 href="https://www.vmi.lt/evmi/documents/20142/391113/i.SAF+duomen%C5%B3+rinkmenos+XML+strukturos+apraso+aprasymas+%281.2.1%29.pdf/e022f941-29e7-7f9a-9a93-63d3cf72b294?t=1545213233801"
                 underline="always"
               >
                 Informacija apie i.SAF XML formatą
-              </Link>
+              </Anchor>
             </li>
           </ul>
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
     </Grid>
   );
 }

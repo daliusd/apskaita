@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import { Button } from '@mantine/core';
 
 interface Props {
   setFromDate: (date: Date) => void;
@@ -11,7 +11,7 @@ export const DateButtonPreviousYear: React.FC<Props> = ({
 }) => {
   return (
     <Button
-      variant="text"
+      variant="transparent"
       onClick={() => {
         const start = new Date();
         start.setUTCHours(0, 0, 0, 0);

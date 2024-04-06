@@ -1,9 +1,5 @@
-import { useRecoilState } from 'recoil';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-
-import { messageSeverityState, messageTextState } from '../../src/atoms';
+import { Checkbox } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 interface IProps {
   invoiceId?: string;
@@ -16,13 +12,10 @@ export default function InvoiceLockedCheckbox({
   locked,
   setLocked,
 }: IProps) {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
-
   if (!invoiceId) return null;
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const locked = event.target.checked;
+    const locked = event.currentTarget.checked;
 
     let response: Response;
     try {
@@ -36,8 +29,10 @@ export default function InvoiceLockedCheckbox({
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Įvyko klaida užrakinant/atrakinant sąskaitą.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Įvyko klaida užrakinant/atrakinant sąskaitą.',
+        color: 'red',
+      });
       return;
     }
 
@@ -45,18 +40,6 @@ export default function InvoiceLockedCheckbox({
   };
 
   return (
-    <FormControl variant="standard">
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={locked}
-            onChange={handleChange}
-            name="locked"
-            color="primary"
-          />
-        }
-        label={'Užrakinta'}
-      />
-    </FormControl>
+    <Checkbox checked={locked} onChange={handleChange} label="Užrakinta" />
   );
 }

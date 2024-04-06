@@ -1,30 +1,28 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import MuiLink from '@mui/material/Link';
+import { Anchor, Box, Text } from '@mantine/core';
 
 import Link from './Link';
 
 export default function Copyright() {
   return (
     <Box mt={6}>
-      <Typography variant="body2" color="textSecondary" align="center">
-        <Link color="inherit" href="/privatumas">
+      <Text variant="body2" c="dimmed" ta="center">
+        <Link c="inherit" href="/privatumas">
           Privatumo politika
         </Link>
         {' | '}
-        <Link color="inherit" href="/naudojimas">
+        <Link c="inherit" href="/naudojimas">
           Naudojimo sąlygos
         </Link>
         {' | '}
-        <Link color="inherit" href="/kontaktai">
+        <Link c="inherit" href="/kontaktai">
           Kontaktai
         </Link>
         {' | © '}
-        <MuiLink color="inherit" href="https://www.ffff.lt/" underline="hover">
+        <Anchor c="inherit" href="https://www.ffff.lt/" underline="hover">
           Dalius Dobravolskas
-        </MuiLink>{' '}
+        </Anchor>{' '}
         {new Date().getFullYear()}
-      </Typography>
+      </Text>
     </Box>
   );
 }

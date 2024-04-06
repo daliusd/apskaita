@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import { useDebounce } from 'react-use';
 import useSWR from 'swr';
@@ -11,6 +10,7 @@ import {
   seriesIdState,
   seriesNameState,
 } from '../../src/atoms';
+import { NumberInput } from '@mantine/core';
 
 export default function SeriesIdInput() {
   const [initialInvoice] = useRecoilState(initialInvoiceState);
@@ -63,24 +63,20 @@ export default function SeriesIdInput() {
   ]);
 
   return (
-    <TextField
-      variant="standard"
-      type="number"
-      inputProps={{ 'aria-label': 'Serijos numeris' }}
+    <NumberInput
+      aria-label={'Serijos numeris'}
       label="Serijos numeris"
       value={seriesId}
-      onChange={(e) => {
-        setSeriesId(e.target.value);
+      onChange={(value) => {
+        setSeriesId(value.toString());
       }}
       disabled={(!seriesIdResp.data && !seriesIdResp.error) || locked}
-      fullWidth
-      error={!valid || !seriesId}
-      helperText={
+      error={
         !valid
           ? 'Šis serijos numeris jau naudojamas.'
           : !seriesId
-          ? 'Serijos numeris negali būti tuščias'
-          : ''
+            ? 'Serijos numeris negali būti tuščias'
+            : ''
       }
     />
   );

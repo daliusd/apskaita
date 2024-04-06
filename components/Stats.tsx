@@ -1,6 +1,4 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Grid, Loader, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import useSWR from 'swr';
 import { getMsSinceEpoch } from '../utils/date';
@@ -79,9 +77,9 @@ export default function Stats({
 
   if (!data)
     return (
-      <Grid item xs={12}>
-        <CircularProgress />
-      </Grid>
+      <Grid.Col span={12}>
+        <Loader />
+      </Grid.Col>
     );
 
   if (totalPaid === 0 && totalUnpaid === 0) {
@@ -90,35 +88,33 @@ export default function Stats({
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Statistika pagal paskutinius 12+ mėnesių
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
+        <Title order={3}>Statistika pagal paskutinius 12+ mėnesių</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <StatsGraph data={data} fromDate={fromDate} toDate={toDate} />
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           Viso: {(totalPaid + totalUnpaid) / 100}€
           {totalUnpaid > 0 && totalPaid !== 0
             ? ', Neapmokėta: ' + totalUnpaid / 100 + '€'
             : ''}
           {isVatPayer && totalVat > 0 ? ', PVM: ' + totalVat / 100 + '€' : ''}.
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
 
       {!isVatPayer && (totalPaid + totalUnpaid) / 100 > 36000 && (
-        <Grid item xs={12}>
-          <Typography variant="body1" component="div">
+        <Grid.Col span={12}>
+          <Text>
             <strong>Perspėjimas:</strong> pajamoms per paskutinius 12 mėnesių
             viršijus 45000€ atsiranda prievolė registruotis PVM mokėtoju.
-          </Typography>
-        </Grid>
+          </Text>
+        </Grid.Col>
       )}
 
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Text>
           <strong>Pastaba:</strong> Iki 10-tos mėnesio dienos statistika rodoma
           pagal prieš tai buvusius pilnus 12-ką mėnesių ir einamojo mėnesio
           dienas, o po 10-tos dienos pagal prieš tai buvusius 11-ą mėnesių ir
@@ -129,8 +125,8 @@ export default function Stats({
             Individualios Veiklos mokesčių skaičiuokle
           </Link>
           .
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
     </>
   );
 }

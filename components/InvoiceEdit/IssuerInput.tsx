@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
@@ -10,6 +9,7 @@ import {
   issuerState,
   seriesNameState,
 } from '../../src/atoms';
+import { TextInput } from '@mantine/core';
 
 export default function IssuerInput() {
   const [issuer, setIssuer] = useRecoilState(issuerState);
@@ -32,16 +32,14 @@ export default function IssuerInput() {
   const disabled = locked || (languageAfterChange && !lastSellerData);
 
   return (
-    <TextField
-      variant="standard"
+    <TextInput
       label="Sąskaitą faktūrą išrašė"
-      inputProps={{ 'aria-label': 'SF išrašė' }}
+      aria-label={'SF išrašė'}
       value={issuer}
       disabled={disabled}
       onChange={(e) => {
         setIssuer(cleanUpString(e.target.value));
       }}
-      fullWidth
     />
   );
 }

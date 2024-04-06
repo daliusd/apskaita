@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { notifications } from '@mantine/notifications';
+import { Checkbox, Grid, Text, Title } from '@mantine/core';
 import useSWR, { mutate } from 'swr';
 
-import { messageSeverityState, messageTextState } from '../../src/atoms';
-
 export default function ContactAgreement() {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [enabled, setEnabled] = useState(false);
 
   const { data: contactAgreementData } = useSWR(
@@ -43,42 +36,38 @@ export default function ContactAgreement() {
     await mutate('/api/settings/contactagreement');
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Įvyko klaida duodant sutikimą susisiekti.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Įvyko klaida duodant sutikimą susisiekti.',
+        color: 'red',
+      });
       return;
     }
   };
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Sutikimas dėl susisiekimo
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Title order={3}>Sutikimas dėl susisiekimo</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           „Haiku.lt“ tobulinimui mums kartais gali reikėti jūsų nuomonės,
           informacijos kaip jūs naudojatės sistema arba ko jums trūksta iš jos.
           Iš kitos pusės nesinori trukdyti vartotojų, kurie nori tiesiog
           naudotis sistema. Todėl klausiame ar sutinkate, kad mes kartais su
           jumis susisiektumėme:
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              disabled={!enabled}
-              checked={agreed}
-              onChange={handleContactAgreement}
-              name="agreed"
-              color="primary"
-            />
-          }
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Checkbox
+          disabled={!enabled}
+          checked={agreed}
+          onChange={handleContactAgreement}
+          name="agreed"
+          color="primary"
           label={'Sutinku, kad su manimi kartais susisiektumėte.'}
         />
-      </Grid>
+      </Grid.Col>
     </>
   );
 }
