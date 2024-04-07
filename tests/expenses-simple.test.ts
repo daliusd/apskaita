@@ -15,7 +15,7 @@ test('Expenses. Simple test', async ({ page }) => {
 
   await page.fill('[aria-label="Išlaidų aprašymas"]', 'Test');
 
-  await page.fill('input[type="number"]', '10');
+  await page.fill('[aria-label="Išlaidų suma"]', '10');
   await page.click('[aria-label="Pridėti išlaidų įrašą"]');
 
   await page.waitForSelector('text=Išlaidos įrašas pridėtas.');

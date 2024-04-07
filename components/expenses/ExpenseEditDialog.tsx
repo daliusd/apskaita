@@ -143,6 +143,7 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
           <Grid.Col span={12}>
             <NumberInput
               label="Išlaidų suma"
+              aria-label="Išlaidų suma"
               value={price}
               onChange={(value) => {
                 if (typeof value === 'string') return;

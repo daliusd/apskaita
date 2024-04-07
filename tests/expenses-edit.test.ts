@@ -13,13 +13,13 @@ test('Expenses. Create and edit expenses', async ({ page }) => {
 
   await page.click('button:has-text("Pridėti išlaidų įrašą")');
   await page.fill('[aria-label="Išlaidų aprašymas"]', 'test');
-  await page.fill('input[type="number"]', '1');
+  await page.fill('[aria-label="Išlaidų suma"]', '1');
   await page.click('[aria-label="Pridėti išlaidų įrašą"]');
 
   await page.click('[aria-label="Keisti"]');
 
   await page.fill('[aria-label="Išlaidų aprašymas"]', 'test2');
-  await page.fill('input[type="number"]', '2');
+  await page.fill('[aria-label="Išlaidų suma"]', '2');
   await page.click('[aria-label="Pakeisti išlaidų įrašą"]');
 
   await page.waitForSelector('text=Išlaidų įrašas pakeistas');
