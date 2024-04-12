@@ -58,7 +58,7 @@
     "prepare": "husky install .config/husky"
   },
   "devDependencies": {
-    "@playwright/test": "1.43.0",
+    "@playwright/test": "1.43.1",
     "@types/chance": "1.1.6",
     "@types/multer": "1.4.11",
     "@types/node": "^20.0.0",
