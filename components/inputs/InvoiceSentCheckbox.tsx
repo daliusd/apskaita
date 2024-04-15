@@ -40,5 +40,12 @@ export default function InvoiceSentCheckbox({
     setSent(sent);
   };
 
-  return <Checkbox checked={sent} onChange={handleChange} label="Išsiųsta" />;
+  return (
+    <Checkbox
+      name="sent"
+      checked={sent}
+      onChange={handleChange}
+      label="Išsiųsta"
+    />
+  );
 }

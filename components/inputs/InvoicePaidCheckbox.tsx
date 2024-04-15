@@ -41,5 +41,12 @@ export default function InvoicePaidCheckbox({
     setPaid(paid);
   };
 
-  return <Checkbox checked={paid} onChange={handleChange} label="Apmokėta" />;
+  return (
+    <Checkbox
+      name="paid"
+      checked={paid}
+      onChange={handleChange}
+      label="Apmokėta"
+    />
+  );
 }

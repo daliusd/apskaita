@@ -25,16 +25,18 @@ export async function fillNewInvoice(page, invoice) {
 
   await page.click('input[aria-label="Sąskaitos data"]', {
     position: { x: 5, y: 5 },
+    clickCount: 3,
   });
-  await page.keyboard.press('Control+A');
-  await page.type(
+  await page.fill(
     'input[aria-label="Sąskaitos data"]',
     new Date(invoice.created).toISOString().slice(0, 10),
   );
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
 
   if (invoice.language !== 'lt') {
-    await page.click('div[aria-label="Kalba"]');
-    await page.click('li[aria-label="en"]');
+    await page.getByRole('textbox', { name: 'Kalba' }).click();
+    await page.getByRole('option', { name: 'Anglų' }).click();
   }
 
   await page.click('textarea[aria-label="Pardavėjas"]');

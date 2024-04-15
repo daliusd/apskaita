@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { fillNewInvoice } from './invoices';
 
@@ -60,17 +60,23 @@ test('Invoice. Should show errors if user tries to create wrong invoice', async 
   await page.fill('input[aria-label="Serijos numeris"]', '2');
   await page.click('input[aria-label="Sąskaitos data"]', {
     position: { x: 5, y: 5 },
+    clickCount: 3,
   });
-  await page.type('input[aria-label="Sąskaitos data"]', '2021-01-29');
+  await page.fill('input[aria-label="Sąskaitos data"]', '2021-01-29');
 
-  await page.click('text=/.*Data turi būti 2021-01-30 arba vėlesnė.*/');
+  await expect(
+    page.getByText('Data turi būti 2021-01-30 arba vėlesnė'),
+  ).toBeVisible();
 
   await page.click('input[aria-label="Sąskaitos data"]', {
     position: { x: 5, y: 5 },
+    clickCount: 3,
   });
-  await page.type('input[aria-label="Sąskaitos data"]', '2021-02-02');
+  await page.fill('input[aria-label="Sąskaitos data"]', '2021-02-02');
 
-  await page.click('text=/.*Data turi būti 2021-02-01 arba ankstesnė.*/');
+  await expect(
+    page.getByText('Data turi būti 2021-02-01 arba ankstesnė'),
+  ).toBeVisible();
 
   await deleteUser(page);
 });

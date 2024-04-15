@@ -40,6 +40,11 @@ export default function InvoiceLockedCheckbox({
   };
 
   return (
-    <Checkbox checked={locked} onChange={handleChange} label="Užrakinta" />
+    <Checkbox
+      name="locked"
+      checked={locked}
+      onChange={handleChange}
+      label="Užrakinta"
+    />
   );
 }

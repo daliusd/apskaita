@@ -15,6 +15,7 @@ export default function LanguageSelect() {
   return (
     <Select
       label="Kalba"
+      aria-label="Kalba"
       data={['Lietuvių', 'Anglų']}
       value={language === 'lt' ? 'Lietuvių' : 'Anglų'}
       onChange={(value) => {

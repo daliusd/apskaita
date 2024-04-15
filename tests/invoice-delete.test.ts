@@ -41,7 +41,7 @@ test('Invoice. Should delete invoice', async ({ page }) => {
 
   await Promise.all([
     page.waitForNavigation({ url: 'http://localhost:3000/saskaitos' }),
-    page.click('div[role="dialog"] >> text="Taip, trinti"'),
+    page.click('text="Taip, trinti"'),
   ]);
 
   await page.waitForSelector(
