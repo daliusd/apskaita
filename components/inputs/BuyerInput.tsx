@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-
+import { Combobox, Textarea, useCombobox } from '@mantine/core';
 import useSWR from 'swr';
 import { useDebounce } from 'react-use';
 
@@ -14,12 +12,8 @@ interface IProps {
   rows?: number;
 }
 
-export default function BuyerInput({
-  buyer,
-  onChange,
-  disabled,
-  rows = 4,
-}: IProps) {
+export default function BuyerInput({ buyer, onChange, disabled }: IProps) {
+  const combobox = useCombobox();
   const [debouncedBuyer, setDebouncedBuyer] = useState('');
   useDebounce(() => setDebouncedBuyer(buyer), 500, [buyer]);
   const { data: dataBuyer } = useSWR(`/api/uniquebuyers/${debouncedBuyer}`);
@@ -28,29 +22,47 @@ export default function BuyerInput({
     buyerToEmail[b.buyer] = b.email;
   });
 
+  const options = (dataBuyer?.buyers?.map((b) => b.buyer) || []).map((item) => (
+    <Combobox.Option value={item} key={item}>
+      {item}
+    </Combobox.Option>
+  ));
+
   return (
-    <Autocomplete
-      id="combo-box-demo"
-      options={dataBuyer?.buyers?.map((b) => b.buyer) || []}
-      fullWidth
-      value={buyer}
-      disabled={disabled}
-      onInputChange={(_e, newValue) => {
-        const value = cleanUpString(newValue);
+    <Combobox
+      onOptionSubmit={(value) => {
         const email = buyerToEmail[value] || '';
         onChange({ buyer: value, email });
+        combobox.closeDropdown();
       }}
-      freeSolo
-      renderInput={(params) => (
-        <TextField
-          {...params}
+      store={combobox}
+    >
+      <Combobox.Target>
+        <Textarea
           label="Pirkėjas"
-          inputProps={{ 'aria-label': 'Pirkėjas', ...params.inputProps }}
-          multiline
-          rows={rows}
-          variant={rows > 1 ? 'outlined' : 'standard'}
+          aria-label={'Pirkėjas'}
+          disabled={disabled}
+          value={buyer}
+          autosize
+          minRows={4}
+          onChange={(event) => {
+            const value = cleanUpString(event.currentTarget.value);
+            const email = buyerToEmail[value] || '';
+            onChange({ buyer: value, email });
+            combobox.openDropdown();
+            combobox.updateSelectedOptionIndex();
+          }}
+          onClick={() => combobox.openDropdown()}
+          onFocus={() => combobox.openDropdown()}
+          onBlur={() => combobox.closeDropdown()}
         />
+      </Combobox.Target>
+
+      {options.length > 0 && (
+        <Combobox.Dropdown>
+          <Combobox.Options>{options}</Combobox.Options>
+        </Combobox.Dropdown>
       )}
-    />
+    </Combobox>
   );
 }

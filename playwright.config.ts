@@ -1,8 +1,9 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: 'tests',
+  timeout: 20000,
   expect: {
-    timeout: 10000,
+    timeout: 2000,
   },
   retries: 1,
   webServer: {

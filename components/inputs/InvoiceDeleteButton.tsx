@@ -1,17 +1,9 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { Box, Button, Grid, Group, Modal, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconTrash } from '@tabler/icons-react';
 
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
-
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
-
-import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 interface IProps {
   invoiceId?: string;
@@ -20,8 +12,6 @@ interface IProps {
 
 export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   const router = useRouter();
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (!invoiceId) return null;
@@ -35,55 +25,56 @@ export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Klaida trinant sąskaitą faktūrą.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Klaida trinant sąskaitą faktūrą.',
+        color: 'red',
+      });
       return;
     }
 
     router.replace(`/saskaitos`);
-    setMessageText('Sąskaita faktūra ištrinta.');
-    setMessageSeverity('info');
+    notifications.show({
+      message: 'Sąskaita faktūra ištrinta.',
+      color: 'blue',
+    });
   };
 
   return (
-    <Grid container item xs={12} justifyContent="flex-end">
+    <Grid.Col span={12}>
       <Button
-        variant="contained"
-        color="secondary"
+        variant="filled"
+        color="red"
         aria-label="Trinti"
-        startIcon={<DeleteIcon />}
+        leftSection={<IconTrash />}
         onClick={() => setDeleteOpen(true)}
         disabled={disabled}
       >
         Trinti
       </Button>
 
-      <Dialog
-        maxWidth="xs"
-        aria-labelledby="delete-dialog-title"
-        open={deleteOpen}
+      <Modal
+        opened={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        title={<Title order={3}>Ar tikrai norite ištrinti SF?</Title>}
+        centered
       >
-        <DialogTitle id="delete-dialog-title">
-          Ar tikrai norite ištrinti SF?
-        </DialogTitle>
-        <DialogContent dividers>
+        <Box mb={24}>
           Mes leidžiame ištrinti sąskaitą faktūrą, tačiau jūs turėsite
           užtikrinti, kad serijos numeris būtų panaudotas kitai sąskaitai
           faktūrai. Ar tikrai norite ištrinti sąskaitą faktūrą?
-        </DialogContent>
-        <DialogActions>
+        </Box>
+
+        <Group justify="flex-end">
           <Button
             autoFocus
             onClick={() => setDeleteOpen(false)}
-            color="primary"
+            variant="light"
           >
             Nutraukti
           </Button>
-          <Button onClick={handleDelete} color="primary">
-            Taip, trinti
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Grid>
+          <Button onClick={handleDelete}>Taip, trinti</Button>
+        </Group>
+      </Modal>
+    </Grid.Col>
   );
 }

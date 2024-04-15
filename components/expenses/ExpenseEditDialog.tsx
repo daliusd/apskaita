@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import CloudUpload from '@mui/icons-material/CloudUpload';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  Box,
+  Button,
+  Grid,
+  Loader,
+  Modal,
+  NumberInput,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { DateInput } from '@mantine/dates';
+import { IconPlus, IconCloudUpload } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
 
 import { getMsSinceEpoch } from '../../utils/date';
 import { IExpense } from '../../db/db';
-import { messageSeverityState, messageTextState } from '../../src/atoms';
 
 export interface ExpenseEditDialogProps {
   expense?: IExpense;
@@ -32,11 +33,9 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
   const [date, setDate] = useState(
     expense ? new Date(expense.created) : new Date(),
   );
-  const [price, setPrice] = useState(expense ? expense.price.toString() : '0');
+  const [price, setPrice] = useState(expense ? expense.price : 0);
   const [file, setFile] = useState<File>(null);
   const [inProgress, setInProgress] = useState(false);
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   const { onClose, onChange } = props;
 
@@ -72,7 +71,7 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
       } else {
         const data = new FormData();
         data.append('description', description);
-        data.append('price', price);
+        data.append('price', price.toString());
         data.append('created', getMsSinceEpoch(date).toString());
         if (file !== null) {
           data.append('file', file);
@@ -87,85 +86,78 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
 
     setInProgress(false);
     if (!resp || !resp.ok || !(await resp.json()).success) {
-      setMessageText(
-        expense
+      notifications.show({
+        message: expense
           ? 'Nepavyko pakeisti išlaidų įrašo'
           : 'Nepavyko pridėti išlaidų įrašo.',
-      );
-      setMessageSeverity('error');
+        color: 'red',
+      });
       return;
     }
 
-    setMessageText(
-      expense ? 'Išlaidų įrašas pakeistas' : 'Išlaidos įrašas pridėtas.',
-    );
-    setMessageSeverity('success');
+    notifications.show({
+      message: expense
+        ? 'Išlaidų įrašas pakeistas'
+        : 'Išlaidos įrašas pridėtas.',
+      color: 'green',
+    });
 
     handleClose();
     onChange();
   };
 
   return (
-    <Dialog
+    <Modal
+      opened={true}
       onClose={handleClose}
-      aria-labelledby="expense-edit-dialog"
-      open={true}
+      title={
+        <Title order={3}>
+          {expense ? 'Keisti išlaidų įrašą' : 'Pridėti išlaidų įrašą'}
+        </Title>
+      }
+      centered
     >
-      <DialogTitle id="expense-edit-dialog">
-        {expense ? 'Keisti išlaidų įrašą' : 'Pridėti išlaidų įrašą'}
-      </DialogTitle>
       <Box m={4}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              variant="standard"
-              inputProps={{ 'aria-label': 'Išlaidų aprašymas' }}
+        <Grid gutter={{ base: 12 }}>
+          <Grid.Col span={12}>
+            <TextInput
+              aria-label={'Išlaidų aprašymas'}
               label="Išlaidų aprašymas"
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
-              fullWidth
             />
-          </Grid>
+          </Grid.Col>
 
-          <Grid item xs={12}>
-            <DatePicker
+          <Grid.Col span={12}>
+            <DateInput
               label="Išlaidų data"
+              aria-label="Išlaidų data"
               value={date}
               onChange={setDate}
-              format="yyyy-MM-dd"
-              slotProps={{
-                textField: {
-                  fullWidth: true,
-                  inputProps: {
-                    'aria-label': 'Išlaidų data',
-                  },
-                  variant: 'standard',
-                },
-              }}
+              valueFormat="YYYY-MM-DD"
             />
-          </Grid>
+          </Grid.Col>
 
-          <Grid item xs={12}>
-            <TextField
-              variant="standard"
-              type="number"
+          <Grid.Col span={12}>
+            <NumberInput
               label="Išlaidų suma"
+              aria-label="Išlaidų suma"
               value={price}
-              onChange={(e) => {
-                setPrice(e.target.value);
+              onChange={(value) => {
+                if (typeof value === 'string') return;
+                setPrice(value);
               }}
-              fullWidth
             />
-          </Grid>
+          </Grid.Col>
 
           {gdrive && !expense && (
-            <Grid item xs={12}>
+            <Grid.Col span={12}>
               {file === null && (
                 <Button
-                  startIcon={<CloudUpload />}
-                  color="primary"
+                  leftSection={<IconCloudUpload />}
+                  variant="subtle"
                   component="label"
                   aria-label="Pridėti failą"
                 >
@@ -173,32 +165,27 @@ export default function ExpenseEditDialog(props: ExpenseEditDialogProps) {
                   <input type="file" hidden onChange={handleChange} />
                 </Button>
               )}
-              {file !== null && (
-                <Typography variant="body1" component="div">
-                  Failas: {file.name}
-                </Typography>
-              )}
-            </Grid>
+              {file !== null && <Text>Failas: {file.name}</Text>}
+            </Grid.Col>
           )}
 
-          <Grid item xs={12}>
+          <Grid.Col span={12}>
             {!inProgress && (
               <Button
                 aria-label={
                   expense ? 'Pakeisti išlaidų įrašą' : 'Pridėti išlaidų įrašą'
                 }
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
+                variant="filled"
+                leftSection={<IconPlus />}
                 onClick={handleCreateExpense}
               >
                 {expense ? 'Pakeisti išlaidų įrašą' : 'Pridėti išlaidų įrašą'}
               </Button>
             )}
-            {inProgress && <CircularProgress />}
-          </Grid>
+            {inProgress && <Loader />}
+          </Grid.Col>
         </Grid>
       </Box>
-    </Dialog>
+    </Modal>
   );
 }

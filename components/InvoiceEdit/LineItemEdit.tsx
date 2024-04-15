@@ -1,12 +1,8 @@
 import { useMemo, useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
-import Autocomplete from '@mui/material/Autocomplete';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Autocomplete, Button, Grid, NumberInput } from '@mantine/core';
 import useSWR from 'swr';
 import { useDebounce } from 'react-use';
+import { IconClearAll } from '@tabler/icons-react';
 
 import { ILineItem } from '../../db/db';
 import { cleanUpString } from '../../utils/textutils';
@@ -28,19 +24,16 @@ export default function LineItemEdit({
   deleteEnabled,
   disabled,
 }: Props) {
-  const [amount, setAmount] = useState(lineItem.amount.toString());
-  const [price, setPrice] = useState(
-    lineItem.price === 0 ? '' : (lineItem.price / 100).toString(),
-  );
-  const [vat, setVat] = useState((lineItem.vat || 0).toString());
+  const [amount, setAmount] = useState(lineItem.amount);
+  const [price, setPrice] = useState(lineItem.price / 100);
+  const [vat, setVat] = useState(lineItem.vat || 0);
 
   const sum = useMemo(() => {
     return lineItem.price * lineItem.amount;
   }, [lineItem.price, lineItem.amount]);
 
   const price_without_vat = useMemo(() => {
-    const vatn = parseFloat(vat);
-    return !isNaN(vatn) ? Math.round(lineItem.price / (1.0 + vatn / 100)) : sum;
+    return !isNaN(vat) ? Math.round(lineItem.price / (1.0 + vat / 100)) : sum;
   }, [lineItem.price, sum, vat]);
 
   const sum_without_vat = useMemo(() => {
@@ -62,13 +55,14 @@ export default function LineItemEdit({
 
   return (
     <>
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <Autocomplete
-          options={data ? data.lineItemsNames.map((i) => i.name) : []}
-          fullWidth
+          label="Paslaugos ar prekės pavadinimas"
+          aria-label={'Paslaugos pavadinimas' + lid}
+          data={data ? data.lineItemsNames.map((i) => i.name) : []}
           disabled={disabled}
           value={lineItem.name}
-          onInputChange={(_e, newValue) => {
+          onChange={(newValue) => {
             let newPrice = lineItem.price;
             let newVat = undefined;
             newValue = cleanUpString(newValue);
@@ -79,10 +73,10 @@ export default function LineItemEdit({
                 );
                 if (existingItems.length > 0) {
                   newPrice = existingItems[0].price;
-                  setPrice((newPrice / 100).toString());
+                  setPrice(newPrice / 100);
                   if (isVatPayer) {
                     newVat = existingItems[0].vat || 0;
-                    setVat(newVat.toString());
+                    setVat(newVat);
                   }
                 }
               }
@@ -95,180 +89,128 @@ export default function LineItemEdit({
               });
             }
           }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              variant="standard"
-              {...params}
-              label="Paslaugos ar prekės pavadinimas"
-              inputProps={{
-                'aria-label': 'Paslaugos pavadinimas' + lid,
-                ...params.inputProps,
-              }}
-            />
-          )}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={3}>
+      <Grid.Col span={3}>
         <Autocomplete
-          options={['vnt.', 'kg', 'val.']}
-          fullWidth
+          label="Matas"
+          aria-label={'Matas' + lid}
+          data={['vnt.', 'kg', 'val.']}
           disabled={disabled}
           value={lineItem.unit}
-          onInputChange={(_e, newValue) => {
+          onChange={(newValue) => {
             onChange({ ...lineItem, unit: newValue });
           }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              variant="standard"
-              {...params}
-              label="Matas"
-              inputProps={{ 'aria-label': 'Matas' + lid, ...params.inputProps }}
-            />
-          )}
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={3}>
-        <TextField
-          variant="standard"
-          type="number"
+      <Grid.Col span={3}>
+        <NumberInput
           label="Kiekis"
-          inputProps={{ 'aria-label': 'Kiekis' + lid }}
+          aria-label={'Kiekis' + lid}
           value={amount}
           disabled={disabled}
-          onChange={(e) => {
-            setAmount(e.target.value);
+          onChange={(value) => {
+            if (typeof value === 'string') return;
+            setAmount(value);
             onChange({
               ...lineItem,
-              amount: parseInt(e.target.value, 10) || 0,
+              amount: value || 0,
             });
           }}
-          fullWidth
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={3}>
-        <TextField
-          variant="standard"
-          type="number"
+      <Grid.Col span={3}>
+        <NumberInput
           label="Kaina"
-          inputProps={{ 'aria-label': 'Kaina' + lid }}
+          aria-label={'Kaina' + lid}
           value={price}
           disabled={disabled}
-          onChange={(e) => {
-            let price = Math.round(parseFloat(e.target.value) * 100);
+          onChange={(value) => {
+            if (typeof value === 'string') return;
+            let price = Math.round(parseFloat(value.toString()) * 100);
             if (price <= 0) {
               price = 1;
-              setPrice('0.01');
+              setPrice(0.01);
             } else if (price > 100_000_000) {
               price = 100_000_000;
-              setPrice((price / 100).toString());
+              setPrice(price / 100);
             } else {
-              setPrice(e.target.value);
+              setPrice(value);
             }
             onChange({
               ...lineItem,
               price: price || 0,
             });
           }}
-          fullWidth
-          InputProps={{
-            endAdornment: <InputAdornment position="end">€</InputAdornment>,
-          }}
+          suffix="€"
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={3}>
-        <TextField
-          variant="standard"
-          type="number"
-          label="Viso"
-          disabled
-          value={sum / 100}
-          fullWidth
-          InputProps={{
-            endAdornment: <InputAdornment position="end">€</InputAdornment>,
-          }}
-        />
-      </Grid>
+      <Grid.Col span={3}>
+        <NumberInput label="Viso" disabled value={sum / 100} suffix="€" />
+      </Grid.Col>
 
       {isVatPayer && (
         <>
-          <Grid item xs={3}>
-            <TextField
-              variant="standard"
-              type="number"
+          <Grid.Col span={3}>
+            <NumberInput
               label="PVM proc"
-              inputProps={{ 'aria-label': 'PVMproc' + lid }}
+              aria-label={'PVMproc' + lid}
               value={vat}
               disabled={disabled}
-              onChange={(e) => {
-                setVat(e.target.value);
+              onChange={(value) => {
+                if (typeof value === 'string') return;
+                setVat(value);
                 onChange({
                   ...lineItem,
-                  vat: parseInt(e.target.value, 10) || 0,
+                  vat: value || 0,
                 });
               }}
-              fullWidth
             />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              variant="standard"
-              type="number"
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <NumberInput
               label="PVM"
               disabled
               value={(lineItem.price - price_without_vat) / 100}
-              fullWidth
-              InputProps={{
-                endAdornment: <InputAdornment position="end">€</InputAdornment>,
-              }}
+              suffix="€"
             />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              variant="standard"
-              type="number"
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <NumberInput
               label="Kaina be PVM"
               disabled
               value={price_without_vat / 100}
-              fullWidth
-              InputProps={{
-                endAdornment: <InputAdornment position="end">€</InputAdornment>,
-              }}
+              suffix="€"
             />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              variant="standard"
-              type="number"
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <NumberInput
               label="Viso be PVM"
               disabled
               value={sum_without_vat / 100}
-              fullWidth
-              InputProps={{
-                endAdornment: <InputAdornment position="end">€</InputAdornment>,
-              }}
+              suffix="€"
             />
-          </Grid>
+          </Grid.Col>
         </>
       )}
 
       {deleteEnabled && (
-        <Grid item xs={3}>
+        <Grid.Col span={3}>
           <Button
-            color="secondary"
-            startIcon={<ClearIcon />}
+            variant="subtle"
+            color="red"
+            leftSection={<IconClearAll />}
             onClick={onDelete}
             aria-label={'Pašalinti' + lid}
             disabled={disabled}
           >
             Pašalinti
           </Button>
-        </Grid>
+        </Grid.Col>
       )}
     </>
   );

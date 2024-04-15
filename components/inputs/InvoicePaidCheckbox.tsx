@@ -1,9 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-
-import { messageSeverityState, messageTextState } from '../../src/atoms';
+import { Checkbox } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 interface IProps {
   invoiceId?: string;
@@ -16,13 +14,10 @@ export default function InvoicePaidCheckbox({
   paid,
   setPaid,
 }: IProps) {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
-
   if (!invoiceId) return null;
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const paid = event.target.checked;
+    const paid = event.currentTarget.checked;
 
     let response: Response;
     try {
@@ -36,8 +31,10 @@ export default function InvoicePaidCheckbox({
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Įvyko klaida keičiant apmokėjimo būseną.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Įvyko klaida keičiant apmokėjimo būseną.',
+        color: 'red',
+      });
       return;
     }
 
@@ -45,16 +42,11 @@ export default function InvoicePaidCheckbox({
   };
 
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={paid}
-          onChange={handleChange}
-          name="paid"
-          color="primary"
-        />
-      }
-      label={'Apmokėta'}
+    <Checkbox
+      name="paid"
+      checked={paid}
+      onChange={handleChange}
+      label="Apmokėta"
     />
   );
 }

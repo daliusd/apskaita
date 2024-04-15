@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Grid, Loader, Text } from '@mantine/core';
 import useSWR, { mutate } from 'swr';
 
 import { IExpense } from '../../db/db';
@@ -24,36 +22,30 @@ export default function Expenses(props: Props) {
   }, [data]);
 
   if (error)
-    return (
-      <Grid item xs={12}>
-        Klaida parsiunčiant išlaidas.
-      </Grid>
-    );
+    return <Grid.Col span={12}>Klaida parsiunčiant išlaidas.</Grid.Col>;
   if (!data)
     return (
-      <Grid item xs={12}>
-        <CircularProgress />
-      </Grid>
+      <Grid.Col span={12}>
+        <Loader />
+      </Grid.Col>
     );
 
   if (!data.expenses.length)
     return (
-      <Grid item xs={12}>
-        Nerasta išlaidų įrašų pagal šiuos filtrus.
-      </Grid>
+      <Grid.Col span={12}>Nerasta išlaidų įrašų pagal šiuos filtrus.</Grid.Col>
     );
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+      <Grid.Col span={12}>
+        <Text>
           Rasta išlaidų įrašų pagal filtrus: {data.expenses.length}. Šių išlaidų
           įrašų bendra suma {sum / 100} €.
           {data.expenses.length === 1000 &&
             ' 1000 įrašų yra maksimalus rodomas skaičius, todėl gali būti, kad rodomi ne visi įrašai.'}
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
+        </Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
         {data.expenses.map((e: IExpense) => (
           <ExpenseView
             key={e.id}
@@ -61,7 +53,7 @@ export default function Expenses(props: Props) {
             onChange={() => mutate(props.query)}
           />
         ))}
-      </Grid>
+      </Grid.Col>
     </>
   );
 }

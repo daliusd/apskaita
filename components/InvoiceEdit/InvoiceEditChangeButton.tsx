@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import SaveIcon from '@mui/icons-material/Save';
+import { IconPlus, IconDeviceFloppy } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from 'react-use';
+import { Button } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 import { IInvoice } from '../../db/db';
 import { getMsSinceEpoch } from '../../utils/date';
@@ -20,8 +20,6 @@ import {
   issuerState,
   languageState,
   lineItemsState,
-  messageSeverityState,
-  messageTextState,
   sellerState,
   seriesIdState,
   seriesNameState,
@@ -44,8 +42,6 @@ export default function InvoiceEditChangeButton() {
   const [code] = useLocalStorage('code', '');
 
   const router = useRouter();
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
 
   const inProcess = useRef(false);
 
@@ -53,62 +49,79 @@ export default function InvoiceEditChangeButton() {
     <Button
       type="submit"
       aria-label={invoiceId ? 'Saugoti' : 'Sukurti'}
-      variant="contained"
-      color="primary"
-      startIcon={invoiceId ? <SaveIcon /> : <AddIcon />}
+      variant="filled"
+      leftSection={invoiceId ? <IconDeviceFloppy /> : <IconPlus />}
       onClick={async () => {
         if (!seriesName) {
-          setMessageText('Nurodykite serijos pavadinimą.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite serijos pavadinimą.',
+            color: 'red',
+          });
           return;
         }
 
         const created = getMsSinceEpoch(invoiceDate);
         if (!created) {
-          setMessageText('Nurodykite sąskaitos datą.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite sąskaitos datą.',
+            color: 'red',
+          });
           return;
         }
 
         if (!seller) {
-          setMessageText('Nurodykite pardavėjo duomenis.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite pardavėjo duomenis.',
+            color: 'red',
+          });
           return;
         }
 
         if (!buyer) {
-          setMessageText('Nurodykite pirkėjo duomenis.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite pirkėjo duomenis.',
+            color: 'red',
+          });
           return;
         }
 
         if (!issuer) {
-          setMessageText('Nurodykite kas išrašė sąskaitą faktūrą.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite kas išrašė sąskaitą faktūrą.',
+            color: 'red',
+          });
           return;
         }
 
         if (lineItems.some((li) => !li.name)) {
-          setMessageText('Nurodykite paslaugų ar prekių pavadinimus.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite paslaugų ar prekių pavadinimus.',
+            color: 'red',
+          });
           return;
         }
 
         if (lineItems.some((li) => !li.unit)) {
-          setMessageText('Nurodykite paslaugų ar prekių matą.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite paslaugų ar prekių matą.',
+            color: 'red',
+          });
           return;
         }
 
         if (lineItems.some((li) => li.amount <= 0)) {
-          setMessageText('Nurodykite teisingus paslaugų ar prekių kiekius.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite teisingus paslaugų ar prekių kiekius.',
+            color: 'red',
+          });
           return;
         }
 
         if (lineItems.some((li) => !li.price)) {
-          setMessageText('Nurodykite paslaugų ar prekių kainas.');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Nurodykite paslaugų ar prekių kainas.',
+            color: 'red',
+          });
           return;
         }
 
@@ -173,16 +186,20 @@ export default function InvoiceEditChangeButton() {
             : 'Klaida kuriant sąskaitą faktūrą.';
 
         if (!response || !response.ok) {
-          setMessageText(getEditError());
-          setMessageSeverity('error');
+          notifications.show({
+            message: getEditError(),
+            color: 'red',
+          });
           inProcess.current = false;
           return;
         }
 
         const responseJson = await response.json();
         if (!responseJson.success) {
-          setMessageText(getEditError());
-          setMessageSeverity('error');
+          notifications.show({
+            message: getEditError(),
+            color: 'red',
+          });
           inProcess.current = false;
           return;
         }
@@ -206,8 +223,11 @@ export default function InvoiceEditChangeButton() {
           !responsePdf.ok ||
           !(await responsePdf.json()).success
         ) {
-          setMessageText('Klaida generuojant sąskaitos faktūros PDF failą');
-          setMessageSeverity('error');
+          notifications.show({
+            message: 'Klaida generuojant sąskaitos faktūros PDF failą',
+            color: 'red',
+          });
+
           inProcess.current = false;
           return;
         }
@@ -217,11 +237,15 @@ export default function InvoiceEditChangeButton() {
         }
 
         if (!invoiceId) {
-          setMessageText('Sąskaita faktūra sukurta');
-          setMessageSeverity('success');
+          notifications.show({
+            message: 'Sąskaita faktūra sukurta',
+            color: 'green',
+          });
         } else {
-          setMessageText('Sąskaitos faktūros pakeitimai išsaugoti');
-          setMessageSeverity('success');
+          notifications.show({
+            message: 'Sąskaitos faktūros pakeitimai išsaugoti',
+            color: 'green',
+          });
         }
         inProcess.current = false;
       }}

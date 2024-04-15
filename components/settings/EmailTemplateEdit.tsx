@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
+import { IconEdit } from '@tabler/icons-react';
 import useSWR from 'swr';
 
 import Link from '../../src/Link';
 import { defaultEmailTemplate } from '../../utils/email';
+import { Button, Textarea } from '@mantine/core';
 
 interface Props {
   language: string;
@@ -36,13 +35,11 @@ export default function EmailTemplateEdit({ language }: Props) {
 
   return (
     <>
-      <TextField
+      <Textarea
         disabled={!enabled}
         label="Siunčiamo laiško šablonas"
-        inputProps={{
-          'aria-label': 'Siunčiamo laiško šablonas',
-        }}
-        helperText={
+        aria-label={'Siunčiamo laiško šablonas'}
+        description={
           <>
             &#123;&#123;išrašė&#125;&#125; siunčiant bus pakeista asmeniu, kuris
             išrašė sąskaitą faktūrą. &#123;&#123;sfnr&#125;&#125; bus pakeista
@@ -57,15 +54,13 @@ export default function EmailTemplateEdit({ language }: Props) {
         onChange={(e) => {
           setEmailTemplate(e.target.value);
         }}
-        fullWidth
-        multiline
+        autosize
         minRows={8}
-        variant="outlined"
       />
 
       <Button
-        color="primary"
-        startIcon={<EditIcon />}
+        variant="subtle"
+        leftSection={<IconEdit />}
         disabled={emailTemplate === emailTemplateCurrent}
         onClick={async () => {
           try {

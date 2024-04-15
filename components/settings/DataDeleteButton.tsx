@@ -1,24 +1,20 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { signOut } from 'next-auth/react';
 
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
+import {
+  Button,
+  Checkbox,
+  Grid,
+  Group,
+  Modal,
+  Text,
+  Title,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import { messageSeverityState, messageTextState } from '../../src/atoms';
+import { IconTrash } from '@tabler/icons-react';
 
 export default function DataDeleteButton() {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
@@ -31,80 +27,78 @@ export default function DataDeleteButton() {
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText('Klaida trinant paskyrą.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Klaida trinant paskyrą.',
+        color: 'red',
+      });
       return;
     }
 
-    setMessageText('Jūsų paskyra ištrinta.');
-    setMessageSeverity('info');
+    notifications.show({
+      message: 'Jūsų paskyra ištrinta.',
+      color: 'blue',
+    });
     signOut();
   };
 
   return (
     <>
-      <Grid container item xs={12}>
-        <Typography variant="body1" component="div">
-          Taip pat galite ištrinti savo paskyrą.
-        </Typography>
-      </Grid>
-      <Grid container item xs={12}>
+      <Grid.Col span={12}>
+        <Text>Taip pat galite ištrinti savo paskyrą.</Text>
+      </Grid.Col>
+      <Grid.Col span={12}>
         <Button
-          variant="contained"
-          color="secondary"
+          variant="filled"
+          color="red"
           aria-label="Ištrinti paskyrą"
-          startIcon={<DeleteIcon />}
+          leftSection={<IconTrash />}
           onClick={() => setDeleteOpen(true)}
         >
           Ištrinti paskyrą
         </Button>
 
-        <Dialog
-          maxWidth="xs"
-          aria-labelledby="delete-dialog-title"
-          open={deleteOpen}
+        <Modal
+          opened={deleteOpen}
+          onClose={() => setDeleteOpen(false)}
+          title={
+            <Title order={3}>Ar tikrai norite ištrinti savo paskyrą?</Title>
+          }
+          centered
         >
-          <DialogTitle id="delete-dialog-title">
-            Ar tikrai norite ištrinti savo paskyrą?
-          </DialogTitle>
-          <DialogContent dividers>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="body1" component="div">
-                  Jūsų duomenys bus ištrinti negrįžtamai ir jų nebebus galima
-                  atstatyti.
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={agreed}
-                      onChange={() => setAgreed(!agreed)}
-                      name="agreed"
-                      color="primary"
-                    />
-                  }
-                  label={'Taip, tikrai noriu ištrinti savo paskyrą.'}
-                />
-              </Grid>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              autoFocus
-              onClick={() => setDeleteOpen(false)}
-              color="primary"
-            >
-              Nutraukti
-            </Button>
+          <Grid gutter={{ base: 12 }}>
+            <Grid.Col span={12}>
+              <Text>
+                Jūsų duomenys bus ištrinti negrįžtamai ir jų nebebus galima
+                atstatyti.
+              </Text>
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <Checkbox
+                checked={agreed}
+                onChange={() => setAgreed(!agreed)}
+                name="agreed"
+                color="primary"
+                label={'Taip, tikrai noriu ištrinti savo paskyrą.'}
+              />
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <Group justify="flex-end">
+                <Button
+                  variant="subtle"
+                  autoFocus
+                  onClick={() => setDeleteOpen(false)}
+                >
+                  Nutraukti
+                </Button>
 
-            <Button onClick={handleDelete} color="primary" disabled={!agreed}>
-              Trinti
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
+                <Button onClick={handleDelete} disabled={!agreed}>
+                  Trinti
+                </Button>
+              </Group>
+            </Grid.Col>
+          </Grid>
+        </Modal>
+      </Grid.Col>
     </>
   );
 }

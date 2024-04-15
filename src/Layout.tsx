@@ -1,30 +1,15 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import SvgIcon from '@mui/material/SvgIcon';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { Button, Container, Divider, Grid, Group } from '@mantine/core';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useLocalStorage } from 'react-use';
 
 import Copyright from './Copyright';
 import Link from './Link';
 import { setUser } from '../utils/error-handler';
-import { messageSeverityState, messageTextState } from './atoms';
 import MenuToolbar from './MenuToolbar';
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: session, status } = useSession();
-  const [messageText, setMessageText] = useRecoilState(messageTextState);
-  const [messageSeverity] = useRecoilState(messageSeverityState);
   const [experiments] = useLocalStorage('experiments', '');
 
   useEffect(() => {
@@ -44,39 +29,30 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }
   }, [session]);
 
-  const handleMessageClose = () => {
-    setMessageText('');
-  };
-
   return (
-    <Container maxWidth="sm">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Toolbar
-            sx={{
-              borderBottom: `1px solid #eeeeee`,
-              justifyContent: 'space-between',
-            }}
-            disableGutters={true}
-          >
-            <Typography variant="h4" component="h1" noWrap>
-              <Link href="/" color="secondary">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/haikulogo.svg"
-                  alt="Haiku.lt"
-                  width="192"
-                  height="64"
-                />
-              </Link>
-            </Typography>
+    <Container size="xs">
+      <Grid gutter={{ base: 12 }}>
+        <Grid.Col span={12}>
+          <Group justify="space-between">
+            <Link href="/">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/haikulogo.svg"
+                alt="Haiku.lt"
+                width="192"
+                height="64"
+              />
+            </Link>
             {status !== 'loading' && !session && (
               <Button
-                sx={{
-                  textTransform: 'none',
-                }}
-                startIcon={
-                  <SvgIcon viewBox="0 0 46 46">
+                leftSection={
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 46 46"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <g
                       id="logo_googleg_48dp"
                       transform="matrix(1.8423 0 0 1.8423 6.4196 7.1087)"
@@ -105,62 +81,40 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                       />
                       <path id="path48" d="m0 0h18v18h-18z" />
                     </g>
-                  </SvgIcon>
+                  </svg>
                 }
                 onClick={() => {
                   signIn(experiments.includes('gmail') ? 'googleEx' : 'google');
                 }}
-                variant="outlined"
-                color="primary"
+                variant="subtle"
               >
                 Prisijungti su Google
               </Button>
             )}
             {session && (
               <Button
-                sx={{
-                  textTransform: 'none',
-                }}
                 onClick={() => {
                   signOut();
                 }}
-                variant="outlined"
-                color="primary"
+                variant="subtle"
               >
                 Atsijungti
               </Button>
             )}
-          </Toolbar>
-        </Grid>
+          </Group>
+          <Divider />
+        </Grid.Col>
 
-        <Grid item xs={12}>
+        <Grid.Col span={12}>
           <MenuToolbar />
-        </Grid>
+        </Grid.Col>
 
-        <Grid item xs={12}>
-          {children}
-        </Grid>
+        <Grid.Col span={12}>{children}</Grid.Col>
 
-        <Grid item xs={12}>
+        <Grid.Col span={12}>
           <Copyright />
-        </Grid>
+        </Grid.Col>
       </Grid>
-
-      <Snackbar
-        open={!!messageText}
-        autoHideDuration={6000}
-        onClose={handleMessageClose}
-      >
-        <div>
-          <Alert
-            onClose={handleMessageClose}
-            severity={messageSeverity}
-            closeText="Uždaryti"
-          >
-            {messageText}
-          </Alert>
-        </div>
-      </Snackbar>
     </Container>
   );
 };

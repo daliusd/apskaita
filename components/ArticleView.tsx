@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Grid, Title, Text } from '@mantine/core';
 
 import { IArticle } from '../db/articles';
 import styles from './ArticleView.module.css';
@@ -19,11 +18,7 @@ export default function ArticleView({
   showStructuredData = true,
 }: ArticleViewProps) {
   if (!article?.slug) {
-    return (
-      <Typography variant="body1" component="div" align="center">
-        Straipsnis nerastas :-(
-      </Typography>
-    );
+    return <Text ta="center">Straipsnis nerastas :-(</Text>;
   }
 
   const structuredArticle = {
@@ -50,25 +45,19 @@ export default function ArticleView({
         )}
       </Head>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {showTitle && (
-            <Typography variant="h4">{article.meta.title}</Typography>
-          )}
+      <Grid gutter={{ base: 12 }}>
+        <Grid.Col span={12}>
+          {showTitle && <Title>{article.meta.title}</Title>}
 
-          {showDate && (
-            <Typography variant="body1" color="textSecondary">
-              {article.meta.modified}
-            </Typography>
-          )}
+          {showDate && <Text c="dimmed">{article.meta.modified}</Text>}
 
-          <Typography variant="body1" component="div">
+          <Text component="div">
             <div
               className={styles.videoWrapper}
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
-          </Typography>
-        </Grid>
+          </Text>
+        </Grid.Col>
       </Grid>
     </>
   );

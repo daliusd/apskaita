@@ -13,12 +13,12 @@ test('Expenses. Sum test', async ({ page }) => {
 
   await page.click('button:has-text("Pridėti išlaidų įrašą")');
   await page.fill('[aria-label="Išlaidų aprašymas"]', 'pirmas');
-  await page.fill('input[type="number"]', '0.01');
+  await page.fill('[aria-label="Išlaidų suma"]', '0.01');
   await page.click('[aria-label="Pridėti išlaidų įrašą"]');
 
   await page.click('button:has-text("Pridėti išlaidų įrašą")');
   await page.fill('[aria-label="Išlaidų aprašymas"]', 'antras');
-  await page.fill('input[type="number"]', '0.02');
+  await page.fill('[aria-label="Išlaidų suma"]', '0.02');
   await page.click('[aria-label="Pridėti išlaidų įrašą"]');
 
   await page.click(

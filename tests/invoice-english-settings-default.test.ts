@@ -14,8 +14,8 @@ test('Invoice. Should use English settings default', async ({ page }) => {
   await page.click('input[aria-label="Serijos pavadinimas"]');
   await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
 
-  await page.click('div[aria-label="Kalba"]');
-  await page.click('li[aria-label="lt"]');
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
+  await page.getByRole('option', { name: 'Lietuvių' }).click();
 
   await page.fill('textarea[aria-label="Pardavėjas"]', 'seller');
   await page.fill('textarea[aria-label="Pirkėjas"]', 'buyern');
@@ -44,8 +44,8 @@ test('Invoice. Should use English settings default', async ({ page }) => {
   await page.click('input[aria-label="Serijos pavadinimas"]');
   await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
 
-  await page.click('div[aria-label="Kalba"]');
-  await page.click('li[aria-label="en"]');
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
+  await page.getByRole('option', { name: 'Anglų' }).click();
 
   await page.fill('textarea[aria-label="Pardavėjas"]', 'selleren');
   await page.fill('textarea[aria-label="Pirkėjas"]', 'buyeren');
@@ -73,8 +73,8 @@ test('Invoice. Should use English settings default', async ({ page }) => {
 
   await page.fill('[aria-label="Serijos pavadinimas"]', 'SS');
 
-  await page.click('div[aria-label="Kalba"]');
-  await page.click('li[aria-label="en"]');
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
+  await page.getByRole('option', { name: 'Anglų' }).click();
 
   await page.waitForSelector('text=selleren');
 

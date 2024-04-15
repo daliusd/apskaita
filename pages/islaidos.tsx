@@ -1,7 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Grid, TextInput, Text, Title } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-use';
 import Link from '../src/Link';
@@ -10,7 +8,7 @@ import { mutate } from 'swr';
 import Expenses from '../components/expenses/Expenses';
 import ExpenseCreate from '../components/expenses/ExpenseCreate';
 import { getMsSinceEpoch } from '../utils/date';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateInput } from '@mantine/dates';
 
 export default function Index() {
   const { data: session } = useSession();
@@ -58,9 +56,9 @@ export default function Index() {
   const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Text>
           Čia galite registruoti savo išlaidas.{' '}
           {gdrive
             ? 'Pridėti failai bus saugomi jūsų Google Drive.'
@@ -70,69 +68,47 @@ export default function Index() {
             čia
           </Link>
           .
-        </Typography>
-      </Grid>
+        </Text>
+      </Grid.Col>
 
       <ExpenseCreate onCreate={onCreate} />
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Filtrai
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Filtrai</Title>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <TextField
-          variant="standard"
-          inputProps={{ 'aria-label': 'Išlaidų aprašymas ar jo dalis' }}
+      <Grid.Col span={12}>
+        <TextInput
+          aria-label="Išlaidų aprašymas ar jo dalis"
           label="Išlaidų aprašymas ar jo dalis"
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
           }}
-          fullWidth
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Minimali data"
+          aria-label="Minimali data"
           value={minDate}
           onChange={setMinDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Minimali data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
-      <Grid item xs={6}>
-        <DatePicker
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <DateInput
           label="Maksimali data"
+          aria-label="Maksimali data"
           value={maxDate}
           onChange={setMaxDate}
-          format="yyyy-MM-dd"
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              inputProps: {
-                'aria-label': 'Maksimali data',
-              },
-              variant: 'standard',
-            },
-          }}
+          valueFormat="YYYY-MM-DD"
         />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1">
-          Išlaidos
-        </Typography>
-      </Grid>
+      <Grid.Col span={12}>
+        <Title order={3}>Išlaidos</Title>
+      </Grid.Col>
 
       <Expenses query={query} />
     </Grid>

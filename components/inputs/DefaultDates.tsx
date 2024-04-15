@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mantine/core';
 import { DateButtonPreviousYear } from './DateButtonPreviousYear';
 import { DateButtonThisYear } from './DateButtonThisYear';
 import { DateButtonThisMonth } from './DateButtonThisMonth';
@@ -12,24 +12,24 @@ interface Props {
 export const DefaultDates: React.FC<Props> = ({ setFromDate, setToDate }) => {
   return (
     <>
-      <Grid item xs={3}>
+      <Grid.Col span={3}>
         <DateButtonThisYear setFromDate={setFromDate} setToDate={setToDate} />
-      </Grid>
-      <Grid item xs={3}>
+      </Grid.Col>
+      <Grid.Col span={3}>
         <DateButtonPreviousYear
           setFromDate={setFromDate}
           setToDate={setToDate}
         />
-      </Grid>
-      <Grid item xs={3}>
+      </Grid.Col>
+      <Grid.Col span={3}>
         <DateButtonThisMonth setFromDate={setFromDate} setToDate={setToDate} />
-      </Grid>
-      <Grid item xs={3}>
+      </Grid.Col>
+      <Grid.Col span={3}>
         <DateButtonPreviousMonth
           setFromDate={setFromDate}
           setToDate={setToDate}
         />
-      </Grid>
+      </Grid.Col>
     </>
   );
 };

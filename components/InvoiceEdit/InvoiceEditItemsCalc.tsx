@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Grid, NumberInput, Text } from '@mantine/core';
 import useSWR from 'swr';
 
 import { alreadyPaidState, lineItemsState } from '../../src/atoms';
@@ -11,13 +8,13 @@ import { alreadyPaidState, lineItemsState } from '../../src/atoms';
 export default function InvoiceEditItems() {
   const [lineItems] = useRecoilState(lineItemsState);
   const [alreadyPaid, setAlreadyPaid] = useRecoilState(alreadyPaidState);
-  const [alreadyPaidInner, setAlreadyPaidInner] = useState('0');
+  const [alreadyPaidInner, setAlreadyPaidInner] = useState(0);
 
   const { data: vatpayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatpayerData?.value === '1';
 
   useEffect(() => {
-    setAlreadyPaidInner((alreadyPaid / 100).toString());
+    setAlreadyPaidInner(alreadyPaid / 100);
   }, [alreadyPaid]);
 
   const total = useMemo(
@@ -35,67 +32,52 @@ export default function InvoiceEditItems() {
 
   return (
     <>
-      <Grid container item xs={12} justifyContent="flex-end">
-        <TextField
-          variant="standard"
-          type="number"
+      <Grid.Col span={12}>
+        <NumberInput
           label="Iš viso"
-          inputProps={{ 'aria-label': 'Iš viso' }}
+          aria-label={'Iš viso'}
           value={total / 100}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">€</InputAdornment>,
-            readOnly: true,
-          }}
+          suffix="€"
+          readOnly
         />
-      </Grid>
+      </Grid.Col>
 
       {isVatPayer && (
-        <Grid container item xs={12} justifyContent="flex-end">
-          <TextField
-            variant="standard"
-            type="number"
+        <Grid.Col span={12}>
+          <NumberInput
             label="Iš viso be PVM"
-            inputProps={{ 'aria-label': 'Iš viso' }}
+            aria-label={'Iš viso'}
             value={total_without_vat / 100}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">€</InputAdornment>,
-              readOnly: true,
-            }}
+            suffix="€"
+            readOnly
           />
-        </Grid>
+        </Grid.Col>
       )}
 
-      <Grid container item xs={12} justifyContent="flex-end">
-        <TextField
-          variant="standard"
-          type="number"
+      <Grid.Col span={12}>
+        <NumberInput
           label="Jau apmokėta"
-          inputProps={{ 'aria-label': 'Jau apmokėta' }}
+          aria-label={'Jau apmokėta'}
           value={alreadyPaidInner}
-          onChange={(e) => {
-            setAlreadyPaidInner(e.target.value);
-            if (!isNaN(parseFloat(e.target.value))) {
-              const floored = Math.floor(parseFloat(e.target.value) * 100);
-              setAlreadyPaid(floored);
-              setAlreadyPaidInner((floored / 100).toString());
-            }
+          onChange={(value) => {
+            if (typeof value === 'string') return;
+            setAlreadyPaidInner(value);
+
+            const floored = Math.floor(value * 100);
+            setAlreadyPaid(floored);
+            setAlreadyPaidInner(floored / 100);
           }}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">€</InputAdornment>,
-          }}
-          error={alreadyPaid > total}
-          helperText={
+          suffix="€"
+          error={
             alreadyPaid > total
               ? 'Sumokėta dalis turi būti mažesnė negu visa suma.'
               : ''
           }
         />
-      </Grid>
-      <Grid container item xs={12} justifyContent="flex-end">
-        <Typography variant="body1">
-          Liko mokėti: {(total - alreadyPaid) / 100}€
-        </Typography>
-      </Grid>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>Liko mokėti: {(total - alreadyPaid) / 100}€</Text>
+      </Grid.Col>
     </>
   );
 }

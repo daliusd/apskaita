@@ -1,8 +1,6 @@
 import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Grid, Title } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 
 import LineItemEdit from './LineItemEdit';
 import InvoiceEditItemsCalc from './InvoiceEditItemsCalc';
@@ -14,10 +12,10 @@ export default function InvoiceEditItems() {
   const [locked] = useRecoilState(lockedState);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">Paslaugos ar prekės</Typography>
-      </Grid>
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={3}>Paslaugos ar prekės</Title>
+      </Grid.Col>
 
       {lineItems.map((g, idx) => {
         return (
@@ -44,10 +42,10 @@ export default function InvoiceEditItems() {
         );
       })}
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <Button
-          color="primary"
-          startIcon={<AddIcon />}
+          leftSection={<IconPlus />}
+          variant="subtle"
           aria-label="Pridėti paslaugą ar prekę"
           disabled={locked}
           onClick={() => {
@@ -65,7 +63,7 @@ export default function InvoiceEditItems() {
         >
           Pridėti paslaugą ar prekę
         </Button>
-      </Grid>
+      </Grid.Col>
 
       <InvoiceEditItemsCalc />
     </Grid>

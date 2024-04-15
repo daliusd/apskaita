@@ -1,4 +1,4 @@
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateInput } from '@mantine/dates';
 
 import { getDateString } from '../../utils/date';
 
@@ -20,37 +20,28 @@ export default function InvoiceDateInput({
   disabled,
 }: IProps) {
   return (
-    <DatePicker
+    <DateInput
       label="Sąskaitos data"
+      aria-label="Sąskaitos data"
       value={date}
       onChange={onChange}
-      format="yyyy-MM-dd"
-      slotProps={{
-        textField: {
-          fullWidth: true,
-          inputProps: {
-            'aria-label': 'Sąskaitos data',
-          },
-          variant: 'standard',
-          error: validInvoiceDate
-            ? !validInvoiceDate.success
-            : !date || !date.getTime(),
-          helperText: validInvoiceDate
-            ? validInvoiceDate.minValidDate
-              ? `Data turi būti ${getDateString(
-                  validInvoiceDate.minValidDate,
-                )} arba vėlesnė`
-              : validInvoiceDate.maxValidDate
-                ? `Data turi būti ${getDateString(
-                    validInvoiceDate.maxValidDate,
-                  )} arba ankstesnė`
-                : ''
-            : !date || !date.getTime()
-              ? 'Data yra būtina'
-              : '',
-        },
-      }}
+      valueFormat="YYYY-MM-DD"
       disabled={disabled}
+      error={
+        validInvoiceDate
+          ? validInvoiceDate.minValidDate
+            ? `Data turi būti ${getDateString(
+                validInvoiceDate.minValidDate,
+              )} arba vėlesnė`
+            : validInvoiceDate.maxValidDate
+              ? `Data turi būti ${getDateString(
+                  validInvoiceDate.maxValidDate,
+                )} arba ankstesnė`
+              : ''
+          : !date || !date.getTime()
+            ? 'Data yra būtina'
+            : ''
+      }
     />
   );
 }

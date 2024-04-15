@@ -1,15 +1,10 @@
 import NextLink, { LinkProps } from 'next/link';
-import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
+import { Anchor, type AnchorProps } from '@mantine/core';
 
-export default function Link(props: LinkProps & MuiLinkProps) {
-  const { className, ...other } = props;
+export default function Link(
+  props: LinkProps & AnchorProps & { children: React.ReactNode },
+) {
+  const { ...other } = props;
 
-  return (
-    <MuiLink
-      component={NextLink}
-      className={className}
-      underline="hover"
-      {...other}
-    />
-  );
+  return <Anchor component={NextLink} underline="hover" {...other} />;
 }

@@ -1,19 +1,10 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import ImageIcon from '@mui/icons-material/Image';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Grid, Loader, Text, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconTrash, IconPhotoUp } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 
-import { messageSeverityState, messageTextState } from '../../src/atoms';
-
 export default function LogoEdit() {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
-
   const { data, error } = useSWR('/api/settings/logo');
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,13 +22,17 @@ export default function LogoEdit() {
     } catch {}
 
     if (!resp || !resp.ok || !(await resp.json()).success) {
-      setMessageText('Nepavyko pakeisti logo.');
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Nepavyko pakeisti logo.',
+        color: 'red',
+      });
       return;
     }
 
-    setMessageText('Logo pakeistas.');
-    setMessageSeverity('success');
+    notifications.show({
+      message: 'Logo pakeistas.',
+      color: 'success',
+    });
 
     await mutate('/api/settings/logo');
   };
@@ -59,31 +54,29 @@ export default function LogoEdit() {
   const loaded = data || error;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6" component="h1" noWrap>
-          Logo
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant="body1" component="div">
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
+        <Title order={3}>Logo</Title>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Text>
           Galite pridėti/pakeisti logotipą, kuris bus naudojamas sąskaitos
           faktūros PDF faile.
-        </Typography>
-      </Grid>
-      {!loaded && <CircularProgress />}
+        </Text>
+      </Grid.Col>
+      {!loaded && <Loader />}
       {loaded && (
         <>
           {data && data.value && (
-            <Grid item xs={12}>
+            <Grid.Col span={12}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.value} alt="logo" />
-            </Grid>
+            </Grid.Col>
           )}
-          <Grid item xs={12}>
+          <Grid.Col span={12}>
             <Button
-              startIcon={<ImageIcon />}
-              color="primary"
+              leftSection={<IconPhotoUp />}
+              variant="subtle"
               component="label"
               aria-label="Pakeisti logo"
             >
@@ -97,15 +90,16 @@ export default function LogoEdit() {
             </Button>
             {data && data.value && (
               <Button
-                startIcon={<DeleteIcon />}
-                color="secondary"
+                leftSection={<IconTrash />}
+                variant="subtle"
+                color="red"
                 aria-label="Pašalinti logo"
                 onClick={handleDelete}
               >
                 Pašalinti logo
               </Button>
             )}
-          </Grid>
+          </Grid.Col>
         </>
       )}
     </Grid>

@@ -1,10 +1,6 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-
-import { messageSeverityState, messageTextState } from '../../src/atoms';
+import { Checkbox } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 interface IProps {
   invoiceId?: string;
@@ -17,13 +13,10 @@ export default function InvoiceSentCheckbox({
   sent,
   setSent,
 }: IProps) {
-  const [, setMessageText] = useRecoilState(messageTextState);
-  const [, setMessageSeverity] = useRecoilState(messageSeverityState);
-
   if (!invoiceId) return null;
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const sent = event.target.checked;
+    const sent = event.currentTarget.checked;
 
     let response: Response;
     try {
@@ -37,10 +30,10 @@ export default function InvoiceSentCheckbox({
     } catch {}
 
     if (!response || !response.ok || !(await response.json()).success) {
-      setMessageText(
-        'Įvyko klaida pažymint sąskaitą kaip išsiųstą/neišsiųstą.',
-      );
-      setMessageSeverity('error');
+      notifications.show({
+        message: 'Įvyko klaida pažymint sąskaitą kaip išsiųstą/neišsiųstą.',
+        color: 'red',
+      });
       return;
     }
 
@@ -48,18 +41,11 @@ export default function InvoiceSentCheckbox({
   };
 
   return (
-    <FormControl variant="standard">
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={sent}
-            onChange={handleChange}
-            name="sent"
-            color="primary"
-          />
-        }
-        label={'Išsiųsta'}
-      />
-    </FormControl>
+    <Checkbox
+      name="sent"
+      checked={sent}
+      onChange={handleChange}
+      label="Išsiųsta"
+    />
   );
 }

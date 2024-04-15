@@ -1,6 +1,5 @@
 import { useRecoilState } from 'recoil';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Grid, Group, Text } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
@@ -20,27 +19,27 @@ export default function InvoiceEditControls() {
   const [locked] = useRecoilState(lockedState);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid gutter={{ base: 12 }}>
+      <Grid.Col span={12}>
         <InvoiceEditChangeButton />
-      </Grid>
+      </Grid.Col>
 
       <InvoicePdfView />
 
       {!!invoiceId && (
-        <Grid item xs={12}>
-          <Typography variant="body1" color="textSecondary" component="p">
-            Ši sąskaita faktūra yra:
-          </Typography>
-        </Grid>
+        <Grid.Col span={12}>
+          <Text>Ši sąskaita faktūra yra:</Text>
+        </Grid.Col>
       )}
 
       {!!invoiceId && (
-        <Grid item xs={12}>
-          <InvoiceEditPaid />
-          <InvoiceEditLocked />
-          <InvoiceEditSent />
-        </Grid>
+        <Grid.Col span={12}>
+          <Group>
+            <InvoiceEditPaid />
+            <InvoiceEditLocked />
+            <InvoiceEditSent />
+          </Group>
+        </Grid.Col>
       )}
 
       {gmailSend && <SendInvoiceButton />}

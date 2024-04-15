@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import LinearProgress from '@mui/material/LinearProgress';
-import Grid from '@mui/material/Grid';
+import { Grid, Loader } from '@mantine/core';
 import useSWR from 'swr';
 
 import InvoiceEditMain from './InvoiceEditMain';
@@ -124,22 +123,22 @@ export default function InvoiceEdit({
   ]);
 
   if (error) return <div>Klaida atsisiunčiant sąskaita.</div>;
-  if (!initialData) return <LinearProgress />;
+  if (!initialData) return <Loader />;
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
 
   return (
-    <Grid container spacing={8}>
-      <Grid item xs={12}>
+    <Grid gutter={{ base: 48 }}>
+      <Grid.Col span={12}>
         <InvoiceEditMain />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <InvoiceEditItems />
-      </Grid>
+      </Grid.Col>
 
-      <Grid item xs={12}>
+      <Grid.Col span={12}>
         <InvoiceEditControls />
-      </Grid>
+      </Grid.Col>
     </Grid>
   );
 }

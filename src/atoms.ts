@@ -3,16 +3,6 @@ import { IInvoice, ILineItem } from '../db/db';
 
 type Severity = 'error' | 'success' | 'info';
 
-export const messageTextState = atom({
-  key: 'messageText',
-  default: '',
-});
-
-export const messageSeverityState = atom({
-  key: 'messageSeverity',
-  default: 'success' as Severity,
-});
-
 export const initialInvoiceState = atom({
   key: 'initialInvoice',
   default: undefined as IInvoice,

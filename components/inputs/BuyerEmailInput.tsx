@@ -1,8 +1,8 @@
 import { useSession } from 'next-auth/react';
-import TextField from '@mui/material/TextField';
 import { useRecoilState } from 'recoil';
 
 import { emailState, lockedState } from '../../src/atoms';
+import { TextInput } from '@mantine/core';
 
 export default function BuyerEmailInput() {
   const { data: session } = useSession();
@@ -16,24 +16,20 @@ export default function BuyerEmailInput() {
   const error = email.length > 0 && !looksLikeEmail;
 
   return (
-    <TextField
-      variant="standard"
-      inputProps={{ 'aria-label': 'Pirkėjo el. pašto adresas' }}
+    <TextInput
+      aria-label={'Pirkėjo el. pašto adresas'}
       label="Pirkėjo el. pašto adresas"
       value={email}
       onChange={(e) => {
         setEmail(e.target.value);
       }}
       disabled={locked}
-      error={error}
-      helperText={
-        error
-          ? 'čia turi būti įvestas el. pašto adresas'
-          : !gmailSend
+      description={
+        !gmailSend
           ? 'Jei norite siųsti el. laiškus tiesiai iš haiku.lt duokite leidimą. Tai galite padaryti atsijungę ir vėl prisijungę prie haiku.lt'
           : 'Galite nurodyti kelis el. pašto adresus. Tokiu atveju atskirkite juos kableliu.'
       }
-      fullWidth
+      error={error && 'čia turi būti įvestas el. pašto adresas'}
     />
   );
 }

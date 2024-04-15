@@ -25,15 +25,18 @@ export async function fillNewInvoice(page, invoice) {
 
   await page.click('input[aria-label="Sąskaitos data"]', {
     position: { x: 5, y: 5 },
+    clickCount: 3,
   });
-  await page.type(
+  await page.fill(
     'input[aria-label="Sąskaitos data"]',
     new Date(invoice.created).toISOString().slice(0, 10),
   );
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
+  await page.getByRole('textbox', { name: 'Kalba' }).click();
 
   if (invoice.language !== 'lt') {
-    await page.click('div[aria-label="Kalba"]');
-    await page.click('li[aria-label="en"]');
+    await page.getByRole('textbox', { name: 'Kalba' }).click();
+    await page.getByRole('option', { name: 'Anglų' }).click();
   }
 
   await page.click('textarea[aria-label="Pardavėjas"]');
@@ -142,7 +145,7 @@ export async function validateInvoice(page, invoice) {
     await validateInput(
       page,
       `Kaina${pid}`,
-      invoice.lineItems[i].price.toString(),
+      invoice.lineItems[i].price.toString() + '€',
     );
 
     if (invoice.lineItems[i].vat) {
@@ -158,7 +161,7 @@ export async function validateInvoice(page, invoice) {
     await validateInput(
       page,
       'Jau apmokėta',
-      (invoice.alreadyPaid / 100).toString(),
+      (invoice.alreadyPaid / 100).toString() + '€',
     );
   }
 }
