@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { Grid, Group, Text } from '@mantine/core';
+import { Grid, Group, Text, Title } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 
 import InvoiceEditChangeButton from './InvoiceEditChangeButton';
@@ -19,7 +19,10 @@ export default function InvoiceEditControls() {
   const [locked] = useRecoilState(lockedState);
 
   return (
-    <Grid gutter={{ base: 12 }}>
+    <Grid gutter={{ base: 12 }} justify="space-between">
+      <Grid.Col span={12}>
+        <Title order={3}>Sąskaitos valdymas</Title>
+      </Grid.Col>
       <Grid.Col span={12}>
         <InvoiceEditChangeButton />
       </Grid.Col>
@@ -44,7 +47,9 @@ export default function InvoiceEditControls() {
 
       {gmailSend && <SendInvoiceButton />}
 
-      <InvoiceDeleteButton invoiceId={invoiceId} disabled={locked} />
+      <Grid.Col span={12}>
+        <InvoiceDeleteButton invoiceId={invoiceId} disabled={locked} />
+      </Grid.Col>
     </Grid>
   );
 }

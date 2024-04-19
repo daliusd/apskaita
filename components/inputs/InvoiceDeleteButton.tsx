@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Grid, Group, Modal, Title } from '@mantine/core';
+import { Box, Button, Group, Modal, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconTrash } from '@tabler/icons-react';
 
@@ -40,17 +40,19 @@ export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   };
 
   return (
-    <Grid.Col span={12}>
-      <Button
-        variant="filled"
-        color="red"
-        aria-label="Trinti"
-        leftSection={<IconTrash />}
-        onClick={() => setDeleteOpen(true)}
-        disabled={disabled}
-      >
-        Trinti
-      </Button>
+    <>
+      <Group justify="flex-end">
+        <Button
+          variant="filled"
+          color="red"
+          aria-label="Trinti"
+          leftSection={<IconTrash />}
+          onClick={() => setDeleteOpen(true)}
+          disabled={disabled}
+        >
+          Trinti
+        </Button>
+      </Group>
 
       <Modal
         opened={deleteOpen}
@@ -75,6 +77,6 @@ export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
           <Button onClick={handleDelete}>Taip, trinti</Button>
         </Group>
       </Modal>
-    </Grid.Col>
+    </>
   );
 }

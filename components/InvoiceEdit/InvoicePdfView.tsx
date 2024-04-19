@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import { Button, Grid, TextInput } from '@mantine/core';
+import { Button, Grid, Group, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useCopyToClipboard } from 'react-use';
 
@@ -55,15 +55,17 @@ export default function InvoicePdfView() {
         </Button>
       </Grid.Col>
       <Grid.Col span={6}>
-        <Button
-          variant="filled"
-          aria-label="Kopijuoti PDF nuorodą"
-          onClick={() => {
-            setIsCopied(fullUrl);
-          }}
-        >
-          Kopijuoti PDF nuorodą
-        </Button>
+        <Group justify="flex-end">
+          <Button
+            variant="filled"
+            aria-label="Kopijuoti PDF nuorodą"
+            onClick={() => {
+              setIsCopied(fullUrl);
+            }}
+          >
+            Kopijuoti PDF nuorodą
+          </Button>
+        </Group>
       </Grid.Col>
     </>
   );
