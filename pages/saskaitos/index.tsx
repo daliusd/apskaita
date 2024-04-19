@@ -47,9 +47,8 @@ export default function Index() {
       <Grid.Col span={12}>
         <Button
           aria-label="Nauja sąskaita faktūra"
-          variant="contained"
-          color="primary"
-          leftSection={<IconPlus size={14} />}
+          variant="filled"
+          leftSection={<IconPlus />}
           onClick={onClickCreateInvoice}
         >
           Nauja sąskaita faktūra

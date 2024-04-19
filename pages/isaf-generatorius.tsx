@@ -101,7 +101,6 @@ export default function Index() {
 
       <Grid.Col span={12}>
         <TextInput
-          variant="standard"
           aria-label={'Asmens kodas'}
           label="Asmens kodas"
           value={registrationNumber}

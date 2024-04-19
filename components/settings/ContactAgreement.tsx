@@ -64,7 +64,6 @@ export default function ContactAgreement() {
           checked={agreed}
           onChange={handleContactAgreement}
           name="agreed"
-          color="primary"
           label={'Sutinku, kad su manimi kartais susisiektumėte.'}
         />
       </Grid.Col>

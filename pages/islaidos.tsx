@@ -64,10 +64,7 @@ export default function Index() {
             ? 'Pridėti failai bus saugomi jūsų Google Drive.'
             : 'Jei duotumėte priėjimą prie Google Drive, sistema juos saugotų jūsų Google Drive.'}{' '}
           Daugiau informacijos{' '}
-          <Link href="/straipsniai/islaidu-sekimas" color="primary">
-            čia
-          </Link>
-          .
+          <Link href="/straipsniai/islaidu-sekimas">čia</Link>.
         </Text>
       </Grid.Col>
 

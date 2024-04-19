@@ -57,7 +57,6 @@ export default function VATPayer() {
           checked={isVatPayer}
           onChange={handleVatPayer}
           name="isVatPayer"
-          color="primary"
           aria-label="PVM mokėtojas"
           label={'Esu PVM mokėtojas.'}
         />

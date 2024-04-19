@@ -221,7 +221,6 @@ export default function Index() {
 
       <Grid.Col span={4}>
         <TextInput
-          variant="standard"
           aria-label={'Pajamos'}
           label="Pajamos"
           value={income}
@@ -247,7 +246,6 @@ export default function Index() {
 
       <Grid.Col span={4}>
         <TextInput
-          variant="standard"
           aria-label={'Išlaidos'}
           label="Išlaidos"
           value={expense}
@@ -293,7 +291,6 @@ export default function Index() {
       )}
       <Grid.Col span={4}>
         <TextInput
-          variant="standard"
           aria-label={'PVM'}
           label="PVM"
           value={vat}
@@ -337,7 +334,6 @@ export default function Index() {
           checked={insured}
           onChange={(event) => setInsured(event.target.checked)}
           name="sent"
-          color="primary"
           label={'Ar esate draustas privalomu sveikatos draudimu?'}
         />
       </Grid.Col>
@@ -346,7 +342,6 @@ export default function Index() {
           checked={additionalPension}
           onChange={(event) => setAdditionalPension(event.target.checked)}
           name="sent"
-          color="primary"
           label={'Ar kaupiate papildomai pensijai?'}
         />
       </Grid.Col>

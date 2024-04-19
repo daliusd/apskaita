@@ -77,7 +77,6 @@ export default function DataDeleteButton() {
                 checked={agreed}
                 onChange={() => setAgreed(!agreed)}
                 name="agreed"
-                color="primary"
                 label={'Taip, tikrai noriu ištrinti savo paskyrą.'}
               />
             </Grid.Col>
