@@ -145,12 +145,12 @@ export default function LineItemEdit({
               price: price || 0,
             });
           }}
-          suffix="€"
+          suffix=" €"
         />
       </Grid.Col>
 
       <Grid.Col span={3}>
-        <NumberInput label="Viso" disabled value={sum / 100} suffix="€" />
+        <NumberInput label="Viso" disabled value={sum / 100} suffix=" €" />
       </Grid.Col>
 
       {isVatPayer && (
@@ -176,7 +176,7 @@ export default function LineItemEdit({
               label="PVM"
               disabled
               value={(lineItem.price - price_without_vat) / 100}
-              suffix="€"
+              suffix=" €"
             />
           </Grid.Col>
           <Grid.Col span={3}>
@@ -184,7 +184,7 @@ export default function LineItemEdit({
               label="Kaina be PVM"
               disabled
               value={price_without_vat / 100}
-              suffix="€"
+              suffix=" €"
             />
           </Grid.Col>
           <Grid.Col span={3}>
@@ -192,7 +192,7 @@ export default function LineItemEdit({
               label="Viso be PVM"
               disabled
               value={sum_without_vat / 100}
-              suffix="€"
+              suffix=" €"
             />
           </Grid.Col>
         </>

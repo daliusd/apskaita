@@ -37,7 +37,7 @@ export default function InvoiceEditItems() {
           label="Iš viso"
           aria-label={'Iš viso'}
           value={total / 100}
-          suffix="€"
+          suffix=" €"
           readOnly
         />
       </Grid.Col>
@@ -48,7 +48,7 @@ export default function InvoiceEditItems() {
             label="Iš viso be PVM"
             aria-label={'Iš viso'}
             value={total_without_vat / 100}
-            suffix="€"
+            suffix=" €"
             readOnly
           />
         </Grid.Col>
@@ -67,7 +67,7 @@ export default function InvoiceEditItems() {
             setAlreadyPaid(floored);
             setAlreadyPaidInner(floored / 100);
           }}
-          suffix="€"
+          suffix=" €"
           error={
             alreadyPaid > total
               ? 'Sumokėta dalis turi būti mažesnė negu visa suma.'
