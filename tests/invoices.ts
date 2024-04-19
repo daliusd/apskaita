@@ -145,7 +145,7 @@ export async function validateInvoice(page, invoice) {
     await validateInput(
       page,
       `Kaina${pid}`,
-      invoice.lineItems[i].price.toString() + '€',
+      invoice.lineItems[i].price.toString() + ' €',
     );
 
     if (invoice.lineItems[i].vat) {
@@ -161,7 +161,7 @@ export async function validateInvoice(page, invoice) {
     await validateInput(
       page,
       'Jau apmokėta',
-      (invoice.alreadyPaid / 100).toString() + '€',
+      (invoice.alreadyPaid / 100).toString() + ' €',
     );
   }
 }
