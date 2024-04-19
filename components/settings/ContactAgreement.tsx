@@ -47,7 +47,7 @@ export default function ContactAgreement() {
   return (
     <>
       <Grid.Col span={12}>
-        <Title order={3}>Sutikimas dėl susisiekimo</Title>
+        <Title order={4}>Sutikimas dėl susisiekimo</Title>
       </Grid.Col>
       <Grid.Col span={12}>
         <Text>

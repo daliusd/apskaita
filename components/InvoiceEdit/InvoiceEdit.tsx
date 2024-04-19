@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { Grid, Loader } from '@mantine/core';
 import useSWR from 'swr';
 
+import InvoiceEditHeader from './InvoiceEditHeader';
 import InvoiceEditMain from './InvoiceEditMain';
 import InvoiceEditItems from './InvoiceEditItems';
 import InvoiceEditControls from './InvoiceEditControls';
@@ -127,17 +128,28 @@ export default function InvoiceEdit({
   if (!initialData.invoice) return <span>Sąskaita faktūra neegzistuoja.</span>;
 
   return (
-    <Grid gutter={{ base: 48 }}>
-      <Grid.Col span={12}>
+    <Grid gutter={{ base: 24 }}>
+      <Grid.Col span={{ base: 12 }}>
+        <Grid gutter={{ base: 24 }}>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <InvoiceEditHeader />
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+
+      <Grid.Col span={{ base: 12, md: 6 }}>
         <InvoiceEditMain />
       </Grid.Col>
 
-      <Grid.Col span={12}>
-        <InvoiceEditItems />
-      </Grid.Col>
-
-      <Grid.Col span={12}>
-        <InvoiceEditControls />
+      <Grid.Col span={{ base: 12, md: 6 }}>
+        <Grid gutter={{ base: 48 }}>
+          <Grid.Col span={{ base: 12 }}>
+            <InvoiceEditItems />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12 }}>
+            <InvoiceEditControls />
+          </Grid.Col>
+        </Grid>
       </Grid.Col>
     </Grid>
   );

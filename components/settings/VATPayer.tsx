@@ -42,7 +42,7 @@ export default function VATPayer() {
   return (
     <>
       <Grid.Col span={12}>
-        <Title order={3}>PVM Mokėtojas</Title>
+        <Title order={4}>PVM Mokėtojas</Title>
       </Grid.Col>
       <Grid.Col span={12}>
         <Text>

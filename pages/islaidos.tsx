@@ -56,58 +56,68 @@ export default function Index() {
   const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
 
   return (
-    <Grid gutter={{ base: 12 }}>
-      <Grid.Col span={12}>
-        <Text>
-          Čia galite registruoti savo išlaidas.{' '}
-          {gdrive
-            ? 'Pridėti failai bus saugomi jūsų Google Drive.'
-            : 'Jei duotumėte priėjimą prie Google Drive, sistema juos saugotų jūsų Google Drive.'}{' '}
-          Daugiau informacijos{' '}
-          <Link href="/straipsniai/islaidu-sekimas">čia</Link>.
-        </Text>
+    <Grid gutter={{ base: 24 }}>
+      <Grid.Col span={{ base: 12 }}>
+        <Title order={2}>Išlaidos</Title>
       </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6 }}>
+        <Grid gutter={{ base: 12 }}>
+          <Grid.Col span={12}>
+            <Text>
+              Čia galite registruoti savo išlaidas.{' '}
+              {gdrive
+                ? 'Pridėti failai bus saugomi jūsų Google Drive.'
+                : 'Jei duotumėte priėjimą prie Google Drive, sistema juos saugotų jūsų Google Drive.'}{' '}
+              Daugiau informacijos{' '}
+              <Link href="/straipsniai/islaidu-sekimas">čia</Link>.
+            </Text>
+          </Grid.Col>
 
-      <ExpenseCreate onCreate={onCreate} />
+          <ExpenseCreate onCreate={onCreate} />
 
-      <Grid.Col span={12}>
-        <Title order={3}>Filtrai</Title>
-      </Grid.Col>
+          <Grid.Col span={12}>
+            <Title order={3}>Filtrai</Title>
+          </Grid.Col>
 
-      <Grid.Col span={12}>
-        <TextInput
-          aria-label="Išlaidų aprašymas ar jo dalis"
-          label="Išlaidų aprašymas ar jo dalis"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        />
+          <Grid.Col span={12}>
+            <TextInput
+              aria-label="Išlaidų aprašymas ar jo dalis"
+              label="Išlaidų aprašymas ar jo dalis"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <DateInput
+              label="Minimali data"
+              aria-label="Minimali data"
+              value={minDate}
+              onChange={setMinDate}
+              valueFormat="YYYY-MM-DD"
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <DateInput
+              label="Maksimali data"
+              aria-label="Maksimali data"
+              value={maxDate}
+              onChange={setMaxDate}
+              valueFormat="YYYY-MM-DD"
+            />
+          </Grid.Col>
+        </Grid>
       </Grid.Col>
-      <Grid.Col span={6}>
-        <DateInput
-          label="Minimali data"
-          aria-label="Minimali data"
-          value={minDate}
-          onChange={setMinDate}
-          valueFormat="YYYY-MM-DD"
-        />
-      </Grid.Col>
-      <Grid.Col span={6}>
-        <DateInput
-          label="Maksimali data"
-          aria-label="Maksimali data"
-          value={maxDate}
-          onChange={setMaxDate}
-          valueFormat="YYYY-MM-DD"
-        />
-      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6 }}>
+        <Grid gutter={{ base: 12 }}>
+          <Grid.Col span={12}>
+            <Title order={3}>Išlaidų sąrašas</Title>
+          </Grid.Col>
 
-      <Grid.Col span={12}>
-        <Title order={3}>Išlaidos</Title>
+          <Expenses query={query} />
+        </Grid>
       </Grid.Col>
-
-      <Expenses query={query} />
     </Grid>
   );
 }

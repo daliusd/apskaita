@@ -30,7 +30,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [session]);
 
   return (
-    <Container size="xs">
+    <Container size="lg">
       <Grid gutter={{ base: 12 }}>
         <Grid.Col span={12}>
           <Group justify="space-between">

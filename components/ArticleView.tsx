@@ -45,9 +45,9 @@ export default function ArticleView({
         )}
       </Head>
 
-      <Grid gutter={{ base: 12 }}>
+      <Grid gutter={{ base: 12 }} maw="40em">
         <Grid.Col span={12}>
-          {showTitle && <Title>{article.meta.title}</Title>}
+          {showTitle && <Title order={2}>{article.meta.title}</Title>}
 
           {showDate && <Text c="dimmed">{article.meta.modified}</Text>}
 
