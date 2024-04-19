@@ -11,7 +11,8 @@ export const DateButtonThisMonth: React.FC<Props> = ({
 }) => {
   return (
     <Button
-      variant="transparent"
+      variant="subtle"
+      size="compact-sm"
       onClick={() => {
         const start = new Date();
         start.setUTCHours(0, 0, 0, 0);
@@ -25,7 +26,6 @@ export const DateButtonThisMonth: React.FC<Props> = ({
         end.setDate(end.getDate() - 1);
         setToDate(end);
       }}
-      size="small"
     >
       Šis mėnuo
     </Button>

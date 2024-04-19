@@ -11,12 +11,12 @@ export const DateButtonThisYear: React.FC<Props> = ({
 }) => {
   return (
     <Button
-      variant="transparent"
+      variant="subtle"
+      size="compact-sm"
       onClick={() => {
         setFromDate(startOfThisYear());
         setToDate(endOfThisYear());
       }}
-      size="small"
     >
       Šie metai
     </Button>

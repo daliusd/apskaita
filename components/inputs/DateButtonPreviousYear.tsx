@@ -11,7 +11,8 @@ export const DateButtonPreviousYear: React.FC<Props> = ({
 }) => {
   return (
     <Button
-      variant="transparent"
+      variant="subtle"
+      size="compact-sm"
       onClick={() => {
         const start = new Date();
         start.setUTCHours(0, 0, 0, 0);
@@ -28,7 +29,6 @@ export const DateButtonPreviousYear: React.FC<Props> = ({
         end.setFullYear(end.getFullYear() - 1);
         setToDate(end);
       }}
-      size="small"
     >
       Praeiti metai
     </Button>
