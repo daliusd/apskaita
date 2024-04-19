@@ -95,7 +95,7 @@ export async function generateJournalPdf(
     info: {
       Title:
         'GYVENTOJO INDIVIDUALIOS VEIKLOS PAJAMŲ IR IŠLAIDŲ APSKAITOS ŽURNALAS',
-      Author: `TODO (per haiku.lt)`,
+      Author: `${pdfInfo.personalInfo} (per haiku.lt)`,
     },
     margin: 0,
     bufferPages: true,
@@ -235,8 +235,8 @@ function generateContent(doc: PDFKit.PDFDocument, pdfInfo: PdfInfo) {
         item.flags === 0
           ? (item.price / 100).toFixed(2)
           : item.flags === 2
-          ? (-item.price / 100).toFixed(2)
-          : '',
+            ? (-item.price / 100).toFixed(2)
+            : '',
       expense: item.flags === 3 ? (item.price / 100).toFixed(2) : '',
     };
 

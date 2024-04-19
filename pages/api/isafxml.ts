@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { dbWrapper } from '../../db/apiwrapper';
-import { getDataForJournal } from '../../db/db';
 import { defaultOrFirst } from '../../utils/query';
 import { errorHandler } from '../../utils/report-mailer';
-import { generateJournalPdf } from '../../utils/pdfjournal';
 import { generateISAFXml } from '../../utils/isaf';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
