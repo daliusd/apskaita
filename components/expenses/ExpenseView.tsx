@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, Grid, Text, Title } from '@mantine/core';
+import { Button, Card, Grid, Group, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
   IconEdit,
@@ -58,46 +58,52 @@ export default function ExpenseView(props: Props) {
           <Text>Suma: {expense.price} €</Text>
         </Grid.Col>
         <Grid.Col span={12}>
-          <Button
-            aria-label={`Keisti`}
-            variant="subtle"
-            leftSection={<IconEdit />}
-            onClick={() => setExpenseEditOpen(true)}
-          >
-            Keisti
-          </Button>
+          <Group gap="sm">
+            <Button
+              aria-label={`Keisti`}
+              size="compact-sm"
+              variant="outline"
+              leftSection={<IconEdit />}
+              onClick={() => setExpenseEditOpen(true)}
+            >
+              Keisti
+            </Button>
 
-          {expense.webViewLink && (
-            <Link href={expense.webViewLink} color="secondary">
-              <Button
-                aria-label={`Peržiūrėti išlaidų dokumentą`}
-                variant="subtle"
-                leftSection={<IconEye />}
-              >
-                Peržiūrėti
-              </Button>
-            </Link>
-          )}
-          {expense.webContentLink && (
-            <Link href={expense.webContentLink} color="secondary">
-              <Button
-                aria-label={`Atsisiųsti išlaidų dokumentą`}
-                variant="subtle"
-                leftSection={<IconCloudDownload />}
-              >
-                Atsisiųsti
-              </Button>
-            </Link>
-          )}
-          <Button
-            aria-label={`Ištrinti išlaidų įrašą`}
-            variant="subtle"
-            color="red"
-            leftSection={<IconTrash />}
-            onClick={handleDelete}
-          >
-            Ištrinti
-          </Button>
+            {expense.webViewLink && (
+              <Link href={expense.webViewLink} color="secondary">
+                <Button
+                  aria-label={`Peržiūrėti išlaidų dokumentą`}
+                  size="compact-sm"
+                  variant="outline"
+                  leftSection={<IconEye />}
+                >
+                  Peržiūrėti
+                </Button>
+              </Link>
+            )}
+            {expense.webContentLink && (
+              <Link href={expense.webContentLink} color="secondary">
+                <Button
+                  aria-label={`Atsisiųsti išlaidų dokumentą`}
+                  size="compact-sm"
+                  variant="outline"
+                  leftSection={<IconCloudDownload />}
+                >
+                  Atsisiųsti
+                </Button>
+              </Link>
+            )}
+            <Button
+              aria-label={`Ištrinti išlaidų įrašą`}
+              size="compact-sm"
+              variant="outline"
+              color="red"
+              leftSection={<IconTrash />}
+              onClick={handleDelete}
+            >
+              Ištrinti
+            </Button>
+          </Group>
         </Grid.Col>
       </Grid>
 
