@@ -39,7 +39,7 @@ export default function InvoiceView({ invoice, onChange }: Props) {
 
   return (
     <Card shadow="sm" withBorder mb={12}>
-      <Grid gutter={{ base: 6 }}>
+      <Grid gutter={{ base: 24 }}>
         <Grid.Col span={12}>
           <Title order={4} onClick={() => openInvoice(invoice)}>
             {invoice.invoiceType === 'proforma'
@@ -52,10 +52,14 @@ export default function InvoiceView({ invoice, onChange }: Props) {
           </Title>
         </Grid.Col>
         <Grid.Col span={12}>
-          <Text>Pirkėjas: {invoice.buyer.split('\n')[0]}</Text>
-        </Grid.Col>
-        <Grid.Col span={12}>
-          <Text>Kaina: {invoice.price / 100} €</Text>
+          <Grid gutter={{ base: 3 }}>
+            <Grid.Col span={12}>
+              <Text>Pirkėjas: {invoice.buyer.split('\n')[0]}</Text>
+            </Grid.Col>
+            <Grid.Col span={12}>
+              <Text>Kaina: {invoice.price / 100} €</Text>
+            </Grid.Col>
+          </Grid>
         </Grid.Col>
         <Grid.Col span={12}>
           <Group>
@@ -86,42 +90,46 @@ export default function InvoiceView({ invoice, onChange }: Props) {
           </Group>
         </Grid.Col>
         <Grid.Col span={12}>
-          <Link href={`/saskaitos/id/${invoice.id}`}>
-            <Button
-              aria-label={`Keisti SF ${invoice.id}`}
-              variant="subtle"
-              leftSection={<IconEdit />}
-            >
-              Keisti
-            </Button>
-          </Link>
+          <Group gap="sm">
+            <Link href={`/saskaitos/id/${invoice.id}`}>
+              <Button
+                aria-label={`Keisti SF ${invoice.id}`}
+                size="compact-sm"
+                variant="outline"
+                leftSection={<IconEdit />}
+              >
+                Keisti
+              </Button>
+            </Link>
 
-          <Link
-            href={`/api/pdf/${invoice.pdfname}/${
-              invoice.seriesName
-            }${invoice.seriesId.toString().padStart(6, '0')}.pdf`}
-            color="secondary"
-          >
-            <Button
-              aria-label={`Peržiūrėti PDF ${invoice.id}`}
-              variant="subtle"
-              leftSection={<IconFileTypePdf />}
+            <Link
+              href={`/api/pdf/${invoice.pdfname}/${
+                invoice.seriesName
+              }${invoice.seriesId.toString().padStart(6, '0')}.pdf`}
             >
-              Peržiūrėti
-            </Button>
-          </Link>
+              <Button
+                aria-label={`Peržiūrėti PDF ${invoice.id}`}
+                size="compact-sm"
+                variant="outline"
+                leftSection={<IconFileTypePdf />}
+              >
+                Peržiūrėti
+              </Button>
+            </Link>
 
-          <Link
-            href={`/saskaitos/nauja?sourceId=${invoice.id}&invoiceType=${invoice.invoiceType}`}
-          >
-            <Button
-              aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
-              variant="subtle"
-              leftSection={<IconCopy />}
+            <Link
+              href={`/saskaitos/nauja?sourceId=${invoice.id}&invoiceType=${invoice.invoiceType}`}
             >
-              Nauja SF šios pagrindu
-            </Button>
-          </Link>
+              <Button
+                aria-label={`Nauja SF šios pagrindu ${invoice.id}`}
+                size="compact-sm"
+                variant="outline"
+                leftSection={<IconCopy />}
+              >
+                Nauja SF šios pagrindu
+              </Button>
+            </Link>
+          </Group>
         </Grid.Col>
       </Grid>
     </Card>
