@@ -112,7 +112,7 @@ export default function Index() {
           <Grid.Col span={12}>
             <BuyerFirstLineInput
               buyer={buyer}
-              onChange={(bi) => setBuyer(bi.buyer)}
+              onChange={setBuyer}
               disabled={false}
             />
           </Grid.Col>
