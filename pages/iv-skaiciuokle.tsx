@@ -72,7 +72,7 @@ export default function Index() {
   );
 
   useEffect(() => {
-    if (totalIncome) {
+    if (totalIncome !== undefined) {
       setIncome(totalIncome.toString());
     }
   }, [totalIncome]);
@@ -196,9 +196,11 @@ export default function Index() {
         <Grid gutter={{ base: 12 }}>
           {session && (
             <>
-              <Grid.Col span={12}>
-                <Title order={3}>Pajamų grafikas</Title>
-              </Grid.Col>
+              {data?.stats?.length > 0 && (
+                <Grid.Col span={12}>
+                  <Title order={3}>Pajamų grafikas</Title>
+                </Grid.Col>
+              )}
               <Grid.Col span={12}>
                 <StatsGraph
                   data={data}
