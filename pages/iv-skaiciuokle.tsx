@@ -4,6 +4,8 @@ import {
   Button,
   Checkbox,
   Grid,
+  Group,
+  NumberInput,
   Text,
   TextInput,
   Title,
@@ -23,6 +25,10 @@ const MMA_BY_YEAR = {
   2023: 840,
 };
 
+function roundToTwoDigits(num: number) {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
 export default function Index() {
   const { data: session } = useSession();
 
@@ -38,11 +44,12 @@ export default function Index() {
     return new Date();
   });
 
-  const [income, setIncome] = useState('0');
-  const [expense, setExpense] = useState('0');
-  const [vat, setVat] = useState('0');
+  const [income, setIncome] = useState<number>(0);
+  const [expense, setExpense] = useState<number>(0);
+  const [vat, setVat] = useState<number>(0);
   const [insured, setInsured] = useState(true);
   const [additionalPension, setAdditionalPension] = useState(true);
+  const [socialTaxesToIncome, setSocialTaxesToIncome] = useState(true);
   const [seriesName, setSeriesName] = useState('');
 
   const { data: vatpayerData } = useSWR(session && '/api/settings/vatpayer');
@@ -73,14 +80,20 @@ export default function Index() {
 
   useEffect(() => {
     if (totalIncome !== undefined) {
-      setIncome(totalIncome.toString());
+      setIncome(totalIncome);
     }
   }, [totalIncome]);
 
   useEffect(() => {
-    setExpense(
-      Math.max(parseFloat(income) * 0.3, expdata?.stats.total || 0).toFixed(2),
-    );
+    const actualExp = expdata?.stats.total || 0;
+    const expenseFromIncome = income * 0.3;
+    if (expenseFromIncome > actualExp) {
+      setExpense(expenseFromIncome);
+      setSocialTaxesToIncome(false);
+    } else {
+      setExpense(actualExp);
+      setSocialTaxesToIncome(true);
+    }
   }, [income, expdata]);
 
   const totalVat = useMemo(
@@ -96,54 +109,75 @@ export default function Index() {
   );
 
   useEffect(() => {
-    setVat(isVatPayer && totalVat ? totalVat.toFixed(2) : '0');
+    setVat(isVatPayer && totalVat ? totalVat : 0);
   }, [isVatPayer, totalVat]);
 
-  const { profit, gpm, sodros_baze, vsd, psd, total_tax, profit_after_taxes } =
-    useMemo(() => {
-      const profit = Math.max(
-        parseFloat(income) - parseFloat(expense) - parseFloat(vat),
-        0,
-      );
+  const {
+    profit_for_gpm,
+    gpm,
+    sodros_baze,
+    vsd,
+    psd,
+    total_tax,
+    profit_after_taxes,
+  } = useMemo(() => {
+    const profit = Math.max(income - expense - vat, 0);
 
-      const gpm =
-        profit < 20_000
-          ? profit * 0.05
-          : profit > 35_000
-            ? profit * 0.15
-            : profit * 0.15 -
-              profit * (0.1 - (2 / 300_000) * (profit - 20_000));
+    const sodros_baze = profit * 0.9;
 
-      const sodros_baze = profit * 0.9;
+    let vsd = (sodros_baze * (12.52 + (additionalPension ? 3 : 0))) / 100;
 
-      const vsd = (sodros_baze * (12.52 + (additionalPension ? 3 : 0))) / 100;
+    let psd_from_income = (sodros_baze * 6.98) / 100;
 
-      let psd_from_income = (sodros_baze * 6.98) / 100;
-
-      let psd = psd_from_income;
-      if (!insured) {
-        const d = new Date(fromDate);
-        let minimal_psd = 0;
-        while (d < toDate) {
-          minimal_psd += ((MMA_BY_YEAR[d.getFullYear()] || 840) * 6.98) / 100;
-          d.setMonth(d.getMonth() + 1);
-        }
-        psd = Math.max(minimal_psd, psd_from_income);
+    let psd = psd_from_income;
+    if (!insured) {
+      const d = new Date(fromDate);
+      let minimal_psd = 0;
+      while (d < toDate) {
+        minimal_psd += ((MMA_BY_YEAR[d.getFullYear()] || 840) * 6.98) / 100;
+        d.setMonth(d.getMonth() + 1);
       }
+      psd = Math.max(minimal_psd, psd_from_income);
+    }
 
-      const total_tax = gpm + vsd + psd + (parseFloat(vat) || 0);
-      const profit_after_taxes = profit - (total_tax - parseFloat(vat));
+    let profit_for_gpm = profit;
+    if (socialTaxesToIncome) {
+      profit_for_gpm -= psd + vsd;
+    }
 
-      return {
-        profit,
-        gpm,
-        sodros_baze,
-        vsd,
-        psd,
-        total_tax,
-        profit_after_taxes,
-      };
-    }, [additionalPension, expense, fromDate, income, insured, toDate, vat]);
+    let gpm =
+      profit_for_gpm < 20_000
+        ? profit_for_gpm * 0.05
+        : profit_for_gpm > 35_000
+          ? profit_for_gpm * 0.15
+          : profit_for_gpm * 0.15 -
+            profit_for_gpm * (0.1 - (2 / 300_000) * (profit_for_gpm - 20_000));
+
+    gpm = roundToTwoDigits(gpm);
+    vsd = roundToTwoDigits(vsd);
+    psd = roundToTwoDigits(psd);
+    const total_tax = roundToTwoDigits(gpm + vsd + psd + vat);
+    const profit_after_taxes = profit - (total_tax - vat);
+
+    return {
+      profit_for_gpm,
+      gpm,
+      sodros_baze,
+      vsd,
+      psd,
+      total_tax,
+      profit_after_taxes,
+    };
+  }, [
+    additionalPension,
+    expense,
+    fromDate,
+    income,
+    insured,
+    toDate,
+    vat,
+    socialTaxesToIncome,
+  ]);
 
   return (
     <Grid gutter={{ base: 24 }}>
@@ -236,63 +270,75 @@ export default function Index() {
             </Text>
           </Grid.Col>
 
-          <Grid.Col span={4}>
-            <TextInput
+          <Grid.Col span={12}>
+            <NumberInput
               aria-label={'Pajamos'}
               label="Pajamos"
               value={income}
-              onChange={(e) => {
-                setIncome(e.currentTarget.value);
+              onChange={(value) => {
+                if (typeof value === 'number') {
+                  setIncome(value);
+                }
               }}
+              decimalScale={2}
+              suffix=" €"
             />
           </Grid.Col>
-          <Grid.Col span={8}>
-            {totalIncome !== undefined && (
-              <>
-                <Text>Jūsų pajamos pagal SF: {totalIncome}</Text>
+          {totalIncome !== undefined && (
+            <Grid.Col span={12}>
+              <Group gap={6}>
+                <Text>Jūsų pajamos pagal SF {totalIncome} €</Text>
                 <Button
-                  variant="transparent"
-                  onClick={() => setIncome(totalIncome.toString())}
-                  size="small"
+                  variant="outline"
+                  onClick={() => setIncome(totalIncome)}
+                  size="compact-sm"
                 >
                   Naudoti
                 </Button>
-              </>
-            )}
-          </Grid.Col>
+              </Group>
+            </Grid.Col>
+          )}
 
-          <Grid.Col span={4}>
-            <TextInput
+          <Grid.Col span={12}>
+            <NumberInput
               aria-label={'Išlaidos'}
               label="Išlaidos"
               value={expense}
-              onChange={(e) => {
-                setExpense(e.currentTarget.value);
+              onChange={(value) => {
+                if (typeof value === 'number') {
+                  setExpense(value);
+                  setSocialTaxesToIncome(true);
+                }
               }}
+              decimalScale={2}
+              suffix=" €"
             />
           </Grid.Col>
-          <Grid.Col span={4}>
-            <Text>30% nuo pajamų: {(parseFloat(income) * 0.3).toFixed(2)}</Text>
-            <Button
-              variant="transparent"
-              onClick={() => setExpense((parseFloat(income) * 0.3).toFixed(2))}
-              size="small"
-            >
-              Naudoti
-            </Button>
-          </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={12}>
+            <Group gap={6}>
+              <Text>30% nuo pajamų: {(income * 0.3).toFixed(2)} €</Text>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setExpense(income * 0.3);
+                  setSocialTaxesToIncome(false);
+                }}
+                size="compact-sm"
+              >
+                Naudoti
+              </Button>
+            </Group>
             {expdata?.stats?.total !== undefined && (
-              <>
-                <Text>Jūsų išlaidos: {expdata.stats.total}</Text>
+              <Group gap={6}>
+                <Text>Jūsų išlaidos: {expdata.stats.total} €</Text>
                 <Button
-                  variant="transparent"
-                  onClick={() => setExpense(expdata.stats.total.toString())}
-                  size="small"
+                  variant="outline"
+                  onClick={() => setExpense(expdata.stats.total)}
+                  size="compact-sm"
                 >
                   Naudoti
                 </Button>
-              </>
+              </Group>
             )}
           </Grid.Col>
 
@@ -306,30 +352,43 @@ export default function Index() {
               </Text>
             </Grid.Col>
           )}
-          <Grid.Col span={4}>
-            <TextInput
+          <Grid.Col span={12}>
+            <NumberInput
               aria-label={'PVM'}
               label="PVM"
               value={vat}
-              onChange={(e) => {
-                setVat(e.currentTarget.value);
+              onChange={(value) => {
+                if (typeof value === 'number') {
+                  setVat(value);
+                }
               }}
+              decimalScale={2}
+              suffix=" €"
             />
           </Grid.Col>
-          <Grid.Col span={4}>
-            <Text>
-              21% PVM nuo pajamų:{' '}
-              {(parseFloat(income) * (1.0 - 1.0 / 1.21)).toFixed(2)}
-            </Text>
-            <Button
-              variant="transparent"
-              onClick={() =>
-                setVat((parseFloat(income) * (1.0 - 1.0 / 1.21)).toFixed(2))
-              }
-              size="small"
-            >
-              Naudoti
-            </Button>
+          <Grid.Col span={12}>
+            <Group gap={6}>
+              <Text>
+                21% PVM nuo pajamų: {(income * (1.0 - 1.0 / 1.21)).toFixed(2)}
+              </Text>
+              <Button
+                variant="outline"
+                onClick={() => setVat(income * (1.0 - 1.0 / 1.21))}
+                size="compact-sm"
+              >
+                Naudoti
+              </Button>
+            </Group>
+            <Group gap={6}>
+              <Text>Ne PVM mokėtojas (0%)</Text>
+              <Button
+                variant="outline"
+                onClick={() => setVat(0)}
+                size="compact-sm"
+              >
+                Naudoti
+              </Button>
+            </Group>
           </Grid.Col>
           <Grid.Col span={4}>
             {totalVat !== undefined && isVatPayer && (
@@ -337,7 +396,7 @@ export default function Index() {
                 <Text>PVM pagal SF: {totalVat.toFixed(2)}</Text>
                 <Button
                   variant="text"
-                  onClick={() => setVat(totalVat.toFixed(2))}
+                  onClick={() => setVat(totalVat)}
                   size="small"
                 >
                   Naudoti
@@ -362,6 +421,16 @@ export default function Index() {
               label={'Ar kaupiate papildomai pensijai?'}
             />
           </Grid.Col>
+          <Grid.Col span={12}>
+            <Checkbox
+              checked={socialTaxesToIncome}
+              onChange={(event) => setSocialTaxesToIncome(event.target.checked)}
+              name="sent"
+              label={
+                'PSD ir VSD priskirti prie išlaidų (kai išlaidas deklaruojate kaip 30% nuo pajamų to tikriausiai negalima daryti)'
+              }
+            />
+          </Grid.Col>
         </Grid>
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6 }}>
@@ -376,7 +445,7 @@ export default function Index() {
             </Text>
           </Grid.Col>
           <Grid.Col span={6}>
-            <Text>{profit.toFixed(2)} €</Text>
+            <Text>{profit_for_gpm.toFixed(2)} €</Text>
           </Grid.Col>
 
           <Grid.Col span={6}>
@@ -415,7 +484,7 @@ export default function Index() {
             <Text>{psd.toFixed(2)} €</Text>
           </Grid.Col>
 
-          {parseFloat(vat) !== 0 && (
+          {vat !== 0 && (
             <>
               <Grid.Col span={6}>
                 <Text>
@@ -423,7 +492,7 @@ export default function Index() {
                 </Text>
               </Grid.Col>
               <Grid.Col span={6}>
-                <Text>{parseFloat(vat).toFixed(2)} €</Text>
+                <Text>{vat.toFixed(2)} €</Text>
               </Grid.Col>
             </>
           )}

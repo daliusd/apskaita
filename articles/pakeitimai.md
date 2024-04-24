@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-04-24
+
+- IV skaičiuoklės patobulinimai
+
 ## 2024-04-19
 
 - Dizaino pakeitimai
