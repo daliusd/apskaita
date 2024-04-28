@@ -15,6 +15,12 @@ export default function BuyerEmailInput() {
   const looksLikeEmail = email.indexOf('@') !== -1;
   const error = email.length > 0 && !looksLikeEmail;
 
+  let errorDomainWithoutDot = false;
+  if (looksLikeEmail) {
+    const domain = email.split('@')[1];
+    errorDomainWithoutDot = domain.indexOf('.') === -1 || domain.endsWith('.');
+  }
+
   return (
     <TextInput
       aria-label={'Pirkėjo el. pašto adresas'}
@@ -29,7 +35,13 @@ export default function BuyerEmailInput() {
           ? 'Jei norite siųsti el. laiškus tiesiai iš haiku.lt duokite leidimą. Tai galite padaryti atsijungę ir vėl prisijungę prie haiku.lt'
           : 'Galite nurodyti kelis el. pašto adresus. Tokiu atveju atskirkite juos kableliu.'
       }
-      error={error && 'čia turi būti įvestas el. pašto adresas'}
+      error={
+        errorDomainWithoutDot
+          ? 'Patikrinkite el. pašto adresą'
+          : error
+            ? 'čia turi būti įvestas el. pašto adresas'
+            : undefined
+      }
     />
   );
 }
