@@ -117,8 +117,8 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
     invoice.invoiceType === 'proforma'
       ? 1
       : invoice.invoiceType === 'credit'
-      ? 2
-      : 0,
+        ? 2
+        : 0,
     invoice.alreadyPaid || 0,
     invoice.vat || 0,
   );
@@ -248,8 +248,8 @@ export async function getInvoiceList(
     r.flags === 0
       ? (r.invoiceType = 'standard')
       : r.flags === 1
-      ? (r.invoiceType = 'proforma')
-      : (r.invoiceType = 'credit'),
+        ? (r.invoiceType = 'proforma')
+        : (r.invoiceType = 'credit'),
   );
   return result;
 }
@@ -268,8 +268,8 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
     result.flags === 1
       ? 'proforma'
       : result.flags === 2
-      ? 'credit'
-      : 'standard';
+        ? 'credit'
+        : 'standard';
   result.lineItems = await db.all<ILineItem[]>(
     'SELECT id, name, unit, amount, price, vat FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
@@ -450,8 +450,8 @@ export async function updateInvoice(
     invoice.invoiceType === 'proforma'
       ? 1
       : invoice.invoiceType === 'credit'
-      ? 2
-      : 0,
+        ? 2
+        : 0,
     invoice.alreadyPaid || 0,
     invoice.vat || 0,
     invoiceId,
@@ -815,7 +815,7 @@ export async function getInvoicesForIsaf(
 
   let args: (string | number)[] = [minDate, maxDate];
   let query = `
-    SELECT id, created, (seriesName || seriesId) as name, flags, buyer, vat
+    SELECT id, created, (seriesName || seriesId) as name, flags, buyer, vat, language
       FROM Invoice
       WHERE created >= ? AND created <= ? AND flags != 1`;
 

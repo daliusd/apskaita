@@ -1,4 +1,6 @@
 import { Database } from 'sqlite';
+import countries from 'i18n-iso-countries';
+
 import { getInvoicesForIsaf, getLineItemsForIsaf } from '../db/db';
 
 function escapeXml(xml: string) {
@@ -93,8 +95,21 @@ export async function generateISAFXml({
       isaf += pr3 + `<RegistrationNumber/>\n`;
     }
 
-    isaf += pr3 + `<Country>LT</Country>\n`;
-    let name = inv.buyer.split('\n')[0].trim();
+    const buyerSplit = inv.buyer.split('\n');
+    let country = buyerSplit.at(-1);
+    let countryCode = 'LT';
+    if (countries.isValid(country)) {
+      countryCode = country;
+    } else {
+      const code = countries.getAlpha2Code(country, inv.language);
+      if (code) {
+        countryCode = code;
+      }
+    }
+
+    isaf += pr3 + `<Country>${countryCode}</Country>\n`;
+
+    let name = buyerSplit[0].trim();
     name = name.replace(/,$/, '');
     isaf += pr3 + `<Name>${escapeXml(name)}</Name>\n`;
 

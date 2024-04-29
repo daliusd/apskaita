@@ -3048,6 +3048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"diacritics@npm:1.3.0":
+  version: 1.3.0
+  resolution: "diacritics@npm:1.3.0"
+  checksum: 10/c5a7d6843a3569f1c5aaf643d2e01aaaf695dd369d0f7868300a1c637b91157fe89cf78aa2e87224042d7f4fc87ab39d20aadb7e006c25e0a7c6a2ef92972e74
+  languageName: node
+  linkType: hard
+
 "dicer@npm:0.2.5":
   version: 0.2.5
   resolution: "dicer@npm:0.2.5"
@@ -4764,6 +4771,15 @@ __metadata:
   version: 1.0.4
   resolution: "hyphenate-style-name@npm:1.0.4"
   checksum: 10/d37883e6b7e1be62e1ddae29cac83fa59fb93c068bc8eb1561585439adbad91dcf7e264ee2a82c4378fc58049f7bd853544a4a81bf00d4aff717f641052323e7
+  languageName: node
+  linkType: hard
+
+"i18n-iso-countries@npm:^7.11.1":
+  version: 7.11.1
+  resolution: "i18n-iso-countries@npm:7.11.1"
+  dependencies:
+    diacritics: "npm:1.3.0"
+  checksum: 10/298329caea568bff7977d02fb26921b4b0667586555ef26a635bfe87b35c1d4e369be9714394865b4ecc45bbf04e3b169d37f4d9f383e23d2b1e9f7808939dca
   languageName: node
   linkType: hard
 
@@ -6527,6 +6543,7 @@ __metadata:
     googleapis-common: "npm:7.1.0"
     gray-matter: "npm:4.0.3"
     husky: "npm:9.0.11"
+    i18n-iso-countries: "npm:^7.11.1"
     jimp: "npm:^0.22.4"
     lint-staged: "npm:15.2.2"
     multer: "npm:1.4.4"
