@@ -16,7 +16,7 @@
     "@types/pdfkit": "0.13.4",
     "@types/sharp": "0.32.0",
     "dayjs": "^1.11.10",
-    "googleapis-common": "7.1.0",
+    "googleapis-common": "7.2.0",
     "gray-matter": "4.0.3",
     "i18n-iso-countries": "^7.11.1",
     "jimp": "^0.22.4",
