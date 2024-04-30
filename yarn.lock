@@ -4423,9 +4423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"googleapis-common@npm:7.1.0":
-  version: 7.1.0
-  resolution: "googleapis-common@npm:7.1.0"
+"googleapis-common@npm:7.2.0":
+  version: 7.2.0
+  resolution: "googleapis-common@npm:7.2.0"
   dependencies:
     extend: "npm:^3.0.2"
     gaxios: "npm:^6.0.3"
@@ -4433,7 +4433,7 @@ __metadata:
     qs: "npm:^6.7.0"
     url-template: "npm:^2.0.8"
     uuid: "npm:^9.0.0"
-  checksum: 10/739b6be7e9dfbfa6376c8859457998220d71ca4942a037a6231b8793941feb247830f153a2df0d32183d2e400181e7670e617e7769418b906ba7c67f207ba7e1
+  checksum: 10/4b914be6681f2a5a02bd0954a4a5cee1725d8623cb9d0a7c2fd7132de110e8d5707566cba39784e58147be39e74bc5513ad30fdcdaa6edcbb47ecf687003cb6c
   languageName: node
   linkType: hard
 
@@ -6540,7 +6540,7 @@ __metadata:
     eslint: "npm:latest"
     eslint-config-next: "npm:^14.0.0"
     eslint-config-prettier: "npm:9.1.0"
-    googleapis-common: "npm:7.1.0"
+    googleapis-common: "npm:7.2.0"
     gray-matter: "npm:4.0.3"
     husky: "npm:9.0.11"
     i18n-iso-countries: "npm:^7.11.1"
