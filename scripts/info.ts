@@ -23,6 +23,7 @@ async function info() {
 
   let usersData = [];
   let agreeingUsers = [];
+  let usersWithExpenses = [];
 
   const dbFilesList = fs.readdirSync(dbDir);
   for (const dbFile of dbFilesList) {
@@ -57,6 +58,15 @@ async function info() {
         )
       )?.value === '1' || false;
 
+    const lastExpenseDate = (
+      await db.get(
+        `SELECT strftime('%Y-%m-%d', datetime(created / 1000, 'unixepoch')) as lastExpenseDate
+           FROM Expense
+           WHERE gdriveId is not null
+           ORDER BY created DESC LIMIT 1`,
+      )
+    )?.lastExpenseDate;
+
     const averageIncome =
       result.map((r) => r.total).reduce((a, b) => a + b, 0) /
       result.length /
@@ -80,6 +90,14 @@ async function info() {
 
     if (contactagreement && result.at(-1)) {
       agreeingUsers.push({ user: dbFile, lastMonth: result.at(-1).month });
+    }
+
+    if (lastExpenseDate) {
+      usersWithExpenses.push({
+        user: dbFile,
+        lastMonth: result.at(-1).month,
+        lastExpenseDate,
+      });
     }
 
     await db.close();
@@ -114,6 +132,11 @@ async function info() {
   console.log('\nAgreeing users:');
   for (const u of agreeingUsers) {
     console.log(`${u.user} (${u.lastMonth})`);
+  }
+
+  console.log('\nUsers with expenses:');
+  for (const u of usersWithExpenses) {
+    console.log(`${u.user} (${u.lastMonth}) (${u.lastExpenseDate})`);
   }
 }
 
