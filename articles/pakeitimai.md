@@ -86,7 +86,7 @@ Jei turite klausimų ar pasiūlymų rašykite el. paštu
 
 - Išankstinių sąskaitų faktūrų palaikymas
 
-- PVM sąskaitų faktūrų palaikimas (reikia nustatymuose pažymėti,
+- PVM sąskaitų faktūrų palaikymas (reikia nustatymuose pažymėti,
   kad esate PVM mokėtojas)
 
 - Maži pakeitimai
