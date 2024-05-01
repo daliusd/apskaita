@@ -53,10 +53,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const year = createdDate.getFullYear().toString();
 
         const haikuFolderId = await getOrCreateFolder(drive, 'Haiku.lt');
+        const expensesFolderId = await getOrCreateFolder(
+          drive,
+          "Išlaidos",
+          haikuFolderId,
+        );
         const yearFolderId = await getOrCreateFolder(
           drive,
           year,
-          haikuFolderId,
+          expensesFolderId,
         );
 
         gdriveInfo = await createFile(

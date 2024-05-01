@@ -32,6 +32,7 @@ export interface IInvoice {
   flags?: number;
   alreadyPaid?: number;
   vat?: number;
+  gdriveId?: string;
   lineItems: ILineItem[];
 }
 
@@ -256,7 +257,7 @@ export async function getInvoiceList(
 
 export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
   const result = await db.get<IInvoice>(
-    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email, flags, alreadyPaid, vat FROM Invoice WHERE id = ?',
+    'SELECT id, seriesName, seriesId, created, price, buyer, seller, issuer, extra, pdfname, paid, locked, sent, language, email, flags, alreadyPaid, vat, gdriveId FROM Invoice WHERE id = ?',
     invoiceId,
   );
 
@@ -506,6 +507,18 @@ export async function changeInvoiceSentStatus(
   await db.run(
     'UPDATE Invoice SET sent = ? WHERE id = ?',
     sent ? 1 : 0,
+    invoiceId,
+  );
+}
+
+export async function changeInvoiceGDriveId(
+  db: Database,
+  invoiceId: number,
+  gdriveId: string,
+) {
+  await db.run(
+    'UPDATE Invoice SET gdriveId = ? WHERE id = ?',
+    gdriveId,
     invoiceId,
   );
 }

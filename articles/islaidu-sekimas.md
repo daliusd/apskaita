@@ -28,16 +28,16 @@ Vykdant individualią veiklą išlaidas galima valdyti dviem būdais:
 sekimą. Galima tiesiog registruoti išlaidas sistemoje ir ji jums
 apskaičiuos kokios jūsų išlaidos per nurodytą laikotarpį.
 
-Taip pat galite suteikti „Haiku.lt“ sistemai priėjimą prie Google
-Drive: tada galėsite pridėti failus (PDF failus, sąskaitų faktūrų
-nuotraukas ir t.t.) prie savo išlaidų, kurie bus saugomi jūsų
-Google Drive. „Haiku.lt“ sukurs „Haiku.lt“ direktoriją ir tada
-sukurs direktoriją kiekvieniems metams (pvz.: „2021“), kuriems
-registruosite išlaidas. Deklaruojant duomenis galėsite parsisiųsti
-visus failus patogiai ir išsiųsti VMI.
+Taip pat galite suteikti „Haiku.lt“ sistemai priėjimą prie Google Drive: tada
+galėsite pridėti failus (PDF failus, sąskaitų faktūrų nuotraukas ir t.t.) prie
+savo išlaidų, kurie bus saugomi jūsų Google Drive. „Haiku.lt“ sukurs „Haiku.lt“
+direktoriją, joje sukurs direktoriją "Išlaidos" ir tada sukurs direktoriją
+kiekvieniems metams (pvz.: „2021“), kuriems registruosite išlaidas.
+Deklaruojant duomenis galėsite parsisiųsti visus failus patogiai ir išsiųsti
+VMI.
 
 Išlaidų registravimas į sistemą naudingas dar ir dėl to, kad ši
-informacija lengvai pasiekiame [Individualios Veiklos mokesčių
+informacija lengvai pasiekiama [Individualios Veiklos mokesčių
 skaičiuoklėje](/iv-skaiciuokle).
 
 Šaltiniai:

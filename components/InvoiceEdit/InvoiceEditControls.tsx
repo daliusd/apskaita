@@ -9,6 +9,7 @@ import InvoiceEditLocked from './InvoiceEditLocked';
 import InvoiceEditSent from './InvoiceEditSent';
 import SendInvoiceButton from './SendInvoiceButton';
 import InvoicePdfView from './InvoicePdfView';
+import InvoiceGDriveView from './InvoiceGDriveView';
 import { invoiceIdState, lockedState } from '../../src/atoms';
 
 export default function InvoiceEditControls() {
@@ -28,6 +29,8 @@ export default function InvoiceEditControls() {
       </Grid.Col>
 
       <InvoicePdfView />
+
+      <InvoiceGDriveView />
 
       {!!invoiceId && (
         <Grid.Col span={12}>

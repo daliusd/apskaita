@@ -1,5 +1,6 @@
 import { auth, drive as driveCreator, drive_v3 } from '@googleapis/drive';
 import { Readable } from 'stream';
+import fs from 'fs';
 
 export interface GDriveInfo {
   id?: string | null;
@@ -70,6 +71,31 @@ export async function createFile(
     requestBody: fileMetadata,
     media: media,
     fields: 'id,webContentLink,webViewLink',
+  });
+
+  return resp.data;
+}
+
+export async function createFileFromSystem(
+  drive: drive_v3.Drive,
+  filename: string,
+  uploadName: string,
+  parent: string,
+): Promise<{ id?: string | null }> {
+  const fileMetadata = {
+    name: uploadName,
+    parents: [parent],
+  };
+
+  const media = {
+    mimeType: 'application/pdf',
+    body: fs.createReadStream(filename),
+  };
+
+  const resp = await drive.files.create({
+    requestBody: fileMetadata,
+    media: media,
+    fields: 'id',
   });
 
   return resp.data;

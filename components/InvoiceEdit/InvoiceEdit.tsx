@@ -28,6 +28,7 @@ import {
   languageAfterChangeState,
   invoiceTypeState,
   alreadyPaidState,
+  gdriveIdState,
 } from '../../src/atoms';
 
 interface IProps {
@@ -69,6 +70,7 @@ export default function InvoiceEdit({
   const [, setPaid] = useRecoilState(paidState);
   const [, setLocked] = useRecoilState(lockedState);
   const [, setSent] = useRecoilState(sentState);
+  const [, setGdriveId] = useRecoilState(gdriveIdState);
   const [, setLineItems] = useRecoilState(lineItemsState);
 
   useEffect(() => {
@@ -91,6 +93,7 @@ export default function InvoiceEdit({
       setPaid(invoice.paid === 1);
       setLocked(invoice.locked === 1);
       setSent(invoice.sent === 1);
+      setGdriveId(invoice.gdriveId);
       if (invoice.created) {
         setInvoiceDate(getDateFromMsSinceEpoch(invoice.created));
       } else {
@@ -117,6 +120,7 @@ export default function InvoiceEdit({
     setPdfname,
     setSeller,
     setSent,
+    setGdriveId,
     setSeriesId,
     setInvoiceType,
     setSeriesName,

@@ -7,6 +7,7 @@ import {
 } from '../../../db/db';
 import { defaultOrFirst } from '../../../utils/query';
 import { deleteInvoicePdf } from '../../../utils/pdfinvoice';
+import { getDrive, deleteFile } from '../../../utils/gdrive';
 
 import { dbWrapper } from '../../../db/apiwrapper';
 import { errorHandler } from '../../../utils/report-mailer';
@@ -25,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({ success });
     });
   } else if (req.method === 'DELETE') {
-    return dbWrapper(req, res, async (db) => {
+    return dbWrapper(req, res, async (db, session) => {
       const {
         query: { id },
       } = req;
@@ -35,6 +36,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const invoice = await getInvoiceWithLineItems(db, invoiceId);
       if (invoice) {
         await deleteInvoicePdf(invoice);
+      }
+
+      if (invoice && invoice.gdriveId) {
+        const drive = getDrive((session as any).accessToken as string);
+        await deleteFile(drive, invoice.gdriveId);
       }
 
       const success = await deleteInvoice(db, invoiceId);

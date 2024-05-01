@@ -10,6 +10,11 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-05-01
+
+- Pridėta galimybė išsaugoti sąskaitas faktūras į Google Drive vienu mygtuko
+  paspaudimu
+
 ## 2024-04-29
 
 - Galimybė nurodyti pirkėjo šalį (aktualu PVM mokėtojams generuojant i.SAF)

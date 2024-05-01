@@ -93,6 +93,11 @@ export const sentState = atom({
   default: false,
 });
 
+export const gdriveIdState = atom({
+  key: 'gdriveId',
+  default: '',
+});
+
 export const lineItemsState = atom({
   key: 'lineItems',
   default: [
