@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "private": true,
   "dependencies": {
-    "@googleapis/drive": "8.7.0",
+    "@googleapis/drive": "8.7.1",
     "@googleapis/gmail": "9.0.0",
     "@mantine/charts": "^7.6.2",
     "@mantine/core": "^7.6.2",
