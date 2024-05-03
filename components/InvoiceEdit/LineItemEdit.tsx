@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
-import { Autocomplete, Button, Grid, NumberInput } from '@mantine/core';
+import { Autocomplete, Button, Grid, NumberInput, Text } from '@mantine/core';
 import useSWR from 'swr';
 import { useDebounce } from 'react-use';
 import { IconClearAll } from '@tabler/icons-react';
 
 import { ILineItem } from '../../db/db';
 import { cleanUpString } from '../../utils/textutils';
+import Link from '../../src/Link';
 
 interface Props {
   lineItem: ILineItem;
@@ -195,6 +196,19 @@ export default function LineItemEdit({
               suffix=" €"
             />
           </Grid.Col>
+          {vat === 0 && (
+            <Grid.Col span={12}>
+              <Text size="sm">
+                <Text span fw="700">
+                  Pastaba:
+                </Text>{' '}
+                0 procentų PVM naudojamas PVM neapmokestinamoms paslaugoms.
+                Galbūt nesate PVM mokėtojas ir jums turėtų užtekti paprastų
+                sąskaitų faktūrų? Jei nesate PVM mokėtojas nurodykite tai{' '}
+                <Link href="/nustatymai">Nustatymuose</Link>.
+              </Text>
+            </Grid.Col>
+          )}
         </>
       )}
 

@@ -23,15 +23,8 @@ export default function MainInfo() {
           <Grid.Col span={12}>
             <Text variant="body1" component="div">
               Esi prisijungęs/prisijungusi kaip {session.user.email}. Savo
-              nustatymus galite pakeisti{' '}
-              <Link href="/nustatymai" color="secondary">
-                čia
-              </Link>
-              . Pagalbos skyrių rasite{' '}
-              <Link href="/pagalba" color="secondary">
-                čia
-              </Link>
-              .
+              nustatymus galite pakeisti <Link href="/nustatymai">čia</Link>.
+              Pagalbos skyrių rasite <Link href="/pagalba">čia</Link>.
             </Text>
           </Grid.Col>
           <Grid.Col span={12}>
@@ -57,9 +50,7 @@ export default function MainInfo() {
           </Grid.Col>
           <Invoices limit={5} />
           <Grid.Col span={12}>
-            <Link href="/saskaitos" color="secondary">
-              Detalesnė sąskaitų faktūrų paieška
-            </Link>
+            <Link href="/saskaitos">Detalesnė sąskaitų faktūrų paieška</Link>
           </Grid.Col>
         </Grid>
       </Grid.Col>
