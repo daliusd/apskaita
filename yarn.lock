@@ -289,12 +289,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/gmail@npm:9.0.0":
-  version: 9.0.0
-  resolution: "@googleapis/gmail@npm:9.0.0"
+"@googleapis/gmail@npm:9.1.0":
+  version: 9.1.0
+  resolution: "@googleapis/gmail@npm:9.1.0"
   dependencies:
     googleapis-common: "npm:^7.0.0"
-  checksum: 10/d790c87fe555f8ca39c0768a5e44c016ad2f216a226062ad191dc1bd0acd86a595f7b78c6394efd8374ea31bec662bade5fcfcd90aa8bfeb3325bedbf55c5062
+  checksum: 10/07855aab188baaa2524af90bab10a739e7754aad3c92c7052c2bf45d695828a2dbb848b3cb49f2970bdfe68ac9ff96b349fccd176cf75f188615d37057ed299b
   languageName: node
   linkType: hard
 
@@ -6518,7 +6518,7 @@ __metadata:
   resolution: "nextjs@workspace:."
   dependencies:
     "@googleapis/drive": "npm:8.7.1"
-    "@googleapis/gmail": "npm:9.0.0"
+    "@googleapis/gmail": "npm:9.1.0"
     "@mantine/charts": "npm:^7.6.2"
     "@mantine/core": "npm:^7.6.2"
     "@mantine/dates": "npm:^7.6.2"
