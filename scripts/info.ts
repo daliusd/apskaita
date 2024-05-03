@@ -24,6 +24,7 @@ async function info() {
   let usersData = [];
   let agreeingUsers = [];
   let usersWithExpenses = [];
+  let usersUsingGDriveForInvoices = [];
   let vatPayers = [];
 
   const dbFilesList = fs.readdirSync(dbDir);
@@ -77,6 +78,12 @@ async function info() {
       (await db.get('SELECT value FROM Setting WHERE name = "vatpayer"'))
         ?.value === '1' || false;
 
+    const usesGDriveForInvoice = (
+      await db.get(
+        'SELECT count(*) as cnt FROM Invoice WHERE gdriveId is not null',
+      )
+    )?.cnt;
+
     if (result.length > 0) {
       usersData.push({
         dbFile,
@@ -91,6 +98,14 @@ async function info() {
 
     if (contactagreement && result.at(-1)) {
       agreeingUsers.push({ user: dbFile, lastMonth: result.at(-1).month });
+    }
+
+    if (usesGDriveForInvoice > 0) {
+      usersUsingGDriveForInvoices.push({
+        user: dbFile,
+        lastMonth: result.at(-1).month,
+        cnt: usesGDriveForInvoice,
+      });
     }
 
     if (lastExpenseDate) {
@@ -140,6 +155,11 @@ async function info() {
   console.log('\nAgreeing users:');
   for (const u of agreeingUsers) {
     console.log(`${u.user} (${u.lastMonth})`);
+  }
+
+  console.log('\nUsers using GDrive for invoices:');
+  for (const u of usersUsingGDriveForInvoices) {
+    console.log(`${u.user} ${u.cnt} (${u.lastMonth})`);
   }
 
   console.log('\nUsers with expenses:');
