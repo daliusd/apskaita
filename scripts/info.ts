@@ -24,6 +24,7 @@ async function info() {
   let usersData = [];
   let agreeingUsers = [];
   let usersWithExpenses = [];
+  let vatPayers = [];
 
   const dbFilesList = fs.readdirSync(dbDir);
   for (const dbFile of dbFilesList) {
@@ -100,6 +101,13 @@ async function info() {
       });
     }
 
+    if (vatpayer) {
+      vatPayers.push({
+        user: dbFile,
+        lastMonth: result.at(-1)?.month,
+      });
+    }
+
     await db.close();
   }
 
@@ -137,6 +145,11 @@ async function info() {
   console.log('\nUsers with expenses:');
   for (const u of usersWithExpenses) {
     console.log(`${u.user} (${u.lastMonth}) (${u.lastExpenseDate})`);
+  }
+
+  console.log('\nVAT payers:');
+  for (const u of vatPayers) {
+    console.log(`${u.user} (${u.lastMonth})`);
   }
 }
 
