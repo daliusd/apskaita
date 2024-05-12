@@ -70,7 +70,7 @@ export async function generateISAFXml({
   const invoices = await getInvoicesForIsaf(db, from, to, seriesName);
 
   for (const inv of invoices) {
-    if (inv.vat === 0) {
+    if (inv.vat === 0 && !inv.vatcode) {
       // This is not VAT invoice for some reason therefore we skip it
       continue;
     }
@@ -134,23 +134,36 @@ export async function generateISAFXml({
 
     const itemsData = await getLineItemsForIsaf(db, inv.id);
 
-    const taxableByTax = {};
+    const taxableValueByCode = {};
+    const taxableVatByCode = {};
     for (const item of itemsData) {
-      const taxableValue =
-        Math.round(item.price / (1 + item.vat / 100)) * item.amount;
-      if (!taxableByTax[item.vat]) {
-        taxableByTax[item.vat] = 0;
-      }
+      const taxableValue = Math.round(
+        (Math.round((item.price / (1 + item.vat / 100)) * 100) * item.amount) /
+          100,
+      );
 
-      taxableByTax[item.vat] += taxableValue;
+      const vatcode = item.vatcode || VAT_TO_CODE[item.vat];
+
+      if (vatcode) {
+        if (!taxableVatByCode[vatcode]) {
+          taxableVatByCode[vatcode] = item.vat;
+        }
+
+        if (!taxableValueByCode[vatcode]) {
+          taxableValueByCode[vatcode] = 0;
+        }
+
+        taxableValueByCode[vatcode] += taxableValue;
+      }
     }
 
-    for (const vat of Object.keys(taxableByTax)) {
-      const taxableValue = taxableByTax[vat];
+    for (const vatcode of Object.keys(taxableValueByCode)) {
+      const taxableValue = taxableValueByCode[vatcode];
+      const vat = taxableVatByCode[vatcode];
       isaf += pr3 + '<DocumentTotal>\n';
 
       isaf += pr4 + `<TaxableValue>${taxableValue / 100}</TaxableValue>\n`;
-      isaf += pr4 + `<TaxCode>${VAT_TO_CODE[vat] || ''}</TaxCode>\n`;
+      isaf += pr4 + `<TaxCode>${vatcode}</TaxCode>\n`;
       isaf += pr4 + `<TaxPercentage>${vat}</TaxPercentage>\n`;
       isaf +=
         pr4 +

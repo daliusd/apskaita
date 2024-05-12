@@ -10,6 +10,7 @@ export interface ILineItem {
   amount: number;
   price: number;
   vat?: number;
+  vatcode?: string;
 }
 
 export interface IInvoice {
@@ -128,13 +129,14 @@ export async function createInvoice(db: Database, invoice: IInvoice) {
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat) VALUES(?, ?, ?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat, vatcode) VALUES(?, ?, ?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
       lineItem.unit,
       lineItem.amount,
       lineItem.price,
       lineItem.vat || 0,
+      lineItem.vatcode || '',
     );
   }
 
@@ -272,7 +274,7 @@ export async function getInvoiceWithLineItems(db: Database, invoiceId: number) {
         ? 'credit'
         : 'standard';
   result.lineItems = await db.all<ILineItem[]>(
-    'SELECT id, name, unit, amount, price, vat FROM LineItem WHERE invoiceId = ? ORDER BY id',
+    'SELECT id, name, unit, amount, price, vat, vatcode FROM LineItem WHERE invoiceId = ? ORDER BY id',
     invoiceId,
   );
 
@@ -462,13 +464,14 @@ export async function updateInvoice(
 
   for (const lineItem of invoice.lineItems) {
     await db.run(
-      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat) VALUES(?, ?, ?, ?, ?, ?)',
+      'INSERT INTO LineItem(invoiceId, name, unit, amount, price, vat, vatcode) VALUES(?, ?, ?, ?, ?, ?, ?)',
       invoiceId,
       lineItem.name,
       lineItem.unit,
       lineItem.amount,
       lineItem.price,
       lineItem.vat || 0,
+      lineItem.vatcode || '',
     );
   }
 
@@ -844,7 +847,8 @@ export async function getInvoicesForIsaf(
 }
 
 export async function getLineItemsForIsaf(db: Database, invoiceId: number) {
-  let query = 'SELECT vat, amount, price FROM LineItem where invoiceId = ?';
+  let query =
+    'SELECT vat, vatcode, amount, price FROM LineItem where invoiceId = ?';
 
   const result = await db.all(query, [invoiceId]);
   return result;

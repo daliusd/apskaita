@@ -54,8 +54,22 @@ describe('database tests', () => {
       invoice.language = 'en';
       invoice.email = 'dalius@haiku.lt';
       invoice.lineItems = [
-        { name: 'test3', unit: 'vnt.', amount: 1, price: 20, vat: 21 },
-        { name: 'test4', unit: 'vnt.', amount: 3, price: 60, vat: 9 },
+        {
+          name: 'test3',
+          unit: 'vnt.',
+          amount: 1,
+          price: 20,
+          vat: 21,
+          vatcode: 'PVM1',
+        },
+        {
+          name: 'test4',
+          unit: 'vnt.',
+          amount: 3,
+          price: 60,
+          vat: 9,
+          vatcode: 'PVM2',
+        },
       ];
 
       const success = await updateInvoice(db, invoiceId, invoice);
@@ -84,12 +98,14 @@ describe('database tests', () => {
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(20);
       expect(retInvoice.lineItems[0].vat).toEqual(21);
+      expect(retInvoice.lineItems[0].vatcode).toEqual('PVM1');
 
       expect(retInvoice.lineItems[1].name).toEqual('test4');
       expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(3);
       expect(retInvoice.lineItems[1].price).toEqual(60);
       expect(retInvoice.lineItems[1].vat).toEqual(9);
+      expect(retInvoice.lineItems[1].vatcode).toEqual('PVM2');
     });
 
     it('does not update invoice if there is invoice with same serie number', async () => {

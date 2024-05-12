@@ -7,6 +7,7 @@ import { IconClearAll } from '@tabler/icons-react';
 import { ILineItem } from '../../db/db';
 import { cleanUpString } from '../../utils/textutils';
 import Link from '../../src/Link';
+import { vatCodeToVat, vatCodes, vatToVatCode } from './vatUtils';
 
 interface Props {
   lineItem: ILineItem;
@@ -151,7 +152,7 @@ export default function LineItemEdit({
       </Grid.Col>
 
       <Grid.Col span={3}>
-        <NumberInput label="Viso" disabled value={sum / 100} suffix=" €" />
+        <NumberInput label="Viso" readOnly value={sum / 100} suffix=" €" />
       </Grid.Col>
 
       {isVatPayer && (
@@ -168,6 +169,7 @@ export default function LineItemEdit({
                 onChange({
                   ...lineItem,
                   vat: value || 0,
+                  vatcode: vatToVatCode[value || 0],
                 });
               }}
             />
@@ -175,7 +177,7 @@ export default function LineItemEdit({
           <Grid.Col span={3}>
             <NumberInput
               label="PVM"
-              disabled
+              readOnly
               value={(lineItem.price - price_without_vat) / 100}
               suffix=" €"
             />
@@ -183,7 +185,7 @@ export default function LineItemEdit({
           <Grid.Col span={3}>
             <NumberInput
               label="Kaina be PVM"
-              disabled
+              readOnly
               value={price_without_vat / 100}
               suffix=" €"
             />
@@ -191,11 +193,40 @@ export default function LineItemEdit({
           <Grid.Col span={3}>
             <NumberInput
               label="Viso be PVM"
-              disabled
+              readOnly
               value={sum_without_vat / 100}
               suffix=" €"
             />
           </Grid.Col>
+          <Grid.Col span={12}>
+            <Autocomplete
+              label="PVM kodas"
+              aria-label={'PVM kodas' + lid}
+              data={vatCodes}
+              disabled={disabled}
+              value={lineItem.vatcode || vatToVatCode[lineItem.vat]}
+              onChange={(newValue) => {
+                onChange({
+                  ...lineItem,
+                  vatcode: newValue,
+                });
+              }}
+            />
+          </Grid.Col>
+          {lineItem.vatcode !== undefined &&
+            vatCodeToVat[lineItem.vatcode] !== undefined &&
+            lineItem.vat !== vatCodeToVat[lineItem.vatcode] && (
+              <Grid.Col span={12}>
+                <Text size="sm">
+                  <Text span fw="700">
+                    Pastaba:
+                  </Text>{' '}
+                  {lineItem.vatcode} kodui taikomas{' '}
+                  {vatCodeToVat[lineItem.vatcode]}% PVM. Ar nurodėte gerą PVM
+                  kodą?
+                </Text>
+              </Grid.Col>
+            )}
           {vat === 0 && (
             <Grid.Col span={12}>
               <Text size="sm">

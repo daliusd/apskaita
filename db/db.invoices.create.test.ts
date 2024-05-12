@@ -123,8 +123,22 @@ describe('database tests', () => {
         language: 'lt',
         email: 'dalius@haiku.lt',
         lineItems: [
-          { name: 'test', unit: 'vnt.', amount: 1, price: 100, vat: 21 },
-          { name: 'test2', unit: 'vnt.', amount: 2, price: 200, vat: 9 },
+          {
+            name: 'test',
+            unit: 'vnt.',
+            amount: 1,
+            price: 100,
+            vat: 21,
+            vatcode: 'PVM1',
+          },
+          {
+            name: 'test2',
+            unit: 'vnt.',
+            amount: 2,
+            price: 200,
+            vat: 9,
+            vatcode: 'PVM2',
+          },
         ],
       };
       const { invoiceId } = await createInvoice(db, invoice);
@@ -146,12 +160,14 @@ describe('database tests', () => {
       expect(retInvoice.lineItems[0].amount).toEqual(1);
       expect(retInvoice.lineItems[0].price).toEqual(100);
       expect(retInvoice.lineItems[0].vat).toEqual(21);
+      expect(retInvoice.lineItems[0].vatcode).toEqual('PVM1');
 
       expect(retInvoice.lineItems[1].name).toEqual('test2');
       expect(retInvoice.lineItems[1].unit).toEqual('vnt.');
       expect(retInvoice.lineItems[1].amount).toEqual(2);
       expect(retInvoice.lineItems[1].price).toEqual(200);
       expect(retInvoice.lineItems[1].vat).toEqual(9);
+      expect(retInvoice.lineItems[1].vatcode).toEqual('PVM2');
     });
 
     it('Does not allow to create duplicate Invoice', async () => {
