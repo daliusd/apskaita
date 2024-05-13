@@ -4775,11 +4775,11 @@ __metadata:
   linkType: hard
 
 "i18n-iso-countries@npm:^7.11.1":
-  version: 7.11.1
-  resolution: "i18n-iso-countries@npm:7.11.1"
+  version: 7.11.2
+  resolution: "i18n-iso-countries@npm:7.11.2"
   dependencies:
     diacritics: "npm:1.3.0"
-  checksum: 10/298329caea568bff7977d02fb26921b4b0667586555ef26a635bfe87b35c1d4e369be9714394865b4ecc45bbf04e3b169d37f4d9f383e23d2b1e9f7808939dca
+  checksum: 10/16c54cc82997b1c633abb7c1b909cc1cf2ca8a8b9a2db6aff6071daf17b868a7874de4a8c5d23fc185e8acea6fa089b0902fa36d3b93389faea332e9644f1d0c
   languageName: node
   linkType: hard
 
