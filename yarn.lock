@@ -1344,20 +1344,20 @@ __metadata:
   linkType: hard
 
 "@tabler/icons-react@npm:^3.1.0":
-  version: 3.3.0
-  resolution: "@tabler/icons-react@npm:3.3.0"
+  version: 3.4.0
+  resolution: "@tabler/icons-react@npm:3.4.0"
   dependencies:
-    "@tabler/icons": "npm:3.3.0"
+    "@tabler/icons": "npm:3.4.0"
   peerDependencies:
     react: ">= 16"
-  checksum: 10/8e2a77ec8c1320eba23f8d972bd39adee28c74fe0e73192c8bd50acf1e458ee624b5502e383db515337fcdbd0139e5c59d3207799780edcab40a7bf2b193ac43
+  checksum: 10/15c06ff958ebf7b6b23ba595ea6e7d20afe5cd6b33e646f15bbd827ef6204fce7e4725110c6a8629d1429d9b033a9ddac0834596f285a5e41aa2c96117150afa
   languageName: node
   linkType: hard
 
-"@tabler/icons@npm:3.3.0":
-  version: 3.3.0
-  resolution: "@tabler/icons@npm:3.3.0"
-  checksum: 10/af5f69f3018136b1f5b8839332fe350ede4abb0bf302193ff807327f2047397c5ac0cc363a30bbda4ad75b298914f1651f473f79e06627c2716a53a7c8a5a00c
+"@tabler/icons@npm:3.4.0":
+  version: 3.4.0
+  resolution: "@tabler/icons@npm:3.4.0"
+  checksum: 10/1a72b5e500a5cc3b78dc68fe7d41ce6a7768981a586d781f07968600271f9199edd966be480bba755c114d84ff7521243394ee1255e6c4822105d1a72900ad40
   languageName: node
   linkType: hard
 
