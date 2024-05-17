@@ -40,6 +40,9 @@ export interface IInvoice {
 export interface IExpense {
   readonly id?: number;
   description: string;
+  invoiceno: string;
+  seller: string;
+  items: string;
   created: number;
   price: number;
   gdriveId: string | null;
@@ -581,8 +584,11 @@ export async function getUniqueLineItemsNames(db: Database, start: string) {
 
 export async function createExpense(db: Database, expense: IExpense) {
   const result = await db.run(
-    'INSERT INTO Expense(description, created, price, gdriveId, webViewLink, webContentLink) VALUES(?, ?, ?, ?, ?, ?)',
+    'INSERT INTO Expense(description, invoiceno, seller, items, created, price, gdriveId, webViewLink, webContentLink) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
     expense.description,
+    expense.invoiceno,
+    expense.seller,
+    expense.items,
     expense.created,
     expense.price,
     expense.gdriveId,
@@ -601,8 +607,11 @@ export async function updateExpense(
   expense: IExpense,
 ) {
   await db.run(
-    'UPDATE Expense SET description = ?, created = ?, price = ? WHERE id = ?',
+    'UPDATE Expense SET description = ?, invoiceno = ?, seller = ?, items = ?, created = ?, price = ? WHERE id = ?',
     expense.description,
+    expense.invoiceno,
+    expense.seller,
+    expense.items,
     expense.created,
     expense.price,
     expenseId,
@@ -661,7 +670,7 @@ export async function getExpenseList(
 
 export async function getExpense(db: Database, expenseId: number) {
   const result = await db.get<IExpense>(
-    'SELECT id, description, created, price, gdriveId, webViewLink, webContentLink FROM Expense WHERE id = ?',
+    'SELECT id, description, invoiceno, seller, items, created, price, gdriveId, webViewLink, webContentLink FROM Expense WHERE id = ?',
     expenseId,
   );
 

@@ -5,11 +5,16 @@ import { getExpense, updateExpense, deleteExpense } from '../../../db/db';
 import { dbWrapper } from '../../../db/apiwrapper';
 import { defaultOrFirst } from '../../../utils/query';
 
-import { getDrive, deleteFile } from '../../../utils/gdrive';
+import {
+  getDrive,
+  deleteFile,
+  getOrCreateFolder,
+  moveFile,
+} from '../../../utils/gdrive';
 import { errorHandler } from '../../../utils/report-mailer';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'PUT') {
+  if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
         query: { id },
@@ -17,7 +22,42 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const expenseId = parseInt(defaultOrFirst(id), 10);
 
+      const expense = await getExpense(db, expenseId);
+
+      return res.json({ expense });
+    });
+  } else if (req.method === 'PUT') {
+    return dbWrapper(req, res, async (db, session) => {
+      const {
+        query: { id },
+      } = req;
+
+      const expenseId = parseInt(defaultOrFirst(id), 10);
+
       const success = await updateExpense(db, expenseId, req.body);
+
+      const expenseFromDb = await getExpense(db, expenseId);
+
+      if (expenseFromDb.gdriveId) {
+        const drive = getDrive((session as any).accessToken as string);
+
+        const createdDate = new Date(expenseFromDb.created);
+        const year = createdDate.getFullYear().toString();
+
+        const haikuFolderId = await getOrCreateFolder(drive, 'Haiku.lt');
+        const expensesFolderId = await getOrCreateFolder(
+          drive,
+          'Išlaidos',
+          haikuFolderId,
+        );
+        const yearFolderId = await getOrCreateFolder(
+          drive,
+          year,
+          expensesFolderId,
+        );
+
+        await moveFile(drive, expenseFromDb.gdriveId, yearFolderId);
+      }
 
       return res.json({ success });
     });

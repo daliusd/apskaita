@@ -23,12 +23,12 @@ export function getDrive(accessToken: string) {
 export async function getOrCreateFolder(
   drive: drive_v3.Drive,
   name: string,
-  parent?: string,
+  parentId?: string,
 ) {
   const listResp = await drive.files.list({
     q:
       `mimeType='application/vnd.google-apps.folder' and name = '${name}' and trashed = false` +
-      (parent ? `and '${parent}' in parents` : ``),
+      (parentId ? `and '${parentId}' in parents` : ``),
     fields: 'files(id)',
   });
 
@@ -39,7 +39,7 @@ export async function getOrCreateFolder(
   const fileMetadata = {
     name,
     mimeType: 'application/vnd.google-apps.folder',
-    parents: parent ? [parent] : undefined,
+    parents: parentId ? [parentId] : undefined,
   };
 
   const respCreate = await drive.files.create({
@@ -54,12 +54,12 @@ export async function createFile(
   file: Express.Multer.File,
   createdDate: Date,
   description: string,
-  parent: string,
+  parentId: string,
 ): Promise<GDriveInfo> {
   const fileMetadata = {
     name: createdDate.toISOString().slice(0, 10) + '_' + file.originalname,
     description,
-    parents: [parent],
+    parents: [parentId],
   };
 
   const media = {
@@ -80,11 +80,11 @@ export async function createFileFromSystem(
   drive: drive_v3.Drive,
   filename: string,
   uploadName: string,
-  parent: string,
+  parentId: string,
 ): Promise<{ id?: string | null }> {
   const fileMetadata = {
     name: uploadName,
-    parents: [parent],
+    parents: [parentId],
   };
 
   const media = {
@@ -99,6 +99,22 @@ export async function createFileFromSystem(
   });
 
   return resp.data;
+}
+
+export async function moveFile(
+  drive: drive_v3.Drive,
+  fileId: string,
+  parentId: string,
+) {
+  const file = await drive.files.update({ fileId, fields: 'parents' });
+  if (file.data.parents.indexOf(parentId) === -1) {
+    await drive.files.update({
+      fileId,
+      addParents: parentId,
+      removeParents: file.data.parents.join(','),
+      fields: 'id, parents',
+    });
+  }
 }
 
 export async function deleteFile(drive: drive_v3.Drive, fileId: string) {

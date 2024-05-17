@@ -55,7 +55,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const haikuFolderId = await getOrCreateFolder(drive, 'Haiku.lt');
         const expensesFolderId = await getOrCreateFolder(
           drive,
-          "Išlaidos",
+          'Išlaidos',
           haikuFolderId,
         );
         const yearFolderId = await getOrCreateFolder(
@@ -75,6 +75,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const expense: IExpense = {
         description: upload.body.description,
+        invoiceno: upload.body.invoiceno,
+        seller: upload.body.seller,
+        items: upload.body.items,
         created: parseInt(upload.body.created),
         price: parseFloat(upload.body.price),
         gdriveId: gdriveInfo.id,

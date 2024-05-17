@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 
 test('Expenses. Simple test', async ({ page }) => {
@@ -6,27 +6,30 @@ test('Expenses. Simple test', async ({ page }) => {
 
   await page.goto('http://localhost:3000/');
 
-  await Promise.all([
-    page.waitForNavigation(/*{ url: 'http://localhost:3000/islaidos' }*/),
-    page.click('text=Išlaidos'),
-  ]);
-
-  await page.click('button:has-text("Pridėti išlaidų įrašą")');
-
-  await page.fill('[aria-label="Išlaidų aprašymas"]', 'Test');
-
-  await page.fill('[aria-label="Išlaidų suma"]', '10');
-  await page.click('[aria-label="Pridėti išlaidų įrašą"]');
-
+  await page.getByRole('link', { name: 'Išlaidos' }).click();
+  await page.getByRole('button', { name: 'Pridėti išlaidų įrašą' }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Pridėti išlaidų įrašą' }),
+  ).toBeVisible();
+  await page.getByLabel('Išlaidų aprašymas').fill('Test');
+  await page.getByLabel('Išlaidų suma').fill('123 €');
+  await page.getByLabel('Pridėti išlaidų įrašą').click();
   await page.waitForSelector('text=Išlaidos įrašas pridėtas.');
 
-  await page.waitForSelector(
-    'text=Rasta išlaidų įrašų pagal filtrus: 1. Šių išlaidų įrašų bendra suma 10 €.',
-  );
+  await page.getByRole('link', { name: 'Išlaidos' }).click();
 
-  await page.click('[aria-label="Ištrinti išlaidų įrašą"]');
+  await expect(
+    page.getByText(
+      'Rasta išlaidų įrašų pagal filtrus: 1. Šių išlaidų įrašų bendra suma 123 €.',
+    ),
+  ).toBeVisible();
+
+  await page.getByLabel('Ištrinti išlaidų įrašą').click();
 
   await page.waitForSelector('text=Išlaidų įrašas ištrintas.');
-  await page.waitForSelector('text=Nerasta išlaidų įrašų pagal šiuos filtrus.');
+  await expect(
+    page.getByText('Nerasta išlaidų įrašų pagal šiuos filtrus.'),
+  ).toBeVisible();
+
   await deleteUser(page);
 });

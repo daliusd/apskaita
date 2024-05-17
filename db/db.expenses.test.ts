@@ -26,6 +26,9 @@ describe('expenses tests', () => {
     it('get expense by id', async () => {
       const expense: IExpense = {
         description: 'spausdintuvas',
+        invoiceno: 'IN001',
+        seller: 'seller',
+        items: '[]',
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         gdriveId: '123',
@@ -37,6 +40,9 @@ describe('expenses tests', () => {
       const expenseFromDb = await getExpense(db, expenseId);
       expect(expenseFromDb.id).toEqual(expenseId);
       expect(expenseFromDb.description).toEqual(expense.description);
+      expect(expenseFromDb.invoiceno).toEqual(expense.invoiceno);
+      expect(expenseFromDb.seller).toEqual(expense.seller);
+      expect(expenseFromDb.items).toEqual(expense.items);
       expect(expenseFromDb.created).toEqual(expense.created);
       expect(expenseFromDb.price).toEqual(expense.price);
       expect(expenseFromDb.gdriveId).toEqual(expense.gdriveId);
@@ -47,6 +53,9 @@ describe('expenses tests', () => {
     it('get expenses by using different filters', async () => {
       const expense: IExpense = {
         description: 'spausdintuvas',
+        invoiceno: 'IN001',
+        seller: 'seller',
+        items: '[]',
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         gdriveId: '123',
@@ -57,10 +66,14 @@ describe('expenses tests', () => {
 
       expense.created = new Date(2020, 0, 30).getTime();
       expense.description = 'dažai';
+      expense.seller = 'seller2';
+      expense.items = '["test"]';
       const { expenseId: expense2Id } = await createExpense(db, expense);
 
       expense.created = new Date(2020, 0, 29).getTime();
       expense.description = 'lazerinis spausdintuvas';
+      expense.seller = 'seller3';
+      expense.items = '["test3"]';
       const { expenseId: expense3Id } = await createExpense(db, expense);
 
       let expenses = await getExpenseList(db, {});
@@ -103,6 +116,9 @@ describe('expenses tests', () => {
     it('update expense', async () => {
       const expense: IExpense = {
         description: 'spausdintuvas',
+        invoiceno: 'IN001',
+        seller: 'seller',
+        items: '[]',
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         gdriveId: '123',
@@ -113,6 +129,9 @@ describe('expenses tests', () => {
 
       expense.created = new Date(2020, 0, 30).getTime();
       expense.description = 'dažai';
+      expense.invoiceno = 'IN002';
+      expense.seller = 'seller2';
+      expense.items = '["test"]';
       expense.price = 101;
 
       await updateExpense(db, expenseId, expense);
@@ -123,11 +142,23 @@ describe('expenses tests', () => {
       expect(expenses[0].created).toEqual(expense.created);
       expect(expenses[0].description).toEqual(expense.description);
       expect(expenses[0].price).toEqual(expense.price);
+
+      const expenseFromDb = await getExpense(db, expenseId);
+      expect(expenseFromDb.id).toEqual(expenseId);
+      expect(expenseFromDb.created).toEqual(expense.created);
+      expect(expenseFromDb.description).toEqual(expense.description);
+      expect(expenseFromDb.invoiceno).toEqual(expense.invoiceno);
+      expect(expenseFromDb.seller).toEqual(expense.seller);
+      expect(expenseFromDb.items).toEqual(expense.items);
+      expect(expenseFromDb.price).toEqual(expense.price);
     });
 
     it('deletes expense', async () => {
       const expense: IExpense = {
         description: 'spausdintuvas',
+        invoiceno: 'invoiceno',
+        seller: 'seller',
+        items: '[]',
         created: new Date(2020, 0, 31).getTime(),
         price: 100,
         gdriveId: '123',

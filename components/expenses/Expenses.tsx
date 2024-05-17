@@ -15,9 +15,7 @@ export default function Expenses(props: Props) {
 
   useEffect(() => {
     if (data && data.expenses) {
-      setSum(
-        data.expenses.map((e) => e.price * 100).reduce((a, b) => a + b, 0),
-      );
+      setSum(data.expenses.map((e) => e.price).reduce((a, b) => a + b, 0));
     }
   }, [data]);
 

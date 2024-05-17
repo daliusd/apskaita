@@ -21,6 +21,7 @@ yarn-error.log*
 
 /tests/images/current
 /tests/images/diff
+test-results
 
 # yarn
 .yarn/*
