@@ -2,13 +2,14 @@ import { useState, useCallback, useEffect } from 'react';
 import { Grid, TextInput, Text, Title } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 import { useDebounce } from 'react-use';
-import Link from '../src/Link';
+import Link from '../../src/Link';
 import { mutate } from 'swr';
 
-import Expenses from '../components/expenses/Expenses';
-import ExpenseCreate from '../components/expenses/ExpenseCreate';
-import { getMsSinceEpoch } from '../utils/date';
+import Expenses from '../../components/expenses/Expenses';
+import ExpenseCreate from '../../components/expenses/ExpenseCreate';
+import { getMsSinceEpoch } from '../../utils/date';
 import { DateInput } from '@mantine/dates';
+import { DefaultDates } from '../../components/inputs/DefaultDates';
 
 export default function Index() {
   const { data: session } = useSession();
@@ -45,10 +46,6 @@ export default function Index() {
     setQuery(constructQuery());
   }, [constructQuery]);
 
-  const onCreate = async () => {
-    await mutate(query);
-  };
-
   if (!session) {
     return null;
   }
@@ -73,7 +70,7 @@ export default function Index() {
             </Text>
           </Grid.Col>
 
-          <ExpenseCreate onCreate={onCreate} />
+          <ExpenseCreate />
 
           <Grid.Col span={12}>
             <Title order={3}>Filtrai</Title>
@@ -107,6 +104,8 @@ export default function Index() {
               valueFormat="YYYY-MM-DD"
             />
           </Grid.Col>
+
+          <DefaultDates setFromDate={setMinDate} setToDate={setMaxDate} />
         </Grid>
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6 }}>

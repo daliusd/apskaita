@@ -1,21 +1,11 @@
-import { useState } from 'react';
 import { Button, Grid } from '@mantine/core';
+import { useRouter } from 'next/router';
 
-import ExpenseEditDialog from './ExpenseEditDialog';
-
-interface ExpenseCreateProps {
-  onCreate: () => void;
-}
-
-export default function ExpenseCreate({ onCreate }: ExpenseCreateProps) {
-  const [open, setOpen] = useState(false);
+export default function ExpenseCreate() {
+  const router = useRouter();
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+    router.push('/islaidos/nauja');
   };
 
   return (
@@ -23,7 +13,6 @@ export default function ExpenseCreate({ onCreate }: ExpenseCreateProps) {
       <Button variant="filled" onClick={handleClickOpen}>
         Pridėti išlaidų įrašą
       </Button>
-      {open && <ExpenseEditDialog onClose={handleClose} onChange={onCreate} />}
     </Grid.Col>
   );
 }

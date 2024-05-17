@@ -8,10 +8,10 @@ import {
   IconCloudDownload,
 } from '@tabler/icons-react';
 
-import ExpenseEditDialog from './ExpenseEditDialog';
 import { IExpense } from '../../db/db';
 import { getDateString } from '../../utils/date';
 import Link from '../../src/Link';
+import { useRouter } from 'next/router';
 
 interface Props {
   expense: IExpense;
@@ -19,6 +19,7 @@ interface Props {
 }
 
 export default function ExpenseView(props: Props) {
+  const router = useRouter();
   const { expense } = props;
   const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
@@ -55,7 +56,7 @@ export default function ExpenseView(props: Props) {
           <Text>Data: {getDateString(expense.created)}</Text>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Text>Suma: {expense.price} €</Text>
+          <Text>Suma: {expense.price / 100} €</Text>
         </Grid.Col>
         <Grid.Col span={12}>
           <Group gap="sm">
@@ -64,7 +65,9 @@ export default function ExpenseView(props: Props) {
               size="compact-sm"
               variant="outline"
               leftSection={<IconEdit />}
-              onClick={() => setExpenseEditOpen(true)}
+              onClick={() => {
+                router.push(`/islaidos/id/${expense.id}`);
+              }}
             >
               Keisti
             </Button>
@@ -106,14 +109,6 @@ export default function ExpenseView(props: Props) {
           </Group>
         </Grid.Col>
       </Grid>
-
-      {expenseEditOpen && (
-        <ExpenseEditDialog
-          expense={expense}
-          onClose={() => setExpenseEditOpen(false)}
-          onChange={props.onChange}
-        />
-      )}
     </Card>
   );
 }

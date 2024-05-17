@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Autocomplete, Button, Grid, NumberInput, Text } from '@mantine/core';
 import useSWR from 'swr';
 import { useDebounce } from 'react-use';
-import { IconClearAll } from '@tabler/icons-react';
+import { IconTrash } from '@tabler/icons-react';
 
 import { ILineItem } from '../../db/db';
 import { cleanUpString } from '../../utils/textutils';
@@ -35,8 +35,10 @@ export default function LineItemEdit({
   }, [lineItem.price, lineItem.amount]);
 
   const price_without_vat = useMemo(() => {
-    return !isNaN(vat) ? Math.round(lineItem.price / (1.0 + vat / 100)) : sum;
-  }, [lineItem.price, sum, vat]);
+    return !isNaN(vat)
+      ? Math.round(lineItem.price / (1.0 + vat / 100))
+      : lineItem.price;
+  }, [lineItem.price, vat]);
 
   const sum_without_vat = useMemo(() => {
     return price_without_vat * lineItem.amount;
@@ -248,7 +250,7 @@ export default function LineItemEdit({
           <Button
             variant="subtle"
             color="red"
-            leftSection={<IconClearAll />}
+            leftSection={<IconTrash />}
             onClick={onDelete}
             aria-label={'Pašalinti' + lid}
             disabled={disabled}

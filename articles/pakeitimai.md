@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-05-17
+
+- Patobulinimai išlaidų sekime
+
 ## 2024-05-01
 
 - Pridėta galimybė išsaugoti sąskaitas faktūras į Google Drive vienu mygtuko
