@@ -69,10 +69,9 @@ async function info() {
       )
     )?.lastExpenseDate;
 
-    const averageIncome =
-      result.map((r) => r.total).reduce((a, b) => a + b, 0) /
-      result.length /
-      100;
+    const totalIncome =
+      result.map((r) => r.total).reduce((a, b) => a + b, 0) / 100;
+    const averageIncome = totalIncome / result.length;
 
     const vatpayer =
       (await db.get('SELECT value FROM Setting WHERE name = "vatpayer"'))
@@ -88,6 +87,7 @@ async function info() {
       usersData.push({
         dbFile,
         median,
+        totalIncome,
         averageIncome,
         lastMonth: result.at(-1).month,
         months: result.length,
@@ -142,6 +142,7 @@ async function info() {
     console.log(user.dbFile);
     console.log('Median:', user.median);
     console.log('Average income:', user.averageIncome);
+    console.log('Total Income:', user.totalIncome);
     console.log('Last month:', user.lastMonth);
     console.log('Months as user:', user.months);
     console.log('Contact agreement:', user.contactagreement);
