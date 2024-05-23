@@ -944,69 +944,69 @@ __metadata:
   linkType: hard
 
 "@mantine/charts@npm:^7.6.2":
-  version: 7.9.2
-  resolution: "@mantine/charts@npm:7.9.2"
+  version: 7.10.0
+  resolution: "@mantine/charts@npm:7.10.0"
   peerDependencies:
-    "@mantine/core": 7.9.2
-    "@mantine/hooks": 7.9.2
+    "@mantine/core": 7.10.0
+    "@mantine/hooks": 7.10.0
     react: ^18.2.0
     react-dom: ^18.2.0
     recharts: ^2.10.3
-  checksum: 10/b17d262157f942002ea77cf0ef97aa91ef0eb0c2086438e61a11fe66c9ab5399f587416f06e8d353c63bbe1f3b00530291a8f6e6838193917c8558eb707ace2c
+  checksum: 10/cb486cbe1bf756a1f75179a4cb362aa473992984f6c5660e1465ef64f72fd84932800b78fa032b5f3c9be0fcb9f4b9884397e393496e6d223dd700987b42686e
   languageName: node
   linkType: hard
 
 "@mantine/core@npm:^7.6.2":
-  version: 7.9.2
-  resolution: "@mantine/core@npm:7.9.2"
+  version: 7.10.0
+  resolution: "@mantine/core@npm:7.10.0"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
-    clsx: "npm:2.1.0"
+    clsx: "npm:^2.1.1"
     react-number-format: "npm:^5.3.1"
     react-remove-scroll: "npm:^2.5.7"
     react-textarea-autosize: "npm:8.5.3"
     type-fest: "npm:^4.12.0"
   peerDependencies:
-    "@mantine/hooks": 7.9.2
+    "@mantine/hooks": 7.10.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/c623b55fde12f4ff360c5dd73b08cfbb210360598138a5cc13851b52e06ddc4a30844c558bfd030443cd02d1c2a0aba86305f25563f2d62807e0707e21c955a3
+  checksum: 10/506f68391ee9998e697cecef8b76f9f143d8db6b12edfeaf512d66ca92906dfe27927ffc200abf050a3ae3bae7a30869af258f33b4c3712702fd936fd69af537
   languageName: node
   linkType: hard
 
 "@mantine/dates@npm:^7.6.2":
-  version: 7.9.2
-  resolution: "@mantine/dates@npm:7.9.2"
+  version: 7.10.0
+  resolution: "@mantine/dates@npm:7.10.0"
   dependencies:
-    clsx: "npm:2.1.0"
+    clsx: "npm:^2.1.1"
   peerDependencies:
-    "@mantine/core": 7.9.2
-    "@mantine/hooks": 7.9.2
+    "@mantine/core": 7.10.0
+    "@mantine/hooks": 7.10.0
     dayjs: ">=1.0.0"
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/e60ed456c692220b851720eac91c374ee7c94cf068bf952a206e97d51c8caa7ed64fc18c7588164ffbb12f203d1f4739c1a088a1ab497827a8b3b6360d114c0d
+  checksum: 10/fd75417e7b12d3955e7746d4364b85b241c7df0b690ac63c9935e48089d81c59d15652ed01e2e25133e9cb32b67ed4ae55f9279f8b8456477d9511840443ccc0
   languageName: node
   linkType: hard
 
 "@mantine/hooks@npm:^7.6.2":
-  version: 7.9.2
-  resolution: "@mantine/hooks@npm:7.9.2"
+  version: 7.10.0
+  resolution: "@mantine/hooks@npm:7.10.0"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10/e4886e27903e68ad04de75ba76c59b80b32816f9776abe0a02865f1d1c7d0943316e2f865febec97901a29824e233627b4ad168268a855ffe32c728c48ac0f9d
+  checksum: 10/21412a94cc0b4a643f219e6ff5fb68241ed96f2afda072bb237eb5ff101cba92914c401f7426801b85430d55aeae119b436d39bce8134f72c3ee8bbaf39bca51
   languageName: node
   linkType: hard
 
 "@mantine/modals@npm:^7.6.2":
-  version: 7.9.2
-  resolution: "@mantine/modals@npm:7.9.2"
+  version: 7.10.0
+  resolution: "@mantine/modals@npm:7.10.0"
   peerDependencies:
-    "@mantine/core": 7.9.2
-    "@mantine/hooks": 7.9.2
+    "@mantine/core": 7.10.0
+    "@mantine/hooks": 7.10.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/4056fcb360a9b1db604b21bbd31938fde133dd0cd3cca0c139ecbbeca6048cbe51dcbf8e70dbf478c1b65923d256804bfedad2f4cb698f1e54fae43b39a3b367
+  checksum: 10/0cc538a9889047249474797bcbe82fa0fc061ed33a5d35731ef45564979b6d4e7be3ead97b98234cdf0bed3dca9985f875bb0289a3b553d2668f75e550ef058e
   languageName: node
   linkType: hard
 
@@ -2563,17 +2563,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:2.1.0":
-  version: 2.1.0
-  resolution: "clsx@npm:2.1.0"
-  checksum: 10/2e0ce7c3b6803d74fc8147c408f88e79245583202ac14abd9691e2aebb9f312de44270b79154320d10bb7804a9197869635d1291741084826cff20820f31542b
-  languageName: node
-  linkType: hard
-
 "clsx@npm:^2.0.0":
   version: 2.0.0
   resolution: "clsx@npm:2.0.0"
   checksum: 10/943766d1b02fee3538c871e56638d87f973fbc2d6291ce221215ea436fdecb9be97ad323f411839c2d52c45640c449b1a53fbfe7e8b3d529b4e263308b630c9a
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10/cdfb57fa6c7649bbff98d9028c2f0de2f91c86f551179541cf784b1cfdc1562dcb951955f46d54d930a3879931a980e32a46b598acaea274728dbe068deca919
   languageName: node
   linkType: hard
 
