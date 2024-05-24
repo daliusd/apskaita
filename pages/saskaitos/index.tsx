@@ -136,7 +136,7 @@ export default function Index() {
       </Grid.Col>
 
       <Grid.Col span={{ base: 12, md: 6 }}>
-        <Grid gutter={{ base: 12 }}>
+        <Grid gutter={{ base: 24 }}>
           <Grid.Col span={12}>
             <Title order={3}>Sąskaitos faktūros</Title>
           </Grid.Col>

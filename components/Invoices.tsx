@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Grid, Loader, Skeleton, Pagination } from '@mantine/core';
+import { Grid, Loader, Skeleton, Pagination, Text } from '@mantine/core';
 import useSWR, { mutate } from 'swr';
 
 import { IInvoice } from '../db/db';
 import InvoiceView from './InvoiceView';
+import { MultiEditModal } from './MultiEditModal/MultiEditModal';
 
 interface Props {
   minDate?: number;
@@ -67,10 +68,10 @@ export default function Invoices(props: Props) {
 
   const query = '/api/invoices?' + paramsplus;
   const { data, error, isLoading } = useSWR(query);
-  const { data: invoicesCountData } = useSWR('/api/invoicescount?' + params);
-  const { data: invoicesSummaryData } = useSWR(
-    showSummary && '/api/invoicessummary?' + params,
-  );
+  const countQuery = '/api/invoicescount?' + params;
+  const { data: invoicesCountData } = useSWR(countQuery);
+  const summaryQuery = showSummary && '/api/invoicessummary?' + params;
+  const { data: invoicesSummaryData } = useSWR(summaryQuery);
 
   const { data: vatPayerData } = useSWR('/api/settings/vatpayer');
   const isVatPayer = vatPayerData && vatPayerData.value === '1' ? true : false;
@@ -114,30 +115,56 @@ export default function Invoices(props: Props) {
   const itemsCount =
     page + 1 === pageCount ? invoicesCountData.count % limit : limit;
 
+  const mutateQueries = () => {
+    mutate(query);
+    mutate(countQuery);
+    if (showSummary) {
+      mutate(summaryQuery);
+    }
+  };
+
   return (
     <>
       {showSummary && invoicesCountData.count > 0 && (
         <Grid.Col span={12}>
-          Rasta sąskaitų faktūrų pagal šiuos filtrus: {invoicesCountData.count}
-          {`, kurių bendra suma ${sum} €. `}
-          {(invoicesSummaryData.standardUnpaid?.cnt || 0) > 0 &&
-            `Iš jų neapmokėtų:  ${
-              invoicesSummaryData.standardUnpaid?.cnt || 0
-            }` +
-              `, kurių bendra suma ${
-                (invoicesSummaryData.standardUnpaid?.price || 0) / 100
-              } €.`}
-          {isVatPayer && ` PVM suma ${vatToPay} €.`}
+          <Text>
+            Rasta sąskaitų faktūrų pagal šiuos filtrus:{' '}
+            {invoicesCountData.count}
+            {`, kurių bendra suma ${sum} €. `}
+            {(invoicesSummaryData.standardUnpaid?.cnt || 0) > 0 &&
+              `Iš jų neapmokėtų:  ${
+                invoicesSummaryData.standardUnpaid?.cnt || 0
+              }` +
+                `, kurių bendra suma ${
+                  (invoicesSummaryData.standardUnpaid?.price || 0) / 100
+                } €.`}
+            {isVatPayer && ` PVM suma ${vatToPay} €.`}
+          </Text>
         </Grid.Col>
       )}
-
-      {pages}
 
       {invoicesCountData.count === 0 && (
         <Grid.Col span={12}>
           Nerasta sąskaitų faktūrų pagal šiuos filtrus.
         </Grid.Col>
       )}
+
+      {showSummary && (
+        <Grid.Col span={12}>
+          <MultiEditModal
+            minDate={minDate}
+            maxDate={maxDate}
+            seriesName={seriesName}
+            buyer={buyer}
+            paid={paid}
+            invoiceType={invoiceType}
+            onChange={mutateQueries}
+            disabled={invoicesCountData.count === 0}
+          />
+        </Grid.Col>
+      )}
+
+      {pages}
 
       {invoicesCountData.count > 0 && (
         <Grid.Col span={12}>
@@ -147,11 +174,7 @@ export default function Invoices(props: Props) {
               .map((_, idx) => <Skeleton key={idx} height={187} mb={12} />)}
 
           {data?.invoices.map((i: IInvoice) => (
-            <InvoiceView
-              key={i.id}
-              invoice={i}
-              onChange={() => mutate(query)}
-            />
+            <InvoiceView key={i.id} invoice={i} onChange={mutateQueries} />
           ))}
         </Grid.Col>
       )}
