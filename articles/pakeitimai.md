@@ -10,6 +10,14 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-05-24
+
+- IV skaičiuoklės patobulinimai
+
+- Galimybė pažymėti kelias sąskaitas kaip apmokėtas iš karto
+
+- Klaidų pataisymai
+
 ## 2024-05-17
 
 - Patobulinimai išlaidų sekime
