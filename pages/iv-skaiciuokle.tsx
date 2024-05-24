@@ -23,6 +23,7 @@ const MMA_BY_YEAR = {
   2021: 642,
   2022: 730,
   2023: 840,
+  2024: 924,
 };
 
 function roundToTwoDigits(num: number) {
@@ -85,7 +86,7 @@ export default function Index() {
   }, [totalIncome]);
 
   useEffect(() => {
-    const actualExp = expdata?.stats.total || 0;
+    const actualExp = expdata?.stats.total / 100 || 0;
     const expenseFromIncome = income * 0.3;
     if (expenseFromIncome > actualExp) {
       setExpense(expenseFromIncome);
@@ -142,7 +143,7 @@ export default function Index() {
 
     let profit_for_gpm = profit;
     if (socialTaxesToIncome) {
-      profit_for_gpm -= psd + vsd;
+      profit_for_gpm = Math.max(profit_for_gpm - (psd + vsd), 0);
     }
 
     let gpm =
@@ -330,10 +331,10 @@ export default function Index() {
             </Group>
             {expdata?.stats?.total !== undefined && (
               <Group gap={6}>
-                <Text>Jūsų išlaidos: {expdata.stats.total} €</Text>
+                <Text>Jūsų išlaidos: {expdata.stats.total / 100} €</Text>
                 <Button
                   variant="outline"
-                  onClick={() => setExpense(expdata.stats.total)}
+                  onClick={() => setExpense(expdata.stats.total / 100)}
                   size="compact-sm"
                 >
                   Naudoti
