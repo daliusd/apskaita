@@ -9,6 +9,11 @@ export async function sendReportMessage(subject, error, req) {
     throw Error('SMTP not configured.');
   }
 
+  // NOTE: this error is related to adblock (or whatever). Let's ignore it.
+  if (error.message === 'Cannot redefine property: googletag') {
+    return;
+  }
+
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 465,
