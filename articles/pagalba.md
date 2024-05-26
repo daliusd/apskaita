@@ -39,6 +39,8 @@ Sistemos valdymas:
   - [Sąskaitų faktūrų
     paieška](/straipsniai/saskaitu-fakturu-paieska)
 
+  - [Kelių Sąskaitų faktūrų keitimas](/straipsniai/keliu-saskaitu-keitimas)
+
 - [Išlaidų sekimas](/straipsniai/islaidu-sekimas)
 
 - [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)

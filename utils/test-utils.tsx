@@ -5,6 +5,7 @@ import { MantineProvider } from '@mantine/core';
 import { SWRConfig } from 'swr';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { SessionProvider } from 'next-auth/react';
 
 const server = setupServer(
   http.get('/api/invoices', () => {
@@ -102,6 +103,9 @@ const server = setupServer(
   http.put('/api/invoicespaid/*', () => {
     return HttpResponse.json({ success: true });
   }),
+  http.get('/api/auth/session', () => {
+    return HttpResponse.json({ gdrive: true, gmailSend: true });
+  }),
 );
 
 beforeAll(() => server.listen());
@@ -117,7 +121,9 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
         dedupingInterval: 0,
       }}
     >
-      <MantineProvider>{children}</MantineProvider>
+      <MantineProvider>
+        <SessionProvider>{children}</SessionProvider>
+      </MantineProvider>
     </SWRConfig>
   );
 };

@@ -1,5 +1,5 @@
 import { test, expect, vitest } from 'vitest';
-import { render, screen, fireEvent } from 'test-utils';
+import { render, screen, fireEvent, waitFor } from 'test-utils';
 import '@testing-library/jest-dom/vitest';
 
 import { MultiEditModalContent } from './MultiEditModalContent';
@@ -7,6 +7,16 @@ import { MultiEditModalContent } from './MultiEditModalContent';
 test('send not sent invoices', async () => {
   const onChange = vitest.fn();
   render(<MultiEditModalContent onChange={onChange} />);
+
+  await waitFor(
+    () =>
+      expect(
+        screen.getByRole('button', { name: 'Išsiųsti neišsiųstas' }),
+      ).not.toBeDisabled(),
+    {
+      timeout: 5000,
+    },
+  );
 
   fireEvent.click(
     await screen.findByRole('button', {
@@ -23,6 +33,16 @@ test('send not sent invoices', async () => {
 test('save to gdrive not saved invoices', async () => {
   const onChange = vitest.fn();
   render(<MultiEditModalContent onChange={onChange} />);
+
+  await waitFor(
+    () =>
+      expect(
+        screen.getByRole('button', { name: 'Išsaugoti į Google Drive' }),
+      ).not.toBeDisabled(),
+    {
+      timeout: 5000,
+    },
+  );
 
   fireEvent.click(
     await screen.findByRole('button', {

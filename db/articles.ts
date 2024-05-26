@@ -35,7 +35,7 @@ export async function getArticleBySlug(slug: string): Promise<IArticle> {
 
   const htmlContent = (
     await remark()
-      .use(html)
+      .use(html, { sanitize: false })
       .process(content || '')
   ).toString();
 

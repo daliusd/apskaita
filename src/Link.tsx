@@ -2,9 +2,11 @@ import NextLink, { LinkProps } from 'next/link';
 import { Anchor, type AnchorProps } from '@mantine/core';
 
 export default function Link(
-  props: LinkProps & AnchorProps & { children: React.ReactNode },
+  props: LinkProps & AnchorProps & { children: React.ReactNode; target?: any },
 ) {
-  const { ...other } = props;
+  const { target, ...other } = props;
 
-  return <Anchor component={NextLink} underline="hover" {...other} />;
+  return (
+    <Anchor target={target} component={NextLink} underline="hover" {...other} />
+  );
 }

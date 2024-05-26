@@ -11,6 +11,8 @@ import {
   Table,
   Text,
 } from '@mantine/core';
+import { useSession } from 'next-auth/react';
+
 import { IInvoice } from '../../db/db';
 import { getDateString, getMsSinceEpoch } from '../../utils/date';
 import { putInvoicepaid } from '../api/putInvoicepaid';
@@ -21,6 +23,7 @@ import { postInvoicemailer } from '../api/postInvoicemailer';
 import { getInvoice } from '../api/getInvoice';
 import { postInvoicegdrive } from '../api/postInvoicegdrive';
 import { putInvoices } from '../api/putInvoices';
+import Link from '../../src/Link';
 
 interface Props {
   invoices: IInvoice[];
@@ -30,6 +33,11 @@ interface Props {
 type OpResult = 'skip' | 'success' | 'failure';
 
 export function InvoicesTable({ invoices, onChange }: Props) {
+  const { data: session } = useSession();
+  const gmailSend =
+    session && (session as unknown as { gmailSend: boolean }).gmailSend;
+  const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
+
   const [selectedRows, setSelectedRows] = useState<number[]>(
     invoices.map((i) => i.id),
   );
@@ -209,8 +217,17 @@ export function InvoicesTable({ invoices, onChange }: Props) {
             Čia galite atlikti tą pačią operaciją su keliomis sąskaitomis
             faktūromis iš karto. Čia rodomos visos rastos sąskaitos faktūros
             pagal jūsų paieškos kriterijus ir jūs galite pasirinkti su kuriomis
-            norite atlikti operaciją. PASTABA: šiuo metu funkcionalumas kuriamas
-            ir daugiau operacijų bus pridėta ateityje.
+            norite atlikti operaciją. Daugiau informacijos galima rasti
+            straipsnyje{' '}
+            <Link
+              c="inherit"
+              href="/straipsniai/keliu-saskaitu-keitimas"
+              underline="always"
+              target="_blank"
+            >
+              „Kelių sąskaitų keitimas“
+            </Link>
+            .
           </Text>
           <Group>
             <Button
@@ -228,7 +245,7 @@ export function InvoicesTable({ invoices, onChange }: Props) {
               size="compact-sm"
               variant="outline"
               onClick={sendNotSent}
-              disabled={operationInProgress}
+              disabled={operationInProgress || !gmailSend}
             >
               Išsiųsti neišsiųstas
             </Button>
@@ -248,7 +265,7 @@ export function InvoicesTable({ invoices, onChange }: Props) {
               size="compact-sm"
               variant="outline"
               onClick={saveToGdrive}
-              disabled={operationInProgress}
+              disabled={operationInProgress || !gdrive}
             >
               Išsaugoti į Google Drive
             </Button>
