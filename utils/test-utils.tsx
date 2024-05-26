@@ -60,6 +60,17 @@ const server = setupServer(
         flags: 0,
         vat: 0,
         invoiceType: 'standard',
+        lineItems: [
+          {
+            id: 57,
+            name: 'whatever',
+            unit: 'vnt.',
+            amount: 1,
+            price: 400,
+            vat: 0,
+            vatcode: '',
+          },
+        ],
       },
     });
   }),
@@ -67,6 +78,11 @@ const server = setupServer(
     return HttpResponse.json({
       success: true,
       invoiceId: 4,
+    });
+  }),
+  http.put('/api/invoices/*', () => {
+    return HttpResponse.json({
+      success: true,
     });
   }),
   http.post('/api/invoicemailer', () => {

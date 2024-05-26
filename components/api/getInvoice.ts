@@ -1,3 +1,5 @@
+import { IInvoice } from '../../db/db';
+
 export const getInvoice = async (invoiceId: string | number) => {
   let response: Response;
 
@@ -13,5 +15,5 @@ export const getInvoice = async (invoiceId: string | number) => {
   }
 
   const responseJson = await response.json();
-  return { success: true, invoice: responseJson.invoice };
+  return { success: true, invoice: responseJson.invoice as IInvoice };
 };

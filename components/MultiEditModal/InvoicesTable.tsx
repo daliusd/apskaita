@@ -5,6 +5,7 @@ import {
   Checkbox,
   Grid,
   Group,
+  NumberInput,
   Progress,
   Stack,
   Table,
@@ -19,6 +20,7 @@ import { putInvoicespdf } from '../api/putInvoicespdf';
 import { postInvoicemailer } from '../api/postInvoicemailer';
 import { getInvoice } from '../api/getInvoice';
 import { postInvoicegdrive } from '../api/postInvoicegdrive';
+import { putInvoices } from '../api/putInvoices';
 
 interface Props {
   invoices: IInvoice[];
@@ -31,6 +33,8 @@ export function InvoicesTable({ invoices, onChange }: Props) {
   const [selectedRows, setSelectedRows] = useState<number[]>(
     invoices.map((i) => i.id),
   );
+
+  const [lineItemCount, setLineItemCount] = useState<number>(1);
 
   const [operationInProgress, setOperationInProgress] = useState(false);
   const [operationResult, setOperationResult] = useState('');
@@ -136,16 +140,16 @@ export function InvoicesTable({ invoices, onChange }: Props) {
   const saveToGdrive = async () => {
     await processAllInvoices(
       async (inv: IInvoice) => {
-        const { success } = await getInvoice(inv.id);
+        const { success, invoice } = await getInvoice(inv.id);
         if (!success) {
           return 'failure';
         }
 
-        if (inv.gdriveId) {
+        if (invoice.gdriveId) {
           return 'skip';
         }
 
-        if (!(await postInvoicegdrive(inv.id)).success) {
+        if (!(await postInvoicegdrive(invoice.id)).success) {
           return 'failure';
         }
 
@@ -154,6 +158,46 @@ export function InvoicesTable({ invoices, onChange }: Props) {
       (successCount, failureCount) =>
         `Sąskaitų išsaugotą į Google Drive: ${successCount}` +
         (failureCount > 0 ? `. Nepavyko išsaugoti: ${failureCount}` : ''),
+    );
+  };
+
+  const changeLineItemsCount = async () => {
+    await processAllInvoices(
+      async (inv: IInvoice) => {
+        const { success, invoice } = await getInvoice(inv.id);
+        if (!success) {
+          return 'failure';
+        }
+
+        if (invoice.lineItems.length !== 1) {
+          return 'failure';
+        }
+
+        invoice.lineItems[0].amount = lineItemCount;
+
+        const item = invoice.lineItems[0];
+        invoice.price = item.price * item.amount;
+        invoice.vat =
+          (item.price - Math.round(item.price / (1.0 + item.vat / 100))) *
+          item.amount;
+
+        const updatedInvoice = await putInvoices(inv.id, invoice);
+        if (!updatedInvoice.success) {
+          return 'failure';
+        }
+
+        const newInvoicePdfSuccess = await putInvoicespdf(
+          updatedInvoice.invoiceId,
+        );
+        if (!newInvoicePdfSuccess) {
+          return 'failure';
+        }
+
+        return 'success';
+      },
+      (successCount, failureCount) =>
+        `Pakeista sąskaitų: ${successCount}` +
+        (failureCount > 0 ? `. Nepavyko pakeisti: ${failureCount}` : ''),
     );
   };
 
@@ -208,6 +252,26 @@ export function InvoicesTable({ invoices, onChange }: Props) {
             >
               Išsaugoti į Google Drive
             </Button>
+          </Group>
+          <Group>
+            <Button
+              aria-label="Pakeisti prekių/paslaugų skaičių į"
+              size="compact-sm"
+              variant="outline"
+              onClick={changeLineItemsCount}
+              disabled={operationInProgress}
+            >
+              Pakeisti prekių/paslaugų skaičių į
+            </Button>
+
+            <NumberInput
+              value={lineItemCount}
+              onChange={(value) => {
+                if (typeof value === 'number') {
+                  setLineItemCount(value);
+                }
+              }}
+            />
           </Group>
 
           {operationInProgress && <Progress value={operationProgress} />}

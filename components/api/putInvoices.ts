@@ -1,9 +1,12 @@
 import { IInvoice } from '../../db/db';
 
-export const putInvoices = async (invoiceId: string, invoice: IInvoice) => {
+export const putInvoices = async (
+  invoiceId: string | number,
+  invoice: IInvoice,
+) => {
   let response: Response;
 
-  response = await fetch('/api/invoices/' + invoiceId, {
+  response = await fetch(`/api/invoices/${invoiceId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

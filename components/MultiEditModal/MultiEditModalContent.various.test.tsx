@@ -35,3 +35,19 @@ test('save to gdrive not saved invoices', async () => {
   );
   expect(onChange).toHaveBeenCalledOnce();
 });
+
+test('change line items count in invoice', async () => {
+  const onChange = vitest.fn();
+  render(<MultiEditModalContent onChange={onChange} />);
+
+  fireEvent.click(
+    await screen.findByRole('button', {
+      name: 'Pakeisti prekių/paslaugų skaičių į',
+    }),
+  );
+
+  expect(await screen.findByTestId('operation-result')).toHaveTextContent(
+    'Pakeista sąskaitų: 2',
+  );
+  expect(onChange).toHaveBeenCalledOnce();
+});
