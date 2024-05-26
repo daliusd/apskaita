@@ -17,6 +17,7 @@ const server = setupServer(
           created: 1715558400000,
           price: 1000,
           buyer: 'Jonas',
+          email: 'jonas@makaronas.com',
           pdfname: '59142f77-aa78-4c0a-81a9-e969ba772b39.pdf',
           paid: 0,
           locked: 0,
@@ -66,6 +67,11 @@ const server = setupServer(
     return HttpResponse.json({
       success: true,
       invoiceId: 4,
+    });
+  }),
+  http.post('/api/invoicemailer', () => {
+    return HttpResponse.json({
+      success: true,
     });
   }),
   http.put('/api/invoicespdf/*', () => {

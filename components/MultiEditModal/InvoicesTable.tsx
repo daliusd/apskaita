@@ -16,6 +16,7 @@ import { putInvoicepaid } from '../api/putInvoicepaid';
 import { getInvoiceBySourceId } from '../api/getInvoiceBySourceId';
 import { postInvoices } from '../api/postInvoices';
 import { putInvoicespdf } from '../api/putInvoicespdf';
+import { postInvoicemailer } from '../api/postInvoicemailer';
 
 interface Props {
   invoices: IInvoice[];
@@ -92,6 +93,25 @@ export function InvoicesTable({ invoices, onChange }: Props) {
     );
   };
 
+  const sendNotSent = async () => {
+    await processAllInvoices(
+      async (inv: IInvoice) => {
+        if (inv.sent || !inv.email) {
+          return 'skip';
+        }
+
+        if (!(await postInvoicemailer(inv.id, inv.email)).success) {
+          return 'failure';
+        }
+
+        return 'success';
+      },
+      (successCount, failureCount) =>
+        `Išsiųsta sąskaitų: ${successCount}` +
+        (failureCount > 0 ? `. Nepavyko išsiųsti: ${failureCount}` : ''),
+    );
+  };
+
   const markAsPaid = async () => {
     await processAllInvoices(
       async (inv: IInvoice) => {
@@ -131,6 +151,16 @@ export function InvoicesTable({ invoices, onChange }: Props) {
               disabled={operationInProgress}
             >
               Sukurti naujas sąskaitas senų pagrindu
+            </Button>
+
+            <Button
+              aria-label="Išsiųsti neišsiųstas"
+              size="compact-sm"
+              variant="outline"
+              onClick={sendNotSent}
+              disabled={operationInProgress}
+            >
+              Išsiųsti neišsiųstas
             </Button>
 
             <Button

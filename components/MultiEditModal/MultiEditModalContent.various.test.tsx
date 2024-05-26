@@ -1,0 +1,21 @@
+import { test, expect, vitest } from 'vitest';
+import { render, screen, fireEvent } from 'test-utils';
+import '@testing-library/jest-dom/vitest';
+
+import { MultiEditModalContent } from './MultiEditModalContent';
+
+test('create new invoiced based on old', async () => {
+  const onChange = vitest.fn();
+  render(<MultiEditModalContent onChange={onChange} />);
+
+  fireEvent.click(
+    await screen.findByRole('button', {
+      name: 'Išsiųsti neišsiųstas',
+    }),
+  );
+
+  expect(await screen.findByTestId('operation-result')).toHaveTextContent(
+    'Išsiųsta sąskaitų: 1',
+  );
+  expect(onChange).toHaveBeenCalledOnce();
+});
