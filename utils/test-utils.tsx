@@ -74,6 +74,12 @@ const server = setupServer(
       success: true,
     });
   }),
+  http.post('/api/invoicegdrive', () => {
+    return HttpResponse.json({
+      success: true,
+      gdriveId: 'gdriveId',
+    });
+  }),
   http.put('/api/invoicespdf/*', () => {
     return HttpResponse.json({ success: true });
   }),

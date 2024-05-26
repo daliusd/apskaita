@@ -17,6 +17,8 @@ import { getInvoiceBySourceId } from '../api/getInvoiceBySourceId';
 import { postInvoices } from '../api/postInvoices';
 import { putInvoicespdf } from '../api/putInvoicespdf';
 import { postInvoicemailer } from '../api/postInvoicemailer';
+import { getInvoice } from '../api/getInvoice';
+import { postInvoicegdrive } from '../api/postInvoicegdrive';
 
 interface Props {
   invoices: IInvoice[];
@@ -131,6 +133,30 @@ export function InvoicesTable({ invoices, onChange }: Props) {
     );
   };
 
+  const saveToGdrive = async () => {
+    await processAllInvoices(
+      async (inv: IInvoice) => {
+        const { success } = await getInvoice(inv.id);
+        if (!success) {
+          return 'failure';
+        }
+
+        if (inv.gdriveId) {
+          return 'skip';
+        }
+
+        if (!(await postInvoicegdrive(inv.id)).success) {
+          return 'failure';
+        }
+
+        return 'success';
+      },
+      (successCount, failureCount) =>
+        `Sąskaitų išsaugotą į Google Drive: ${successCount}` +
+        (failureCount > 0 ? `. Nepavyko išsaugoti: ${failureCount}` : ''),
+    );
+  };
+
   return (
     <Grid>
       <Grid.Col span={12}>
@@ -171,6 +197,16 @@ export function InvoicesTable({ invoices, onChange }: Props) {
               disabled={operationInProgress}
             >
               Pažymėti kaip apmokėtas
+            </Button>
+
+            <Button
+              aria-label="Išsaugoti į Google Drive"
+              size="compact-sm"
+              variant="outline"
+              onClick={saveToGdrive}
+              disabled={operationInProgress}
+            >
+              Išsaugoti į Google Drive
             </Button>
           </Group>
 
