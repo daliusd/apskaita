@@ -4,6 +4,7 @@ import { notifications } from '@mantine/notifications';
 import { IconTrash } from '@tabler/icons-react';
 
 import { useRouter } from 'next/router';
+import { deleteInvoices } from '../api/deleteInvoices';
 
 interface IProps {
   invoiceId?: string;
@@ -17,14 +18,7 @@ export default function InvoiceDeleteButton({ invoiceId, disabled }: IProps) {
   if (!invoiceId) return null;
 
   const handleDelete = async () => {
-    let response: Response;
-    try {
-      response = await fetch('/api/invoices/' + invoiceId, {
-        method: 'DELETE',
-      });
-    } catch {}
-
-    if (!response || !response.ok || !(await response.json()).success) {
+    if (!(await deleteInvoices(invoiceId))) {
       notifications.show({
         message: 'Klaida trinant sąskaitą faktūrą.',
         color: 'red',

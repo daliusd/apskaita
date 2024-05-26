@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, Card, Grid, Group, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
@@ -12,6 +11,7 @@ import { IExpense } from '../../db/db';
 import { getDateString } from '../../utils/date';
 import Link from '../../src/Link';
 import { useRouter } from 'next/router';
+import { deleteExpenses } from '../api/deleteExpenses';
 
 interface Props {
   expense: IExpense;
@@ -21,17 +21,9 @@ interface Props {
 export default function ExpenseView(props: Props) {
   const router = useRouter();
   const { expense } = props;
-  const [expenseEditOpen, setExpenseEditOpen] = useState(false);
 
   const handleDelete = async () => {
-    let response: Response;
-    try {
-      response = await fetch('/api/expenses/' + expense.id, {
-        method: 'DELETE',
-      });
-    } catch {}
-
-    if (!response || !response.ok || !(await response.json()).success) {
+    if (!(await deleteExpenses(expense.id))) {
       notifications.show({
         message: 'Klaida trinant išlaidų įrašą.',
         color: 'red',
@@ -73,7 +65,7 @@ export default function ExpenseView(props: Props) {
             </Button>
 
             {expense.webViewLink && (
-              <Link href={expense.webViewLink} color="secondary">
+              <Link href={expense.webViewLink}>
                 <Button
                   aria-label={`Peržiūrėti išlaidų dokumentą`}
                   size="compact-sm"
@@ -85,7 +77,7 @@ export default function ExpenseView(props: Props) {
               </Link>
             )}
             {expense.webContentLink && (
-              <Link href={expense.webContentLink} color="secondary">
+              <Link href={expense.webContentLink}>
                 <Button
                   aria-label={`Atsisiųsti išlaidų dokumentą`}
                   size="compact-sm"

@@ -9,6 +9,7 @@ import {
   invoiceDateState,
   invoiceIdState,
 } from '../../src/atoms';
+import { postInvoicegdrive } from '../api/postInvoicegdrive';
 
 export default function InvoiceGDriveView() {
   const { data: session } = useSession();
@@ -25,40 +26,18 @@ export default function InvoiceGDriveView() {
   const handleClick = async () => {
     setProcessing(true);
 
-    let response: Response;
-    try {
-      response = await fetch('/api/invoicegdrive', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          invoiceId,
-        }),
-      });
-    } catch {}
-
+    const result = await postInvoicegdrive(invoiceId);
     setProcessing(false);
 
-    if (!response || !response.ok) {
+    if (!result.success) {
       notifications.show({
-        message: 'Klaida saugant SF į jūsų Google Drive.',
-        color: 'red',
-      });
-
-      return;
-    }
-
-    const message = await response.json();
-    if (!message.success) {
-      notifications.show({
-        message: message.message || 'Klaida saugant SF į jūsų Google Drive.',
+        message: result.message || 'Klaida saugant SF į jūsų Google Drive.',
         color: 'red',
       });
       return;
     }
 
-    setGdriveId(message.gdriveId);
+    setGdriveId(result.gdriveId);
 
     notifications.show({
       message: 'Sąskaita faktūra išsaugota į Google Drive.',

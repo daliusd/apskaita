@@ -24,6 +24,9 @@ import {
   seriesIdState,
   seriesNameState,
 } from '../../src/atoms';
+import { putInvoices } from '../api/putInvoices';
+import { postInvoices } from '../api/postInvoices';
+import { putInvoicespdf } from '../api/putInvoicespdf';
 
 export default function InvoiceEditChangeButton() {
   const [invoiceId] = useRecoilState(invoiceIdState);
@@ -156,73 +159,22 @@ export default function InvoiceEditChangeButton() {
             .reduce((a, b) => a + b),
         };
 
-        let response: Response;
-        try {
-          if (invoiceId) {
-            response = await fetch('/api/invoices/' + invoiceId, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(invoice),
-            });
-          } else {
-            response = await fetch('/api/invoices', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                invoice,
-                code,
-              }),
-            });
-          }
-        } catch {}
+        const result = invoiceId
+          ? await putInvoices(invoiceId, invoice)
+          : await postInvoices(invoice, code);
 
-        const getEditError = () =>
-          invoiceId
-            ? 'Klaida kečiant sąskaitą faktūrą.'
-            : 'Klaida kuriant sąskaitą faktūrą.';
-
-        if (!response || !response.ok) {
+        if (!result.success) {
           notifications.show({
-            message: getEditError(),
+            message: result.message,
             color: 'red',
           });
           inProcess.current = false;
           return;
         }
 
-        const responseJson = await response.json();
-        if (!responseJson.success) {
-          notifications.show({
-            message: getEditError(),
-            color: 'red',
-          });
-          inProcess.current = false;
-          return;
-        }
+        const resultPdf = await putInvoicespdf(result.invoiceId);
 
-        let responsePdf: Response;
-        try {
-          responsePdf = await fetch(
-            '/api/invoicespdf/' + (invoiceId || responseJson.invoiceId),
-            {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({}),
-            },
-          );
-        } catch {}
-
-        if (
-          !responsePdf ||
-          !responsePdf.ok ||
-          !(await responsePdf.json()).success
-        ) {
+        if (!resultPdf) {
           notifications.show({
             message: 'Klaida generuojant sąskaitos faktūros PDF failą',
             color: 'red',
@@ -233,7 +185,7 @@ export default function InvoiceEditChangeButton() {
         }
 
         if (!invoiceId) {
-          router.push(`/saskaitos/id/${responseJson.invoiceId}`);
+          router.push(`/saskaitos/id/${result.invoiceId}`);
         }
 
         if (!invoiceId) {

@@ -13,20 +13,14 @@ import {
 import { notifications } from '@mantine/notifications';
 
 import { IconTrash } from '@tabler/icons-react';
+import { deleteUserdata } from '../api/deleteUserdata';
 
 export default function DataDeleteButton() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
   const handleDelete = async () => {
-    let response: Response;
-    try {
-      response = await fetch('/api/userdata', {
-        method: 'DELETE',
-      });
-    } catch {}
-
-    if (!response || !response.ok || !(await response.json()).success) {
+    if (!(await deleteUserdata())) {
       notifications.show({
         message: 'Klaida trinant paskyrą.',
         color: 'red',

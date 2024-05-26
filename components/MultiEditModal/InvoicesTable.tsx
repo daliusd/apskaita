@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { IInvoice } from '../../db/db';
 import { getDateString } from '../../utils/date';
+import { putInvoicepaid } from '../api/putInvoicepaid';
 
 interface Props {
   invoices: IInvoice[];
@@ -41,18 +42,7 @@ export function InvoicesTable({ invoices, onChange }: Props) {
         continue;
       }
 
-      let response: Response;
-      try {
-        response = await fetch('/api/invoicespaid/' + inv.id, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ paid: true }),
-        });
-      } catch {}
-
-      if (!response || !response.ok || !(await response.json()).success) {
+      if (!(await putInvoicepaid(inv.id, true))) {
         failureCount++;
         continue;
       }

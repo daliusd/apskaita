@@ -10,6 +10,7 @@ import {
   lockedState,
   sentState,
 } from '../../src/atoms';
+import { postInvoicemailer } from '../api/postInvoicemailer';
 
 interface IProps {
   disabled: boolean;
@@ -38,37 +39,13 @@ export default function SendInvoiceButton() {
     }
 
     setSending(true);
-
-    let response: Response;
-    try {
-      response = await fetch('/api/invoicemailer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          invoiceId,
-          email,
-        }),
-      });
-    } catch {}
-
+    const result = await postInvoicemailer(invoiceId, email);
     setSending(false);
 
-    if (!response || !response.ok) {
-      notifications.show({
-        message: 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
-        color: 'red',
-      });
-
-      return;
-    }
-
-    const message = await response.json();
-    if (!message.success) {
+    if (!result.success) {
       notifications.show({
         message:
-          message.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
+          result.message || 'Klaida siunčiant sąskaitą faktūrą el. paštu.',
         color: 'red',
       });
       return;

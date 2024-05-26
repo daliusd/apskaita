@@ -1,5 +1,6 @@
 import { Checkbox } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { putInvoiceslocked } from '../api/putInvoiceslocked';
 
 interface IProps {
   invoiceId?: string;
@@ -17,18 +18,7 @@ export default function InvoiceLockedCheckbox({
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const locked = event.currentTarget.checked;
 
-    let response: Response;
-    try {
-      response = await fetch('/api/invoiceslocked/' + invoiceId, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ locked }),
-      });
-    } catch {}
-
-    if (!response || !response.ok || !(await response.json()).success) {
+    if (!(await putInvoiceslocked(invoiceId, locked))) {
       notifications.show({
         message: 'Įvyko klaida užrakinant/atrakinant sąskaitą.',
         color: 'red',
