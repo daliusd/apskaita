@@ -11,13 +11,18 @@ import {
   Text,
 } from '@mantine/core';
 import { IInvoice } from '../../db/db';
-import { getDateString } from '../../utils/date';
+import { getDateString, getMsSinceEpoch } from '../../utils/date';
 import { putInvoicepaid } from '../api/putInvoicepaid';
+import { getInvoiceBySourceId } from '../api/getInvoiceBySourceId';
+import { postInvoices } from '../api/postInvoices';
+import { putInvoicespdf } from '../api/putInvoicespdf';
 
 interface Props {
   invoices: IInvoice[];
   onChange: () => void;
 }
+
+type OpResult = 'skip' | 'success' | 'failure';
 
 export function InvoicesTable({ invoices, onChange }: Props) {
   const [selectedRows, setSelectedRows] = useState<number[]>(
@@ -28,35 +33,82 @@ export function InvoicesTable({ invoices, onChange }: Props) {
   const [operationResult, setOperationResult] = useState('');
   const [operationProgress, setOperationProgress] = useState(0);
 
-  const markAsPaid = async () => {
+  const processAllInvoices = async (
+    invoiceOperation: (inv: IInvoice) => Promise<OpResult>,
+    operationResult: (successCount: number, failureCount: number) => string,
+  ) => {
     setOperationInProgress(true);
     setOperationResult('');
 
-    let processedCount = 0;
+    let successCount = 0;
     let failureCount = 0;
 
     const step = 100.0 / invoices.length;
     for (const inv of invoices) {
       setOperationProgress((c) => c + step);
-      if (inv.paid || !selectedRows.includes(inv.id)) {
+
+      if (!selectedRows.includes(inv.id)) {
         continue;
       }
 
-      if (!(await putInvoicepaid(inv.id, true))) {
+      const result = await invoiceOperation(inv);
+      if (result === 'failure') {
         failureCount++;
-        continue;
+      } else if (result === 'success') {
+        successCount++;
       }
-
-      processedCount++;
     }
 
-    setOperationResult(
-      `Sąskaitų pažymėta kaip apmokėtos: ${processedCount}` +
-        (failureCount > 0 ? `. Nepavyko pažymėti: ${failureCount}` : ''),
-    );
+    setOperationResult(operationResult(successCount, failureCount));
     setOperationInProgress(false);
     setSelectedRows([]);
     onChange();
+  };
+
+  const newBasedOnOld = async () => {
+    await processAllInvoices(
+      async (inv: IInvoice) => {
+        const { success, invoice } = await getInvoiceBySourceId(inv.id);
+        if (!success) {
+          return 'failure';
+        }
+        invoice.created = getMsSinceEpoch(new Date());
+
+        const newInvoice = await postInvoices(invoice, '');
+        if (!newInvoice.success) {
+          return 'failure';
+        }
+
+        const newInvoicePdfSuccess = await putInvoicespdf(newInvoice.invoiceId);
+        if (!newInvoicePdfSuccess) {
+          return 'failure';
+        }
+
+        return 'success';
+      },
+      (successCount, failureCount) =>
+        `Sukurta naujų sąskaitų senų pagrindu: ${successCount}` +
+        (failureCount > 0 ? `. Nepavyko sukurti: ${failureCount}` : ''),
+    );
+  };
+
+  const markAsPaid = async () => {
+    await processAllInvoices(
+      async (inv: IInvoice) => {
+        if (inv.paid) {
+          return 'skip';
+        }
+
+        if (!(await putInvoicepaid(inv.id, true))) {
+          return 'failure';
+        }
+
+        return 'success';
+      },
+      (successCount, failureCount) =>
+        `Sąskaitų pažymėta kaip apmokėtos: ${successCount}` +
+        (failureCount > 0 ? `. Nepavyko pažymėti: ${failureCount}` : ''),
+    );
   };
 
   return (
@@ -71,6 +123,16 @@ export function InvoicesTable({ invoices, onChange }: Props) {
             ir daugiau operacijų bus pridėta ateityje.
           </Text>
           <Group>
+            <Button
+              aria-label="Sukurti naujas sąskaitas senų pagrindu"
+              size="compact-sm"
+              variant="outline"
+              onClick={newBasedOnOld}
+              disabled={operationInProgress}
+            >
+              Sukurti naujas sąskaitas senų pagrindu
+            </Button>
+
             <Button
               aria-label="Pažymėti kaip apmokėtas"
               size="compact-sm"
