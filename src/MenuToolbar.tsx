@@ -30,7 +30,7 @@ const navItems = [
   {
     name: 'Kaina',
     url: '/kaina',
-    session: false,
+    session: undefined,
   },
   {
     name: 'Kontaktai',
