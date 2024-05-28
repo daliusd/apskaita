@@ -10,14 +10,16 @@ import {
   Box,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
 import Link from '../src/Link';
 
 const PlanCard = ({ activePlan, name, price, featureList }) => {
+  const { data: session } = useSession();
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="lg">
-        {activePlan && <Badge color="#19857b">Jūsų planas</Badge>}
-        {!activePlan && <Box h="20px"></Box>}
+        {session && activePlan && <Badge color="#19857b">Jūsų planas</Badge>}
+        {session && !activePlan && <Box h="20px"></Box>}
         <Text fw={600} size="lg" ta="center">
           {name}
         </Text>
@@ -82,6 +84,9 @@ export default function Apie({ article }) {
     },
     {
       name: 'Logotipo pridėjimas sąskaitoje faktūroje',
+    },
+    {
+      name: 'Prioritetas iškilus problemoms ar klausimams',
     },
   ];
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Container, Divider, Grid, Group } from '@mantine/core';
+import { Button, Container, Divider, Grid, Group, Text } from '@mantine/core';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useLocalStorage } from 'react-use';
 
@@ -92,14 +92,22 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               </Button>
             )}
             {session && (
-              <Button
-                onClick={() => {
-                  signOut();
-                }}
-                variant="subtle"
-              >
-                Atsijungti
-              </Button>
+              <Group>
+                <Group gap="6px">
+                  <Text fw="700">Planas:</Text>
+                  <Link href="/nustatymai">
+                    <Text>Pro</Text>
+                  </Link>
+                </Group>
+                <Button
+                  onClick={() => {
+                    signOut();
+                  }}
+                  variant="subtle"
+                >
+                  Atsijungti
+                </Button>
+              </Group>
             )}
           </Group>
           <Divider />
