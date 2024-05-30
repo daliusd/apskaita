@@ -5309,13 +5309,13 @@ __metadata:
   linkType: hard
 
 "happy-dom@npm:^14.11.0":
-  version: 14.11.4
-  resolution: "happy-dom@npm:14.11.4"
+  version: 14.12.0
+  resolution: "happy-dom@npm:14.12.0"
   dependencies:
     entities: "npm:^4.5.0"
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10/0c011f95e803587dee50a6f505040cf4a00aea6b26a6b6d6b88b5de03eba9e9cdc5e7f098b8e5398d41ea9328edd9e48d3581e2a67d47da8f351062ac8262a5b
+  checksum: 10/59aaea73f6127825194ed3ef076b18a4e6be233d9aaffebc667faf1f1ea8af040b07a21cccbb211faecde7ed65351e197ff4b894d4b24118f23ea664cc5c6392
   languageName: node
   linkType: hard
 
