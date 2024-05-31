@@ -1,13 +1,17 @@
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
-import { FirstPage } from '../components/FirstPage';
 
 const MainInfo = dynamic(() => import('../components/MainInfo'));
+const FirstPage = dynamic(() => import('../components/FirstPage'));
 
 export default function Index() {
-  const { data: session } = useSession();
+  const { status } = useSession();
 
-  if (!session) {
+  if (status === 'loading') {
+    return null;
+  }
+
+  if (status === 'unauthenticated') {
     return <FirstPage />;
   }
 

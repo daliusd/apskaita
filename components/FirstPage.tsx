@@ -14,7 +14,7 @@ import { signIn } from 'next-auth/react';
 import Link from '../src/Link';
 import { GoogleIcon } from './GoogleIcon';
 
-export function FirstPage() {
+export default function FirstPage() {
   return (
     <Grid gutter={{ base: 48 }}>
       <Grid.Col span={{ base: 12, md: 6 }}>
