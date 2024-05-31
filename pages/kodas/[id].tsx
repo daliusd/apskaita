@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from 'react-use';
-import ArticleView from '../../components/ArticleView';
-import { getArticleBySlug } from '../../db/articles';
 
-export default function Kodas({ article }) {
+export default function Kodas() {
   const router = useRouter();
 
   const [code, setCode] = useLocalStorage('code', '', { raw: true });
@@ -23,24 +21,5 @@ export default function Kodas({ article }) {
     }
   }, [value, router, code, setCode]);
 
-  return (
-    <ArticleView
-      article={article}
-      showTitle={false}
-      showDate={false}
-      showStructuredData={false}
-    />
-  );
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-}
-
-export async function getStaticProps() {
-  const article = await getArticleBySlug('pirmas');
-  return { props: { article } };
+  return null;
 }

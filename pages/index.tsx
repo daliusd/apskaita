@@ -1,28 +1,15 @@
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
-import ArticleView from '../components/ArticleView';
-import { getArticleBySlug } from '../db/articles';
+import { FirstPage } from '../components/FirstPage';
 
 const MainInfo = dynamic(() => import('../components/MainInfo'));
 
-export default function Index({ article }) {
+export default function Index() {
   const { data: session } = useSession();
 
   if (!session) {
-    return (
-      <ArticleView
-        article={article}
-        showTitle={false}
-        showDate={false}
-        showStructuredData={false}
-      />
-    );
+    return <FirstPage />;
   }
 
   return <MainInfo />;
-}
-
-export async function getStaticProps() {
-  const article = await getArticleBySlug('pirmas');
-  return { props: { article } };
 }
