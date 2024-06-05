@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@googleapis/drive": "8.9.0",
-    "@googleapis/gmail": "9.2.0",
+    "@googleapis/gmail": "10.0.0",
     "@mantine/charts": "^7.6.2",
     "@mantine/core": "^7.6.2",
     "@mantine/dates": "^7.6.2",
