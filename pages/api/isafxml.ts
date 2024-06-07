@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     return dbWrapper(req, res, async (db) => {
       const {
-        query: { from, to, seriesName, registrationNumber },
+        query: { from, to, seriesName, registrationNumber, registerType },
       } = req;
 
       const xml = await generateISAFXml({
@@ -18,6 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         to: to && parseInt(defaultOrFirst(to), 10),
         seriesName: defaultOrFirst(seriesName),
         registrationNumber: defaultOrFirst(registrationNumber),
+        registerType: defaultOrFirst(registerType),
       });
 
       const bufxml = Buffer.from(xml, 'utf8');
