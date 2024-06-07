@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-06-07
+
+- i.SAF patobulinimas: galima generuoti registrą gaunamoms sąskaitoms faktūroms
+
 ## 2024-05-24
 
 - IV skaičiuoklės patobulinimai

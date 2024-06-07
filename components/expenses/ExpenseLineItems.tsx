@@ -52,7 +52,10 @@ export function ExpenseLineItems({ items, onChange }: Props) {
             onChange([
               ...items,
               {
-                id: Math.max(...items.map((g) => g.id)) + 1,
+                id:
+                  items.length > 0
+                    ? Math.max(...items.map((g) => g.id)) + 1
+                    : 1,
                 name: '',
                 amount: 1,
                 price: 0,

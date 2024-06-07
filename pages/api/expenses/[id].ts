@@ -38,8 +38,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const expenseFromDb = await getExpense(db, expenseId);
 
-      if (expenseFromDb.gdriveId) {
-        const drive = getDrive((session as any).accessToken as string);
+      const accessToken = (session as any).accessToken as string;
+      if (expenseFromDb.gdriveId && accessToken) {
+        const drive = getDrive(accessToken);
 
         const createdDate = new Date(expenseFromDb.created);
         const year = createdDate.getFullYear().toString();

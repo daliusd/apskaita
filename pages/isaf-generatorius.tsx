@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Anchor, Grid, Title, Text, Button, TextInput } from '@mantine/core';
+import {
+  Anchor,
+  Grid,
+  Title,
+  Text,
+  Button,
+  TextInput,
+  Radio,
+  Group,
+} from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useSession } from 'next-auth/react';
 
@@ -29,6 +38,7 @@ export default function Index() {
 
   const [seriesName, setSeriesName] = useState('');
   const [registrationNumber, setRegistrationNumber] = useState('');
+  const [registerType, setRegisterType] = useState('S');
 
   if (!session) {
     return null;
@@ -40,6 +50,7 @@ export default function Index() {
       to: getMsSinceEpoch(toDate).toString(),
       registrationNumber,
       seriesName,
+      registerType,
     };
 
     const params = new URLSearchParams(args);
@@ -55,12 +66,11 @@ export default function Index() {
           </Grid.Col>
           <Grid.Col span={12}>
             <Text>
-              i.SAF generatorius nėra visiškai išbaigtas. Šiuo metu jis tinkamas
-              tik generuoti sąskaitų faktūrų i.SAF XML failui (išlaidų i.SAF
-              nėra generuojamas). Taip pat šis įrankis šiuo metu daro prielaidą,
-              kad SF išrašomos Lietuvoje. Jeigu jūs SF išrašote pirkėjams iš
-              kitų šalių ir jums reikia i.SAF, susisiekite su manimi -
-              pažiūrėsime, ką galime padaryti.
+              i.SAF generatorius nėra visiškai išbaigtas. Šis įrankis šiuo metu
+              daro prielaidą, kad SF išrašomos Lietuvoje. Jeigu jūs SF išrašote
+              pirkėjams iš kitų šalių arba gaunate sąskaitas išrašomas iš kitų
+              šalių ir jums reikia i.SAF, susisiekite su manimi - pažiūrėsime,
+              ką galime padaryti.
             </Text>
           </Grid.Col>
           <Grid.Col span={12}>
@@ -110,6 +120,22 @@ export default function Index() {
                 setRegistrationNumber(e.target.value);
               }}
             />
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <Radio.Group
+              aria-label="Ataskaitos tipas"
+              label="Ataskaitos tipas"
+              name=""
+              value={registerType}
+              onChange={setRegisterType}
+            >
+              <Group mt="xs">
+                <Radio value="S" label="Išrašomų SF registras" />
+                <Radio value="P" label="Gaunamų SF registras" />
+                <Radio value="F" label="Pilnas registras" />
+              </Group>
+            </Radio.Group>
           </Grid.Col>
 
           <Grid.Col span={4}>
