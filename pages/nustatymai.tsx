@@ -8,6 +8,7 @@ import ZeroesEdit from '../components/settings/ZeroesEdit';
 import LogoEdit from '../components/settings/LogoEdit';
 import ContactAgreement from '../components/settings/ContactAgreement';
 import DataDeleteButton from '../components/settings/DataDeleteButton';
+import { ApiToken } from '../components/settings/ApiToken';
 import VATPayer from '../components/settings/VATPayer';
 import Link from '../src/Link';
 
@@ -88,6 +89,7 @@ export default function Apie() {
           <Grid.Col span={12}>
             <Title order={4}>Jūsų duomenys ir paskyra</Title>
           </Grid.Col>
+
           <Grid.Col span={12}>
             <Text>
               Jeigu norite galite parsisiųsti savo duomenis kaip SQLite
@@ -99,6 +101,8 @@ export default function Apie() {
               .
             </Text>
           </Grid.Col>
+
+          <ApiToken />
 
           <DataDeleteButton />
         </Grid>

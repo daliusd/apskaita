@@ -14,6 +14,8 @@ Jei turite klausimų ar pasiūlymų rašykite el. paštu
 
 - i.SAF patobulinimas: galima generuoti registrą gaunamoms sąskaitoms faktūroms
 
+- API raktų generavimas ir naudojimas
+
 ## 2024-05-24
 
 - IV skaičiuoklės patobulinimai
