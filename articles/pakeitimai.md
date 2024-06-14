@@ -1,7 +1,7 @@
 ---
 title: 'Pakeitimai'
 date: '2021-04-02'
-modified: '2023-07-14'
+modified: '2024-06-14'
 ---
 
 Čia rasite kas yra pakeista sistemoje pagal datą (nuo naujausių
@@ -9,6 +9,11 @@ pakeitimų iki seniausių).
 
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
+
+## 2024-06-14
+
+- Pridėtas nustatymas leidžiantis keisti kokio senumo prekės ir pirkėjai
+  rodomi, kai sistema siūlo rinktis prekes ar pirkėjus iš senų sąskaitų faktūrų
 
 ## 2024-06-07
 

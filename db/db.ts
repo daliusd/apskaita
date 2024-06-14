@@ -567,17 +567,41 @@ export async function getSeriesNameByType(db: Database, invoiceType: string) {
 }
 
 export async function getUniqueBuyers(db: Database, start: string) {
+  const maxbuyerage = await db.get(
+    'SELECT value FROM Setting WHERE name = "maxbuyerage"',
+  );
+  const maxbuyerageInMonths = parseInt(maxbuyerage?.value || '0', 10);
+  let minDate = 0;
+  if (maxbuyerageInMonths > 0) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - maxbuyerageInMonths);
+    minDate = +d;
+  }
+
   const result = await db.all(
-    'SELECT i1.buyer, (SELECT i2.email FROM Invoice i2 WHERE i2.buyer = i1.buyer ORDER BY i2.id DESC LIMIT 1) as email FROM Invoice i1 WHERE i1.buyer LIKE ? GROUP BY i1.buyer ORDER BY i1.buyer LIMIT 10',
+    `SELECT i1.buyer, (SELECT i2.email FROM Invoice i2 WHERE i2.buyer = i1.buyer ORDER BY i2.id DESC LIMIT 1) as email FROM Invoice i1 WHERE i1.buyer LIKE ? AND i1.created > ? GROUP BY i1.buyer ORDER BY i1.buyer LIMIT 10`,
     '%' + start + '%',
+    minDate,
   );
   return result;
 }
 
 export async function getUniqueLineItemsNames(db: Database, start: string) {
+  const maxitemage = await db.get(
+    'SELECT value FROM Setting WHERE name = "maxitemage"',
+  );
+  const maxItemAgeInMonths = parseInt(maxitemage?.value || '0', 10);
+  let minDate = 0;
+  if (maxItemAgeInMonths > 0) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - maxItemAgeInMonths);
+    minDate = +d;
+  }
+
   const result = await db.all(
-    'SELECT name, MAX(price) as price, MAX(vat) as vat FROM LineItem WHERE name LIKE ? GROUP BY name ORDER BY name LIMIT 10',
+    'SELECT name, MAX(LineItem.price) as price, MAX(LineItem.vat) as vat FROM LineItem JOIN Invoice ON LineItem.invoiceId = Invoice.id WHERE name LIKE ? AND Invoice.created > ? GROUP BY name ORDER BY name LIMIT 10',
     start + '%',
+    minDate,
   );
   return result;
 }

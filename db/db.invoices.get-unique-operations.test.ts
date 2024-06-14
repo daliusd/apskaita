@@ -4,17 +4,11 @@ import { Database } from 'sqlite';
 import {
   openDb,
   createInvoice,
-  getInvoiceList,
   IInvoice,
-  getInvoiceWithLineItems,
-  getInvoicesCount,
-  getInvoicesSummary,
-  getLastSellerInformation,
-  getNextSeriesId,
-  getSeriesNameByType,
   getUniqueBuyers,
   getUniqueLineItemsNames,
   getUniqueSeriesNames,
+  setSetting,
 } from './db';
 
 describe('database tests', () => {
@@ -142,6 +136,34 @@ describe('database tests', () => {
       expect(uniqueBuyers[0].email).toEqual('');
     });
 
+    it('gets unique buyers (filter old ones out)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 100,
+        buyer: 'Buyer1',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        email: '',
+        lineItems: [],
+      };
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      invoice.seriesId = 2;
+      invoice.buyer = 'Buyer2';
+      invoice.created = new Date().getTime();
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      await setSetting(db, 'maxbuyerage', '2');
+
+      let uniqueBuyers = await getUniqueBuyers(db, '');
+      expect(uniqueBuyers).toHaveLength(1);
+      expect(uniqueBuyers.map((item) => item.buyer)).toEqual(['Buyer2']);
+    });
+
     it('gets unique line items names', async () => {
       const invoice: IInvoice = {
         seriesName: 'DD',
@@ -193,6 +215,37 @@ describe('database tests', () => {
       expect(uniqueBuyerNames).toHaveLength(1);
       expect(uniqueBuyerNames[0].name).toEqual('G1');
       expect(uniqueBuyerNames[0].price).toEqual(120);
+    });
+
+    it('gets unique line items names (filter old ones out)', async () => {
+      const invoice: IInvoice = {
+        seriesName: 'DD',
+        seriesId: 1,
+        created: new Date(2020, 0, 31).getTime(),
+        price: 500,
+        buyer: 'Buyer1',
+        seller: 'Seller',
+        issuer: 'Issuer',
+        extra: 'Extra',
+        language: 'lt',
+        lineItems: [
+          { name: 'G1', unit: 'vnt.', amount: 1, price: 100 },
+          { name: 'G2', unit: 'vnt.', amount: 1, price: 200 },
+          { name: 'A1', unit: 'vnt.', amount: 1, price: 200 },
+        ],
+      };
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      invoice.seriesId = 2;
+      invoice.created = new Date().getTime();
+      invoice.lineItems = [{ name: 'B1', unit: 'vnt.', amount: 1, price: 100 }];
+      expect((await createInvoice(db, invoice)).success).toBeTruthy();
+
+      await setSetting(db, 'maxitemage', '2');
+
+      let uniqueBuyerNames = await getUniqueLineItemsNames(db, '');
+      expect(uniqueBuyerNames).toHaveLength(1);
+      expect(uniqueBuyerNames.map((i) => i.name)).toEqual(['B1']);
     });
   });
 });

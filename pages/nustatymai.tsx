@@ -11,6 +11,8 @@ import DataDeleteButton from '../components/settings/DataDeleteButton';
 import { ApiToken } from '../components/settings/ApiToken';
 import VATPayer from '../components/settings/VATPayer';
 import Link from '../src/Link';
+import { BuyerAgeInAutoCompletion } from '../components/settings/BuyerAgeInAutoCompletion';
+import { ItemAgeInAutoCompletion } from '../components/settings/ItemAgeInAutoCompletion';
 
 export default function Apie() {
   const { data: session } = useSession();
@@ -67,12 +69,9 @@ export default function Apie() {
           <Grid.Col span={12}>
             <EmailTemplateEdit language={language} />
           </Grid.Col>
-        </Grid>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6 }}>
-        <Grid gutter={{ base: 12 }}>
+
           <Grid.Col span={12}>
-            <Title order={3}>Kiti Nustatymai</Title>
+            <Title order={3}>Sąskaitų Faktūrų nustatymai</Title>
           </Grid.Col>
 
           <Grid.Col span={12}>
@@ -83,6 +82,24 @@ export default function Apie() {
           </Grid.Col>
 
           <VATPayer />
+        </Grid>
+      </Grid.Col>
+
+      <Grid.Col span={{ base: 12, md: 6 }}>
+        <Grid gutter={{ base: 12 }}>
+          <Grid.Col span={12}>
+            <Title order={3}>Automatinis užbaigimas</Title>
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <BuyerAgeInAutoCompletion />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <ItemAgeInAutoCompletion />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Title order={3}>Kiti Nustatymai</Title>
+          </Grid.Col>
 
           <ContactAgreement />
 
