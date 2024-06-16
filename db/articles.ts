@@ -1,9 +1,15 @@
 import fs from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 import strip from 'strip-markdown';
+import remarkStringify from 'remark-stringify';
 
 export interface IArticleMeta {
   title: string;
@@ -30,12 +36,24 @@ export async function getArticleBySlug(slug: string): Promise<IArticle> {
   const { data, content } = matter(fileContents);
 
   const description = (
-    await remark().use(strip).process(content.split('\n\n')[0])
-  ).toString();
+    await unified()
+      .use(remarkParse)
+      .use(strip)
+      .use(remarkStringify)
+      .process(content.split('\n\n')[0])
+  )
+    .toString()
+    .replaceAll('\n', ' ');
 
   const htmlContent = (
-    await remark()
-      .use(html, { sanitize: false })
+    await unified()
+      .use(remarkParse)
+      .use(remarkRehype, {
+        allowDangerousHtml: true,
+      })
+      .use(rehypeRaw)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
       .process(content || '')
   ).toString();
 

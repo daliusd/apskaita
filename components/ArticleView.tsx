@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Grid, Title, Text } from '@mantine/core';
+import 'highlight.js/styles/github-dark.css';
 
 import { IArticle } from '../db/articles';
 import styles from './ArticleView.module.css';

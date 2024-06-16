@@ -13,6 +13,7 @@ import VATPayer from '../components/settings/VATPayer';
 import Link from '../src/Link';
 import { BuyerAgeInAutoCompletion } from '../components/settings/BuyerAgeInAutoCompletion';
 import { ItemAgeInAutoCompletion } from '../components/settings/ItemAgeInAutoCompletion';
+import { ExtraInputProgram } from '../components/settings/ExtraInputScript';
 
 export default function Apie() {
   const { data: session } = useSession();
@@ -82,6 +83,8 @@ export default function Apie() {
           </Grid.Col>
 
           <VATPayer />
+
+          <ExtraInputProgram />
         </Grid>
       </Grid.Col>
 

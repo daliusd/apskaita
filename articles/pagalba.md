@@ -41,6 +41,8 @@ Sistemos valdymas:
 
   - [Kelių Sąskaitų faktūrų keitimas](/straipsniai/keliu-saskaitu-keitimas)
 
+  - [Papildomos informacijos programavimas](/straipsniai/papildomos-informacijos-programavimas)
+
 - [Išlaidų sekimas](/straipsniai/islaidu-sekimas)
 
 - [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)

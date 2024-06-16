@@ -86,6 +86,11 @@ export default function Apie({ article }) {
       name: 'Logotipo pridėjimas sąskaitoje faktūroje',
     },
     {
+      name: 'Papildomos informacijos programavimas',
+      link: '/straipsniai/papildomos-informacijos-programavimas',
+    },
+
+    {
       name: 'Prioritetas iškilus problemoms ar klausimams',
     },
   ];

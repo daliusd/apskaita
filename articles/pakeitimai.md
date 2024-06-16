@@ -10,6 +10,11 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-06-16
+
+- Pridėtas [Papildomos informacijos
+  programavimas](/straipsniai/papildomos-informacijos-programavimas)
+
 ## 2024-06-14
 
 - Pridėtas nustatymas leidžiantis keisti kokio senumo prekės ir pirkėjai
