@@ -152,6 +152,8 @@ interface GetInvoiceListParams {
   minDate?: number;
   maxDate?: number;
   seriesName?: string;
+  minSeriesNumber?: number;
+  maxSeriesNumber?: number;
   invoiceType?: string;
   buyer?: string;
   paid?: number;
@@ -182,6 +184,16 @@ function formatWhereConditionsForIncoicesQuery(params: GetInvoiceListParams) {
   if (params.seriesName !== undefined) {
     whereConditions.push('seriesName LIKE ?');
     args.push(params.seriesName + '%');
+  }
+
+  if (params.minSeriesNumber) {
+    whereConditions.push('seriesId >= ?');
+    args.push(params.minSeriesNumber);
+  }
+
+  if (params.maxSeriesNumber) {
+    whereConditions.push('seriesId <= ?');
+    args.push(params.maxSeriesNumber);
   }
 
   if (params.buyer !== undefined) {
