@@ -10,6 +10,8 @@ interface Props {
   minDate?: number;
   maxDate?: number;
   seriesName?: string;
+  minSeriesNumber?: string | number;
+  maxSeriesNumber?: string | number;
   buyer?: string;
   paid?: boolean;
   limit?: number;
@@ -22,6 +24,8 @@ export default function Invoices(props: Props) {
     minDate,
     maxDate,
     seriesName,
+    minSeriesNumber,
+    maxSeriesNumber,
     invoiceType,
     buyer,
     paid,
@@ -33,7 +37,17 @@ export default function Invoices(props: Props) {
   const [page, setPage] = useState(0);
   useEffect(() => {
     setPage(0);
-  }, [minDate, maxDate, seriesName, invoiceType, buyer, paid, limit]);
+  }, [
+    minDate,
+    maxDate,
+    seriesName,
+    minSeriesNumber,
+    maxSeriesNumber,
+    invoiceType,
+    buyer,
+    paid,
+    limit,
+  ]);
 
   if (minDate) {
     args.minDate = minDate.toString();
@@ -46,6 +60,12 @@ export default function Invoices(props: Props) {
   }
   if (seriesName) {
     args.seriesName = seriesName;
+  }
+  if (minSeriesNumber) {
+    args.minSeriesNumber = minSeriesNumber.toString();
+  }
+  if (maxSeriesNumber) {
+    args.maxSeriesNumber = maxSeriesNumber.toString();
   }
   if (buyer) {
     args.buyer = buyer;

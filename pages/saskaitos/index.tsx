@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Button, Grid, Title, Radio, Group } from '@mantine/core';
+import {
+  Button,
+  Grid,
+  Title,
+  Radio,
+  Group,
+  NumberInput,
+  Checkbox,
+} from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { DateInput } from '@mantine/dates';
 
@@ -13,6 +21,12 @@ import SeriesNameInput from '../../components/inputs/SeriesNameInput';
 import { getMsSinceEpoch } from '../../utils/date';
 import { DefaultDates } from '../../components/inputs/DefaultDates';
 
+function useDebouncedValue<T>(valueToDebounce: T) {
+  const [value, setDebouncedValue] = useState<T>();
+  useDebounce(() => setDebouncedValue(valueToDebounce), 500, [valueToDebounce]);
+  return value;
+}
+
 export default function Index() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -25,14 +39,15 @@ export default function Index() {
   const [maxDate, setMaxDate] = useState(() => new Date());
   const [buyer, setBuyer] = useState('');
   const [seriesName, setSeriesName] = useState('');
+  const [minSeriesNumber, setMinSeriesNumber] = useState<string | number>('');
+  const [maxSeriesNumber, setMaxSeriesNumber] = useState<string | number>('');
   const [paid, setPaid] = useState('all');
   const [invoiceType, setInvoiceType] = useState('all');
 
-  const [debouncedSeriesName, setDebouncedSeriesName] = useState('');
-  useDebounce(() => setDebouncedSeriesName(seriesName), 500, [seriesName]);
-
-  const [debouncedBuyer, setDebouncedBuyer] = useState('');
-  useDebounce(() => setDebouncedBuyer(buyer), 500, [buyer]);
+  const debouncedSeriesName = useDebouncedValue(seriesName);
+  const debouncedBuyer = useDebouncedValue(buyer);
+  const debouncedMinSeriesNumber = useDebouncedValue(minSeriesNumber);
+  const debouncedMaxSeriesNumber = useDebouncedValue(maxSeriesNumber);
 
   if (!session) {
     return null;
@@ -109,6 +124,25 @@ export default function Index() {
             />
           </Grid.Col>
 
+          <Grid.Col span={6}>
+            <NumberInput
+              label="Minimalus serijos numeris"
+              value={minSeriesNumber}
+              min={0}
+              onChange={setMinSeriesNumber}
+              step={1}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <NumberInput
+              label="Maksimalus serijos numeris"
+              value={maxSeriesNumber}
+              min={0}
+              onChange={setMaxSeriesNumber}
+              step={1}
+            />
+          </Grid.Col>
+
           <Grid.Col span={12}>
             <BuyerFirstLineInput
               buyer={buyer}
@@ -145,6 +179,8 @@ export default function Index() {
             minDate={getMsSinceEpoch(minDate)}
             maxDate={getMsSinceEpoch(maxDate)}
             seriesName={debouncedSeriesName}
+            minSeriesNumber={debouncedMinSeriesNumber}
+            maxSeriesNumber={debouncedMaxSeriesNumber}
             buyer={debouncedBuyer}
             paid={
               paid === 'paid' ? true : paid === 'unpaid' ? false : undefined

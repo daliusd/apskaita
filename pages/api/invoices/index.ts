@@ -24,6 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           minDate,
           maxDate,
           seriesName,
+          minSeriesNumber,
+          maxSeriesNumber,
           buyer,
           paid,
           invoiceType,
@@ -34,6 +36,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         minDate: minDate && parseInt(defaultOrFirst(minDate), 10),
         maxDate: maxDate && parseInt(defaultOrFirst(maxDate), 10),
         seriesName: seriesName && defaultOrFirst(seriesName),
+        minSeriesNumber:
+          minSeriesNumber && parseInt(defaultOrFirst(minSeriesNumber), 10),
+        maxSeriesNumber:
+          maxSeriesNumber && parseInt(defaultOrFirst(maxSeriesNumber), 10),
         invoiceType: invoiceType && defaultOrFirst(invoiceType),
         buyer: buyer && defaultOrFirst(buyer),
         paid: paid && parseInt(defaultOrFirst(paid), 10),
