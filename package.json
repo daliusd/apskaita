@@ -74,7 +74,6 @@
     "@types/pdfkit": "0.13.4",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.3.0",
-    "@types/sharp": "0.32.0",
     "@vitejs/plugin-react": "^4.2.1",
     "chance": "1.1.11",
     "eslint": "latest",
