@@ -6,13 +6,15 @@ export const putInvoices = async (
 ) => {
   let response: Response;
 
-  response = await fetch(`/api/invoices/${invoiceId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(invoice),
-  });
+  try {
+    response = await fetch(`/api/invoices/${invoiceId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(invoice),
+    });
+  } catch {}
 
   if (!response || !response.ok || !(await response.json()).success) {
     return { success: false, message: 'Klaida kečiant sąskaitą faktūrą.' };

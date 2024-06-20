@@ -3,16 +3,18 @@ import { IInvoice } from '../../db/db';
 export const postInvoices = async (invoice: IInvoice, code: string) => {
   let response: Response;
 
-  response = await fetch('/api/invoices', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      invoice,
-      code,
-    }),
-  });
+  try {
+    response = await fetch('/api/invoices', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        invoice,
+        code,
+      }),
+    });
+  } catch {}
 
   const message = 'Klaida kuriant sąskaitą faktūrą.';
 
