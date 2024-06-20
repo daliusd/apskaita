@@ -50,6 +50,10 @@ export default function VATPayer() {
           pažymėjus sąskaitose faktūrose galėsite nurodyti PVM dydį, taip pat
           PDF failai bus generuojami kaip PVM sąskaitos faktūros.
         </Text>
+        <Text>
+          Pastaba: Šis funkcionalumas yra mažai naudotas/naudojamas, tai jei
+          kyla klausimų ar problemų susisiekite el. paštu.
+        </Text>
       </Grid.Col>
       <Grid.Col span={12}>
         <Checkbox
