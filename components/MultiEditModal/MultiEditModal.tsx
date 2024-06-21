@@ -1,6 +1,7 @@
-import { Modal, Button } from '@mantine/core';
+import { Modal, Button, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MultiEditModalContent } from './MultiEditModalContent';
+import { usePlan } from '../../src/usePlan';
 
 interface Props {
   minDate?: number;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function MultiEditModal(props: Props) {
+  const { isFree } = usePlan();
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -27,9 +29,18 @@ export function MultiEditModal(props: Props) {
         <MultiEditModalContent {...props} />
       </Modal>
 
-      <Button onClick={open} disabled={props.disabled}>
-        Keisti rastas sąskaitas faktūras
-      </Button>
+      {isFree && (
+        <Tooltip label="Šis funkcionalumas reikalauja Pro plano">
+          <Button onClick={open} disabled={true}>
+            Keisti rastas sąskaitas faktūras
+          </Button>
+        </Tooltip>
+      )}
+      {!isFree && (
+        <Button onClick={open} disabled={props.disabled}>
+          Keisti rastas sąskaitas faktūras
+        </Button>
+      )}
     </>
   );
 }

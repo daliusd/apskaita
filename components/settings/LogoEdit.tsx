@@ -3,8 +3,10 @@ import { Button, Grid, Loader, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconTrash, IconPhotoUp } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
+import { usePlan } from '../../src/usePlan';
 
 export default function LogoEdit() {
+  const { isFree } = usePlan();
   const { data, error } = useSWR('/api/settings/logo');
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +65,9 @@ export default function LogoEdit() {
           Galite pridėti/pakeisti logotipą, kuris bus naudojamas sąskaitos
           faktūros PDF faile.
         </Text>
+        {isFree && (
+          <Text>Pastaba: logotipas naudojamas tik įsigijus Pro planą.</Text>
+        )}
       </Grid.Col>
       {!loaded && <Loader />}
       {loaded && (

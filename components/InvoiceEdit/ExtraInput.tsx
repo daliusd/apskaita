@@ -23,6 +23,7 @@ import {
 } from '../../src/atoms';
 import { useDebounce } from 'react-use';
 import { getMsSinceEpoch } from '../../utils/date';
+import { usePlan } from '../../src/usePlan';
 
 function useDebouncedRecoilState<T>(recoilState: RecoilState<T>) {
   const [value] = useRecoilState(recoilState);
@@ -32,6 +33,7 @@ function useDebouncedRecoilState<T>(recoilState: RecoilState<T>) {
 }
 
 export default function ExtraInput() {
+  const { isFree } = usePlan();
   const [extra, setExtra] = useRecoilState(extraState);
   const [locked] = useRecoilState(lockedState);
   const [languageAfterChange] = useRecoilState(languageAfterChangeState);
@@ -66,7 +68,7 @@ export default function ExtraInput() {
 
   const runProgram = useCallback(async () => {
     try {
-      if (!extraInputProgram || disabled) {
+      if (isFree || !extraInputProgram || disabled) {
         return;
       }
       const qjs = await getQuickJS();
@@ -113,6 +115,7 @@ ${extraInputProgram}
     extraInputProgram,
     invoiceDate,
     invoiceType,
+    isFree,
     issuer,
     language,
     lineItems,
@@ -141,11 +144,13 @@ ${extraInputProgram}
         minRows={2}
         disabled={disabled}
       />
-      {extraInputProgram && !extraInputProgram.startsWith('// AUTO') && (
-        <Button variant="subtle" onClick={runProgram}>
-          Vykdyti papildomos informacijos programą
-        </Button>
-      )}
+      {!isFree &&
+        extraInputProgram &&
+        !extraInputProgram.startsWith('// AUTO') && (
+          <Button variant="subtle" onClick={runProgram}>
+            Vykdyti papildomos informacijos programą
+          </Button>
+        )}
     </>
   );
 }
