@@ -32,6 +32,17 @@ async function migrateDbs() {
     });
 
     await db.migrate();
+
+    // pro plan for old users
+    const result = await db.get('SELECT min(created) as mc FROM Invoice');
+    if (result && result.mc && result.mc < new Date(2024, 5, 22).getTime()) {
+      try {
+        await db.run(
+          `INSERT INTO Setting(name, value) VALUES ('__plan', '{"endDate":"2024-10-01T00:00:00.000Z"}')`,
+        );
+      } catch {}
+    }
+
     await db.close();
   }
 }
