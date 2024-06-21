@@ -22,6 +22,7 @@ import {
   seriesNameState,
 } from '../../src/atoms';
 import { useDebounce } from 'react-use';
+import { getMsSinceEpoch } from '../../utils/date';
 
 function useDebouncedRecoilState<T>(recoilState: RecoilState<T>) {
   const [value] = useRecoilState(recoilState);
@@ -78,7 +79,7 @@ export default function ExtraInput() {
 const invoiceType = ${JSON.stringify(invoiceType || 'standard')};
 const seriesName = ${JSON.stringify(seriesName)};
 const seriesId = ${seriesId};
-const date = new Date(${(invoiceDate || new Date()).getTime()});
+const date = new Date(${getMsSinceEpoch(invoiceDate || new Date())});
 const language = ${JSON.stringify(language || 'lt')};
 const seller = ${JSON.stringify(seller)};
 const buyer = ${JSON.stringify(buyer)};
