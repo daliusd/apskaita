@@ -33,27 +33,6 @@ export default function Apie() {
       <Grid.Col span={{ base: 12, md: 6 }}>
         <Grid gutter={{ base: 12 }}>
           <Grid.Col span={{ base: 12 }}>
-            <Title order={3}>Planas</Title>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12 }}>
-            <Stack>
-              <Group gap="6px">
-                <Text fw="700">Jūsų planas:</Text>
-                <Text>Pro</Text>
-              </Group>
-              <Alert variant="light" color="green">
-                Šiuo metu Pro planą dovanojame, kol sistema bus sutvarkyta
-                pilnai. Su planais, jų kaina ir funkcionalumu, galite
-                susipažinti{' '}
-                <Link href="/kaina" size="sm">
-                  „Kaina“
-                </Link>{' '}
-                skiltyje. Gali būti, kad ateityje jums pilnai užteks nemokamo
-                plano.
-              </Alert>
-            </Stack>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12 }}>
             <Title order={3}>Laiškų nustatymai</Title>
           </Grid.Col>
           <Grid.Col span={12}>
