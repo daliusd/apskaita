@@ -23,11 +23,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         query: { name },
       } = req;
 
-      await setSetting(
-        db,
-        typeof name === 'string' ? name : name[0],
-        req.body.value,
-      );
+      const nameStr = typeof name === 'string' ? name : name[0];
+
+      if (nameStr.startsWith('__')) {
+        return res.json({ success: false });
+      }
+
+      await setSetting(db, nameStr, req.body.value);
       return res.json({ success: true });
     });
   }

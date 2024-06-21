@@ -19,7 +19,7 @@ export async function dbWrapper(
   let session = await getServerSession(req, res, authOptions);
 
   let currentT;
-  if (!session && req.headers.authorization.startsWith('Bearer')) {
+  if (!session && req.headers.authorization?.startsWith('Bearer')) {
     const token = req.headers.authorization.split(' ', 2)[1];
     try {
       const decoded = jwt.verify(token, process.env.SECRET);

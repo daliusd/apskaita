@@ -8,13 +8,18 @@ import {
   Title,
   Badge,
   Box,
+  Button,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
 import Link from '../src/Link';
+import { usePlan } from '../src/usePlan';
+import { useRouter } from 'next/router';
 
 const PlanCard = ({ activePlan, name, price, featureList }) => {
   const { data: session } = useSession();
+  const router = useRouter();
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="lg">
@@ -51,6 +56,18 @@ const PlanCard = ({ activePlan, name, price, featureList }) => {
               </Text>
             ),
           )}
+          {!activePlan && price > 0 && (
+            <Button
+              onClick={() => {
+                router.push('/pro');
+              }}
+              variant="gradient"
+              gradient={{ from: 'rgba(152, 210, 237, 1)', to: 'blue', deg: 90 }}
+              size="xl"
+            >
+              Pirkti
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Card>
@@ -58,6 +75,7 @@ const PlanCard = ({ activePlan, name, price, featureList }) => {
 };
 
 export default function Apie({ article }) {
+  const { isFree } = usePlan();
   const featureList = [
     {
       name: 'Neribotas sąskaitų faktūrų išrašymas',
@@ -99,7 +117,7 @@ export default function Apie({ article }) {
       <Grid gutter={{ base: 12 }}>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <PlanCard
-            activePlan={false}
+            activePlan={isFree}
             name="Nemokamas"
             price={0}
             featureList={featureList}
@@ -107,9 +125,9 @@ export default function Apie({ article }) {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <PlanCard
-            activePlan={true}
+            activePlan={!isFree}
             name="Pro"
-            price={48}
+            price={parseInt(process.env.NEXT_PUBLIC_PROPS_PRICE, 10)}
             featureList={proFeatureList}
           />
         </Grid.Col>

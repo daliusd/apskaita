@@ -8,10 +8,14 @@ import Link from './Link';
 import { setUser } from '../utils/error-handler';
 import MenuToolbar from './MenuToolbar';
 import { GoogleIcon } from '../components/GoogleIcon';
+import { usePlan } from './usePlan';
+import { getDateString } from '../utils/date';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: session, status } = useSession();
   const [experiments] = useLocalStorage('experiments', '');
+
+  const { endDate, isFree } = usePlan();
 
   useEffect(() => {
     if (
@@ -59,8 +63,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <Group>
                 <Group gap="6px">
                   <Text fw="700">Planas:</Text>
-                  <Link href="/nustatymai">
-                    <Text>Pro</Text>
+                  <Link href="/pro">
+                    <Text>
+                      {isFree
+                        ? 'Nemokamas'
+                        : `Pro (iki ${getDateString(endDate)})`}
+                    </Text>
                   </Link>
                 </Group>
                 <Button
