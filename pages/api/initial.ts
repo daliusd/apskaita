@@ -74,6 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           pdfname: '',
           paid: 0,
           locked: 0,
+          sent: 0,
           seller,
           issuer,
           extra,

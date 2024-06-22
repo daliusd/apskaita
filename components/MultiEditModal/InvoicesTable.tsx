@@ -12,6 +12,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
 
 import { IInvoice } from '../../db/db';
 import { getDateString, getMsSinceEpoch } from '../../utils/date';
@@ -24,6 +25,7 @@ import { getInvoice } from '../api/getInvoice';
 import { postInvoicegdrive } from '../api/postInvoicegdrive';
 import { putInvoices } from '../api/putInvoices';
 import Link from '../../src/Link';
+import { runExtraInputProgram } from '../utils/runExtraInputProgram';
 
 interface Props {
   invoices: IInvoice[];
@@ -37,6 +39,10 @@ export function InvoicesTable({ invoices, onChange }: Props) {
   const gmailSend =
     session && (session as unknown as { gmailSend: boolean }).gmailSend;
   const gdrive = session && (session as unknown as { gdrive: boolean }).gdrive;
+  const { data: extraInputProgramData } = useSWR(
+    '/api/settings/extrainputprogram',
+  );
+  const extraInputProgram = extraInputProgramData?.value as string;
 
   const [selectedRows, setSelectedRows] = useState<number[]>(
     invoices.map((i) => i.id),
@@ -88,6 +94,23 @@ export function InvoicesTable({ invoices, onChange }: Props) {
           return 'failure';
         }
         invoice.created = getMsSinceEpoch(new Date());
+
+        if (extraInputProgram?.startsWith('// AUTO')) {
+          const result = await runExtraInputProgram({
+            lineItems: invoice.lineItems,
+            invoiceType: invoice.invoiceType,
+            seriesName: invoice.seriesName,
+            seriesId: invoice.seriesId.toString(),
+            invoiceDate: new Date(invoice.created),
+            language: invoice.language,
+            seller: invoice.seller,
+            buyer: invoice.buyer,
+            email: invoice.email,
+            issuer: invoice.issuer,
+            extraInputProgram,
+          });
+          invoice.extra = result as string;
+        }
 
         const newInvoice = await postInvoices(invoice, '');
         if (!newInvoice.success) {

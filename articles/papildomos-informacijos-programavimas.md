@@ -131,5 +131,8 @@ kaskart pasikeitus laukams.
 // AUTO
 ```
 
+Programa pažymėta `// AUTO` bus taip pat vykdoma [keičiant kelias sąskaitas
+faktūras](/straipsniai/keliu-saskaitu-keitimas).
+
 `formatDate` yra tik pagalbinė funkcija, kuri suformatuoja datą
 YYYY-MM-DD formatu, pvz.: 2024-06-26

@@ -61,3 +61,9 @@ išsaugota į Google Drive, tai antrą kartą ji nebus saugoma.
 **Pastaba**: turite būti suteikę haiku.lt sistemai teises saugoti dokumentus į
 jūsų Google Drive. Jei nesate to padarę, atsijunkite nuo haiku.lt ir
 prisijungimo metu suteikite šias teises.
+
+## Pastaba apie papildomos informacijos programavimą
+
+Automatizavus [papildomos informacijos
+programavimą](/straipsniai/papildomos-informacijos-programavimas) galima
+sutaupyti laiko keičiant kelias sąskaitas.
