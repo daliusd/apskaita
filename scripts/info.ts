@@ -83,6 +83,14 @@ async function info() {
       )
     )?.cnt;
 
+    const plan = JSON.parse(
+      (await db.get('SELECT value FROM Setting WHERE name = "__plan"'))
+        ?.value || '{}',
+    );
+    const planEndDate = plan.endDate
+      ? new Date(plan.endDate).toISOString().slice(0, 10)
+      : 'xxxx-xx-xx';
+
     if (result.length > 0) {
       usersData.push({
         dbFile,
@@ -93,6 +101,7 @@ async function info() {
         months: result.length,
         contactagreement,
         vatpayer,
+        planEndDate,
       });
     }
 
@@ -151,7 +160,13 @@ async function info() {
   }
 
   console.log('Active users:', usersData.length);
-  console.log('Potential paying users:', potential.length);
+  for (const user of usersData) {
+    console.log(
+      `${user.planEndDate} ${user.lastMonth} ${user.months.toString().padStart(2)} ${user.dbFile}`,
+    );
+  }
+
+  console.log('\nPotential paying users:', potential.length);
 
   console.log('\nAgreeing users:');
   for (const u of agreeingUsers) {
