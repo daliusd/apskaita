@@ -11,9 +11,9 @@ paprastai tvarkyti individualios veiklos apskaitą.
 sistema tinkama ir kitos veiklos formoms (pvz.: mažajai
 bendrijai).
 
-Jeigu jums įdomu kodėl reiktų rinktis „haiku.lt“ galite peržiūrėti
-sistemos [palyginimą su kitomis
-sistemomis](/straipsniai/palyginimas).
+Jeigu jums įdomu kodėl reiktų rinktis „haiku.lt“ susipažinkite su mūsų
+[filosofija](/straipsniai/filosofija) arba peržiūrėkite „haiku.lt“ [palyginimą
+su kitomis sistemomis](/straipsniai/palyginimas).
 
 Jeigu aktualu galite peržiūrėti kokie naujausi
 [pakeitimai](/straipsniai/pakeitimai) yra padaryti sistemoje.

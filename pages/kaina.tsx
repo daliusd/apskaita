@@ -110,6 +110,7 @@ export default function Apie({ article }) {
 
     {
       name: 'Prioritetas iškilus problemoms ar klausimams',
+      link: '/straipsniai/filosofija',
     },
   ];
   return (

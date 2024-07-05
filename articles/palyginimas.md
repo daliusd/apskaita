@@ -1,7 +1,7 @@
 ---
 title: 'Palyginimas'
 date: '2021-04-23'
-modified: '2024-05-31'
+modified: '2024-07-05'
 ---
 
 Kai prireikė apskaitos įrankio individualiai veiklai, tai greita
@@ -486,9 +486,9 @@ teks parašyti el. laišką.
 - [b1.lt](https://www.b1.lt) - Galimybės ištrinti paskyrą nėra.
   Paprašius el. paštu ištrinti ištrynė per parą.
 
-- [saskaitos.lt](https://www.saskaitos.lt) - Galimybės ištrinti
-  paskyrą nėra. 04-21 parašiau el. paštu su prašymu ištrinti
-  paskyrą (04-23 dar nebuvo ištrinta).
+- [saskaitos.lt](https://www.saskaitos.lt) - Galimybės ištrinti paskyrą nėra.
+  2021-04-21 parašiau el. paštu su prašymu ištrinti paskyrą. Paskyra galų gale
+  kažkada buvo ištrinta, bet patvirtinimo apie tai negavau.
 
 - i.APS - neieškojau, bet spėju neįmanoma. Tačiau BDAR turėtų
   galioti ir VMI, taigi teoriškai turėtų ir jiems galioti teisė
@@ -693,12 +693,8 @@ elsaskaita.lt - nei demo versija, nei registracija neveikia 🤷
 
 Apibendrinus galiu rekomenduoti šias sistemas:
 
-- [haiku.lt](https://www.haiku.lt) - taip, sistema dar nėra
-  išbaigta ir kai kurių [funkcijų
-  trūksta](https://github.com/daliusd/apskaita/issues), bet jeigu
-  jums užtenka esamų, tai, manau, puikus pasirinkimas, kad ir koks
-  subjektyvus būčiau. Net kai sistema bus apmokestinta, kainos ir
-  kokybės santykis, tikiuosi, bus geriausias rinkoje 😏
+- [haiku.lt](https://www.haiku.lt) - manau, puikus pasirinkimas, kad ir koks
+  subjektyvus būčiau.
 
 - [saskaita123.lt](https://saskaita123.lt) - manau, šiuo metu tai
   vienas geresnių pasirinkimų IV rinkoje.
