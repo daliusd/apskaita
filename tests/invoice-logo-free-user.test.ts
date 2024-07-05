@@ -3,16 +3,10 @@ import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice } from './invoices';
 
-test('Invoice. Should create invoice with logo', async ({ page, request }) => {
-  const email = await login(page);
-
-  const response = await request.post(`/api/proplan`, {
-    data: {
-      user: email,
-      months: 1,
-    },
-  });
-  expect(response.ok()).toBeTruthy();
+test('Invoice. Should create invoice without logo for free user', async ({
+  page,
+}) => {
+  await login(page);
 
   await page.goto('http://localhost:3000/nustatymai');
   await page.waitForSelector('text="Pakeisti logo"');

@@ -20,7 +20,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).json({ success: false });
       }
       const zeroes = await getSetting(db, 'zeroes');
-      const logo = await getSetting(db, 'logo');
+      const plan = await getSetting(db, '__plan');
+
+      const isFree = isFreePlan(plan);
+
+      const logo = isFree ? null : await getSetting(db, 'logo');
       const vatpayer = await getSetting(db, 'vatpayer');
       const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
       await generateInvoicePdf(
@@ -37,3 +41,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default errorHandler(handler);
+
+function isFreePlan(plan: any) {
+  const planInfo: { endDate?: string } = plan ? JSON.parse(plan) : {};
+
+  const endDate = planInfo.endDate ? new Date(planInfo.endDate) : null;
+  const now = new Date();
+  return !endDate || endDate < now;
+}

@@ -1,10 +1,21 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { deleteUser, login } from './login';
 import { screenshotTest } from './utils';
 import { fillNewInvoice } from './invoices';
 
-test('Invoice. Should create invoice with square logo', async ({ page }) => {
-  await login(page);
+test('Invoice. Should create invoice with square logo', async ({
+  page,
+  request,
+}) => {
+  const email = await login(page);
+
+  const response = await request.post(`/api/proplan`, {
+    data: {
+      user: email,
+      months: 1,
+    },
+  });
+  expect(response.ok()).toBeTruthy();
 
   await page.goto('http://localhost:3000/nustatymai');
   await page.waitForSelector('text="Pakeisti logo"');
