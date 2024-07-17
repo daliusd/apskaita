@@ -8066,14 +8066,14 @@ __metadata:
   linkType: hard
 
 "postcss-preset-mantine@npm:^1.13.0":
-  version: 1.15.0
-  resolution: "postcss-preset-mantine@npm:1.15.0"
+  version: 1.16.0
+  resolution: "postcss-preset-mantine@npm:1.16.0"
   dependencies:
     postcss-mixins: "npm:^9.0.4"
     postcss-nested: "npm:^6.0.1"
   peerDependencies:
     postcss: ">=8.0.0"
-  checksum: 10/a2539013970cd05965a62ba3a49ea1545914c67005f444e6d620c5abb90939158e47df5012e73d7d588ccf1c49ba71c91be7c1a891555eacb3e23c42ab7448b5
+  checksum: 10/f01eaf44bead317df9c6e003ecd86ecd69bd9fe9f300cca67fefb6a85f5df72e151ebddbf7b91e7e8d9980cb157227d36e463cc5783ae9c5376161a89876438c
   languageName: node
   linkType: hard
 
