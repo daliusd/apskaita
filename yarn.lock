@@ -5447,11 +5447,11 @@ __metadata:
   linkType: hard
 
 "i18n-iso-countries@npm:^7.11.1":
-  version: 7.11.2
-  resolution: "i18n-iso-countries@npm:7.11.2"
+  version: 7.11.3
+  resolution: "i18n-iso-countries@npm:7.11.3"
   dependencies:
     diacritics: "npm:1.3.0"
-  checksum: 10/16c54cc82997b1c633abb7c1b909cc1cf2ca8a8b9a2db6aff6071daf17b868a7874de4a8c5d23fc185e8acea6fa089b0902fa36d3b93389faea332e9644f1d0c
+  checksum: 10/1b2e7d9380870a406cdfb976f284ee7829fd25b31c7a636094def900c5d0ebb4fa3bad5d63b54108b7bc7d15ef7b1f81d132b857748947bdfc9d45e476fa53d2
   languageName: node
   linkType: hard
 
