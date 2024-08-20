@@ -609,12 +609,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googleapis/drive@npm:8.11.1":
-  version: 8.11.1
-  resolution: "@googleapis/drive@npm:8.11.1"
+"@googleapis/drive@npm:8.13.0":
+  version: 8.13.0
+  resolution: "@googleapis/drive@npm:8.13.0"
   dependencies:
     googleapis-common: "npm:^7.0.0"
-  checksum: 10/204fe57890ab798bb5776c835eb1fbb3b5cd659e88fc11213f1a977bcf2df0b672803a31df61faebe91586d371e936c2e5033729c24a12c275e753d6408f7fb4
+  checksum: 10/c8b6512f937d257a17a86e489851a3a968f37a432d1ad8585a72e97a52316883a267bb0512e4a20d149357e003ede3c8d026071f00e9d2a3308b8ad37b9b4a9d
   languageName: node
   linkType: hard
 
@@ -7336,7 +7336,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nextjs@workspace:."
   dependencies:
-    "@googleapis/drive": "npm:8.11.1"
+    "@googleapis/drive": "npm:8.13.0"
     "@googleapis/gmail": "npm:12.0.0"
     "@mantine/charts": "npm:^7.6.2"
     "@mantine/core": "npm:^7.6.2"
