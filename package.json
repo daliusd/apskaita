@@ -67,7 +67,7 @@
     "@testing-library/react": "^16.0.0",
     "@types/chance": "1.1.6",
     "@types/jsonwebtoken": "^9",
-    "@types/multer": "1.4.11",
+    "@types/multer": "1.4.12",
     "@types/node": "^20.0.0",
     "@types/nodemailer": "6.4.15",
     "@types/number-to-words": "1.2.3",
