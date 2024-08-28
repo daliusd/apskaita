@@ -24,6 +24,7 @@ const MMA_BY_YEAR = {
   2022: 730,
   2023: 840,
   2024: 924,
+  2025: 1038,
 };
 
 function roundToTwoDigits(num: number) {
