@@ -12,7 +12,7 @@ išskyrus sąskaitų faktūrų PDF failus.
 
 SQLite failą galima peržiūrėti įvairiais būdais
 
-* <https://sqliteonline.com/> - galite parsiųstą failą atsidaryti
+* <https://sqliteonline.com/> ar <https://extendsclass.com/sqlite-browser.html> - galite parsiųstą failą atsidaryti
   ir peržiūrėti naršyklėje. Taip pat galite eksportuoti lenteles
   kaip CSV failą.
 
