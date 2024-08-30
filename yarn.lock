@@ -5146,14 +5146,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^14.11.0":
-  version: 14.12.3
-  resolution: "happy-dom@npm:14.12.3"
+"happy-dom@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "happy-dom@npm:15.0.0"
   dependencies:
     entities: "npm:^4.5.0"
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10/3c254614d41807a7734637a75efd678d7cca41f330a13daec685bc5d4e4a298c687c8cdcbb826afa85f3b76489beacf22ae53e99a6a31181282600eecf7e924e
+  checksum: 10/d5724f536db766f5f0a0d595ef7bf30c440b9ce5bda09fdd2fd74913469708757c19b336094f25ae98db07ee7cf2921e0d45cb7f3be5bf9a060097655776d363
   languageName: node
   linkType: hard
 
@@ -7360,7 +7360,7 @@ __metadata:
     eslint-config-prettier: "npm:9.1.0"
     googleapis-common: "npm:7.2.0"
     gray-matter: "npm:4.0.3"
-    happy-dom: "npm:^14.11.0"
+    happy-dom: "npm:^15.0.0"
     husky: "npm:9.1.5"
     i18n-iso-countries: "npm:^7.11.1"
     jimp: "npm:^0.22.4"
