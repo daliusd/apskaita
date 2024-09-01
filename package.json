@@ -24,7 +24,7 @@
     "nodemailer": "6.9.14",
     "number-to-words": "1.2.4",
     "pdfkit": "0.15.0",
-    "quickjs-emscripten": "^0.29.2",
+    "quickjs-emscripten": "^0.30.0",
     "react": "latest",
     "react-dom": "latest",
     "react-use": "^17.4.0",
