@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs';
+import { validate as uuidValidate } from 'uuid';
 import {
   errorHandler,
   sendReportMessage,
@@ -15,6 +16,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const fileName = typeof id === 'string' ? id : id[0];
       const downloadName = typeof name === 'string' ? name : name[0];
+
+      if (!uuidValidate(fileName.slice(0, fileName.length - 4))) {
+        res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.send('Nieškok, ko nepametei.');
+        return;
+      }
 
       const fullFileName = path.join(
         process.env.USER_DATA_PATH,
