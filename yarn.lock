@@ -7129,8 +7129,8 @@ __metadata:
   linkType: hard
 
 "msw@npm:^2.3.0":
-  version: 2.4.1
-  resolution: "msw@npm:2.4.1"
+  version: 2.4.2
+  resolution: "msw@npm:2.4.2"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -7150,7 +7150,7 @@ __metadata:
     yargs: "npm:^17.7.2"
   peerDependencies:
     graphql: ">= 16.8.x"
-    typescript: ">= 4.7.x"
+    typescript: ">= 4.8.x"
   peerDependenciesMeta:
     graphql:
       optional: true
@@ -7158,7 +7158,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10/618215e29815cb8305994d5cbaf37d6cdefb247668993957e2515ab822bc92042348a65540de6fc407700e77b3c46dc03ff7bb76ea0ffa44b3583785c9018ee9
+  checksum: 10/ffb344a82909e222ab66b0bae5512e841a2287a1fdba200cf9d0418140c62e2611643970f73ff50e84447e6fd8120b946f4c0cabc4d22fecdeba60e1a02b0dea
   languageName: node
   linkType: hard
 
