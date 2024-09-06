@@ -17,9 +17,6 @@ su kitomis sistemomis](/straipsniai/palyginimas).
 
 Jeigu aktualu galite peržiūrėti kokie naujausi
 [pakeitimai](/straipsniai/pakeitimai) yra padaryti sistemoje.
-Jeigu įdomu kokie pakeitimai numatomi ateityje, tai galite rasti
-[Haiku.lt GitHub
-repozitorijoje](https://github.com/daliusd/apskaita/issues).
 
 Sistemos valdymas:
 
