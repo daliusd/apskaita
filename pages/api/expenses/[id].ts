@@ -57,7 +57,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           expensesFolderId,
         );
 
-        await moveFile(drive, expenseFromDb.gdriveId, yearFolderId);
+        await moveFile(
+          drive,
+          expenseFromDb.gdriveId,
+          createdDate,
+          yearFolderId,
+        );
       }
 
       return res.json({ success });

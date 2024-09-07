@@ -104,9 +104,17 @@ export async function createFileFromSystem(
 export async function moveFile(
   drive: drive_v3.Drive,
   fileId: string,
+  createdDate: Date,
   parentId: string,
 ) {
-  const file = await drive.files.update({ fileId, fields: 'parents' });
+  const file = await drive.files.update({ fileId, fields: 'parents,name' });
+  await drive.files.update({
+    fileId,
+    requestBody: {
+      name:
+        createdDate.toISOString().slice(0, 10) + '_' + file.data.name.slice(11),
+    },
+  });
   if (file.data.parents.indexOf(parentId) === -1) {
     await drive.files.update({
       fileId,
