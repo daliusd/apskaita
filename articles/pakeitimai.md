@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-09-07
+
+- Su Google Drive susiję patobulinimai
+
 ## 2024-09-01
 
 - Saugumo atnaujinimas
