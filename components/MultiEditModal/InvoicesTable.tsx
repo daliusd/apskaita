@@ -176,10 +176,6 @@ export function InvoicesTable({ invoices, onChange }: Props) {
           return 'failure';
         }
 
-        if (invoice.gdriveId) {
-          return 'skip';
-        }
-
         if (!(await postInvoicegdrive(invoice.id)).success) {
           return 'failure';
         }

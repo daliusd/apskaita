@@ -45,16 +45,16 @@ export default function InvoiceGDriveView() {
     });
   };
 
-  if (gdriveId) {
-    return (
-      <Grid.Col span={12}>
-        <Text>Pastaba: ši sąskaita faktūra yra išsaugota į Google Drive.</Text>
-      </Grid.Col>
-    );
-  }
-
   return (
     <>
+      {gdriveId && (
+        <Grid.Col span={12}>
+          <Text>
+            Pastaba: ši sąskaita faktūra jau yra įkelta į Google Drive.
+          </Text>
+        </Grid.Col>
+      )}
+
       <Grid.Col span={12}>
         <Tooltip
           multiline
@@ -71,7 +71,9 @@ export default function InvoiceGDriveView() {
             onClick={handleClick}
             disabled={processing || !gdrive}
           >
-            Išsaugoti SF į Google Drive
+            {gdriveId
+              ? 'Išsaugoti SF į Google Drive'
+              : 'Įkelti SF į Google Drive'}
           </Button>
         </Tooltip>
       </Grid.Col>

@@ -10,6 +10,7 @@ import {
   deleteFile,
   getOrCreateFolder,
   moveFile,
+  renameFile,
 } from '../../../utils/gdrive';
 import { errorHandler } from '../../../utils/report-mailer';
 
@@ -57,12 +58,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           expensesFolderId,
         );
 
-        await moveFile(
-          drive,
-          expenseFromDb.gdriveId,
-          createdDate,
-          yearFolderId,
-        );
+        await renameFile(drive, expenseFromDb.gdriveId, createdDate);
+        await moveFile(drive, expenseFromDb.gdriveId, yearFolderId);
       }
 
       return res.json({ success });

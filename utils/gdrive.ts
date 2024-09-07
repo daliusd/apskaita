@@ -101,13 +101,34 @@ export async function createFileFromSystem(
   return resp.data;
 }
 
-export async function moveFile(
+export async function updateFileFromSystem(
+  drive: drive_v3.Drive,
+  fileId: string,
+  filename: string,
+  uploadName: string,
+): Promise<void> {
+  const fileMetadata = {
+    name: uploadName,
+  };
+
+  const media = {
+    mimeType: 'application/pdf',
+    body: fs.createReadStream(filename),
+  };
+
+  await drive.files.update({
+    fileId,
+    requestBody: fileMetadata,
+    media: media,
+  });
+}
+
+export async function renameFile(
   drive: drive_v3.Drive,
   fileId: string,
   createdDate: Date,
-  parentId: string,
 ) {
-  const file = await drive.files.update({ fileId, fields: 'parents,name' });
+  const file = await drive.files.update({ fileId, fields: 'name' });
   await drive.files.update({
     fileId,
     requestBody: {
@@ -115,6 +136,14 @@ export async function moveFile(
         createdDate.toISOString().slice(0, 10) + '_' + file.data.name.slice(11),
     },
   });
+}
+
+export async function moveFile(
+  drive: drive_v3.Drive,
+  fileId: string,
+  parentId: string,
+) {
+  const file = await drive.files.update({ fileId, fields: 'parents' });
   if (file.data.parents.indexOf(parentId) === -1) {
     await drive.files.update({
       fileId,

@@ -12,6 +12,8 @@ import {
   GDriveInfo,
   getDrive,
   getOrCreateFolder,
+  moveFile,
+  updateFileFromSystem,
 } from '../../utils/gdrive';
 
 import { dbWrapper } from '../../db/apiwrapper';
@@ -61,16 +63,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         invoice.pdfname,
       );
 
-      gdriveInfo = await createFileFromSystem(
-        drive,
-        fullFileName,
-        `${invoiceNo}.pdf`,
-        yearFolderId,
-      );
+      if (!invoice.gdriveId) {
+        gdriveInfo = await createFileFromSystem(
+          drive,
+          fullFileName,
+          `${invoiceNo}.pdf`,
+          yearFolderId,
+        );
+        changeInvoiceGDriveId(db, invoice.id, gdriveInfo.id);
+        res.json({ success: true, gdriveId: gdriveInfo.id });
+      } else {
+        await moveFile(drive, invoice.gdriveId, yearFolderId);
+        await updateFileFromSystem(
+          drive,
+          invoice.gdriveId,
+          fullFileName,
+          `${invoiceNo}.pdf`,
+        );
 
-      changeInvoiceGDriveId(db, invoice.id, gdriveInfo.id);
-
-      res.json({ success: true, gdriveId: gdriveInfo.id });
+        res.json({ success: true, gdriveId: invoice.gdriveId });
+      }
     });
   }
 };
