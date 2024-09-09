@@ -1,16 +1,28 @@
 import Link from '../src/Link';
-import { Button, Grid, Text, Title } from '@mantine/core';
+import { Alert, Button, Grid, Text, Title } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { IconInfoCircle } from '@tabler/icons-react';
 
 import Invoices from '../components/Invoices';
 import Stats from './Stats';
 import { OtherTools } from './OtherTools';
+import { usePlan } from '../src/usePlan';
+import { useMemo } from 'react';
 
 export default function MainInfo() {
   const { data: session } = useSession();
   const router = useRouter();
+  const { endDate, isFree } = usePlan();
+  const daysLeft = useMemo(() => {
+    const now = new Date();
+    if (isFree) {
+      return undefined;
+    } else {
+      return Math.ceil((+endDate - +now) / (1000 * 60 * 60 * 24));
+    }
+  }, [endDate, isFree]);
 
   const onClickCreateInvoice = () => {
     router.push('/saskaitos/nauja');
@@ -20,6 +32,20 @@ export default function MainInfo() {
     <Grid gutter={{ base: 24 }}>
       <Grid.Col span={{ base: 12, md: 6 }}>
         <Grid gutter={{ base: 12 }}>
+          {daysLeft && daysLeft < 10 && (
+            <Grid.Col span={12}>
+              <Alert
+                variant="light"
+                color="orange"
+                title={`Pro plano galiojimas baigsis po mažiau nei ${daysLeft} ${daysLeft === 1 ? 'dienos' : 'dienų'}`}
+                icon={<IconInfoCircle />}
+              >
+                Norėdami pratęsti savo planą eikite į{' '}
+                <Link href="/pro">„Pro plano“</Link> puslapį ir apmokėkite pro
+                planą pagal nurodytas instrukcijas.
+              </Alert>
+            </Grid.Col>
+          )}
           <Grid.Col span={12}>
             <Text variant="body1" component="div">
               Esi prisijungęs/prisijungusi kaip {session.user.email}. Savo
