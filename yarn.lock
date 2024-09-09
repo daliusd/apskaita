@@ -5299,11 +5299,11 @@ __metadata:
   linkType: hard
 
 "i18n-iso-countries@npm:^7.11.1":
-  version: 7.11.3
-  resolution: "i18n-iso-countries@npm:7.11.3"
+  version: 7.12.0
+  resolution: "i18n-iso-countries@npm:7.12.0"
   dependencies:
     diacritics: "npm:1.3.0"
-  checksum: 10/1b2e7d9380870a406cdfb976f284ee7829fd25b31c7a636094def900c5d0ebb4fa3bad5d63b54108b7bc7d15ef7b1f81d132b857748947bdfc9d45e476fa53d2
+  checksum: 10/d4aab9dad66f98babc0c57f7f0364edf1018ad1efb3a2ac3acf4e23aa8914fa07e46fb7be9fc3a326aad6c4b761ca2b84f595e50ac479dc47559efceec5dcc4d
   languageName: node
   linkType: hard
 
