@@ -29,7 +29,7 @@ export default function InvoiceEditBuyerCountry() {
   return (
     <Text size="xs" c="dimmed">
       {country
-        ? `Sistame nustatė, kad pirkėjo šalis yra ${country}. Ši informacija gali būti naudojama generuojant i.SAF XML failą.`
+        ? `Sistema nustatė, kad pirkėjo šalis yra ${country}. Ši informacija gali būti naudojama generuojant i.SAF XML failą.`
         : 'Jei norite nurodyti pirkėjo šalį, tai darykite paskutinėje pirkėjo aprašo eilutėje. Jei šalis nenurodyta, sistema darys prielaidą, kad pirkėjo šalis yra Lietuva.'}
     </Text>
   );
