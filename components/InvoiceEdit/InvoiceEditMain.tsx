@@ -4,6 +4,7 @@ import { Grid, Text, Title } from '@mantine/core';
 import BuyerEmailInput from '../inputs/BuyerEmailInput';
 import ExtraInput from './ExtraInput';
 import InvoiceEditBuyer from './InvoiceEditBuyer';
+import InvoiceEditBuyerSearch from './InvoiceEditBuyerSearch';
 import InvoiceEditBuyerCountry from './InvoiceEditBuyerCountry';
 import InvoiceEditDate from './InvoiceEditDate';
 import InvoiceEditSeriesName from './InvoiceEditSeriesName';
@@ -50,6 +51,9 @@ export default function InvoiceEditMain() {
 
       <Grid.Col span={12}>
         <InvoiceEditBuyer />
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <InvoiceEditBuyerSearch />
       </Grid.Col>
       <Grid.Col span={12}>
         <InvoiceEditBuyerCountry />
