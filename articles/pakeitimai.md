@@ -10,6 +10,10 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-09-15
+
+- Pridėta įmonių paieška
+
 ## 2024-09-07
 
 - Su Google Drive susiję patobulinimai
