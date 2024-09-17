@@ -1858,12 +1858,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/nodemailer@npm:6.4.15":
-  version: 6.4.15
-  resolution: "@types/nodemailer@npm:6.4.15"
+"@types/nodemailer@npm:6.4.16":
+  version: 6.4.16
+  resolution: "@types/nodemailer@npm:6.4.16"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/1b400b694ed1bc51c242a719de44b484911481596c288407fff18b81ee76945d2d0c6e411371dfa4293747ebf4146a1f0df0e188ff7b9d2adaccd1183dfa1c2c
+  checksum: 10/38e612fef3963c7ae7563f039a8b26d8d4371a7feeedaf38a534f889094f6727fb0d52f565902b01099cfe0b4be7956125ebdae312b9ab3905929df5c815bd95
   languageName: node
   linkType: hard
 
@@ -7161,7 +7161,7 @@ __metadata:
     "@types/jsonwebtoken": "npm:^9"
     "@types/multer": "npm:1.4.12"
     "@types/node": "npm:^20.0.0"
-    "@types/nodemailer": "npm:6.4.15"
+    "@types/nodemailer": "npm:6.4.16"
     "@types/number-to-words": "npm:1.2.3"
     "@types/pdfkit": "npm:0.13.5"
     "@types/react": "npm:^18.2.74"
