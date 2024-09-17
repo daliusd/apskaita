@@ -1874,12 +1874,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:0.13.4":
-  version: 0.13.4
-  resolution: "@types/pdfkit@npm:0.13.4"
+"@types/pdfkit@npm:0.13.5":
+  version: 0.13.5
+  resolution: "@types/pdfkit@npm:0.13.5"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/2bf736e784b881b24ae142f921e477a167832136a99110dda38a950df9da4bd29e13d0cf09a39113551010ff649fe9c9be23ac67d16a048aa84407a6afbdc507
+  checksum: 10/4ba9078ad57aa0ba5166b6af684ed6fbff0a59f2f8ec38b54f47b0b50b0843331d7d28d640f3b502a99e1f9f412ba9b6f98460cef0978dea8849ab6b3034afa5
   languageName: node
   linkType: hard
 
@@ -7163,7 +7163,7 @@ __metadata:
     "@types/node": "npm:^20.0.0"
     "@types/nodemailer": "npm:6.4.15"
     "@types/number-to-words": "npm:1.2.3"
-    "@types/pdfkit": "npm:0.13.4"
+    "@types/pdfkit": "npm:0.13.5"
     "@types/react": "npm:^18.2.74"
     "@types/react-dom": "npm:^18.3.0"
     "@vitejs/plugin-react": "npm:^4.2.1"

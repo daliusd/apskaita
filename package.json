@@ -71,7 +71,7 @@
     "@types/node": "^20.0.0",
     "@types/nodemailer": "6.4.15",
     "@types/number-to-words": "1.2.3",
-    "@types/pdfkit": "0.13.4",
+    "@types/pdfkit": "0.13.5",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
