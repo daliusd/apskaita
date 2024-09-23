@@ -42,7 +42,8 @@ export default function MainInfo() {
               >
                 Norėdami pratęsti savo planą eikite į{' '}
                 <Link href="/pro">„Pro plano“</Link> puslapį ir apmokėkite pro
-                planą pagal nurodytas instrukcijas.
+                planą pagal nurodytas instrukcijas. Jeigu neapmokėsite toliau
+                galėsite naudotis Haiku.lt naudodamiesi nemokamu planu.
               </Alert>
             </Grid.Col>
           )}
