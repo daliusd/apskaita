@@ -8412,13 +8412,13 @@ __metadata:
   linkType: hard
 
 "rehype-stringify@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "rehype-stringify@npm:10.0.0"
+  version: 10.0.1
+  resolution: "rehype-stringify@npm:10.0.1"
   dependencies:
     "@types/hast": "npm:^3.0.0"
     hast-util-to-html: "npm:^9.0.0"
     unified: "npm:^11.0.0"
-  checksum: 10/d5cf4e0951f5fa6a65c69479fbe974f1b75298170de2c4618e0e91cceba6a52c6094926e26c9501252120572f3daba02fb6d09436cc483282b0b647f1d970b66
+  checksum: 10/76ded4b2b137f585c6a35ac2e95a35cbd9d49558bd5af946b7e7a9e67b17cb2a7d33f3df21776d2e9972cd057e829e17f61954bc72ea6cbe0e20d670b179adab
   languageName: node
   linkType: hard
 
