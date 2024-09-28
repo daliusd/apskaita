@@ -27,11 +27,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const logo = isFree ? null : await getSetting(db, 'logo');
       const vatpayer = await getSetting(db, 'vatpayer');
       const logo_ratio = parseFloat(await getSetting(db, 'logo_ratio'));
+      const background = isFree ? null : await getSetting(db, 'background');
       await generateInvoicePdf(
         invoice,
         zeroes,
         logo,
         logo_ratio,
+        background,
         vatpayer === '1',
       );
 

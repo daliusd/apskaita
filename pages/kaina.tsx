@@ -95,7 +95,9 @@ export default function Apie({ article }) {
   ];
 
   const proFeatureList = [
-    ...featureList,
+    {
+      name: 'Viskas iš nemokamo plano',
+    },
     {
       name: 'Kelių sąskaitų faktūrų keitimas vienu metu',
       link: '/straipsniai/keliu-saskaitu-keitimas',
@@ -104,10 +106,13 @@ export default function Apie({ article }) {
       name: 'Logotipo pridėjimas sąskaitoje faktūroje',
     },
     {
+      name: 'Fono pakeitimas sąskaitoje faktūroje',
+      link: '/straipsniai/saskaitos-fakturos-fonas',
+    },
+    {
       name: 'Papildomos informacijos programavimas',
       link: '/straipsniai/papildomos-informacijos-programavimas',
     },
-
     {
       name: 'Prioritetas iškilus problemoms ar klausimams',
       link: '/straipsniai/filosofija',

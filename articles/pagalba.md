@@ -40,6 +40,8 @@ Sistemos valdymas:
 
   - [Papildomos informacijos programavimas](/straipsniai/papildomos-informacijos-programavimas)
 
+  - [Sąskaitos Faktūros fonas](/straipsniai/saskaitos-fakturos-fonas)
+
 - [Išlaidų sekimas](/straipsniai/islaidu-sekimas)
 
 - [Duomenų parsisiuntimas](/straipsniai/duomenu-parsisiuntimas)

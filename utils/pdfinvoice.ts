@@ -199,6 +199,7 @@ export async function generateInvoicePdf(
   zeroes: number,
   logo: string | undefined,
   logoRatio: number,
+  background: string | undefined,
   vatpayer: boolean,
 ) {
   const invoicesDir = path.join(process.env.USER_DATA_PATH, 'invoices');
@@ -219,8 +220,8 @@ export async function generateInvoicePdf(
         invoice.invoiceType === 'proforma'
           ? `Išankstinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
           : invoice.invoiceType === 'credit'
-          ? `Kreditinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
-          : `Sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`,
+            ? `Kreditinė sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`
+            : `Sąskaita - faktūra. Serija ${invoice.seriesName} Nr. ${seriesId}`,
       Author: `${invoice.issuer} (per haiku.lt)`,
     },
     margin: 0,
@@ -230,8 +231,16 @@ export async function generateInvoicePdf(
   doc.pipe(fsSync.createWriteStream(path.join(invoicesDir, invoice.pdfname)));
   doc.registerFont('Roboto-Light', './fonts/Roboto-Light.ttf');
   doc.registerFont('Roboto-Medium', './fonts/Roboto-Medium.ttf');
+
+  if (background) {
+    doc.image(background, 0, 0, {
+      width: PAGE_WIDTH,
+      height: PAGE_HEIGHT,
+    });
+  }
+
   const y = generateHeader(doc, invoice, seriesId, logo, logoRatio, vatpayer);
-  generateContent(doc, invoice, y, vatpayer);
+  generateContent(doc, background, invoice, y, vatpayer);
   doc.end();
 }
 
@@ -275,10 +284,10 @@ function generateHeader(
       invoice.invoiceType === 'proforma'
         ? t.proforma_title
         : invoice.invoiceType === 'credit'
-        ? t.credit_title
-        : vatpayer
-        ? t.title_vat
-        : t.title,
+          ? t.credit_title
+          : vatpayer
+            ? t.title_vat
+            : t.title,
       PAGE_MARGIN,
       PAGE_MARGIN,
       {
@@ -373,6 +382,7 @@ function generateHeader(
 
 function generateContent(
   doc: PDFKit.PDFDocument,
+  background: string | undefined,
   invoice: IInvoice,
   startY: number,
   vatpayer: boolean,
@@ -381,7 +391,7 @@ function generateContent(
 
   let y = startY;
 
-  y = drawTableHeader(doc, y, invoice.language, vatpayer);
+  y = drawTableHeader(doc, background, y, invoice.language, vatpayer);
 
   for (let i = 0; i < invoice.lineItems.length; i++) {
     const lineItem = invoice.lineItems[i];
@@ -391,6 +401,7 @@ function generateContent(
       lineItem.price - Math.round(lineItem.price / (1.0 + lineItem.vat / 100));
     y = drawTableRow(
       doc,
+      background,
       y,
       'Roboto-Light',
       invoice.language,
@@ -419,6 +430,7 @@ function generateContent(
 
     y = drawTableRow(
       doc,
+      background,
       y,
       'Roboto-Medium',
       invoice.language,
@@ -436,6 +448,7 @@ function generateContent(
 
     y = drawTableRow(
       doc,
+      background,
       y,
       'Roboto-Medium',
       invoice.language,
@@ -454,6 +467,7 @@ function generateContent(
 
   y = drawTableRow(
     doc,
+    background,
     y,
     'Roboto-Medium',
     invoice.language,
@@ -472,6 +486,7 @@ function generateContent(
   if (invoice.alreadyPaid > 0) {
     y = drawTableRow(
       doc,
+      background,
       y,
       'Roboto-Medium',
       invoice.language,
@@ -489,6 +504,7 @@ function generateContent(
 
     y = drawTableRow(
       doc,
+      background,
       y,
       'Roboto-Medium',
       invoice.language,
@@ -512,16 +528,17 @@ function generateContent(
     invoice.language,
   )} ${invoice.price % 100} ct`;
 
-  y = drawText(doc, y, 'Roboto-Light', 12, priceInWords);
+  y = drawText(doc, background, y, 'Roboto-Light', 12, priceInWords);
   y += 20 * PTPMM;
 
   if (invoice.extra) {
-    y = drawText(doc, y, 'Roboto-Light', 12, invoice.extra);
+    y = drawText(doc, background, y, 'Roboto-Light', 12, invoice.extra);
     y += 10 * PTPMM;
   }
 
   y = drawText(
     doc,
+    background,
     y,
     'Roboto-Light',
     12,
@@ -531,6 +548,7 @@ function generateContent(
 
 function drawText(
   doc: PDFKit.PDFDocument,
+  background: string | undefined,
   y: number,
   font: string,
   fontSize: number,
@@ -541,7 +559,7 @@ function drawText(
     .fontSize(fontSize)
     .heightOfString(text.normalize(), { width: CONTENT_WIDTH });
 
-  y = validateOrAddPage(doc, y, height).y;
+  y = validateOrAddPage(doc, background, y, height).y;
 
   doc
     .font(font)
@@ -569,9 +587,21 @@ function getTableRowHeight(
   return Math.max(...heights);
 }
 
-function validateOrAddPage(doc, y, height) {
+function validateOrAddPage(
+  doc: PDFKit.PDFDocument,
+  background: string | undefined,
+  y: number,
+  height: number,
+) {
   if (y + height > PAGE_HEIGHT - PAGE_MARGIN) {
     doc.addPage();
+    if (background) {
+      doc.image(background, 0, 0, {
+        width: PAGE_WIDTH,
+        height: PAGE_HEIGHT,
+      });
+    }
+
     return { pageAdded: true, y: PAGE_MARGIN };
   }
   return { pageAdded: false, y };
@@ -579,6 +609,7 @@ function validateOrAddPage(doc, y, height) {
 
 function drawTableRow(
   doc: PDFKit.PDFDocument,
+  background: string | undefined,
   y: number,
   font: string,
   language: string,
@@ -587,9 +618,9 @@ function drawTableRow(
   vatpayer: boolean,
 ) {
   const height = getTableRowHeight(doc, font, lineItem, fields_info);
-  const vres = validateOrAddPage(doc, y, height);
+  const vres = validateOrAddPage(doc, background, y, height);
   if (vres.pageAdded) {
-    y = drawTableHeader(doc, vres.y, language, vatpayer);
+    y = drawTableHeader(doc, background, vres.y, language, vatpayer);
   }
 
   let x = PAGE_MARGIN;
@@ -608,6 +639,7 @@ function drawTableRow(
 
 function drawTableHeader(
   doc: PDFKit.PDFDocument,
+  background: string | undefined,
   y: number,
   language: string,
   vatpayer: boolean,
@@ -616,6 +648,7 @@ function drawTableHeader(
 
   y = drawTableRow(
     doc,
+    background,
     y,
     'Roboto-Medium',
     language,
@@ -639,7 +672,7 @@ function drawTableHeader(
   return y;
 }
 
-function drawLine(doc, y) {
+function drawLine(doc: PDFKit.PDFDocument, y: number) {
   doc
     .strokeColor('#aaaaaa')
     .lineWidth(0.5 * PTPMM)
@@ -648,6 +681,6 @@ function drawLine(doc, y) {
     .stroke();
 }
 
-function formatPrice(cents) {
+function formatPrice(cents: number) {
   return (cents / 100).toFixed(2).replace('.', ',');
 }

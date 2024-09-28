@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Grid, Tabs, Title, Text, Stack, Group, Alert } from '@mantine/core';
+import { useState } from 'react';
+import { Grid, Tabs, Title, Text } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 
 import EmailTemplateEdit from '../components/settings/EmailTemplateEdit';
 import EmailSubjectEdit from '../components/settings/EmailSubjectEdit';
 import ZeroesEdit from '../components/settings/ZeroesEdit';
 import LogoEdit from '../components/settings/LogoEdit';
+import { BackgroundEdit } from '../components/settings/BackgroundEdit';
 import ContactAgreement from '../components/settings/ContactAgreement';
 import DataDeleteButton from '../components/settings/DataDeleteButton';
 import { ApiToken } from '../components/settings/ApiToken';
@@ -59,6 +60,9 @@ export default function Apie() {
           </Grid.Col>
           <Grid.Col span={12}>
             <LogoEdit />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <BackgroundEdit />
           </Grid.Col>
 
           <VATPayer />

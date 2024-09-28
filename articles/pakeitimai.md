@@ -10,6 +10,11 @@ pakeitimų iki seniausių).
 Jei turite klausimų ar pasiūlymų rašykite el. paštu
 [dalius@haiku.lt](mailto:dalius@haiku.lt).
 
+## 2024-09-28
+
+- [Fonų sąskaitose faktūrose palaikymas](/straipsniai/saskaitos-fakturos-fonas)
+  (Pro planas)
+
 ## 2024-09-15
 
 - Pridėta įmonių paieška
