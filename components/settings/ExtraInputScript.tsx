@@ -58,7 +58,7 @@ export function ExtraInputProgram() {
                   headers: {
                     'Content-Type': 'application/json',
                   },
-                  body: JSON.stringify({ value: extraInputProgram }),
+                  body: JSON.stringify({ value: extraInputProgram || '' }),
                 });
               } catch {}
             }}

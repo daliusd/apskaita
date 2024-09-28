@@ -3,10 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function sendReportMessage(subject, error, req) {
   if (!process.env.SMTP_HOST) {
-    console.error(error.message);
-    console.error(error.stack);
-    console.error(error?.content);
-    throw Error('SMTP not configured.');
+    console.error('Error message: ', error.message);
+    console.error('Error stack: ', error.stack);
+    console.error('Error content: ', error?.content);
+    console.error('Method: ' + req.method);
+    console.error(
+      'URL: ' + JSON.stringify(req.originalUrl || req.url, null, 2),
+    );
+    console.error('Query: ' + JSON.stringify(req.query, null, 2));
+    console.error('Body:\n\n' + JSON.stringify(req.body, null, 2));
+    return;
   }
 
   // NOTE: this error is related to adblock (or whatever). Let's ignore it.
@@ -30,7 +36,8 @@ export async function sendReportMessage(subject, error, req) {
   } catch {}
 
   try {
-    text += 'URL:\n\n' + JSON.stringify(req.originalUrl, null, 2) + '\n\n';
+    text +=
+      'URL:\n\n' + JSON.stringify(req.originalUrl || req.url, null, 2) + '\n\n';
   } catch {}
 
   try {
