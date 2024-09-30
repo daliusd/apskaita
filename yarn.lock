@@ -999,21 +999,21 @@ __metadata:
   linkType: hard
 
 "@mantine/charts@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/charts@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/charts@npm:7.13.1"
   peerDependencies:
-    "@mantine/core": 7.13.0
-    "@mantine/hooks": 7.13.0
+    "@mantine/core": 7.13.1
+    "@mantine/hooks": 7.13.1
     react: ^18.2.0
     react-dom: ^18.2.0
     recharts: ^2.10.3
-  checksum: 10/0dfd62bc92b483a8ca723e3a67efa88cf4482374efb980c5112b613743e6656e2740c31909e56ae63a1cac13217c5989b4a50d703939d9063046af60bfc4b7a2
+  checksum: 10/ab425512b4aae3bfdf98cc035e9b6b43331e8ca42f2f3b9b146e091e4baeac886e1f74e4983866612ce9ad3dce3d4babbc9687f82b7b4ee62bcb55ac2b00a8f5
   languageName: node
   linkType: hard
 
 "@mantine/core@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/core@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/core@npm:7.13.1"
   dependencies:
     "@floating-ui/react": "npm:^0.26.9"
     clsx: "npm:^2.1.1"
@@ -1022,70 +1022,70 @@ __metadata:
     react-textarea-autosize: "npm:8.5.3"
     type-fest: "npm:^4.12.0"
   peerDependencies:
-    "@mantine/hooks": 7.13.0
+    "@mantine/hooks": 7.13.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/e46d3631321a40996849a08300413d14567cbfb28a398d9fd27894a9d252cc3ea2d551061a53cdc71018d5e1f8708278a953bc5918796f5a1df5a4878fee028c
+  checksum: 10/2995ff9097addf5b9cd2940e6c9d7e000bacc2735736f42b9789f697c6a3c0686034413c74888e79863079e62a6dd66c59731d54b235743ae19e694a9423b1e6
   languageName: node
   linkType: hard
 
 "@mantine/dates@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/dates@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/dates@npm:7.13.1"
   dependencies:
     clsx: "npm:^2.1.1"
   peerDependencies:
-    "@mantine/core": 7.13.0
-    "@mantine/hooks": 7.13.0
+    "@mantine/core": 7.13.1
+    "@mantine/hooks": 7.13.1
     dayjs: ">=1.0.0"
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/abb7397557cd13096a14c23da0c74246854a417a50bc8c8a3991b948e2b65b9c9b73ee09134c72f02caf969997872073c44734ea990d410265aa516d2a94f188
+  checksum: 10/3ec65dbe988ddf5d11615c486ad404f405ba93dd85c05aaacf2858a7cc86321b6396d9c6bf0e7a38803129ac591defcbca43211d886a8d9c397f1d4bed66f0b7
   languageName: node
   linkType: hard
 
 "@mantine/hooks@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/hooks@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/hooks@npm:7.13.1"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10/d7fff628c6ed4dd3a69f0acd3b592496d56c788120d907534c90e009032d54667d19703e0d955437c83b0910ae33376f460beb6b2130fa82aefaa6a1b289f41a
+  checksum: 10/bb9c4d8050b822ff8185be9f2f297794d9de574d7656a0c387ae26e9e56ef317ac674d604d51609355deba463d85fb5ce7448410ce6b32990aae10aa21daa30d
   languageName: node
   linkType: hard
 
 "@mantine/modals@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/modals@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/modals@npm:7.13.1"
   peerDependencies:
-    "@mantine/core": 7.13.0
-    "@mantine/hooks": 7.13.0
+    "@mantine/core": 7.13.1
+    "@mantine/hooks": 7.13.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/162e5528f0c2b8dd0cb79116f50c8c536017c6a6254fac5c9986c1a7d31243c83139c83a5c80062b3d354ff9af955f1baf4107d25bcfa5d0b170f73b0acdab86
+  checksum: 10/2aad9d7fa3e7f482ab4468556ebe9ae0b03f2836d91b98c534e078dc5ad96a35c0fdb852e26de40a6587bfe2c243951c70c8e6e066f05352ec608abd5edbe58b
   languageName: node
   linkType: hard
 
 "@mantine/notifications@npm:^7.6.2":
-  version: 7.13.0
-  resolution: "@mantine/notifications@npm:7.13.0"
+  version: 7.13.1
+  resolution: "@mantine/notifications@npm:7.13.1"
   dependencies:
-    "@mantine/store": "npm:7.13.0"
+    "@mantine/store": "npm:7.13.1"
     react-transition-group: "npm:4.4.5"
   peerDependencies:
-    "@mantine/core": 7.13.0
-    "@mantine/hooks": 7.13.0
+    "@mantine/core": 7.13.1
+    "@mantine/hooks": 7.13.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10/afecdc0f78bdf99e29b6a5d7548d5a127b5288df97b89d9f9629dec267c7d645ecc24b87525362b58bfdd2ef4645ab23cd5dd00aaf5a87e2653b669a37cff778
+  checksum: 10/0c712506c6dbb709d5f4f12293b702cd6dee81d3c5af3751f4d17968fd4cf668f59d42ef1cabfa7cc8499d868f584992477c8273803277dff87e3ae0c2b4b1fc
   languageName: node
   linkType: hard
 
-"@mantine/store@npm:7.13.0":
-  version: 7.13.0
-  resolution: "@mantine/store@npm:7.13.0"
+"@mantine/store@npm:7.13.1":
+  version: 7.13.1
+  resolution: "@mantine/store@npm:7.13.1"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10/edc6693b3899c5bfee652517b945326c3694eba20fc8cb1ccfb4c6d75365fe6fa38e4d667054dbda375d9a2b6f863bf47090a1147fc962534423f3539de41738
+  checksum: 10/c769afb98dfcc56a52c3eb77711fb6244dc6c03b7a7fd09a130df9233a2dd89dccd76cbc55b01e871879988ce56b8f5986896f75149474249d0f6d35d361c979
   languageName: node
   linkType: hard
 
