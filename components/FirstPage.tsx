@@ -62,7 +62,7 @@ export default function FirstPage() {
           <Text>💡 i.SAF XML generavimas</Text>
           <Text>
             💡 Daug galimybių turintis{' '}
-            <Link href="/kaina" underline="always" target="_blank">
+            <Link href="/planai" underline="always" target="_blank">
               nemokamas planas
             </Link>
           </Text>

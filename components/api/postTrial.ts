@@ -1,4 +1,4 @@
-export const postTrial = async () => {
+export const postTrial = async (code: string) => {
   let response: Response;
 
   try {
@@ -7,7 +7,7 @@ export const postTrial = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ code }),
     });
   } catch {}
 

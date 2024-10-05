@@ -28,8 +28,8 @@ const navItems = [
     session: true,
   },
   {
-    name: 'Kaina',
-    url: '/kaina',
+    name: 'Planai',
+    url: '/planai',
     session: undefined,
   },
   {

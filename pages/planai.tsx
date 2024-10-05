@@ -16,7 +16,7 @@ import Link from '../src/Link';
 import { usePlan } from '../src/usePlan';
 import { useRouter } from 'next/router';
 
-const PlanCard = ({ activePlan, name, price, featureList }) => {
+const PlanCard = ({ activePlan, endDate, name, price, featureList }) => {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -65,7 +65,7 @@ const PlanCard = ({ activePlan, name, price, featureList }) => {
               gradient={{ from: 'rgba(152, 210, 237, 1)', to: 'blue', deg: 90 }}
               size="xl"
             >
-              Pirkti
+              {!endDate ? 'Išbandyti / Pirkti' : 'Pirkti'}
             </Button>
           )}
         </Stack>
@@ -74,8 +74,8 @@ const PlanCard = ({ activePlan, name, price, featureList }) => {
   );
 };
 
-export default function Apie({ article }) {
-  const { isFree } = usePlan();
+export default function Planai({ article }) {
+  const { isFree, endDate } = usePlan();
   const featureList = [
     {
       name: 'Neribotas sąskaitų faktūrų išrašymas',
@@ -124,6 +124,7 @@ export default function Apie({ article }) {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <PlanCard
             activePlan={isFree}
+            endDate={endDate}
             name="Nemokamas"
             price={0}
             featureList={featureList}
@@ -132,6 +133,7 @@ export default function Apie({ article }) {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <PlanCard
             activePlan={!isFree}
+            endDate={endDate}
             name="Pro"
             price={parseInt(process.env.NEXT_PUBLIC_PROPS_PRICE, 10)}
             featureList={proFeatureList}

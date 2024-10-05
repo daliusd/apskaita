@@ -56,4 +56,4 @@ Kita informacija:
 
 - [Naudojimo sąlygos](/naudojimas)
 
-- [Kaina](/kaina)
+- [Planai](/planai)

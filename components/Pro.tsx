@@ -14,10 +14,12 @@ import { getDateString } from '../utils/date';
 import Link from '../src/Link';
 import { usePlan } from '../src/usePlan';
 import { useSession } from 'next-auth/react';
+import { useLocalStorage } from 'react-use';
 
 export function Pro() {
   const { data: session } = useSession();
   const { endDate, isFree, isLoading } = usePlan();
+  const [code] = useLocalStorage('code', '', { raw: true });
 
   if (isLoading) {
     return <Loader />;
@@ -29,8 +31,10 @@ export function Pro() {
   newEndDate.setFullYear(newEndDate.getFullYear() + 1);
   const isNearEnd = !isFree && delta <= 31;
 
+  const freeDays = JSON.parse(process.env.NEXT_PUBLIC_PROMO)[code] || 30;
+
   const onTrial = async () => {
-    const result = await postTrial();
+    const result = await postTrial(code);
     if (!result.success) {
       notifications.show({
         message: result.message,
@@ -50,10 +54,20 @@ export function Pro() {
         </Title>
         <Text>
           Daugiau informacijos apie planus rasite čia:{' '}
-          <Link href="/kaina" size="sm">
+          <Link href="/planai" size="sm">
             „Kaina“
           </Link>
         </Text>
+
+        {!endDate && (
+          <>
+            <Text>Pro planą galite išbandyti nemokamai {freeDays} d.</Text>
+            <Group>
+              <Button onClick={onTrial}>Išbandyti</Button>
+            </Group>
+          </>
+        )}
+
         {isFree && (
           <Text>
             Jei norite įsigyti „Pro“ planą metams iki{' '}
@@ -96,15 +110,6 @@ export function Pro() {
         )}
         {isFree && <Text>Gavęs mokėjimą įjungsiu Pro planą per 24h.</Text>}
         {isNearEnd && <Text>Gavęs mokėjimą pratęsiu jūsų planą per 24h.</Text>}
-
-        {!endDate && (
-          <>
-            <Text>Pro planą galite išbandyti vieną mėnesį nemokamai.</Text>
-            <Group>
-              <Button onClick={onTrial}>Išbandyti</Button>
-            </Group>
-          </>
-        )}
       </Stack>
     </Container>
   );
